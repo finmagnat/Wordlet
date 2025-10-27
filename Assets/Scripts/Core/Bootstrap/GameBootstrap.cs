@@ -7,7 +7,7 @@ namespace Core.Bootstrap
     // живёт в первой сцене (BootstrapScene) и инициализирует ядро.
     public class GameBootstrap : MonoBehaviour
     {
-        private async void Awake()
+        /*private async void Awake()
         {
             DontDestroyOnLoad(gameObject);
 
@@ -25,6 +25,6 @@ namespace Core.Bootstrap
         private void OnDestroy()
         {
             ZenjectInstaller.DisposeAll();
-        }
+        }*/
     }
 }

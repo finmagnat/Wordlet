@@ -7,7 +7,7 @@ namespace Game.PvP
         каждый игрок пишет свой ход в ветку rooms/{roomId}/turns.
         второй слушает изменения и применяет ход.
      */
-    public class PvPGameController : IGameOpponent
+    public class PvPGameController : IState
     {
         
     }

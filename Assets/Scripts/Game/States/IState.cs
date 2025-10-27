@@ -1,6 +1,6 @@
 namespace Game.Logic
 {
-    public interface IGameOpponent
+    public interface IState
     {
         
     }

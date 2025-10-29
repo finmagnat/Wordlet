@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 7982333704155439211}
   - component: {fileID: 5641792047213697909}
   - component: {fileID: 8018053137521016355}
-  - component: {fileID: 5738168931233462479}
+  - component: {fileID: 2556837647223192987}
   m_Layer: 5
   m_Name: UIRoot
   m_TagString: Untagged
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5738168931233462479
+--- !u!114 &2556837647223192987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9059911499713480064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56e54b2819fd47018fcba333dc17d160, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a0e17561e75404eb72fbe7f5130f424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _screensRoot: {fileID: 31558255081929556}

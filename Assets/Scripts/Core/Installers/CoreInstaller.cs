@@ -1,6 +1,8 @@
 using Core.Config;
 using Core.Services;
+using Core.UI;
 using Cysharp.Threading.Tasks;
+using Tests;
 using UI.Screens;
 using Zenject;
 
@@ -15,7 +17,7 @@ namespace Core.Installers
             Container.Bind<EventBus>().AsSingle();
             Container.Bind<ConfigService>().AsSingle();
             Container.Bind<GameLogger>().AsSingle();
-            // UI и адреса уже приходят из других инсталлеров
+            Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
         }
 
         public override void Start()
@@ -25,10 +27,10 @@ namespace Core.Installers
 
         private async UniTaskVoid InitializeAsync()
         {
-            var ui = Container.Resolve<UIService>();
-            var addresses = Container.Resolve<UIAddresses>();
             var configService = Container.Resolve<ConfigService>();
-            Container.Bind<GameConfig>().FromInstance(configService.Get()).AsSingle();
+            
+            var ui = Container.Resolve<IUIManager>();
+            var addresses = Container.Resolve<UIAddresses>();
             var eventBus = Container.Resolve<EventBus>();
             var logger = Container.Resolve<GameLogger>();
 

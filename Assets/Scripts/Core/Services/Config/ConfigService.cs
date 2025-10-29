@@ -5,37 +5,32 @@ using Zenject;
 
 namespace Core.Services
 {
-    // (читает ScriptableObject с настройками игры)
+    /* Загружает список с ScriptableObject
+     * Использование во внешнем коде (Zenject-DI автоматически подставит нужный тип),
+     * например: 
+     * [Inject] private GameConfig _gameConfig;
+     * [Inject] private UIAddresses _addresses;
+     */
     public class ConfigService : IConfigService
     {
-        private GameConfig _config;
-        private readonly DiContainer _container;
-
-        [Inject]
-        public ConfigService(DiContainer container)
-        {
-            _container = container;
-        }
+        [Inject(Optional = true)] private GameConfig _gameConfig;     // приходит из инсталлера
+        [Inject(Optional = true)] private UIAddresses _uiAddresses;   // тоже
+        // при желании добавляй другие конфиги таким же образом
 
         public async UniTask InitializeAsync()
         {
-            Debug.Log("📄 ConfigService: loading GameConfig...");
             await UniTask.Yield();
 
-            _config = Resources.Load<GameConfig>("Config/GameConfig");
+            if (_gameConfig == null)
+                Debug.LogWarning("⚠️ GameConfig not injected (not in container)?");
+            else
+                Debug.Log($"Config: referenceRes={_gameConfig.referenceResolution}, match={_gameConfig.screenMatch}");
 
-            if (_config == null)
-            {
-                Debug.LogError("❌ GameConfig not found in Resources/Config/");
-                return;
-            }
-
-            // Регистрируем GameConfig в Zenject-контейнере
-            _container.Bind<GameConfig>().FromInstance(_config).AsSingle();
-
-            Debug.Log($"✅ ConfigService initialized: {_config.referenceResolution.x}x{_config.referenceResolution.y}, match={_config.screenMatch}");
+            if (_uiAddresses == null)
+                Debug.LogWarning("⚠️ UIAddresses not injected (not in container)?");
         }
 
-        public GameConfig Get() => _config;
+        public GameConfig Game => _gameConfig;
+        public UIAddresses UI => _uiAddresses;
     }
 }

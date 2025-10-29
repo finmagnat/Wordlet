@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864bdd74ca425a247b5300497d4ac757, type: 3}
   m_Name: UIAddresses
   m_EditorClassIdentifier: 
+  LoadingScreen:
+    m_AssetGUID: 5bc95e0a605bc64458d3071ce773b253
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   MainMenu:
     m_AssetGUID: 3d9e3829227d7c3408ff8ad6e39f41b9
     m_SubObjectName: 

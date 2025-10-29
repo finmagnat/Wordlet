@@ -1,30 +1,36 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Core.Services
 {
     public class EventBus : IService
     {
-        private readonly Dictionary<Type, Delegate> _subscribers = new();
+        private readonly Dictionary<Type, List<Delegate>> _subscribers = new();
 
-        public void Subscribe<T>(Action<T> handler)
+        public UniTask InitializeAsync()
         {
-            if (_subscribers.TryGetValue(typeof(T), out var existing))
-                _subscribers[typeof(T)] = Delegate.Combine(existing, handler);
-            else
-                _subscribers[typeof(T)] = handler;
+            // здесь можно подписать глобальные события, если нужно
+            return UniTask.CompletedTask;
         }
 
-        public void Unsubscribe<T>(Action<T> handler)
+        public void Subscribe<T>(Action<T> callback)
         {
-            if (_subscribers.TryGetValue(typeof(T), out var existing))
-                _subscribers[typeof(T)] = Delegate.Remove(existing, handler);
+            if (!_subscribers.TryGetValue(typeof(T), out var list))
+            {
+                list = new List<Delegate>();
+                _subscribers[typeof(T)] = list;
+            }
+            list.Add(callback);
         }
 
-        public void Publish<T>(T message)
+        public void Publish<T>(T evt)
         {
-            if (_subscribers.TryGetValue(typeof(T), out var handlers))
-                ((Action<T>)handlers)?.Invoke(message);
+            if (_subscribers.TryGetValue(typeof(T), out var list))
+            {
+                foreach (var callback in list)
+                    ((Action<T>)callback)?.Invoke(evt);
+            }
         }
     }
 }

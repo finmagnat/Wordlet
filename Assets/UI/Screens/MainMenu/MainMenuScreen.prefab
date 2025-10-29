@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: "\u0418\u0433\u0440\u0430\u0442\u044C \u0441 \u0418\u0418"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad931294ccca1184fbc2f8df66d93ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playAIButton: {fileID: 8010899630277510445}
 --- !u!1 &6771998112269286261
 GameObject:
   m_ObjectHideFlags: 0

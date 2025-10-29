@@ -36,3 +36,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  GameSetupPopup:
+    m_AssetGUID: 251267b63c8cc0045b00d035ca9f4415
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

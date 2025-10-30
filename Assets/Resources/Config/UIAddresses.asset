@@ -18,6 +18,12 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  InGameLoadingScreen:
+    m_AssetGUID: 623a273d5fe60e04e8e7e94b12b95ff8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   MainMenu:
     m_AssetGUID: 3d9e3829227d7c3408ff8ad6e39f41b9
     m_SubObjectName: 
@@ -31,7 +37,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   GameScreen:
-    m_AssetGUID: 
+    m_AssetGUID: de1b22c1f2f05e745be3adcbb14808bf
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

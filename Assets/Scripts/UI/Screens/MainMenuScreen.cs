@@ -18,7 +18,23 @@ namespace UI.Screens
         {
             _playAIButton.onClick.AddListener(async () =>
             {
-                await _ui.ShowPopupAsync<GameSetupPopup>(_addresses.GameSetupPopup);
+                var popup = await _ui.ShowPopupAsync<GameSetupPopup>(_addresses.GameSetupPopup);
+                bool confirmed = await popup.WaitForResultAsync();
+
+                if (confirmed)
+                {
+                    Debug.Log("✅ Игрок подтвердил запуск игры с ИИ!");
+                    await _ui.ShowInGameLoadingAsync();
+
+                    await _ui.HideAllScreensAsync();
+                    await _ui.ShowScreenAsync<AIGameScreen>(_addresses.GameScreen);
+
+                    await _ui.HideInGameLoadingAsync();
+                }
+                else
+                {
+                    Debug.Log("❎ Игрок отменил запуск.");
+                }
             });
         }
         

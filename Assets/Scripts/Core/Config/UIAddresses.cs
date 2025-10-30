@@ -7,9 +7,10 @@ namespace Core.Config
     public class UIAddresses : ScriptableObject
     {
         [Header("Screens")]
-        public AssetReferenceGameObject LoadingScreen;
+        public AssetReferenceGameObject LoadingScreen; // Экран стартовой загрузки
+        public AssetReferenceGameObject InGameLoadingScreen; // Экран загрузки между переходами "Главное меню - Игровой экран"
         public AssetReferenceGameObject MainMenu;
-        public AssetReferenceGameObject Settings;
+        //public AssetReferenceGameObject Settings;
         public AssetReferenceGameObject GameScreen;
         
         [Header("PopUps")]

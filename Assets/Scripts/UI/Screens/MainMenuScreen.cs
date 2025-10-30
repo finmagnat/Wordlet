@@ -1,4 +1,5 @@
 using Core.Config;
+using Core.Data;
 using Core.UI;
 using UI.Popups;
 using UnityEngine;
@@ -19,33 +20,25 @@ namespace UI.Screens
             _playAIButton.onClick.AddListener(async () =>
             {
                 var popup = await _ui.ShowPopupAsync<GameSetupPopup>(_addresses.GameSetupPopup);
-                bool confirmed = await popup.WaitForResultAsync();
+                var data = await popup.WaitForResultAsync();
 
-                if (confirmed)
+                switch (data.Result)
                 {
-                    Debug.Log("✅ Игрок подтвердил запуск игры с ИИ!");
-                    await _ui.ShowInGameLoadingAsync();
+                    case PopupResult.Play:
+                        Debug.Log($"🎮 Игрок выбрал начать игру: Difficulty={data.Difficulty}, Time={data.TurnTime}s");
+                        await _ui.ShowInGameLoadingAsync();
+                        await _ui.HideAllScreensAsync();
+                        await _ui.ShowScreenAsync<AIGameScreen>(_addresses.AIGameScreen);
+                        await _ui.HideInGameLoadingAsync();
+                        break;
 
-                    await _ui.HideAllScreensAsync();
-                    await _ui.ShowScreenAsync<AIGameScreen>(_addresses.GameScreen);
-
-                    await _ui.HideInGameLoadingAsync();
-                }
-                else
-                {
-                    Debug.Log("❎ Игрок отменил запуск.");
+                    case PopupResult.Close:
+                        Debug.Log("🚪 Игрок отменил настройку или закрыл окно");
+                        break;
                 }
             });
-        }
-        
-        public void OnPlayClicked()
-        {
-            Debug.Log("Play button clicked!");
+
         }
 
-        public void OnSettingsClicked()
-        {
-            Debug.Log("Settings clicked!");
-        }
     }
 }

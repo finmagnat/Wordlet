@@ -1,3 +1,4 @@
+using Core.Data;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -10,35 +11,51 @@ namespace UI.Popups
         [Header("UI Elements")]
         [SerializeField] private TMP_Dropdown _difficultyDropdown;
         [SerializeField] private TMP_Dropdown _turnTimeDropdown;
+        [SerializeField] private TMP_Text _turnTimeLabel;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _closeButton;
         
-        private UniTaskCompletionSource<bool> _completionSource;
-        public UniTask<bool> WaitForResultAsync() => _completionSource.Task;
+        private UniTaskCompletionSource<GameSetupData> _completionSource;
 
-        private void Start()
+        public UniTask<GameSetupData> WaitForResultAsync() => _completionSource.Task;
+
+        private void Awake()
         {
-            _closeButton.onClick.AddListener(async () =>
+            if (_turnTimeDropdown != null)
             {
-                await HideAsync();
-                _completionSource?.TrySetResult(false); // отмена
-            });
-
-            _startButton.onClick.AddListener(async () =>
-            {
-                Debug.Log($"▶ Начинаем игру: " +
-                          //$"ИИ={_opponentDropdown.captionText.text}, " +
-                          $"Сложность={_difficultyDropdown.captionText.text}, " +
-                          $"Время={_turnTimeDropdown.captionText.text}");
-                await HideAsync();
-                _completionSource?.TrySetResult(true); // начать игру
-            });
+                _turnTimeDropdown.onValueChanged.AddListener(v =>
+                {
+                    if (_turnTimeLabel != null)
+                        _turnTimeLabel.text = $"{Mathf.RoundToInt(v)} сек.";
+                });
+            }
         }
 
         public override async UniTask ShowAsync()
         {
-            _completionSource = new UniTaskCompletionSource<bool>();
+            _completionSource = new UniTaskCompletionSource<GameSetupData>();
             await base.ShowAsync();
+        }
+
+        private void Start()
+        {
+            _startButton.onClick.AddListener(async () =>
+            {
+                await HideAsync();
+                var data = new GameSetupData
+                {
+                    Result = PopupResult.Play,
+                    Difficulty = _difficultyDropdown?.value ?? 0,
+                    TurnTime = Mathf.RoundToInt(_turnTimeDropdown?.value ?? 30)
+                };
+                _completionSource?.TrySetResult(data);
+            });
+
+            _closeButton.onClick.AddListener(async () =>
+            {
+                await HideAsync();
+                _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
+            });
         }
     }
 }

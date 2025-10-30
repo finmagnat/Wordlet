@@ -11,7 +11,7 @@ namespace Core.Config
         public AssetReferenceGameObject InGameLoadingScreen; // Экран загрузки между переходами "Главное меню - Игровой экран"
         public AssetReferenceGameObject MainMenu;
         //public AssetReferenceGameObject Settings;
-        public AssetReferenceGameObject GameScreen;
+        public AssetReferenceGameObject AIGameScreen;
         
         [Header("PopUps")]
         public AssetReferenceGameObject GameSetupPopup;

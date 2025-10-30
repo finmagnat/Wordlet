@@ -30,13 +30,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  Settings:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
-  GameScreen:
+  AIGameScreen:
     m_AssetGUID: de1b22c1f2f05e745be3adcbb14808bf
     m_SubObjectName: 
     m_SubObjectType: 

@@ -2077,6 +2077,7 @@ MonoBehaviour:
   _scalePunch: 0.05
   _difficultyDropdown: {fileID: 866365391653258705}
   _turnTimeDropdown: {fileID: 7476874118294029900}
+  _turnTimeLabel: {fileID: 1668621555436396290}
   _startButton: {fileID: 2750169209848258391}
   _closeButton: {fileID: 6510526589456886188}
 --- !u!1 &6587641001337547641

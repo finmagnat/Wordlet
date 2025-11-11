@@ -18,6 +18,8 @@ namespace Core.Installers
             Container.Bind<ConfigService>().AsSingle();
             Container.Bind<GameLogger>().AsSingle();
             Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<LocalizationService>().AsSingle().NonLazy();
+
         }
 
         public override void Start()
@@ -27,25 +29,24 @@ namespace Core.Installers
 
         private async UniTaskVoid InitializeAsync()
         {
-            var configService = Container.Resolve<ConfigService>();
-            
             var ui = Container.Resolve<IUIManager>();
             var addresses = Container.Resolve<UIAddresses>();
-            var eventBus = Container.Resolve<EventBus>();
-            var logger = Container.Resolve<GameLogger>();
 
             // 1) Показать экран загрузки
             var loading = await ui.ShowScreenAsync<LoadingScreen>(addresses.LoadingScreen);
             loading.SetProgress01(0.05f);
 
             // 2) Инициализация сервисов с прогрессом
-            await configService.InitializeAsync();
+            await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress01(0.30f);
 
-            await eventBus.InitializeAsync();
-            loading.SetProgress01(0.45f);
+            await Container.Resolve<EventBus>().InitializeAsync();
+            loading.SetProgress01(0.40f);
 
-            await logger.InitializeAsync();
+            await Container.Resolve<GameLogger>().InitializeAsync();
+            loading.SetProgress01(0.50f);
+            
+            await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress01(0.60f);
 
             // Здесь же можно Addressables.InitializeAsync(), авторизацию, подготовку кэшей и т.п.

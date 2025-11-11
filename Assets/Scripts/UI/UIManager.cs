@@ -95,9 +95,6 @@ namespace Core.UI
 
             var handle = prefabRef.InstantiateAsync(_popupsRoot);
             await handle.ToUniTask();
-            
-            //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate); // гарантирует вызов Awake()
-            
             var instance = handle.Result;
             var popup = instance.GetComponent<T>();
             _container.InjectGameObject(instance);

@@ -11,6 +11,7 @@ namespace UI.Screens
     public class MainMenuScreen : UIScreen
     {
         [SerializeField] private Button _playAIButton;
+        [SerializeField] private Button _settingsButton;
         
         [Inject] private IUIManager _ui;
         [Inject] private UIAddresses _addresses;
@@ -36,6 +37,11 @@ namespace UI.Screens
                         Debug.Log("🚪 Игрок отменил настройку или закрыл окно");
                         break;
                 }
+            });
+            
+            _settingsButton.onClick.AddListener(async () =>
+            {
+                await _ui.ShowPopupAsync<SettingsPopup>(_addresses.SettingsPopup);
             });
 
         }

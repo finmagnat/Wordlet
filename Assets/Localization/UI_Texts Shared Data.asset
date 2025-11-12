@@ -27,6 +27,30 @@ MonoBehaviour:
     m_Key: GAME_SETTINGS
     m_Metadata:
       m_Items: []
+  - m_Id: 453691390394368
+    m_Key: POPUP_TITLE_SETTINGS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 454600799387648
+    m_Key: POPUP_LABEL_SOUNDS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455001145704448
+    m_Key: POPUP_LABEL_LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455367547518976
+    m_Key: POPUP_LABEL_TERMS_OF_SERVICE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455679574376448
+    m_Key: POPUP_LABEL_PRIVACY_POLICY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 456006331629568
+    m_Key: POPUP_LABEL_SUPPORT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

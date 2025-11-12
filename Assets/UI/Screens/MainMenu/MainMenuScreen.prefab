@@ -670,6 +670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playAIButton: {fileID: 8010899630277510445}
+  _settingsButton: {fileID: 3982394824921476821}
 --- !u!1 &6771998112269286261
 GameObject:
   m_ObjectHideFlags: 0

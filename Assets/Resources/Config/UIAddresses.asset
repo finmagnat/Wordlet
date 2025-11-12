@@ -42,3 +42,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  SettingsPopup:
+    m_AssetGUID: ef0ea54d3adb14641990e0219bb9b588
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Core.Config;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -19,7 +21,12 @@ namespace Core.Services
         {
             var locale = LocalizationSettings.AvailableLocales.GetLocale(code);
             if (locale != null)
+            {
                 LocalizationSettings.SelectedLocale = locale;
+                
+                PlayerPrefs.SetString(PlayerPrefsKey.LocaleCurrent, code);
+                PlayerPrefs.Save();
+            }
             else
                 Debug.LogWarning($"Locale not found: {code}");
         }
@@ -33,6 +40,32 @@ namespace Core.Services
         {
             var localizedString = new LocalizedString(table, key);
             return await localizedString.GetLocalizedStringAsync().Task;
+        }
+        
+        public List<Locale> GetAvailableLocales()
+        {
+            var locales = LocalizationSettings.AvailableLocales.Locales;
+            return locales;
+        }
+
+        public List<string> GetAvailableLocaleCodes()
+        {
+            var codes = new List<string>();
+            foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+            {
+                codes.Add(locale.Identifier.Code); // например "en", "ru", "fr"
+            }
+            return codes;
+        }
+
+        public List<string> GetAvailableLocaleNames()
+        {
+            var names = new List<string>();
+            foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+            {
+                names.Add(locale.LocaleName); // например "English", "Русский"
+            }
+            return names;
         }
     }
 }

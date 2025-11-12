@@ -30,6 +30,30 @@ MonoBehaviour:
     m_Localized: Game settings
     m_Metadata:
       m_Items: []
+  - m_Id: 453691390394368
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 454600799387648
+    m_Localized: Sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455001145704448
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455367547518976
+    m_Localized: Terms of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 455679574376448
+    m_Localized: Privacy policy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 456006331629568
+    m_Localized: Support
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

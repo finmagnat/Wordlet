@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 645bb8cb73bbbd04984711d4ec932b5c
   m_SerializeEntries:
   - m_GUID: 0320ef11d7abf99488a2da5ed95b1d43
-    m_Address: Russian (ru)
+    m_Address: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
@@ -28,7 +28,7 @@ MonoBehaviour:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 64b90755674f79744addfe17f04f2295
-    m_Address: English (United States) (en-US)
+    m_Address: English
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

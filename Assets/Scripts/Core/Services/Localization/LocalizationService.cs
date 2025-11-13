@@ -17,18 +17,20 @@ namespace Core.Services
 
         public Locale CurrentLocale => LocalizationSettings.SelectedLocale;
 
-        public void SetLocale(string code)
+        public void SetLocale(LocaleIdentifier id)
         {
-            var locale = LocalizationSettings.AvailableLocales.GetLocale(code);
+            var locale = LocalizationSettings.AvailableLocales.GetLocale(id);
             if (locale != null)
             {
                 LocalizationSettings.SelectedLocale = locale;
                 
-                PlayerPrefs.SetString(PlayerPrefsKey.LocaleCurrent, code);
+                PlayerPrefs.SetString(PlayerPrefsKey.LocaleCurrent, locale.Identifier.Code);
                 PlayerPrefs.Save();
+                
+                Debug.Log($"Selected Locale: {id}");
             }
             else
-                Debug.LogWarning($"Locale not found: {code}");
+                Debug.LogWarning($"Locale not found: {id}");
         }
 
         public LocalizedString GetLocalizedString(string table, string key)

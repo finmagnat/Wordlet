@@ -4,6 +4,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using Tests;
 using UI.Screens;
+using UI.UI;
 using Zenject;
 
 namespace Core.Installers
@@ -15,11 +16,13 @@ namespace Core.Installers
         {
             // 🔧 1. Бинды всех сервисов
             Container.Bind<EventBus>().AsSingle();
-            Container.Bind<ConfigService>().AsSingle();
             Container.Bind<GameLogger>().AsSingle();
-            Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
+            
+            Container.Bind<ConfigService>().AsSingle();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
-
+            
+            Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
         }
 
         public override void Start()
@@ -30,10 +33,11 @@ namespace Core.Installers
         private async UniTaskVoid InitializeAsync()
         {
             var ui = Container.Resolve<IUIManager>();
+            var loadingUI = Container.Resolve<ILoadingUI>();
             var addresses = Container.Resolve<UIAddresses>();
 
             // 1) Показать экран загрузки
-            var loading = await ui.ShowScreenAsync<LoadingScreen>(addresses.LoadingScreen);
+            var loading = await loadingUI.ShowLoadingAsync<LoadingScreen>(addresses.LoadingScreen);
             loading.SetProgress01(0.05f);
 
             // 2) Инициализация сервисов с прогрессом
@@ -58,6 +62,7 @@ namespace Core.Installers
             loading.SetProgress01(1.0f);
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<UIScreen>(addresses.MainMenu);
+            await loadingUI.HideLoadingAsync();
         }
     }
 }

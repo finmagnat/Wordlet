@@ -3,11 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using UI.Screens;
 
 namespace Core.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class InGameLoadingScreen : MonoBehaviour
+    public class InGameLoadingScreen : UIScreen
     {
         [Header("UI Elements")]
         [SerializeField] private CanvasGroup _canvasGroup;
@@ -34,25 +35,31 @@ namespace Core.UI
                 _spinner.transform.Rotate(Vector3.forward, -_spinSpeed * Time.deltaTime);
         }
 
-        public async UniTask ShowAsync()
+        public override async UniTask ShowAsync()
         {
             if (_isVisible) return;
 
             _isVisible = true;
             _canvasGroup.blocksRaycasts = true;
             _loadingText.text = "Загрузка...";
-
+            
             var tween = _canvasGroup.DOFade(1f, _fadeDuration);
             await UniTask.WaitUntil(() => !tween.IsPlaying());
+            
+            Debug.Log($"[InGameLoadingScreen] ShowAsync");
+            // TEST-Simulate
+            await UniTask.WaitForSeconds(3.0f);
         }
 
-        public async UniTask HideAsync()
+        public override async UniTask HideAsync()
         {
             if (!_isVisible) return;
 
             _isVisible = false;
             _canvasGroup.blocksRaycasts = false;
 
+            Debug.Log($"[InGameLoadingScreen] HideAsync");
+            
             var tween = _canvasGroup.DOFade(0f, _fadeDuration);
             await UniTask.WaitUntil(() => !tween.IsPlaying());
         }

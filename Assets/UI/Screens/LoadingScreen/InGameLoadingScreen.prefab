@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 2182785705860325900}
   - component: {fileID: 5576683433246798362}
   - component: {fileID: 1764157444826318481}
-  - component: {fileID: 8408762169792592218}
+  - component: {fileID: 1832194884061810404}
   m_Layer: 0
   m_Name: InGameLoadingScreen
   m_TagString: Untagged
@@ -268,7 +268,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8408762169792592218
+--- !u!114 &1832194884061810404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,11 +277,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6220109460825396736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291855589fd7bc044a6bdad2ee05fe45, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b3fa50858c34d109ec7b2bfc1712a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressBar: {fileID: 0}
-  _percentText: {fileID: 7917195423434401703}
+  _canvasGroup: {fileID: 1764157444826318481}
+  _spinner: {fileID: 7913611115749740443}
+  _loadingText: {fileID: 7917195423434401703}
+  _fadeDuration: 0.3
+  _spinSpeed: 180
 --- !u!1 &8164140863413786771
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,10 @@
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UI.Screens;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Screens
+namespace UI.UI
 {
     public class LoadingScreen : UIScreen
     {

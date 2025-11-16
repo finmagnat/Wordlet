@@ -12,8 +12,5 @@ namespace Core.UI
         UniTask HideAllScreensAsync();
         UniTask<T> ShowPopupAsync<T>(AssetReferenceGameObject prefabRef) where T : UIPopup;
         UniTask HidePopupAsync<T>() where T : UIPopup;
-
-        UniTask ShowInGameLoadingAsync(Color? overlayColor = null);
-        UniTask HideInGameLoadingAsync();
     }
 }

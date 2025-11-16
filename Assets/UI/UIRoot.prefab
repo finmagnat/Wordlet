@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 5641792047213697909}
   - component: {fileID: 8018053137521016355}
   - component: {fileID: 2556837647223192987}
+  - component: {fileID: 6883395720960509757}
   m_Layer: 5
   m_Name: UIRoot
   m_TagString: Untagged
@@ -422,4 +423,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _screensRoot: {fileID: 31558255081929556}
   _popupsRoot: {fileID: 5962061883264432644}
+  _loadingRoot: {fileID: 7579373649618636894}
+--- !u!114 &6883395720960509757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9059911499713480064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e682429bb64a6a82013b4c1077bda6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _loadingRoot: {fileID: 7579373649618636894}

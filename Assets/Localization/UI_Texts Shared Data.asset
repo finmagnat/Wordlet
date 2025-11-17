@@ -75,6 +75,10 @@ MonoBehaviour:
     m_Key: SCREEN_MAIN_TITLE_GAME
     m_Metadata:
       m_Items: []
+  - m_Id: 2206895979462656
+    m_Key: LOADING_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

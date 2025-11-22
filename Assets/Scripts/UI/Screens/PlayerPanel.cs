@@ -1,0 +1,115 @@
+using Cysharp.Threading.Tasks;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace UI.Screens
+{
+    public class PlayerPanel : MonoBehaviour
+    {
+        public uint Score { get; private set; }
+        public uint Pass { get; private set; }
+
+        [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private TextMeshProUGUI _playerNameText;
+        [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private TextMeshProUGUI _passText;
+        [Tooltip("Ссылка на контейнер для списка слов")]
+        [SerializeField] private Transform _listContent;
+        [Tooltip("Ссылка на префаб с элементом текстового поля")]
+        [SerializeField] private GameObject _wordListItemPrefab;
+        [SerializeField] private Image _mainBackground;
+
+        private const string KeyLabelScore = "ui_label_score";
+        private const string KeyLabelPass = "ui_label_pass";
+        
+        //private SkinsService _skinsService;
+        //private Languages _languages;
+        public uint _maxPasses;
+        
+        private void Awake()
+        {
+            //_skinsService = Engine.GetService<SkinsService>();
+            //_languages = Engine.GetService<ILanguagesService>().GetLanguages();
+            
+            //EventAggregator.SkinChanged.Subscribe(OnSkinChanged);
+            
+            SetSkin();
+            
+            Reset();
+        }
+        
+        protected void OnDestroy()
+        {
+            //EventAggregator.SkinChanged.Unsubscribe(OnSkinChanged);
+        }
+        
+        /// <summary>
+        /// Добавить слово.
+        /// </summary>
+        public async void AddWord(string value)
+        {
+            if (_wordListItemPrefab && _listContent)
+            {
+                GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
+                
+                TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
+                itemWord.text = value;
+                
+                await UniTask.Delay(500);
+                
+                _scrollRect.verticalNormalizedPosition = 0;
+            }
+        }
+
+        public void SetPlayerName(string name) => _playerNameText.text = name;
+        
+        public void SetData(uint score = 0, uint pass = 0, uint maxPasses = 0)
+        {
+            _maxPasses = maxPasses;
+            SetScore(score);
+            SetPass(pass, maxPasses);
+        }
+        
+        public void SetScore(uint score)
+        {
+            Score = score;            
+            //_scoreText.text = _languages.GetText(KeyLabelScore) + score;
+        }
+
+        public void SetPass(uint pass, uint maxPasses)
+        {
+            Pass = pass;
+            //_passText.text = $"{_languages.GetText(KeyLabelPass)} {pass}/{maxPasses}";
+        }
+
+        public void Reset()
+        {
+            Pass = 0;
+            Score = 0;
+            SetPlayerName("");
+            SetData();
+            if (_listContent)
+            {
+                foreach (Transform child in _listContent.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+        
+        public void UpdateText()
+        {
+            SetData(Score, Pass,_maxPasses);
+        }
+        
+        //private void OnSkinChanged(IEventData eventData) => SetSkin();
+
+        private async UniTask SetSkin()
+        {
+            //var skin = _skinsService.SkinCurrent;
+            //_mainBackground.sprite = await _skinsService.GetSpriteAsync(skin.ListBackgroundAlias);
+        }
+        
+    }
+}

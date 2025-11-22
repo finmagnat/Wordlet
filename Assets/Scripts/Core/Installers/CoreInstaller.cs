@@ -20,9 +20,11 @@ namespace Core.Installers
             
             Container.Bind<ConfigService>().AsSingle();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
+            Container.Bind<SkinsService>().AsSingle().NonLazy();
             
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
+            //Container.Bind<ISkinsService>().FromComponentInHierarchy().AsSingle();
         }
 
         public override void Start()
@@ -38,20 +40,23 @@ namespace Core.Installers
 
             // 1) Показать экран загрузки
             var loading = await loadingUI.ShowLoadingAsync<LoadingScreen>(addresses.LoadingScreen);
-            loading.SetProgress01(0.05f);
+            loading.SetProgress(0.05f);
 
             // 2) Инициализация сервисов с прогрессом
             await Container.Resolve<ConfigService>().InitializeAsync();
-            loading.SetProgress01(0.30f);
+            loading.SetProgress(0.30f);
 
             await Container.Resolve<EventBus>().InitializeAsync();
-            loading.SetProgress01(0.40f);
+            loading.SetProgress(0.40f);
 
             await Container.Resolve<GameLogger>().InitializeAsync();
-            loading.SetProgress01(0.50f);
+            loading.SetProgress(0.50f);
             
             await Container.Resolve<LocalizationService>().InitializeAsync();
-            loading.SetProgress01(0.60f);
+            loading.SetProgress(0.60f);
+            
+            await Container.Resolve<SkinsService>().InitializeAsync();
+            loading.SetProgress(0.65f);
 
             // Здесь же можно Addressables.InitializeAsync(), авторизацию, подготовку кэшей и т.п.
             // var initHandle = Addressables.InitializeAsync();
@@ -59,7 +64,7 @@ namespace Core.Installers
             // loading.SetProgress01(0.75f);
 
             // 3) UI → Main Menu
-            loading.SetProgress01(1.0f);
+            loading.SetProgress(1.0f);
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<UIScreen>(addresses.MainMenu);
             await loadingUI.HideLoadingAsync();

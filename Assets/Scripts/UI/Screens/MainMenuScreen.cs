@@ -12,6 +12,8 @@ namespace UI.Screens
     {
         [SerializeField] private Button _playAIButton;
         [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _infoButton;
+        [SerializeField] private Button _skinsButton;
 
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
@@ -59,6 +61,16 @@ namespace UI.Screens
                 _isProcessing = true;
 
                 await _ui.ShowPopupAsync<SettingsPopup>(_addresses.SettingsPopup);
+
+                _isProcessing = false;
+            });
+            
+            _skinsButton.onClick.AddListener(async () =>
+            {
+                if (_isProcessing) return;
+                _isProcessing = true;
+
+                await _ui.ShowPopupAsync<SkinsPopup>(_addresses.SkinsPopup);
 
                 _isProcessing = false;
             });

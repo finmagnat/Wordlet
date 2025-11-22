@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74b0d3207995ca04db004c5310801640
+    m_Address: SkinsPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: de1b22c1f2f05e745be3adcbb14808bf
     m_Address: AIGameScreen
     m_ReadOnly: 0

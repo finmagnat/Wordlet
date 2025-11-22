@@ -15,5 +15,6 @@ namespace Core.Config
         [Header("PopUps")]
         public AssetReferenceGameObject GameSetupPopup;
         public AssetReferenceGameObject SettingsPopup;
+        public AssetReferenceGameObject SkinsPopup;
     }
 }

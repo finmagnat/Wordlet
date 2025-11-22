@@ -11,7 +11,7 @@ namespace UI.UI
         [SerializeField] private Slider _progressBar;
         [SerializeField] private TextMeshProUGUI _percentText;
 
-        public void SetProgress01(float value01)
+        public void SetProgress(float value01)
         {
             if (_progressBar) _progressBar.value = Mathf.Clamp01(value01);
             if (_percentText) _percentText.text = Mathf.RoundToInt(value01 * 100f) + "%";
@@ -20,7 +20,7 @@ namespace UI.UI
         public override UniTask ShowAsync()
         {
             gameObject.SetActive(true);
-            SetProgress01(0f);
+            SetProgress(0f);
             return UniTask.CompletedTask;
         }
     }

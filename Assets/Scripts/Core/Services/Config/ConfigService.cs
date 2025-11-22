@@ -14,11 +14,9 @@ namespace Core.Services
     public class ConfigService : IConfigService
     {
         public GameConfig Game => _gameConfig;
-        public UIAddresses UI => _uiAddresses;
         public SkinsConfig Skins => _skinsConfig;
         
         [Inject(Optional = true)] private GameConfig _gameConfig;     // приходит из инсталлера
-        [Inject(Optional = true)] private UIAddresses _uiAddresses;   // тоже
         [Inject(Optional = true)] private SkinsConfig _skinsConfig;
         // при желании добавляй другие конфиги таким же образом
 
@@ -30,9 +28,6 @@ namespace Core.Services
                 Debug.LogWarning("⚠️ GameConfig not injected (not in container)?");
             else
                 Debug.Log($"Config: referenceRes={_gameConfig.referenceResolution}, match={_gameConfig.screenMatch}");
-
-            if (_uiAddresses == null)
-                Debug.LogWarning("⚠️ UIAddresses not injected (not in container)?");
         }
 
     }

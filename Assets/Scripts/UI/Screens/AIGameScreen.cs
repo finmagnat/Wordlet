@@ -12,7 +12,6 @@ namespace UI.Screens
         [SerializeField] private Button _playAIButton;
         
         [Inject] private IUIManager _ui;
-        [Inject] private UIAddresses _addresses;
 
         private void Start()
         {

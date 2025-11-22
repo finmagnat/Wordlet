@@ -1,8 +1,7 @@
-using Core.Config;
+using Core.Generated;
 using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
-using Tests;
 using UI.Screens;
 using UI.UI;
 using Zenject;
@@ -23,8 +22,12 @@ namespace Core.Installers
             Container.Bind<SkinsService>().AsSingle().NonLazy();
             
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<IUIManager>().FromComponentInHierarchy().AsSingle();
-            //Container.Bind<ISkinsService>().FromComponentInHierarchy().AsSingle();
+            
+            Container.Bind<AddressablesLoader>().AsSingle();
+            Container.Bind<IUIManager>().To<UIManager>().FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
+
         }
 
         public override void Start()
@@ -36,10 +39,9 @@ namespace Core.Installers
         {
             var ui = Container.Resolve<IUIManager>();
             var loadingUI = Container.Resolve<ILoadingUI>();
-            var addresses = Container.Resolve<UIAddresses>();
 
             // 1) Показать экран загрузки
-            var loading = await loadingUI.ShowLoadingAsync<LoadingScreen>(addresses.LoadingScreen);
+            var loading = await loadingUI.ShowLoadingAsync<LoadingScreen>(AssetKey.LoadingScreen);
             loading.SetProgress(0.05f);
 
             // 2) Инициализация сервисов с прогрессом
@@ -66,7 +68,7 @@ namespace Core.Installers
             // 3) UI → Main Menu
             loading.SetProgress(1.0f);
             await ui.HideAllScreensAsync();
-            await ui.ShowScreenAsync<UIScreen>(addresses.MainMenu);
+            await ui.ShowScreenAsync<UIScreen>(AssetKey.MainMenuScreen);
             await loadingUI.HideLoadingAsync();
         }
     }

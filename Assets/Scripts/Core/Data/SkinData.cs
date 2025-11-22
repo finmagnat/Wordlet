@@ -1,5 +1,6 @@
 using System;
 using Core.Config;
+using Core.Generated;
 
 namespace Core.Data
 {
@@ -7,11 +8,11 @@ namespace Core.Data
     public struct SkinData
     {
         public SkinType SkinType;
-        public string GameBackgroundAlias;
-        public string SelectableLetterAlias;
-        public string DragableLetterAlias;
-        public string ListBackgroundAlias;
-        public string BacklightLetterAlias;
-        public string PreviewAlias;
+        public AssetKey GameBackgroundAlias;
+        public AssetKey SelectableLetterAlias;
+        public AssetKey DragableLetterAlias;
+        public AssetKey ListBackgroundAlias;
+        public AssetKey BacklightLetterAlias;
+        public AssetKey PreviewAlias;
     }
 }

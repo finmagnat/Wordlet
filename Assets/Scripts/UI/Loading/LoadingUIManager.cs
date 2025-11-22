@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Core.Generated;
+using Core.Services;
 using Cysharp.Threading.Tasks;
-using UI.Screens;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
+using UI.Screens;
+using Unity.VisualScripting;
 
 namespace Core.UI
 {
@@ -12,38 +13,45 @@ namespace Core.UI
     {
         [SerializeField] private Transform _loadingRoot;
 
-        private readonly Dictionary<AssetReferenceGameObject, UIScreen> _loaded = new();
+        private readonly Dictionary<string, UIScreen> _loaded = new();
+
+        private AddressablesLoader _loader;
         private DiContainer _container;
 
         [Inject]
-        public void Construct(DiContainer container)
+        public void Construct(AddressablesLoader loader, DiContainer container)
         {
+            _loader = loader;
             _container = container;
         }
 
-        public async UniTask<T> ShowLoadingAsync<T>(AssetReferenceGameObject prefabRef)
-            where T : UIScreen
+        public async UniTask<T> ShowLoadingAsync<T>(AssetKey assetKey) where T : UIScreen
         {
-            if (_loaded.TryGetValue(prefabRef, out var existing))
+            var strAssetKey = assetKey.ToString();
+            
+            // Already loaded and cached?
+            if (_loaded.TryGetValue(strAssetKey, out var existing))
             {
                 existing.gameObject.SetActive(true);
+                await existing.ShowAsync();
                 return existing as T;
             }
 
-            var handle = prefabRef.InstantiateAsync(_loadingRoot);
-            await handle.ToUniTask();
-
-            if (handle.Status != AsyncOperationStatus.Succeeded)
+            // Load prefab
+            var prefab = await _loader.LoadAsync<GameObject>(strAssetKey);
+            if (prefab == null)
             {
-                Debug.LogError($"❌ Failed to load loading screen: {prefabRef.AssetGUID}");
+                Debug.LogError($"❌ Failed to load loading screen: {assetKey}");
                 return null;
             }
 
-            var instance = handle.Result;
-            var screen = instance.GetComponent<T>();
+            // Instantiate
+            var instance = Instantiate(prefab, _loadingRoot);
             _container.InjectGameObject(instance);
 
-            _loaded[prefabRef] = screen;
+            var screen = instance.GetComponent<T>();
+            _loaded[strAssetKey] = screen;
+
             await screen.ShowAsync();
 
             return screen;
@@ -52,7 +60,10 @@ namespace Core.UI
         public async UniTask HideLoadingAsync()
         {
             foreach (var screen in _loaded.Values)
-                await screen.HideAsync();
+            {
+                if (screen != null)
+                    await screen.HideAsync();
+            }
         }
     }
 }

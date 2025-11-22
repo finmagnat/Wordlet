@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Config;
+using Core.Generated;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace UI.Popups
         private SkinType _oldSkin;
 
         [Inject] private SkinsService _skinsService;
+        [Inject] private ISpriteService _spritesService;
+
 
         private void Start()
         {
@@ -55,12 +58,12 @@ namespace UI.Popups
             {
                 foreach (var skinItem in _skinsService.Config.Skins)
                 {
-                    SkinButton skinButton = Instantiate(_buttonPrefab, _scrollListContent, false);
-
                     //var sprite = await _skinsService.GetSpriteAsync(skinItem.PreviewAlias);
-
-                    //skinButton.SetSkinData(sprite, skinItem.SkinType);
-
+                    var previewSkinSprite = await _spritesService.GetSpriteAsync(skinItem.PreviewAlias);
+                    //var previewSkinSprite = await _spritesService.GetSpriteAsync(AssetKey.letter_select_yellow);
+                    
+                    SkinButton skinButton = Instantiate(_buttonPrefab, _scrollListContent, false);
+                    skinButton.SetSkinData(previewSkinSprite, skinItem.SkinType);
                     skinButton.button.onClick.AddListener(() =>
                     {
                         SelectSkin(skinItem.SkinType);

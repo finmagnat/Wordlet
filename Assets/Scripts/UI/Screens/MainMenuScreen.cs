@@ -1,5 +1,5 @@
-using Core.Config;
 using Core.Data;
+using Core.Generated;
 using Core.UI;
 using UI.Popups;
 using UnityEngine;
@@ -17,7 +17,6 @@ namespace UI.Screens
 
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
-        [Inject] private UIAddresses _addresses;
 
         private bool _isProcessing;
 
@@ -28,7 +27,7 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                var popup = await _ui.ShowPopupAsync<GameSetupPopup>(_addresses.GameSetupPopup);
+                var popup = await _ui.ShowPopupAsync<GameSetupPopup>(AssetKey.GameSetupPopup);
                 var data = await popup.WaitForResultAsync();
 
                 if (data.Result == PopupResult.Play)
@@ -36,13 +35,13 @@ namespace UI.Screens
                     Debug.Log($"🎮 Начинаем игру: Difficulty={data.Difficulty}, Time={data.TurnTime}s");
 
                     // Показ *правильного* in-game loading
-                    await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(_addresses.InGameLoadingScreen);
+                    await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
 
                     // Скрываем главное меню
                     await _ui.HideAllScreensAsync();
 
                     // Переход на экран игры с ИИ
-                    await _ui.ShowScreenAsync<AIGameScreen>(_addresses.AIGameScreen);
+                    await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
 
                     // Убираем лоадинг
                     await _loadingUI.HideLoadingAsync();
@@ -60,7 +59,7 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                await _ui.ShowPopupAsync<SettingsPopup>(_addresses.SettingsPopup);
+                await _ui.ShowPopupAsync<SettingsPopup>(AssetKey.SettingsPopup);
 
                 _isProcessing = false;
             });
@@ -70,7 +69,7 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                await _ui.ShowPopupAsync<SkinsPopup>(_addresses.SkinsPopup);
+                await _ui.ShowPopupAsync<SkinsPopup>(AssetKey.SkinsPopup);
 
                 _isProcessing = false;
             });

@@ -39,27 +39,27 @@ namespace UI.Popups
 
         private void Apply()
         {
-            /*if (_skinsService.SkinCurrent.SkinType != _newSkin)
+            if (_skinsService.SkinCurrent.SkinType != _newSkin)
             {
                 _skinsService.SaveSkinCurrent(_newSkin);
 
                 //Dictionary<string, string> paramDictionary = new() { { Constants.Type, _newSkin.ToString() } };
                 //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
-            }*/
+            }
         }
 
         public override async UniTask ShowAsync()
         {
-            /*_oldSkin = _skinsService.SkinCurrent.SkinType;
+            _oldSkin = _skinsService.SkinCurrent.SkinType;
             if (_buttons == null || _buttons.Count == 0)
             {
-                foreach (var skinItem in _skinsService.SkinsConfiguration.Skins)
+                foreach (var skinItem in _skinsService.Config.Skins)
                 {
-                    SkinButton skinButton = Instantiate(buttonPrefab, scrollListContent, false);
+                    SkinButton skinButton = Instantiate(_buttonPrefab, _scrollListContent, false);
 
-                    var sprite = await _skinsService.GetSpriteAsync(skinItem.PreviewAlias);
+                    //var sprite = await _skinsService.GetSpriteAsync(skinItem.PreviewAlias);
 
-                    skinButton.SetSkinData(sprite, skinItem.SkinType);
+                    //skinButton.SetSkinData(sprite, skinItem.SkinType);
 
                     skinButton.button.onClick.AddListener(() =>
                     {
@@ -68,7 +68,7 @@ namespace UI.Popups
 
                     _buttons.Add(skinButton);
                 }
-            }*/
+            }
 
             SelectSkin(_oldSkin);
             

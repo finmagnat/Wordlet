@@ -15,12 +15,6 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: f9a99e912e24fa24cb87d45a165a2035
   m_SerializeEntries:
-  - m_GUID: 251267b63c8cc0045b00d035ca9f4415
-    m_Address: GameSetupPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d9e3829227d7c3408ff8ad6e39f41b9
     m_Address: MainMenuScreen
     m_ReadOnly: 0
@@ -41,6 +35,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74b0d3207995ca04db004c5310801640
     m_Address: SkinsPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dca49907340372148b0bab10c22d25fb
+    m_Address: AIGameSetupPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

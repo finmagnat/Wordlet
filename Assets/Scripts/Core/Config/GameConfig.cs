@@ -34,7 +34,20 @@ namespace Core.Config
         [Header("Gameplay")]
         [Tooltip("Размер поля 'Балды' по умолчанию")]
         public int defaultBoardSize = 5;
-
+        
+        [Space(10)]
+        [Tooltip("Время хода игрока по умолчанию (секунды)")]
+        public int durationGameByDefault = 60;
+        
+        [Tooltip("Оппонент игрока по умолчанию")]
+        public GameOpponent gameOpponentByDefault = GameOpponent.AI;
+        
+        [Tooltip("Сложность игры с ИИ по умолчанию")]
+        public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
+        
+        [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
+        public int maxPassesByDefault = 2;
+        
         [Header("Content (Addressables keys / labels)")]
         [Tooltip("Ключ/лейбл для словаря, если храним его через Addressables")]
         public string dictionaryAddress;

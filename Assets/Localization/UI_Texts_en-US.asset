@@ -90,6 +90,30 @@ MonoBehaviour:
     m_Localized: Apply
     m_Metadata:
       m_Items: []
+  - m_Id: 4426044554182656
+    m_Localized: NEW GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426652921200640
+    m_Localized: Difficulty level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427422768922624
+    m_Localized: Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427486245519360
+    m_Localized: Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427505694507008
+    m_Localized: Hard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427842056716288
+    m_Localized: Duration of the move
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

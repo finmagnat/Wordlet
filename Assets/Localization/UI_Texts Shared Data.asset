@@ -87,6 +87,30 @@ MonoBehaviour:
     m_Key: BUTTON_APPLY
     m_Metadata:
       m_Items: []
+  - m_Id: 4426044554182656
+    m_Key: POPUP_TITLE_NEW_GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426652921200640
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427422768922624
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427486245519360
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427505694507008
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427842056716288
+    m_Key: POPUP_LABEL_DURATION_MOVE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

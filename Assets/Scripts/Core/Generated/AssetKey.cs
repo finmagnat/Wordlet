@@ -11,12 +11,12 @@ namespace Core.Generated
         letter_drop_red,
         bkg_list_red,
         bkg_main_blue,
-        GameSetupPopup,
         MainMenuScreen,
         LoadingScreen,
         InGameLoadingScreen,
         SkinsPopup,
         AIGameScreen,
         SettingsPopup,
+        AIGameSetupPopup,
     }
 }

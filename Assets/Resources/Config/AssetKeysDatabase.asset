@@ -31,8 +31,6 @@ MonoBehaviour:
     AddressKey: bkg_list_red
   - Id: bkg_main_blue
     AddressKey: bkg_main_blue
-  - Id: GameSetupPopup
-    AddressKey: GameSetupPopup
   - Id: MainMenuScreen
     AddressKey: MainMenuScreen
   - Id: LoadingScreen
@@ -45,3 +43,5 @@ MonoBehaviour:
     AddressKey: AIGameScreen
   - Id: SettingsPopup
     AddressKey: SettingsPopup
+  - Id: AIGameSetupPopup
+    AddressKey: AIGameSetupPopup

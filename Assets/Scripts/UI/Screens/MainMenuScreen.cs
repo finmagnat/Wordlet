@@ -27,7 +27,7 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                var popup = await _ui.ShowPopupAsync<GameSetupPopup>(AssetKey.GameSetupPopup);
+                var popup = await _ui.ShowPopupAsync<AIGameSetupPopup>(AssetKey.AIGameSetupPopup);
                 var data = await popup.WaitForResultAsync();
 
                 if (data.Result == PopupResult.Play)

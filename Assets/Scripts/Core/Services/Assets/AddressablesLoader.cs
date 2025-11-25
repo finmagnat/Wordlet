@@ -10,11 +10,24 @@ namespace Core.Services
     {
         // Кэш загруженных ресурсов
         private readonly Dictionary<string, AsyncOperationHandle> _loaded = new();
+        private readonly Dictionary<string, object> _cache = new();
+
+        public async UniTask<T> LoadCachedAsync<T>(string key) where T : UnityEngine.Object
+        {
+            if (_cache.TryGetValue(key, out var cached))
+                return cached as T;
+
+            var asset = await LoadAssetAsync<T>(key);
+            if (asset != null)
+                _cache[key] = asset;
+
+            return asset;
+        }
 
         /// <summary>
         /// Универсальная загрузка ресурсов Addressables по ключу.
         /// </summary>
-        public async UniTask<T> LoadAsync<T>(string key) where T : class
+        public async UniTask<T> LoadAssetAsync<T>(string key) where T : class
         {
             // Если уже есть в кэше
             if (_loaded.TryGetValue(key, out var cached))

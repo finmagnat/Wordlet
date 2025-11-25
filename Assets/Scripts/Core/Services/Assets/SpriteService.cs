@@ -14,7 +14,7 @@ namespace Core.Services
         }
 
         public async UniTask<Sprite> GetSpriteAsync(AssetKey alias)
-            => await _loader.LoadAsync<Sprite>(alias.ToString());
+            => await _loader.LoadAssetAsync<Sprite>(alias.ToString());
 
         public bool IsLoaded(AssetKey alias)
             => _loader.IsLoaded(alias.ToString());

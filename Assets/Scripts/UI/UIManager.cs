@@ -51,7 +51,7 @@ namespace Core.UI
             }
 
             // Load prefab
-            var prefab = await _loader.LoadAsync<GameObject>(strAssetKey);
+            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
             if (prefab == null)
             {
                 Debug.LogError($"❌ Failed to load screen prefab: {strAssetKey}");
@@ -92,7 +92,7 @@ namespace Core.UI
                 return existing as T;
             }
 
-            var prefab = await _loader.LoadAsync<GameObject>(strAssetKey);
+            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
             if (prefab == null)
             {
                 Debug.LogError($"❌ Failed to load popup prefab: {assetKey}");

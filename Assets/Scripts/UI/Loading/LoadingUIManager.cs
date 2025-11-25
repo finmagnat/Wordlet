@@ -5,7 +5,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using UI.Screens;
-using Unity.VisualScripting;
 
 namespace Core.UI
 {
@@ -38,7 +37,7 @@ namespace Core.UI
             }
 
             // Load prefab
-            var prefab = await _loader.LoadAsync<GameObject>(strAssetKey);
+            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
             if (prefab == null)
             {
                 Debug.LogError($"❌ Failed to load loading screen: {assetKey}");

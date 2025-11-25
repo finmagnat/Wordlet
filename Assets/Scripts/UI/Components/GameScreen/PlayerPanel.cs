@@ -1,9 +1,11 @@
+using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-namespace UI.Screens
+namespace UI.Components
 {
     public class PlayerPanel : MonoBehaviour
     {
@@ -19,29 +21,17 @@ namespace UI.Screens
         [Tooltip("Ссылка на префаб с элементом текстового поля")]
         [SerializeField] private GameObject _wordListItemPrefab;
         [SerializeField] private Image _mainBackground;
-
-        private const string KeyLabelScore = "ui_label_score";
-        private const string KeyLabelPass = "ui_label_pass";
         
-        //private SkinsService _skinsService;
-        //private Languages _languages;
+        [Inject] private SkinsService _skinsService;
+        [Inject] private ISpriteService _spritesService;
+        [Inject] private LocalizationService _localization;
+        
         public uint _maxPasses;
         
         private void Awake()
         {
-            //_skinsService = Engine.GetService<SkinsService>();
-            //_languages = Engine.GetService<ILanguagesService>().GetLanguages();
-            
-            //EventAggregator.SkinChanged.Subscribe(OnSkinChanged);
-            
             SetSkin();
-            
             Reset();
-        }
-        
-        protected void OnDestroy()
-        {
-            //EventAggregator.SkinChanged.Unsubscribe(OnSkinChanged);
         }
         
         /// <summary>
@@ -74,13 +64,13 @@ namespace UI.Screens
         public void SetScore(uint score)
         {
             Score = score;            
-            //_scoreText.text = _languages.GetText(KeyLabelScore) + score;
+            _scoreText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelScore, score);
         }
 
         public void SetPass(uint pass, uint maxPasses)
         {
             Pass = pass;
-            //_passText.text = $"{_languages.GetText(KeyLabelPass)} {pass}/{maxPasses}";
+            _passText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelPasses, pass, maxPasses);
         }
 
         public void Reset()
@@ -100,15 +90,13 @@ namespace UI.Screens
         
         public void UpdateText()
         {
-            SetData(Score, Pass,_maxPasses);
+            SetData(Score, Pass, _maxPasses);
         }
         
-        //private void OnSkinChanged(IEventData eventData) => SetSkin();
-
         private async UniTask SetSkin()
         {
-            //var skin = _skinsService.SkinCurrent;
-            //_mainBackground.sprite = await _skinsService.GetSpriteAsync(skin.ListBackgroundAlias);
+            var skin = _skinsService.SkinCurrent;
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
         }
         
     }

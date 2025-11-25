@@ -114,6 +114,34 @@ MonoBehaviour:
     m_Localized: Duration of the move
     m_Metadata:
       m_Items: []
+  - m_Id: 4736482382807040
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736701971398656
+    m_Localized: Clear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4737267921420288
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739971553001472
+    m_Localized: Player 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4740229834047488
+    m_Localized: Player 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765940393279488
+    m_Localized: 'SCORE: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766021192351744
+    m_Localized: 'PASSES: {0}/{1}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

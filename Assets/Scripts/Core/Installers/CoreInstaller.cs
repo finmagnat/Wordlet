@@ -1,3 +1,4 @@
+using Core.Events;
 using Core.Generated;
 using Core.Services;
 using Core.UI;
@@ -14,7 +15,6 @@ namespace Core.Installers
         public override void InstallBindings()
         {
             // 🔧 1. Бинды всех сервисов
-            Container.Bind<EventBus>().AsSingle();
             Container.Bind<GameLogger>().AsSingle();
             
             Container.Bind<ConfigService>().AsSingle();
@@ -48,11 +48,8 @@ namespace Core.Installers
             await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.30f);
 
-            await Container.Resolve<EventBus>().InitializeAsync();
-            loading.SetProgress(0.40f);
-
             await Container.Resolve<GameLogger>().InitializeAsync();
-            loading.SetProgress(0.50f);
+            loading.SetProgress(0.40f);
             
             await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.60f);

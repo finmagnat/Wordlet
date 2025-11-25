@@ -111,6 +111,34 @@ MonoBehaviour:
     m_Key: POPUP_LABEL_DURATION_MOVE
     m_Metadata:
       m_Items: []
+  - m_Id: 4736482382807040
+    m_Key: BUTTON_PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736701971398656
+    m_Key: BUTTON_CLEAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4737267921420288
+    m_Key: BUTTON_CANCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739971553001472
+    m_Key: PLAEYR_NAME_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4740229834047488
+    m_Key: PLAEYR_NAME_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765940393279488
+    m_Key: LABEL_SCORE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766021192351744
+    m_Key: LABEL_PASSES
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

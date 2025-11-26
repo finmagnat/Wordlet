@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Dictionary;
 using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace UI.Components
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spriteService;
         [Inject] private LocalizationService _localization;
+        [Inject] private DictionaryService _dictionaryService;
         
         private List<DragAndDropBehaviour> _items;
       
@@ -30,8 +32,8 @@ namespace UI.Components
         public List<DragAndDropBehaviour> InitField(Camera uiCamera)
         {
             //string alphabet = Engine.GetService<ILanguagesService>().GetLanguages().GetCurrentLanguage().Library.dictionaryWords.Alphabet;
-            //string alphabet = _localization.GetDdictionaryWords().Alphabet; // TODO: ***
-            string alphabet = ""; 
+            //string alphabet = _localization.GetDictionaryWords().Alphabet; // TODO: ***
+            string alphabet = _dictionaryService.GetAlphabet();
             if(alphabet.Length == 0)
                 return null;
          

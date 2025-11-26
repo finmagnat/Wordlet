@@ -8,12 +8,10 @@ namespace Core.Dictionary
     public class DictionaryService
     {
         private readonly AddressablesLoader _loader;
-
-        private HashSet<string> _dictionary;
+        
+        private LanguageDictionaryConfig _config;
+        private HashSet<string> _words;
         private string _alphabet;
-
-        public string Alphabet => _alphabet;
-        public IReadOnlyCollection<string> Words => _dictionary;
 
         public DictionaryService(AddressablesLoader loader)
         {
@@ -22,34 +20,57 @@ namespace Core.Dictionary
 
         public async UniTask InitializeAsync(LanguageDictionaryConfig config)
         {
-            _alphabet = config.alphabet;
+            _config = config;
+            
+            // 1. Алфавит просто берём из конфига
+            _alphabet = _config.alphabet;
 
-            var file = await _loader.LoadAssetAsync<TextAsset>(config.dictionaryAddressKey);
-            if (file == null)
+            // 2. Загружаем текстовый словарь по Addressables-ключу
+            if (string.IsNullOrWhiteSpace(_config.dictionaryAddressKey))
             {
-                Debug.LogError($"❌ Unable to load dictionary file: {config.dictionaryAddressKey}");
-                _dictionary = new HashSet<string>();
+                Debug.LogError("❌ Dictionary address key is empty in LanguageDictionaryConfig");
+                _words = new HashSet<string>();
                 return;
             }
 
-            var lines = file.text.Split('\n');
-            _dictionary = new HashSet<string>();
-
-            foreach (var l in lines)
+            var textAsset = await _loader.LoadAssetAsync<TextAsset>(_config.dictionaryAddressKey);
+            if (textAsset == null)
             {
-                var w = l.Trim().ToUpperInvariant();
-                if (w.Length > 0)
-                    _dictionary.Add(w);
+                Debug.LogError($"❌ Failed to load dictionary TextAsset by key: {_config.dictionaryAddressKey}");
+                _words = new HashSet<string>();
+                return;
             }
 
-            Debug.Log($"📘 Loaded dictionary: {config.languageCode}, words: {_dictionary.Count}");
+            var lines = textAsset.text.Split('\n');
+            _words = new HashSet<string>();
+
+            foreach (var line in lines)
+            {
+                var w = line.Trim().ToUpperInvariant();
+                if (!string.IsNullOrEmpty(w))
+                    _words.Add(w);
+            }
+
+            Debug.Log($"📘 Dictionary initialized. Lang: {_config.languageCode}, words: {_words.Count}");
         }
 
+        /// <summary>
+        /// Алфавит текущего словаря (как строка).
+        /// </summary>
+        public string GetAlphabet()
+        {
+            return _alphabet ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Быстрая проверка, есть ли слово в словаре.
+        /// </summary>
         public bool Contains(string word)
         {
-            if (string.IsNullOrWhiteSpace(word)) 
+            if (string.IsNullOrWhiteSpace(word) || _words == null)
                 return false;
-            return _dictionary.Contains(word.ToUpperInvariant());
+
+            return _words.Contains(word.Trim().ToUpperInvariant());
         }
     }
 }

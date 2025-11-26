@@ -17,22 +17,3 @@ namespace Core.Dictionary
         public string dictionaryAddressKey; // пример: "dict_ru"
     }
 }
-/*
-using UnityEngine;
-
-[CreateAssetMenu(menuName = "Config/Language Dictionary", fileName = "LanguageDictionaryConfig")]
-public class LanguageDictionaryConfig : ScriptableObject
-{
-    [SerializeField] private string _alphabet;
-    [SerializeField] private TextAsset _dictionaryFile;
-
-    public string Alphabet => _alphabet;
-    public TextAsset DictionaryFile => _dictionaryFile;
-
-    public void SetAlphabet(string alphabet)
-        => _alphabet = alphabet;
-
-    public void SetDictionaryFile(TextAsset file)
-        => _dictionaryFile = file;
-}
-*/

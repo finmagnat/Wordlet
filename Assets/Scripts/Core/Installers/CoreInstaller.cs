@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using Core.Dictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
@@ -5,6 +8,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using UI.Screens;
 using UI.UI;
+using UnityEngine;
 using Zenject;
 
 namespace Core.Installers
@@ -12,6 +16,8 @@ namespace Core.Installers
     // регистрирует все сервисы.
     public class CoreInstaller : MonoInstaller
     {
+        [Inject] private DictionaryManagerPresenter _dictPresenter;
+
         public override void InstallBindings()
         {
             // 🔧 1. Бинды всех сервисов
@@ -27,7 +33,10 @@ namespace Core.Installers
             Container.Bind<IUIManager>().To<UIManager>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
-
+            
+            Container.Bind<List<LanguageDictionaryConfig>>().FromInstance(_dictPresenter.configs).AsSingle();
+            Container.Bind<DictionaryManager>().AsSingle();
+            Container.Bind<DictionaryService>().AsSingle();
         }
 
         public override void Start()

@@ -1,34 +1,59 @@
+using System.Collections.Generic;
+using Core.Services;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Zenject;
+using UnityEngine.Localization;
 
 namespace Core.Dictionary
 {
     public class DictionaryManager
     {
-        private readonly DictionaryService _mainDict;
-        private UserDictionaryService _userDict;
+        private readonly DictionaryService _dictionaryService;
+        private readonly LocalizationService _localization;
+        private readonly Dictionary<string, LanguageDictionaryConfig> _configs;
 
-        public DictionaryManager(DictionaryService mainDict)
+        public DictionaryService Service => _dictionaryService;
+
+        [Inject]
+        public DictionaryManager(
+            DictionaryService dictionaryService,
+            LocalizationService localization,
+            List<LanguageDictionaryConfig> configs)
         {
-            _mainDict = mainDict;
+            _dictionaryService = dictionaryService;
+            _localization = localization;
+
+            _configs = new Dictionary<string, LanguageDictionaryConfig>();
+            foreach (var cfg in configs)
+                _configs[cfg.languageCode] = cfg;
+
+            // подписываемся на смену языка
+            _localization.OnLocaleChanged += OnLocaleChanged;
         }
 
-        public async UniTask InitializeAsync(LanguageDictionaryConfig config)
+        public async UniTask InitializeAsync()
         {
-            await _mainDict.InitializeAsync(config);
-
-            _userDict = new UserDictionaryService(config.languageCode);
-            await _userDict.InitializeAsync();
+            await LoadDictionaryForCurrentLocale();
         }
 
-        public bool Contains(string word)
+        private async void OnLocaleChanged(Locale _)
         {
-            return _mainDict.Contains(word) || _userDict.Contains(word);
+            await LoadDictionaryForCurrentLocale();
         }
 
-        public bool AddCustomWord(string word)
+        private async UniTask LoadDictionaryForCurrentLocale()
         {
-            return _userDict.AddWord(word);
+            string code = _localization.CurrentLocale.Identifier.Code;
+
+            if (!_configs.TryGetValue(code, out var cfg))
+            {
+                Debug.LogError($"❌ No dictionary config for locale '{code}'");
+                return;
+            }
+
+            await _dictionaryService.InitializeAsync(cfg);
+            Debug.Log($"📚 Dictionary switched → {code}");
         }
     }
 }

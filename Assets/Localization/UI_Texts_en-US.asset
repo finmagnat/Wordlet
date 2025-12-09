@@ -142,6 +142,83 @@ MonoBehaviour:
     m_Localized: 'PASSES: {0}/{1}'
     m_Metadata:
       m_Items: []
+  - m_Id: 6206546046976000
+    m_Localized: YOU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206873852805120
+    m_Localized: OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207023778201600
+    m_Localized: AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207411004735488
+    m_Localized: PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207590239928320
+    m_Localized: Your move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207742686101504
+    m_Localized: The opponent moves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207920189046784
+    m_Localized: END OF THE GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208095938772992
+    m_Localized: Congratulations!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208253044817920
+    m_Localized: You win!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208435203440640
+    m_Localized: The opponent won
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208603676049408
+    m_Localized: Try again! Success comes with experience ;)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208766385684480
+    m_Localized: Draw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208915790987264
+    m_Localized: Almost there! That's half a step to victory! Let's do it again!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209112730337280
+    m_Localized: New word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209284000546816
+    m_Localized: This word is not in the dictionary. Should I add it to the dictionary?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209513227649024
+    m_Localized: ADVICE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209654886072320
+    m_Localized: You need to place one letter on the field next to another letter
+      on the field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209811929202688
+    m_Localized: It is necessary that the established letter be included in the word.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6210033103241216
+    m_Localized: You need to select the letters to form a word.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -28,7 +28,7 @@ namespace UI.Components
         
         public uint _maxPasses;
         
-        private void Awake()
+        private void Start()
         {
             SetSkin();
             Reset();

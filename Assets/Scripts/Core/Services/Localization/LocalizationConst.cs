@@ -9,5 +9,6 @@ namespace Core.Services
         // Ключи:
         public const string KeyLabelScore = "LABEL_SCORE";
         public const string KeyLabelPasses = "LABEL_PASSES";
+        public const string KeyLabelLoading = "LOADING_TEXT";
     }
 }

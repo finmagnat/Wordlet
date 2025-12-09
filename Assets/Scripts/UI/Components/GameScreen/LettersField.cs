@@ -17,7 +17,7 @@ namespace UI.Components
         [Inject] private LocalizationService _localization;
         [Inject] private DictionaryService _dictionaryService;
         
-        private List<DragAndDropBehaviour> _items;
+        private List<DraggedLetter> _items;
       
         private void Start()
         {
@@ -29,10 +29,8 @@ namespace UI.Components
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
         
-        public List<DragAndDropBehaviour> InitField(Camera uiCamera)
+        public List<DraggedLetter> InitField(Camera uiCamera)
         {
-            //string alphabet = Engine.GetService<ILanguagesService>().GetLanguages().GetCurrentLanguage().Library.dictionaryWords.Alphabet;
-            //string alphabet = _localization.GetDictionaryWords().Alphabet; // TODO: ***
             string alphabet = _dictionaryService.GetAlphabet();
             if(alphabet.Length == 0)
                 return null;
@@ -40,7 +38,7 @@ namespace UI.Components
             char[] arrAlphabet = alphabet.ToCharArray();
             
             if(_items == null)
-                _items = new List<DragAndDropBehaviour>(alphabet.Length);
+                _items = new List<DraggedLetter>(alphabet.Length);
             else
                 _items.ForEach(item => item.gameObject.SetActive(false));
             
@@ -59,7 +57,7 @@ namespace UI.Components
                     var dradbleLetter = clonePrefab.GetComponent<DraggedLetter>();
                     dradbleLetter.SetLetter(arrAlphabet[i].ToString());
 
-                    var dragDropBeh = clonePrefab.GetComponent<DragAndDropBehaviour>();
+                    var dragDropBeh = clonePrefab.GetComponent<DraggedLetter>();
                     dragDropBeh.SetCamera(uiCamera);
 
                     _items.Add(dragDropBeh);

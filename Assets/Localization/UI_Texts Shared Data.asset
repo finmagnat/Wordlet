@@ -139,6 +139,86 @@ MonoBehaviour:
     m_Key: LABEL_PASSES
     m_Metadata:
       m_Items: []
+  - m_Id: 6206546046976000
+    m_Key: NAME_PLAYER_OWNER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206873852805120
+    m_Key: NAME_PLAYER_OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207023778201600
+    m_Key: NAME_PLAYER_AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207411004735488
+    m_Key: STATUS_LABEL_PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207590239928320
+    m_Key: STATUS_LABEL_GO_OWNER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207742686101504
+    m_Key: STATUS_LABEL_GO_OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207920189046784
+    m_Key: STATUS_LABEL_GAME_OVER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208095938772992
+    m_Key: WINDOW_WIN_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208253044817920
+    m_Key: WINDOW_WIN_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208435203440640
+    m_Key: WINDOW_LOSE_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208603676049408
+    m_Key: WINDOW_LOSE_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208766385684480
+    m_Key: WINDOW_DEAD_HEAT_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208915790987264
+    m_Key: WINDOW_DEAD_HEAT_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209112730337280
+    m_Key: WINDOW_NEW_WORD_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209284000546816
+    m_Key: WINDOW_NEW_WORD_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209513227649024
+    m_Key: ERROR_MSG_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209654886072320
+    m_Key: ERROR_MSG_NO_SETTED_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209811929202688
+    m_Key: ERROR_MSG_SET_LETTER_NO_SELECTED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209984227016704
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6210033103241216
+    m_Key: ERROR_MSG_WORD_NO_SELECTED
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

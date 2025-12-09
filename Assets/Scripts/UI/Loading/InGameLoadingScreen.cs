@@ -1,9 +1,11 @@
+using Core.Services;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using UI.Screens;
+using Zenject;
 
 namespace Core.UI
 {
@@ -17,6 +19,8 @@ namespace Core.UI
         [SerializeField] private float _fadeDuration = 0.3f;
         [SerializeField] private float _spinSpeed = 180f;
 
+        [Inject] private LocalizationService _localization;
+        
         private bool _isVisible;
 
         private void Awake()
@@ -41,14 +45,14 @@ namespace Core.UI
 
             _isVisible = true;
             _canvasGroup.blocksRaycasts = true;
-            _loadingText.text = "Загрузка...";
+            _loadingText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelLoading);
             
             var tween = _canvasGroup.DOFade(1f, _fadeDuration);
             await UniTask.WaitUntil(() => !tween.IsPlaying());
             
             Debug.Log($"[InGameLoadingScreen] ShowAsync");
             // TEST-Simulate
-            await UniTask.WaitForSeconds(3.0f);
+            //await UniTask.WaitForSeconds(3.0f);
         }
 
         public override async UniTask HideAsync()

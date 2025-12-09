@@ -15,7 +15,6 @@ namespace UI.Screens
     {
         [Space, Header("Gme Screen UI Components")] 
         [SerializeField] private TextMeshProUGUI _statusText;
-        [SerializeField] private Button _playAIButton;
         [SerializeField] private TextMeshProUGUI _wordText;
         [SerializeField] private TimerProgressBar _progressBar;
         [SerializeField] private GameObject _gameControlsPanel;

@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 5709232164886202745}
   - component: {fileID: 1081726550479777682}
   - component: {fileID: 1511463068523746624}
+  - component: {fileID: 7331011209453410963}
   m_Layer: 5
   m_Name: ProgressTimer
   m_TagString: Untagged
@@ -218,6 +219,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 3
+--- !u!114 &7331011209453410963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230851435785152292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4daced222ae84b0e9531b0bbd01f6642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 7232212021377042257}
 --- !u!1 &1436843163080928138
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,8 +353,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.HomeScreen.GameScreen, Assembly-CSharp
+      - m_Target: {fileID: 4355820288967981851}
+        m_TargetAssemblyTypeName: UI.Screens.AIGameScreen, Assembly-CSharp
         m_MethodName: OnPressedGo
         m_Mode: 1
         m_Arguments:
@@ -472,8 +486,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.HomeScreen.GameScreen, Assembly-CSharp
+      - m_Target: {fileID: 4355820288967981851}
+        m_TargetAssemblyTypeName: UI.Screens.AIGameScreen, Assembly-CSharp
         m_MethodName: OnPressedPause
         m_Mode: 1
         m_Arguments:
@@ -521,7 +535,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 500, y: -200}
+  m_SizeDelta: {x: 460, y: -200}
   m_Pivot: {x: 1.0000004, y: 0.5}
 --- !u!1 &2633302056398436001
 GameObject:
@@ -780,8 +794,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.HomeScreen.GameScreen, Assembly-CSharp
+      - m_Target: {fileID: 4355820288967981851}
+        m_TargetAssemblyTypeName: UI.Screens.AIGameScreen, Assembly-CSharp
         m_MethodName: OnPressedCancel
         m_Mode: 1
         m_Arguments:
@@ -913,8 +927,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.HomeScreen.GameScreen, Assembly-CSharp
+      - m_Target: {fileID: 4355820288967981851}
+        m_TargetAssemblyTypeName: UI.Screens.AIGameScreen, Assembly-CSharp
         m_MethodName: OnPressedClear
         m_Mode: 1
         m_Arguments:
@@ -1116,7 +1130,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3697a5b2fcc442009aff04afa68c8235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playAIButton: {fileID: 0}
+  _statusText: {fileID: 6793346333717683743}
+  _wordText: {fileID: 6323687144426419959}
+  _progressBar: {fileID: 7331011209453410963}
+  _gameControlsPanel: {fileID: 2475935101403532607}
+  _homeButton: {fileID: 2414698192083645324}
+  _mainBackground: {fileID: 7630676070491357085}
+  _playerPanelOwner: {fileID: 5559965963423895226}
+  _playerPanelOpponent: {fileID: 7483165495591108377}
+  _wordsField: {fileID: 274932138282740807}
+  _lettersField: {fileID: 1598969659376989782}
+  _renderCameraCanvas: {fileID: 6559945969288673837}
 --- !u!1 &6248328222319192337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,6 +2038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6254549348179773796}
   - component: {fileID: 7608648323901454911}
+  - component: {fileID: 1598969659376989782}
   m_Layer: 5
   m_Name: LettersField
   m_TagString: Untagged
@@ -2064,6 +2089,19 @@ MonoBehaviour:
   m_Spacing: {x: 6, y: 6}
   m_Constraint: 2
   m_ConstraintCount: 2
+--- !u!114 &1598969659376989782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305294798203753352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9044fa3834db48fb95bc750babd7956b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dragbleLetterPrefab: {fileID: 8536656829885788905, guid: f179b00e697303d4ba9973bf4cbcee27, type: 3}
 --- !u!1 &7313567567468935302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,6 +2112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5352717480252268107}
   - component: {fileID: 2594094496912742077}
+  - component: {fileID: 274932138282740807}
   m_Layer: 5
   m_Name: WordsField
   m_TagString: Untagged
@@ -2124,6 +2163,20 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &274932138282740807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313567567468935302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871b8ed4d36b4f8bb11b115a90fcfcb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectebleLetterPrefab: {fileID: 393263811628112172, guid: 61dfc05550e81b246a725221e8ac8675, type: 3}
+  _scale: {x: 1, y: 1, z: 1}
 --- !u!1 &7717040469588220679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,8 +2211,8 @@ RectTransform:
   - {fileID: 5891496437736038858}
   - {fileID: 5709232164886202745}
   - {fileID: 1616062164389381875}
-  - {fileID: 4367395644339320656}
   - {fileID: 5352717480252268107}
+  - {fileID: 4367395644339320656}
   - {fileID: 6254549348179773796}
   m_Father: {fileID: 871979374947821032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2390,7 +2443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3598388746351285215, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 226
+      value: 380
       objectReference: {fileID: 0}
     - target: {fileID: 3598388746351285215, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2446,6 +2499,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3598388746351285215, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
   m_PrefabInstance: {fileID: 967165943285736591}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7483165495591108377 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7689222448743193494, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
+  m_PrefabInstance: {fileID: 967165943285736591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba404a05c70d46a5b9ccefefdc7e400e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2854557061694936364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2588,3 +2652,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3598388746351285215, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
   m_PrefabInstance: {fileID: 2854557061694936364}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5559965963423895226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7689222448743193494, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
+  m_PrefabInstance: {fileID: 2854557061694936364}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba404a05c70d46a5b9ccefefdc7e400e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

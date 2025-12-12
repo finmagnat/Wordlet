@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.Dictionary
 {
-    public class DictionaryService
+    public class DictionaryService : IDictionaryService
     {
         private readonly AddressablesLoader _loader;
         

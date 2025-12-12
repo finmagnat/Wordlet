@@ -37,6 +37,8 @@ namespace Core.Installers
             Container.Bind<List<LanguageDictionaryConfig>>().FromInstance(_dictPresenter.configs).AsSingle();
             Container.Bind<DictionaryManager>().AsSingle();
             Container.Bind<DictionaryService>().AsSingle();
+            
+            Container.Bind<LocalSaveService>().AsSingle();
         }
 
         public override void Start()

@@ -1,4 +1,3 @@
-using Core.Generated;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -13,20 +12,20 @@ namespace Core.Services
             _loader = loader;
         }
 
-        public async UniTask<Sprite> GetSpriteAsync(AssetKey alias)
-            => await _loader.LoadAssetAsync<Sprite>(alias.ToString());
+        public async UniTask<Sprite> GetSpriteAsync(string alias)
+            => await _loader.LoadAssetAsync<Sprite>(alias);
 
-        public bool IsLoaded(AssetKey alias)
-            => _loader.IsLoaded(alias.ToString());
+        public bool IsLoaded(string alias)
+            => _loader.IsLoaded(alias);
 
-        public void Unload(AssetKey alias)
-            => _loader.Unload(alias.ToString());
+        public void Unload(string alias)
+            => _loader.Unload(alias);
     }
 
     public interface ISpriteService
     {
-        UniTask<Sprite> GetSpriteAsync(AssetKey alias);
-        bool IsLoaded(AssetKey alias);
-        void Unload(AssetKey alias);
+        UniTask<Sprite> GetSpriteAsync(string alias);
+        bool IsLoaded(string alias);
+        void Unload(string alias);
     }
 }

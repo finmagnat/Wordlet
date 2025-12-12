@@ -8,11 +8,11 @@ namespace Core.Data
     public struct SkinData
     {
         public SkinType SkinType;
-        public AssetKey GameBackgroundAlias;
-        public AssetKey SelectableLetterAlias;
-        public AssetKey DragableLetterAlias;
-        public AssetKey ListBackgroundAlias;
-        public AssetKey BacklightLetterAlias;
-        public AssetKey PreviewAlias;
+        public string GameBackgroundAlias;
+        public string SelectableLetterAlias;
+        public string DragableLetterAlias;
+        public string ListBackgroundAlias;
+        public string BacklightLetterAlias;
+        public string PreviewAlias;
     }
 }

@@ -219,6 +219,25 @@ MonoBehaviour:
     m_Localized: You need to select the letters to form a word.
     m_Metadata:
       m_Items: []
+  - m_Id: 11300732908486656
+    m_Localized: GAME NOT COMPLETED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300996570824704
+    m_Localized: 'You are leaving an unfinished game.
+
+      Do you want to save
+      the current game to continue later?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301129366683648
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301326352171008
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

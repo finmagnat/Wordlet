@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using Core.Data;
 using Core.Events;
+using Core.Generated;
 using Core.Services;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UI.Components;
+using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,7 +17,7 @@ namespace UI.Screens
     // TODO: экран игры с ИИ
     public class AIGameScreen : UIScreen
     {
-        [Space, Header("Gme Screen UI Components")] 
+        [Space, Header("Game Screen UI Components")] 
         [SerializeField] private TextMeshProUGUI _statusText;
         [SerializeField] private TextMeshProUGUI _wordText;
         [SerializeField] private TimerProgressBar _progressBar;
@@ -33,7 +37,12 @@ namespace UI.Screens
         [Inject] private LocalizationService _localization;
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
-  
+        [Inject] private IUIManager _ui;
+        [Inject] private ILoadingUI _loadingUI;
+        [Inject] private LocalSaveService _localSaveService;
+        
+        private bool _isProcessing;
+        
         private void Start()
         {
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
@@ -45,7 +54,7 @@ namespace UI.Screens
             EventBus.Unsubscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
-
+        
         public void OnPressedHome() => EventBus.Raise(new GoToHomeEvent());
         
         public void OnPressedPause() => EventBus.Raise(new GamePauseEvent());
@@ -63,6 +72,8 @@ namespace UI.Screens
             
             SetSkin();
             Reset();
+            
+            _isProcessing = true;
             
             return base.ShowAsync();
         }
@@ -90,11 +101,42 @@ namespace UI.Screens
 
         internal void SetStatusLocalizationKey(string localizationKey) => 
             _statusText.text = _localization.Get(LocalizationConst.TableUI, localizationKey);
-        
-        private void OnGoToHome(GoToHomeEvent eventData)
+
+        private async void OnGoToHome(GoToHomeEvent eventData)
         {
-            HideAsync();
+            if (_isProcessing) // Игра не завершена
+            {
+                // Попап с предложением "Сохранить и выйти" или "Выйти без сохранения".
+                var popup = await _ui.ShowPopupAsync<AIGameExitPopup>(AssetKey.AIGameExitPopup);
+                var data = await popup.WaitForResultAsync();
+
+                if (data.Result == PopupResult.Exit || data.Result == PopupResult.SaveAndExit)
+                    await GoToHome(data.Result == PopupResult.SaveAndExit);
+                else
+                    Debug.Log("Игрок вернулся в игру");
+            }
+            else
+                await GoToHome();
+        }
+
+        private async UniTask GoToHome(bool isSaveGame = false)
+        {
+            // Показ in-game loading
+            await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
+
+            if (isSaveGame)
+                await _localSaveService.Save();
+
             Reset();
+
+            // Скрываем экран игры
+            await _ui.HideAllScreensAsync();
+
+            // Переход на экран главного меню
+            await _ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
+
+            // Убираем лоадинг
+            await _loadingUI.HideLoadingAsync();
         }
         
         private void ResetButtons()
@@ -108,6 +150,7 @@ namespace UI.Screens
             ResetButtons();
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
+            _isProcessing = false;
         }
         
         private async UniTask SetSkin()

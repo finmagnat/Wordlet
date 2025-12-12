@@ -6,7 +6,6 @@ using UnityEngine;
 using Zenject;
 using UI.Popups;
 using UI.Screens;
-using Unity.VisualScripting;
 
 namespace Core.UI
 {

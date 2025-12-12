@@ -219,6 +219,22 @@ MonoBehaviour:
     m_Key: ERROR_MSG_WORD_NO_SELECTED
     m_Metadata:
       m_Items: []
+  - m_Id: 11300732908486656
+    m_Key: POPUP_GAME_EXIT_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300996570824704
+    m_Key: POPUP_GAME_EXIT_MESSAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301129366683648
+    m_Key: POPUP_GAME_EXIT_BUTON_SAVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301326352171008
+    m_Key: POPUP_GAME_EXIT_BUTON_EXIT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

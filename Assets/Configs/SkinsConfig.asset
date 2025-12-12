@@ -15,16 +15,16 @@ MonoBehaviour:
   SkinByDefault: 1
   _skins:
   - SkinType: 1
-    GameBackgroundAlias: 2
-    SelectableLetterAlias: 4
-    DragableLetterAlias: 6
-    ListBackgroundAlias: 7
-    BacklightLetterAlias: 0
-    PreviewAlias: 2
+    GameBackgroundAlias: bkg_main_red
+    SelectableLetterAlias: letter_select_yellow
+    DragableLetterAlias: letter_drop_red
+    ListBackgroundAlias: bkg_list_red
+    BacklightLetterAlias: letter_red
+    PreviewAlias: bkg_main_red
   - SkinType: 2
-    GameBackgroundAlias: 8
-    SelectableLetterAlias: 3
-    DragableLetterAlias: 1
-    ListBackgroundAlias: 5
-    BacklightLetterAlias: 0
-    PreviewAlias: 8
+    GameBackgroundAlias: bkg_main_blue
+    SelectableLetterAlias: letter_select_yellow
+    DragableLetterAlias: letter_drop_blue
+    ListBackgroundAlias: bkg_list_blue
+    BacklightLetterAlias: letter_blue
+    PreviewAlias: bkg_main_blue

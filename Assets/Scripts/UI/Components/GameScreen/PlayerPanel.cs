@@ -31,7 +31,6 @@ namespace UI.Components
         private void Start()
         {
             SetSkin();
-            Reset();
         }
         
         /// <summary>

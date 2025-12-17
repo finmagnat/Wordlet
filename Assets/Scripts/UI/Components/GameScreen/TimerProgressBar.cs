@@ -1,3 +1,4 @@
+using Core.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +31,7 @@ namespace UI.Components
                     if (++_slider.value >= _slider.maxValue)
                     {
                         StopTimer();
-                        //EventAggregator.TimeExpired.Publish(); // TODO: 
+                        EventBus.Raise(new TimeExpiredEvent()); 
                     }
                 }
             }

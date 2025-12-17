@@ -34,6 +34,10 @@ namespace UI.Components
                 }
                 _isInitialized = true;
             }
+            else
+            {
+                _items.ForEach(item => item.Reset());
+            }
 
             SetSkin();
             

@@ -31,6 +31,13 @@ namespace UI.Components
                 EventBus.Raise(new LetterSelectEvent{ letter = this });
             }
         }
+
+        public void Reset()
+        {
+            SetLetter("");
+            UnHighlight();
+        }
+        
         /// <summary>
         /// Включить режим "Помигать буквой"
         /// </summary>
@@ -156,7 +163,7 @@ namespace UI.Components
             }
         }
 
-        void ModeBlinkClear()
+        private void ModeBlinkClear()
         {
             if (_bModeBlink)
             {

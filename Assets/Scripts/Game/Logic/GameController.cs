@@ -54,6 +54,9 @@ namespace Game.Logic
 
             EventBus.Subscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Subscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
+            
+            _wordsFieldManager.Initialize();
+            _lettersFieldManager.Initialize();
         }
         
         public void Destroy()
@@ -76,17 +79,15 @@ namespace Game.Logic
 
             EventBus.Unsubscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Unsubscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
+            
+            _wordsFieldManager.Destroy();
+            _lettersFieldManager.Destroy();
         }
         
         private void OnGameScreenStartEvent(GameScreenStartEvent eventData)
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
-            
-            //Reset();
-
-            _wordsFieldManager.Initialize();
-            _lettersFieldManager.Initialize();
             
             var wordsFieldItems = _gameScreen.InitWordsField();
             _wordsFieldManager.SetWordsFieldData(wordsFieldItems);

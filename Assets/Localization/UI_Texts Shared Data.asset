@@ -211,10 +211,6 @@ MonoBehaviour:
     m_Key: ERROR_MSG_SET_LETTER_NO_SELECTED
     m_Metadata:
       m_Items: []
-  - m_Id: 6209984227016704
-    m_Key: New Entry
-    m_Metadata:
-      m_Items: []
   - m_Id: 6210033103241216
     m_Key: ERROR_MSG_WORD_NO_SELECTED
     m_Metadata:
@@ -233,6 +229,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 11301326352171008
     m_Key: POPUP_GAME_EXIT_BUTON_EXIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12342219381293056
+    m_Key: STATUS_LABEL_NEW_GAME
     m_Metadata:
       m_Items: []
   m_Metadata:

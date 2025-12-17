@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core.Config
@@ -33,7 +34,7 @@ namespace Core.Config
 
         [Header("Gameplay")]
         [Tooltip("Размер поля 'Балды' по умолчанию")]
-        public int defaultBoardSize = 5;
+        public uint defaultBoardSize = 5;
         
         [Space(10)]
         [Tooltip("Время хода игрока по умолчанию (секунды)")]
@@ -42,14 +43,17 @@ namespace Core.Config
         [Tooltip("Оппонент игрока по умолчанию")]
         public GameOpponent gameOpponentByDefault = GameOpponent.AI;
         
+        [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
+        public uint maxPassesByDefault = 2;
+        
+        [Header("Сложность игры с ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
         
-        [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
-        public int maxPassesByDefault = 2;
+        [Space(10), Tooltip("Уровни сложности игры с ИИ")]
+        public List<ComplexityAISettings> _сomplexityAIList;
         
-        [Header("Content (Addressables keys / labels)")]
-        [Tooltip("Ключ/лейбл для словаря, если храним его через Addressables")]
-        public string dictionaryAddress;
+        public ComplexityAISettings GetComplexityAIItem(ComplexityAI сomplexityAI) =>
+            _сomplexityAIList.Find(item => item.СomplexityAiLevel == сomplexityAI);
     }
 }

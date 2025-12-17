@@ -23,4 +23,18 @@ MonoBehaviour:
   unityAdsGameIdAndroid: 
   unityAdsTestMode: 1
   defaultBoardSize: 5
+  durationGameByDefault: 60
+  gameOpponentByDefault: 1
+  maxPassesByDefault: 2
   dictionaryAddress: 
+  complexityAiByDefault: 2
+  "_\u0441omplexityAIList":
+  - "\u0421omplexityAiLevel": 1
+    WordLength: 3
+    MaxPasses: 3
+  - "\u0421omplexityAiLevel": 2
+    WordLength: 4
+    MaxPasses: 2
+  - "\u0421omplexityAiLevel": 3
+    WordLength: 5
+    MaxPasses: 1

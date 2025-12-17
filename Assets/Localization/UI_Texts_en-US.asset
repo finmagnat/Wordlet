@@ -167,7 +167,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6207920189046784
-    m_Localized: END OF THE GAME
+    m_Localized: GAME OVER
     m_Metadata:
       m_Items: []
   - m_Id: 6208095938772992
@@ -236,6 +236,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 11301326352171008
     m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12342219381293056
+    m_Localized: Set the letter
     m_Metadata:
       m_Items: []
   references:

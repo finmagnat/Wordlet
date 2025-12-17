@@ -29,9 +29,9 @@ namespace UI.Components
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
         
-        public List<DraggedLetter> InitField(Camera uiCamera)
+        public List<DraggedLetter> InitField()
         {
-            string alphabet = _dictionaryService.GetAlphabet();
+            string alphabet = _dictionaryService.Alphabet;
             if(alphabet.Length == 0)
                 return null;
          
@@ -54,13 +54,10 @@ namespace UI.Components
                 {
                     var clonePrefab = Instantiate(_dragbleLetterPrefab, transform);
 
-                    var dradbleLetter = clonePrefab.GetComponent<DraggedLetter>();
-                    dradbleLetter.SetLetter(arrAlphabet[i].ToString());
+                    var draggedLetter = clonePrefab.GetComponent<DraggedLetter>();
+                    draggedLetter.SetLetter(arrAlphabet[i].ToString());
 
-                    var dragDropBeh = clonePrefab.GetComponent<DraggedLetter>();
-                    dragDropBeh.SetCamera(uiCamera);
-
-                    _items.Add(dragDropBeh);
+                    _items.Add(draggedLetter);
                 }
             }
 

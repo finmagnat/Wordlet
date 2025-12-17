@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Core.Config;
 using UI.Components;
-using UI.Screens;
 using UnityEngine;
 
 namespace Core.Data
@@ -10,10 +9,12 @@ namespace Core.Data
     {
         public const int AMOUNT_LETTERS = 25;
 
+        public List<SelectableLetter> Items => _items;
+
         private List<SelectableLetter> _items; // Список всех элементов на поле.
-        private List<int> _selectedIndex = new List<int>(); // Индексы выбранных букв составляющих слово.
-        private SelectableLetter _setItem = null; // Установленная буква.
-        private List<string> _words = new List<string>(); // Список слов собранных в текущей игровой сессии.
+        private List<int> _selectedIndex = new(); // Индексы выбранных букв составляющих слово.
+        private SelectableLetter _setItem; // Установленная буква.
+        private List<string> _words = new(); // Список слов собранных в текущей игровой сессии.
 
         internal void SetItems (List<SelectableLetter> items) {
             _items = items;
@@ -198,7 +199,7 @@ namespace Core.Data
         /// </summary>
         internal void Clear()
         {
-            _items.ForEach(item => item.UnHighlight());
+            _items?.ForEach(item => item.UnHighlight());
             _selectedIndex.Clear();
         }
         
@@ -214,7 +215,7 @@ namespace Core.Data
 
         internal void Reset()
         {
-            _items.ForEach(item => item.SetLetter(""));
+            _items?.ForEach(item => item.SetLetter(""));
             Clear();
             _words.Clear();
             _setItem = null;

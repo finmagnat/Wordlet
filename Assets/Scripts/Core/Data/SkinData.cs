@@ -1,6 +1,5 @@
 using System;
 using Core.Config;
-using Core.Generated;
 
 namespace Core.Data
 {

@@ -11,7 +11,7 @@ namespace Core.Dictionary
     {
         private readonly DictionaryService _dictionaryService;
         private readonly LocalizationService _localization;
-        private readonly Dictionary<string, LanguageDictionaryConfig> _configs;
+        private readonly Dictionary<string, LanguageDictionaryConfig> _configs = new();
 
         public DictionaryService Service => _dictionaryService;
 
@@ -23,18 +23,22 @@ namespace Core.Dictionary
         {
             _dictionaryService = dictionaryService;
             _localization = localization;
-
-            _configs = new Dictionary<string, LanguageDictionaryConfig>();
+            
             foreach (var cfg in configs)
                 _configs[cfg.languageCode] = cfg;
-
-            // подписываемся на смену языка
-            _localization.OnLocaleChanged += OnLocaleChanged;
         }
 
         public async UniTask InitializeAsync()
         {
+            // подписываемся на смену языка
+            _localization.OnLocaleChanged += OnLocaleChanged;
+            
             await LoadDictionaryForCurrentLocale();
+        }
+
+        public void Destroy()
+        {
+            _localization.OnLocaleChanged -= OnLocaleChanged;
         }
 
         private async void OnLocaleChanged(Locale _)
@@ -46,14 +50,34 @@ namespace Core.Dictionary
         {
             string code = _localization.CurrentLocale.Identifier.Code;
 
-            if (!_configs.TryGetValue(code, out var cfg))
+            if (!TryGetConfigForLocale(code, out var cfg))
             {
-                Debug.LogError($"❌ No dictionary config for locale '{code}'");
+                Debug.LogError($"❌ No dictionary config for locale '{code}' (also tried language fallback).");
                 return;
             }
 
             await _dictionaryService.InitializeAsync(cfg);
-            Debug.Log($"📚 Dictionary switched → {code}");
+            Debug.Log($"📚 Dictionary switched → {cfg.languageCode} (locale was {code})");
         }
+        
+        private bool TryGetConfigForLocale(string localeCode, out LanguageDictionaryConfig cfg)
+        {
+            // 1) точное совпадение: "en-US"
+            if (_configs.TryGetValue(localeCode, out cfg))
+                return true;
+
+            // 2) fallback по языку: "en-US" -> "en"
+            var dash = localeCode.IndexOf('-');
+            if (dash > 0)
+            {
+                var langOnly = localeCode.Substring(0, dash);
+                if (_configs.TryGetValue(langOnly, out cfg))
+                    return true;
+            }
+
+            cfg = null;
+            return false;
+        }
+
     }
 }

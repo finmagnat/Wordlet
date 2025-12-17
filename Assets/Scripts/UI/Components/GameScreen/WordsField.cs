@@ -10,28 +10,31 @@ namespace UI.Components
     public class WordsField : MonoBehaviour
     {
         [SerializeField] private GameObject _selectebleLetterPrefab;
-        [SerializeField] private Vector3 _scale = new Vector3(1, 1, 1);
      
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         
         private List<SelectableLetter> _items = new (WordsFieldData.AMOUNT_LETTERS);
-        
+        private bool _isInitialized;
         public List<SelectableLetter> InitField()
         {
-            for (int i = 0; i < WordsFieldData.AMOUNT_LETTERS; ++i)
+            if (!_isInitialized)
             {
-                var clonePrefab = Instantiate(_selectebleLetterPrefab);
-                clonePrefab.transform.SetParent(transform);
-                clonePrefab.transform.localScale = new Vector3(1, 1, 1);
-                
-                var letter = clonePrefab.GetComponent<SelectableLetter>();
-                letter.SetLetter("");
-                letter.Index = i;
+                for (int i = 0; i < WordsFieldData.AMOUNT_LETTERS; ++i)
+                {
+                    var clonePrefab = Instantiate(_selectebleLetterPrefab);
+                    clonePrefab.transform.SetParent(transform);
+                    clonePrefab.transform.localScale = new Vector3(1, 1, 1);
 
-                _items.Add(letter);
+                    var letter = clonePrefab.GetComponent<SelectableLetter>();
+                    letter.SetLetter("");
+                    letter.Index = i;
+
+                    _items.Add(letter);
+                }
+                _isInitialized = true;
             }
-            
+
             SetSkin();
             
             return _items;

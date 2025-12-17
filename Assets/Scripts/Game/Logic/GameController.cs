@@ -1,11 +1,15 @@
 using System.Collections;
 using Core.Audio;
 using Core.Config;
+using Core.Data;
 using Core.Dictionary;
 using Core.Events;
+using Core.Generated;
 using Core.Services;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
+using UI.Popups;
 using UI.Screens;
 using UnityEngine;
 using Zenject;
@@ -21,6 +25,7 @@ namespace Game.Logic
         [Inject] private DictionaryService _dictionaryService;
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
+        [Inject] private IUIManager _ui;
         
         private WordsFieldManager _wordsFieldManager = new ();
         private LettersFieldManager _lettersFieldManager = new ();
@@ -227,17 +232,24 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterSelected);
         }
 
-        private void OnErrorPlayer(PlayerErrorEvent eventData)
+        private async void OnErrorPlayer(PlayerErrorEvent eventData)
         {
-            //Debug.Log(_languages.GetText("ERROR_MSG_" + err.ToString()));
-            EventBus.Raise(new MessageBoxEvent()
+            Debug.Log("[GameController] [OnErrorPlayer] " + eventData.GameError);
+           
+            var messageBoxData = new MessageBoxData
             {
-                Type = PopupType.MESSAGE_BOX_ERROR,
-                Error = eventData.GameError,
-                ExecuteOnClose = () => { _wordsFieldManager.BlinkNoSelectedLetter(); }
-            });
+                Error = eventData.GameError
+            };
+
+            if (eventData.GameError == GameError.SET_LETTER_NO_SELECTED)
+                messageBoxData.ExecuteOnClose = () => { _wordsFieldManager.BlinkNoSelectedLetter(); };
+
+            var popup = await _ui.ShowPopupAsync<MessagePopup>(AssetKey.MessagePopup);
+            popup.SetWindowData(messageBoxData);
+            
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupWorning);
         }
+        
         private void OnAddNewWord(SaveNewWordEvent eventData)
         {
             // TODO: Добавить новое слово в локальный словарь игрока
@@ -270,7 +282,6 @@ namespace Game.Logic
 
         private void OnTimeExpired(IGameEvent eventData)
         {
-            //_bStart = false;
             _gameScreen.TimerBar.ResetTimer();
 
             if (_bLetterPut)

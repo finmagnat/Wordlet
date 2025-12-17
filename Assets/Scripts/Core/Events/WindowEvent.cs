@@ -1,4 +1,3 @@
-using System;
 using Core.Config;
 
 namespace Core.Events

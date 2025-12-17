@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77b74d906885b29468992cbc990c38f2
+    m_Address: MessagePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dca49907340372148b0bab10c22d25fb
     m_Address: AIGameSetupPopup
     m_ReadOnly: 0

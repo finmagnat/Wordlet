@@ -235,6 +235,14 @@ MonoBehaviour:
     m_Key: STATUS_LABEL_NEW_GAME
     m_Metadata:
       m_Items: []
+  - m_Id: 13132471041671168
+    m_Key: BUTTON_OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13136815359148032
+    m_Key: ERROR_MSG_WORD_ALREADY_BEEN
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

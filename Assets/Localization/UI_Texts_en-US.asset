@@ -242,6 +242,15 @@ MonoBehaviour:
     m_Localized: Set the letter
     m_Metadata:
       m_Items: []
+  - m_Id: 13132471041671168
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13136815359148032
+    m_Localized: You need to choose a word that is not yet on the lists of both players
+      and on the field.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

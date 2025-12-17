@@ -22,5 +22,6 @@ namespace Core.Generated
         AIGameSetupPopup,
         AIGameScreen,
         SettingsPopup,
+        MessagePopup,
     }
 }

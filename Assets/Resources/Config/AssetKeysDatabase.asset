@@ -53,3 +53,5 @@ MonoBehaviour:
     AddressKey: AIGameScreen
   - Id: SettingsPopup
     AddressKey: SettingsPopup
+  - Id: MessagePopup
+    AddressKey: MessagePopup

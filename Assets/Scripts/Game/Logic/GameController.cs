@@ -54,9 +54,6 @@ namespace Game.Logic
 
             EventBus.Subscribe<TimeExpiredEvent>(OnTimeExpired);
 
-            EventBus.Subscribe<SaveNewWordEvent>(OnAddNewWord);
-            EventBus.Subscribe<ClearNewWordEvent>(OnGameCancel);
-
             EventBus.Subscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Subscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
             
@@ -78,9 +75,6 @@ namespace Game.Logic
             EventBus.Unsubscribe<PlayerErrorEvent>(OnErrorPlayer);
 
             EventBus.Unsubscribe<TimeExpiredEvent>(OnTimeExpired);
-
-            EventBus.Unsubscribe<SaveNewWordEvent>(OnAddNewWord);
-            EventBus.Unsubscribe<ClearNewWordEvent>(OnGameCancel);
 
             EventBus.Unsubscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Unsubscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
@@ -163,7 +157,7 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pause);
         }
 
-        private void OnGameGo(IGameEvent eventData)
+        private async void OnGameGo(IGameEvent eventData)
         {
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
@@ -179,12 +173,17 @@ namespace Game.Logic
             {                
                 if (!_dictionaryService.Contains(word))
                 {
-                    EventBus.Raise(new NewWordWindowEvent()
-                    {
-                        Type = PopupType.NEW_WORD,
-                        newWord = word
-                    }); 
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
+                    
+                    var popup = await _ui.ShowPopupAsync<NewWordPopup>(AssetKey.NewWordPopup);
+                    popup.SetWindowData(word);
+                    
+                    var dataResult = await popup.WaitForResultAsync();
+                    
+                    if(dataResult.Result == PopupResult.SaveAndExit)
+                        SaveWordAndContinueGame(word);
+                    else
+                        Cancel();
                 }
                 else
                 {
@@ -244,18 +243,12 @@ namespace Game.Logic
             if (eventData.GameError == GameError.SET_LETTER_NO_SELECTED)
                 messageBoxData.ExecuteOnClose = () => { _wordsFieldManager.BlinkNoSelectedLetter(); };
 
-            var popup = await _ui.ShowPopupAsync<MessagePopup>(AssetKey.MessagePopup);
+            var popup = await _ui.ShowPopupAsync<AdvicePopup>(AssetKey.AdvicePopup);
             popup.SetWindowData(messageBoxData);
             
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupWorning);
         }
         
-        private void OnAddNewWord(SaveNewWordEvent eventData)
-        {
-            // TODO: Добавить новое слово в локальный словарь игрока
-            SaveWordAndContinueGame(eventData.newWord);
-        }
-
         private void SaveWordAndContinueGame(string word)
         {
             _gameScreen.TimerBar.ResetTimer();
@@ -272,7 +265,10 @@ namespace Game.Logic
             
             _gameScreen.SetTextWord("");
 
-            _wordsFieldManager.SaveWord(word);                        
+            // TODO: Добавить новое слово в локальный словарь игрока
+            //_dictionaryService.AddWord(word);
+            
+            _wordsFieldManager.SaveWord(word);
             _wordsFieldManager.Clear();
             
             _bLetterPut = false;
@@ -365,7 +361,7 @@ namespace Game.Logic
             _bLetterPut = false;
 
             // Определение победителя:
-            ResultGame resultGame = ResultGame.DEAD_HEAT;
+            ResultGame resultGame = ResultGame.DRAW;
             bool bResultDetermined = false;
 
             // По пропускам
@@ -389,25 +385,23 @@ namespace Game.Logic
                     resultGame = ResultGame.OWNER_LOSE;
             }
 
-            PopupType popupType;
+            EventBus.Raise(new GameEndEvent());
             switch (resultGame)
             {
                 case ResultGame.OWNER_WIN:
-                    popupType = PopupType.MESSAGE_BOX_WIN;
+                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.WinPopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_IWon);
                     break;
                 case ResultGame.OWNER_LOSE:
-                    popupType = PopupType.MESSAGE_BOX_LOSE;
+                    //_ui.ShowPopupAsync<MessagePopup>(AssetKey.LosePopup);
+                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.DrawPopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentWon);
                     break;
                 default:
-                    popupType = PopupType.MESSAGE_BOX_DEAD_HEAT;
+                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.DrawPopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_Draw);
                     break;
             }
-            
-            EventBus.Raise(new GameEndEvent());
-            EventBus.Raise(new MessageBoxEvent { Type = popupType });
         }
 
         private void Reset()

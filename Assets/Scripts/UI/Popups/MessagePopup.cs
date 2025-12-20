@@ -1,44 +1,38 @@
 using Core.Data;
-using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace UI.Popups
 {
     public class MessagePopup : UIPopup
     {
         [Header("UI Elements")]
-        [SerializeField] private Button _exitButton;
-        [SerializeField] private Button _closeButton;
-        [SerializeField] private TextMeshProUGUI _titleText;
-        [SerializeField] private TextMeshProUGUI _messageText;
+        [SerializeField] protected Button _exitButton;
+        [SerializeField] protected Button _closeButton;
+        [SerializeField] protected TextMeshProUGUI _titleText;
+        [SerializeField] protected TextMeshProUGUI _messageText;
         
-        [Inject] private LocalizationService _locationService;
+        protected UniTaskCompletionSource<PopupExitData> _completionSource;
         
-        private UniTaskCompletionSource<GameExitData> _completionSource;
-        
-        private MessageBoxData _messageBoxData;
+        protected MessageBoxData _messageBoxData;
 
-        private void Start()
+        protected virtual void Start()
         {
             _exitButton.onClick.AddListener(async () =>
             {                
                 await HideAsync();
                 Close();
-                _completionSource?.TrySetResult(new GameExitData { Result = PopupResult.Exit });
+                _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Exit });
             });
 
             _closeButton.onClick.AddListener(async () =>
             {
                 await HideAsync();
                 Close();
-                _completionSource?.TrySetResult(new GameExitData { Result = PopupResult.Close });
+                _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Close });
             });
-            
-            SetText("", "");
         }
         
         public override async UniTask ShowAsync()
@@ -47,26 +41,21 @@ namespace UI.Popups
             await base.ShowAsync();
         }
         
-        public UniTask<GameExitData> WaitForResultAsync() => _completionSource.Task;
+        public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
         
-        public void SetWindowData(MessageBoxData data) {
+        public virtual void SetWindowData(MessageBoxData data) {
             _messageBoxData = data;
-            
-            SetText(
-                _locationService.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
-                _locationService.Get(LocalizationConst.TableUI, "ERROR_MSG_" + _messageBoxData.Error.ToString().ToUpper()));
         }
 
-        private void SetText(string title, string msg)
+        protected void SetText(string title, string msg)
         {
             _titleText.text = title;
             _messageText.text = msg;
         }
 
-        private void Close()
+        protected virtual void Close()
         {
-            SetText("", "");
-            if (_messageBoxData.ExecuteOnClose != null)
+            if (_messageBoxData != null && _messageBoxData.ExecuteOnClose != null)
                 _messageBoxData.ExecuteOnClose();
         }
     }

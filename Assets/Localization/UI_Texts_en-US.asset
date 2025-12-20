@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1123733329248256
-    m_Localized: Game BALDA
+    m_Localized: Wordlet
     m_Metadata:
       m_Items: []
   - m_Id: 2206895979462656
@@ -199,7 +199,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6209284000546816
-    m_Localized: This word is not in the dictionary. Should I add it to the dictionary?
+    m_Localized: "This word is not in the dictionary. \n\nShould I add it to the
+      dictionary?"
     m_Metadata:
       m_Items: []
   - m_Id: 6209513227649024
@@ -249,6 +250,14 @@ MonoBehaviour:
   - m_Id: 13136815359148032
     m_Localized: You need to choose a word that is not yet on the lists of both players
       and on the field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460625862049792
+    m_Localized: NO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460654962130944
+    m_Localized: YES
     m_Metadata:
       m_Items: []
   references:

@@ -15,13 +15,17 @@ namespace Core.Generated
         bkg_list_red,
         bkg_main_blue,
         AIGameExitPopup,
+        WinPopup,
         MainMenuScreen,
         LoadingScreen,
         InGameLoadingScreen,
         SkinsPopup,
+        AdvicePopup,
+        DrawPopup,
         AIGameSetupPopup,
         AIGameScreen,
+        LosePopup,
         SettingsPopup,
-        MessagePopup,
+        NewWordPopup,
     }
 }

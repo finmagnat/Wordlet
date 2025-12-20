@@ -184,11 +184,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6208766385684480
-    m_Key: WINDOW_DEAD_HEAT_TITLE
+    m_Key: WINDOW_DRAW_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 6208915790987264
-    m_Key: WINDOW_DEAD_HEAT_TEXT
+    m_Key: WINDOW_DRAW_TEXT
     m_Metadata:
       m_Items: []
   - m_Id: 6209112730337280
@@ -241,6 +241,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 13136815359148032
     m_Key: ERROR_MSG_WORD_ALREADY_BEEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460625862049792
+    m_Key: BUTTON_NO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460654962130944
+    m_Key: BUTTON_YES
     m_Metadata:
       m_Items: []
   m_Metadata:

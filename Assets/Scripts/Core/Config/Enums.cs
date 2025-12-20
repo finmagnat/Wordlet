@@ -15,7 +15,7 @@ namespace Core.Config
 
     public enum ResultGame
     {
-        DEAD_HEAT,
+        DRAW,
         OWNER_WIN,
         OWNER_LOSE
     }

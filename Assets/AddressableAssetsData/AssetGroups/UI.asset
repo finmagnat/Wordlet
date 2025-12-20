@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: f9a99e912e24fa24cb87d45a165a2035
   m_SerializeEntries:
+  - m_GUID: 0f2025cd1c2f44542a80b7f287097482
+    m_Address: WinPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 128d49cf850d16d4cafe3e12122bb793
     m_Address: AIGameExitPopup
     m_ReadOnly: 0
@@ -46,7 +52,13 @@ MonoBehaviour:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77b74d906885b29468992cbc990c38f2
-    m_Address: MessagePopup
+    m_Address: AdvicePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d492e7b480bc8594997bbe1faa1491ca
+    m_Address: DrawPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -65,6 +77,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ef0ea54d3adb14641990e0219bb9b588
     m_Address: SettingsPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efebd468bae0e41468ce68a506ab25e5
+    m_Address: NewWordPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f8e00025e37479e4f9d8f1f01c902b91
+    m_Address: LosePopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

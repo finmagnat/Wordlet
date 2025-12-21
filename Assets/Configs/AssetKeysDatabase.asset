@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb36932fcf4440384007a9b0fd738d3, type: 3}
+  m_Name: AssetKeysDatabase
+  m_EditorClassIdentifier: 
+  Entries:
+  - Id: letter_select_yellow
+    AddressKey: letter_select_yellow
+  - Id: letter_drop_blue
+    AddressKey: letter_drop_blue
+  - Id: bkg_main_red
+    AddressKey: bkg_main_red
+  - Id: letter_blue
+    AddressKey: letter_blue
+  - Id: letter_red
+    AddressKey: letter_red
+  - Id: bkg_list_blue
+    AddressKey: bkg_list_blue
+  - Id: letter_drop_red
+    AddressKey: letter_drop_red
+  - Id: bkg_list_red
+    AddressKey: bkg_list_red
+  - Id: bkg_main_blue
+    AddressKey: bkg_main_blue
+  - Id: MainMenuScreen
+    AddressKey: MainMenuScreen
+  - Id: LoadingScreen
+    AddressKey: LoadingScreen
+  - Id: InGameLoadingScreen
+    AddressKey: InGameLoadingScreen
+  - Id: SkinsPopup
+    AddressKey: SkinsPopup
+  - Id: AIGameScreen
+    AddressKey: AIGameScreen
+  - Id: SettingsPopup
+    AddressKey: SettingsPopup
+  - Id: AIGameSetupPopup
+    AddressKey: AIGameSetupPopup

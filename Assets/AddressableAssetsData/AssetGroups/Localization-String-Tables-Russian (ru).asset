@@ -14,14 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Russian (ru)
   m_GUID: d5fd1cb9e7ee63349a78aa9b49fce851
-  m_SerializeEntries:
-  - m_GUID: c1804aacee633db4094b019a96702ac4
-    m_Address: UI_Texts_ru
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ru
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 6dce5b1d62bc7c4448f3589e4c3a789e, type: 2}
   m_SchemaSet:

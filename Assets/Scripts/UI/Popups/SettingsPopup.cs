@@ -74,7 +74,7 @@ namespace UI.Popups
 
             if (_localization.CurrentLocale == _newLanguage) return;
 
-            _localization.SetLocale(_newLanguage.Identifier);
+            _localization.SetLocale(_newLanguage.Identifier.Code);
 
             OnCloseButtonClick();
         }

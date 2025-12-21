@@ -75,6 +75,182 @@ MonoBehaviour:
     m_Key: SCREEN_MAIN_TITLE_GAME
     m_Metadata:
       m_Items: []
+  - m_Id: 2206895979462656
+    m_Key: LOADING_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3645893939658752
+    m_Key: POPUP_TITLE_SKIN_SELECTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3646372358750208
+    m_Key: BUTTON_APPLY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426044554182656
+    m_Key: POPUP_TITLE_NEW_GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426652921200640
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427422768922624
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427486245519360
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427505694507008
+    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427842056716288
+    m_Key: POPUP_LABEL_DURATION_MOVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736482382807040
+    m_Key: BUTTON_PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736701971398656
+    m_Key: BUTTON_CLEAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4737267921420288
+    m_Key: BUTTON_CANCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739971553001472
+    m_Key: PLAEYR_NAME_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4740229834047488
+    m_Key: PLAEYR_NAME_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765940393279488
+    m_Key: LABEL_SCORE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766021192351744
+    m_Key: LABEL_PASSES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206546046976000
+    m_Key: NAME_PLAYER_OWNER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206873852805120
+    m_Key: NAME_PLAYER_OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207023778201600
+    m_Key: NAME_PLAYER_AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207411004735488
+    m_Key: STATUS_LABEL_PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207590239928320
+    m_Key: STATUS_LABEL_GO_OWNER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207742686101504
+    m_Key: STATUS_LABEL_GO_OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207920189046784
+    m_Key: STATUS_LABEL_GAME_OVER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208095938772992
+    m_Key: WINDOW_WIN_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208253044817920
+    m_Key: WINDOW_WIN_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208435203440640
+    m_Key: WINDOW_LOSE_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208603676049408
+    m_Key: WINDOW_LOSE_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208766385684480
+    m_Key: WINDOW_DRAW_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208915790987264
+    m_Key: WINDOW_DRAW_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209112730337280
+    m_Key: WINDOW_NEW_WORD_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209284000546816
+    m_Key: WINDOW_NEW_WORD_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209513227649024
+    m_Key: ERROR_MSG_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209654886072320
+    m_Key: ERROR_MSG_NO_SETTED_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209811929202688
+    m_Key: ERROR_MSG_SET_LETTER_NO_SELECTED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6210033103241216
+    m_Key: ERROR_MSG_WORD_NO_SELECTED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300732908486656
+    m_Key: POPUP_GAME_EXIT_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300996570824704
+    m_Key: POPUP_GAME_EXIT_MESSAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301129366683648
+    m_Key: POPUP_GAME_EXIT_BUTON_SAVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301326352171008
+    m_Key: POPUP_GAME_EXIT_BUTON_EXIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12342219381293056
+    m_Key: STATUS_LABEL_NEW_GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13132471041671168
+    m_Key: BUTTON_OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13136815359148032
+    m_Key: ERROR_MSG_WORD_ALREADY_BEEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460625862049792
+    m_Key: BUTTON_NO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460654962130944
+    m_Key: BUTTON_YES
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

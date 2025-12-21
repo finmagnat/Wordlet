@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9c7204f54a290db48b39e682f5e416d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: ea2c5bc442051b24bba579fcb4aa3643, type: 2}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 2182785705860325900}
   - component: {fileID: 5576683433246798362}
   - component: {fileID: 1764157444826318481}
-  - component: {fileID: 8408762169792592218}
+  - component: {fileID: 1832194884061810404}
   m_Layer: 0
   m_Name: InGameLoadingScreen
   m_TagString: Untagged
@@ -268,7 +268,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8408762169792592218
+--- !u!114 &1832194884061810404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,11 +277,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6220109460825396736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291855589fd7bc044a6bdad2ee05fe45, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b3fa50858c34d109ec7b2bfc1712a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressBar: {fileID: 0}
-  _percentText: {fileID: 7917195423434401703}
+  _canvasGroup: {fileID: 1764157444826318481}
+  _spinner: {fileID: 7913611115749740443}
+  _loadingText: {fileID: 7917195423434401703}
+  _fadeDuration: 0.3
+  _spinSpeed: 180
 --- !u!1 &8164140863413786771
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,8 +296,9 @@ GameObject:
   - component: {fileID: 3128120533463416673}
   - component: {fileID: 3223619596500029173}
   - component: {fileID: 7917195423434401703}
+  - component: {fileID: 1431563398270852843}
   m_Layer: 0
-  m_Name: Text
+  m_Name: TextLoading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,9 +318,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 871979374947821032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 463}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -179}
   m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3223619596500029173
@@ -349,8 +353,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -374,12 +378,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 41
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 30
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -418,3 +422,27 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1431563398270852843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164140863413786771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb59f96e2f24cd793f0cae7d14330fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:0a5ae1994ef9a1a4b9c1933bb33f7666
+    m_TableEntryReference:
+      m_KeyId: 2206895979462656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

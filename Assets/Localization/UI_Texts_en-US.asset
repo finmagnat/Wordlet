@@ -75,7 +75,189 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1123733329248256
-    m_Localized: Game BALDA
+    m_Localized: Wordlet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2206895979462656
+    m_Localized: Loading...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3645893939658752
+    m_Localized: Skin selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3646372358750208
+    m_Localized: Apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426044554182656
+    m_Localized: NEW GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4426652921200640
+    m_Localized: Difficulty level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427422768922624
+    m_Localized: Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427486245519360
+    m_Localized: Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427505694507008
+    m_Localized: Hard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4427842056716288
+    m_Localized: Duration of the move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736482382807040
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4736701971398656
+    m_Localized: Clear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4737267921420288
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739971553001472
+    m_Localized: Player 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4740229834047488
+    m_Localized: Player 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765940393279488
+    m_Localized: 'SCORE: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766021192351744
+    m_Localized: 'PASSES: {0}/{1}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206546046976000
+    m_Localized: YOU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6206873852805120
+    m_Localized: OPPONENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207023778201600
+    m_Localized: AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207411004735488
+    m_Localized: PAUSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207590239928320
+    m_Localized: Your move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207742686101504
+    m_Localized: The opponent moves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6207920189046784
+    m_Localized: GAME OVER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208095938772992
+    m_Localized: Congratulations!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208253044817920
+    m_Localized: You win!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208435203440640
+    m_Localized: The opponent won
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208603676049408
+    m_Localized: Try again! Success comes with experience ;)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208766385684480
+    m_Localized: Draw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6208915790987264
+    m_Localized: Almost there! That's half a step to victory! Let's do it again!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209112730337280
+    m_Localized: New word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209284000546816
+    m_Localized: "This word is not in the dictionary. \n\nShould I add it to the
+      dictionary?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209513227649024
+    m_Localized: ADVICE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209654886072320
+    m_Localized: You need to place one letter on the field next to another letter
+      on the field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6209811929202688
+    m_Localized: It is necessary that the established letter be included in the word.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6210033103241216
+    m_Localized: You need to select the letters to form a word.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300732908486656
+    m_Localized: GAME NOT COMPLETED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11300996570824704
+    m_Localized: 'You are leaving an unfinished game.
+
+      Do you want to save
+      the current game to continue later?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301129366683648
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11301326352171008
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12342219381293056
+    m_Localized: Set the letter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13132471041671168
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13136815359148032
+    m_Localized: You need to choose a word that is not yet on the lists of both players
+      and on the field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460625862049792
+    m_Localized: NO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13460654962130944
+    m_Localized: YES
     m_Metadata:
       m_Items: []
   references:

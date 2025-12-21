@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Core.Config;
 using Cysharp.Threading.Tasks;
@@ -7,132 +8,151 @@ using UnityEngine.Localization.Settings;
 
 namespace Core.Services
 {
+    /// <summary>
+    /// Получить локализированный текст синхронно:
+    /// string txt = _loc.Get("Dynamic_Texts", "PASSES", 3, 5);
+    /// 
+    /// Асинхронно:
+    /// string txt = await _loc.GetAsync("Dynamic_Texts", "PASSES", 3, 5);
+    /// 
+    /// Изменить язык:
+    /// _loc.SetLocale("en");
+    /// 
+    /// Реагировать на смену языка:
+    /// _loc.OnLocaleChanged += locale =>
+    /// {
+    ///     Debug.Log("Language switched: " + locale.Identifier.Code);
+    ///     тут можно обновить UI
+    /// };
+    /// 
+    /// Получить список поддерживаемых языков:
+    /// var codes = _loc.GetAvailableLocaleCodes();
+    /// </summary>
     public class LocalizationService : ILocalizationService
     {
+        private readonly Dictionary<string, string> _cache = new();
+
+        public Locale CurrentLocale => LocalizationSettings.SelectedLocale;
+
+        public event Action<Locale> OnLocaleChanged;
+
+        // ---------------------------------------------------------
+        // INITIALIZATION
+        // ---------------------------------------------------------
+
         public async UniTask InitializeAsync()
         {
             await LocalizationSettings.InitializationOperation.Task;
 
-            Locale targetLocale = null;
+            Debug.Log($"🌐 Localization initialized. Available: {LocalizationSettings.AvailableLocales.Locales.Count}");
 
-            // 1️⃣ Проверяем ручной выбор игрока (если был)
-            string saved = PlayerPrefs.GetString(PlayerPrefsKey.LocaleCurrent, string.Empty);
+            string savedCode = PlayerPrefs.GetString(PlayerPrefsKey.LocaleCurrent, string.Empty);
 
-            if (!string.IsNullOrEmpty(saved))
+            if (!string.IsNullOrEmpty(savedCode))
             {
-                targetLocale = LocalizationSettings.AvailableLocales.GetLocale(saved);
-                if (targetLocale != null)
-                {
-                    Debug.Log($"🌐 Loaded player-selected locale: {targetLocale.Identifier.Code}");
-                    ApplyLocale(targetLocale, save: false);   // Уже сохранён ранее
-                    return;
-                }
-            }
-
-            // 2️⃣ Unity Locale Selectors (System Locale Selector, CommandLine etc.)
-            Locale selectorLocale = LocalizationSettings.SelectedLocale;
-            if (selectorLocale != null)
-            {
-                Debug.Log($"🌐 Unity selector chose: {selectorLocale.Identifier.Code}");
-                // ⛔ Не сохраняем — это автоопределение
+                SetLocale(savedCode);
                 return;
             }
 
-            // 3️⃣ Пытаемся подобрать язык системы вручную (если включён SystemLanguage)
-            Locale systemLocale = FindLocaleBySystemLanguage();
-            if (systemLocale != null)
+            // system language
+            Locale system = LocalizationSettings.AvailableLocales.GetLocale(Application.systemLanguage);
+            if (system != null)
             {
-                Debug.Log($"🌐 Using system language: {systemLocale.Identifier.Code}");
-                ApplyLocale(systemLocale, save: false); // Не сохраняем
+                SetLocale(system.Identifier.Code);
                 return;
             }
 
-            // 4️⃣ Fallback — Project Locale Identifier
-            Locale fallback = LocalizationSettings.ProjectLocale;
-            if (fallback != null)
-            {
-                Debug.Log($"🌐 Using fallback locale: {fallback.Identifier.Code}");
-                ApplyLocale(fallback, save: false); // Не сохраняем
-                return;
-            }
-
-            Debug.LogWarning("❗ No locale found. Please check localization settings.");
+            // fallback (Project Locale Identifier)
+            SetLocale(LocalizationSettings.ProjectLocale.Identifier.Code);
         }
 
-        public Locale CurrentLocale => LocalizationSettings.SelectedLocale;
+        // ---------------------------------------------------------
+        // LOCALE SET
+        // ---------------------------------------------------------
 
-        /// <summary>
-        /// Метод вызывается только когда игрок вручную выбирает язык.
-        /// </summary>
-        public void SetLocale(LocaleIdentifier id)
+        public void SetLocale(string code)
         {
-            var locale = LocalizationSettings.AvailableLocales.GetLocale(id);
-
-            if (locale != null)
+            var locale = LocalizationSettings.AvailableLocales.GetLocale(code);
+            if (locale == null)
             {
-                Debug.Log($"🌐 Player selected locale: {locale.LocaleName} ({locale.Identifier.Code})");
-                ApplyLocale(locale, save: true);  // ✔ сохраняем выбор игрока
+                Debug.LogWarning($"⚠ Locale not found: {code}");
+                return;
             }
-            else
-            {
-                Debug.LogWarning($"Locale not found: {id}");
-            }
-        }
 
-        private void ApplyLocale(Locale locale, bool save)
-        {
             LocalizationSettings.SelectedLocale = locale;
 
-            if (save)
-            {
-                PlayerPrefs.SetString(PlayerPrefsKey.LocaleCurrent, locale.Identifier.Code);
-                PlayerPrefs.Save();
-            }
+            PlayerPrefs.SetString(PlayerPrefsKey.LocaleCurrent, code);
+            PlayerPrefs.Save();
+
+            _cache.Clear();
+            OnLocaleChanged?.Invoke(locale);
+
+            Debug.Log($"🌐 Locale changed to: {locale.Identifier.Code}");
         }
 
-        private Locale FindLocaleBySystemLanguage()
+        // ---------------------------------------------------------
+        // ASYNCHRONOUS LOCALIZED STRING
+        // ---------------------------------------------------------
+
+        public async UniTask<string> GetAsync(string table, string key, params object[] args)
         {
-            string sysName = Application.systemLanguage.ToString();
+            string cacheKey = $"{table}/{key}/{string.Join(",", args)}";
 
-            foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
-            {
-                // Сравнение по названию
-                if (locale.LocaleName.Equals(sysName, System.StringComparison.OrdinalIgnoreCase))
-                    return locale;
+            if (_cache.TryGetValue(cacheKey, out var cached))
+                return cached;
 
-                // Сравнение по ISO-коду
-                if (locale.Identifier.Code.Equals(sysName, System.StringComparison.OrdinalIgnoreCase))
-                    return locale;
-            }
-            return null;
+            var loc = new LocalizedString(table, key);
+            if (args != null && args.Length > 0)
+                loc.Arguments = args;
+
+            string result = await loc.GetLocalizedStringAsync().Task;
+
+            _cache[cacheKey] = result;
+            return result;
         }
+
+        // ---------------------------------------------------------
+        // SYNCHRONOUS LOCALIZED STRING
+        // ---------------------------------------------------------
+
+        public string Get(string table, string key, params object[] args)
+        {
+            string cacheKey = $"{table}/{key}/{string.Join(",", args)}";
+
+            if (_cache.TryGetValue(cacheKey, out var cached))
+                return cached;
+
+            var loc = new LocalizedString(table, key);
+            if (args != null && args.Length > 0)
+                loc.Arguments = args;
+
+            string result = loc.GetLocalizedString(); // sync
+
+            _cache[cacheKey] = result;
+            return result;
+        }
+
+        // ---------------------------------------------------------
+        // AVAILABLE LOCALES
+        // ---------------------------------------------------------
 
         public List<Locale> GetAvailableLocales() =>
             LocalizationSettings.AvailableLocales.Locales;
 
         public List<string> GetAvailableLocaleCodes()
         {
-            var result = new List<string>();
-            foreach (var l in LocalizationSettings.AvailableLocales.Locales)
-                result.Add(l.Identifier.Code);
-            return result;
+            var list = new List<string>();
+            foreach (var loc in LocalizationSettings.AvailableLocales.Locales)
+                list.Add(loc.Identifier.Code);
+            return list;
         }
 
         public List<string> GetAvailableLocaleNames()
         {
-            var result = new List<string>();
-            foreach (var l in LocalizationSettings.AvailableLocales.Locales)
-                result.Add(l.LocaleName);
-            return result;
-        }
-
-        public LocalizedString GetLocalizedString(string table, string key) =>
-            new LocalizedString(table, key);
-
-        public async UniTask<string> GetLocalizedTextAsync(string table, string key)
-        {
-            var str = new LocalizedString(table, key);
-            return await str.GetLocalizedStringAsync().Task;
+            var list = new List<string>();
+            foreach (var loc in LocalizationSettings.AvailableLocales.Locales)
+                list.Add(loc.LocaleName);
+            return list;
         }
     }
 }

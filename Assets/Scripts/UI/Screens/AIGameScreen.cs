@@ -1,28 +1,42 @@
 using Core.Config;
-using Core.UI;
+using Core.Data;
+using Core.Events;
+using Core.Generated;
+using Cysharp.Threading.Tasks;
+using UI.Popups;
 using UnityEngine;
-using UnityEngine.UI;
-using Zenject;
 
 namespace UI.Screens
 {
-    // TODO: экран игры с ИИ
-    public class AIGameScreen : UIScreen
+    // Экран игры с ИИ.
+    public class AIGameScreen : GameScreen
     {
-        [SerializeField] private Button _playAIButton;
-        
-        [Inject] private IUIManager _ui;
-        [Inject] private UIAddresses _addresses;
-
-        private void Start()
+        public override UniTask ShowAsync()
         {
+            base.ShowAsync();
             
+            EventBus.Raise(new GameScreenStartEvent{ Screen = this, Opponent = GameOpponent.AI});
+            
+            return UniTask.CompletedTask;
         }
         
-        public void OnPlayClicked()
+        protected override async void OnGoToHome(GoToHomeEvent eventData)
         {
-            Debug.Log("Play button clicked!");
+            if (_isProcessing) // Игра не завершена
+            {
+                // Попап с предложением "Сохранить и выйти" или "Выйти без сохранения".
+                var popup = await _ui.ShowPopupAsync<AIGameExitPopup>(AssetKey.AIGameExitPopup);
+                var data = await popup.WaitForResultAsync();
+
+                if (data.Result == PopupResult.Exit || data.Result == PopupResult.SaveAndExit)
+                    await GoToHome(data.Result == PopupResult.SaveAndExit);
+                else
+                    Debug.Log("Игрок вернулся в игру");
+            }
+            else
+                await GoToHome();
         }
+
 
     }
 }

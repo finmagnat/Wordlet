@@ -419,6 +419,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &975308965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2237825637877627511, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+  m_PrefabInstance: {fileID: 7153964453946127861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449310a325654220837e94b0cd792732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1932129150 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 466101017114254088, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
@@ -438,6 +449,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 466101017114254088, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
+      propertyPath: _dictionaryConfigs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 466101017114254088, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
+      propertyPath: '_dictionaryConfigs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5593059fbfcebcb4e8a1a62b709a5510, type: 2}
+    - target: {fileID: 466101017114254088, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
+      propertyPath: '_dictionaryConfigs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b3e2accdd351e8242a55fa4d35b981fc, type: 2}
+    - target: {fileID: 466101017114254088, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
+      propertyPath: '_dictionaryConfigs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d37ef194f0abcb4281b5b1d035251c9, type: 2}
     - target: {fileID: 1143048166617195217, guid: 7adb43cfa63aa9649b77ad540b6a5479, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -597,9 +624,25 @@ PrefabInstance:
       value: SceneContext
       objectReference: {fileID: 0}
     - target: {fileID: 4382526895723921569, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
+      propertyPath: _monoInstallers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382526895723921569, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
+      propertyPath: _installerPrefabs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382526895723921569, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
       propertyPath: '_monoInstallers.Array.data[0]'
       value: 
+      objectReference: {fileID: 975308965}
+    - target: {fileID: 4382526895723921569, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
+      propertyPath: '_monoInstallers.Array.data[1]'
+      value: 
       objectReference: {fileID: 1932129150}
+    - target: {fileID: 4382526895723921569, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
+      propertyPath: '_installerPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 975308965}
     - target: {fileID: 7484993822956740436, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -645,6 +688,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bfa0c8ee72c14b46adec9a8ea295980, type: 3}
+--- !u!1001 &7153964453946127861
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1195.3396
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 120.509735
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.503886
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898789941754496672, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103551981622278287, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
+      propertyPath: m_Name
+      value: DictionaryManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3bf9897a0a769a478a7a7e62fd71465, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -654,4 +754,5 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 6579350309059199376}
   - {fileID: 5634460064407648587}
+  - {fileID: 7153964453946127861}
   - {fileID: 6169453389144031232}

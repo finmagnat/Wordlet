@@ -348,7 +348,7 @@ namespace Game.Logic
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
-                        _aIAlgorithm.Play();
+                        _aIAlgorithm.PlayAsync();
                         break;
                 }
             }
@@ -393,8 +393,7 @@ namespace Game.Logic
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_IWon);
                     break;
                 case ResultGame.OWNER_LOSE:
-                    //_ui.ShowPopupAsync<MessagePopup>(AssetKey.LosePopup);
-                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.DrawPopup);
+                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.LosePopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentWon);
                     break;
                 default:

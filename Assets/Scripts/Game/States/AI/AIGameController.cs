@@ -1,34 +1,23 @@
-using System.Collections.Generic;
 using Core.Config;
 using Core.Dictionary;
 using Core.Events;
+using Cysharp.Threading.Tasks;
 using Game.Logic;
 
 namespace Game.AI
 {
-    /*
-     * Локальный ИИ использует тот же API, что и PvP.
-       [Опционально] Добавляем систему “псевдо-оффлайна”: если Firebase недоступен, матч переключается на ИИ.
-     */
-    
-    /// <summary>
-    /// Контроллер алгоритмов для ИИ.
-    /// 
-    /// Алгоритмы регистрируются в массиве _algoritms и поочереди вызываются до тех пор, 
-    /// пока не будет подобрано и успешно вставлено слово.
-    /// В случае успеха публикуется событие OpponentFindWordEvent, 
-    /// либо OpponentFindWordFailEvent в случае провала.
-    /// </summary>
     public class AIGameController : IState
     {
-        private ComplexityAISettings _settings; // Настройки текущего уровня ИИ
+        private ComplexityAISettings _settings;
         private WordsFieldManager _wordsFieldManager;
         private DictionaryService _dictionaryService;
+
         private bool _isPlay;
 
-        // Регистрация алгоритмов
-        private readonly IAIAlgorithm[] _algorithms = { 
-            new FirstLastCharacter() 
+        // ✅ теперь async-алгоритмы
+        private readonly IAIAlgorithmAsync[] _algorithms =
+        {
+            new SmartWordAlgorithmAsync()
         };
 
         public AIGameController()
@@ -52,35 +41,44 @@ namespace Game.AI
             _settings = settings;
         }
 
-        internal void Play()
+        internal void PlayAsync()
         {
-            string word;
+            // fire-and-forget, чтобы не ломать текущие сигнатуры GameController
+            RunAsync().Forget();
+        }
+
+        private async UniTaskVoid RunAsync()
+        {
             _isPlay = true;
-            foreach (var algoritm in _algorithms)
+
+            foreach (var algorithm in _algorithms)
             {
-                if (algoritm.GetWord(out word, _settings, _wordsFieldManager, _dictionaryService))
+                var res = await algorithm.GetWordAsync(_settings, _wordsFieldManager, _dictionaryService);
+
+                if (!_isPlay) // время уже вышло и нас “срубили” событием
+                    return;
+
+                if (res.Success)
                 {
                     _isPlay = false;
-                    EventBus.Raise(new OpponentFindWordEvent { word = word });
+                    EventBus.Raise(new OpponentFindWordEvent { word = res.Word });
                     return;
                 }
             }
+
             _isPlay = false;
-            
             EventBus.Raise(new OpponentFindWordFailEvent());
         }
-        void OnTimeExpired(IGameEvent eventData)
+
+        private void OnTimeExpired(IGameEvent eventData)
         {
-            if (_isPlay)
-            {
-                _isPlay = false;
-                foreach (var algoritm in _algorithms)
-                {
-                    algoritm.TimeExpired();
-                }
-                
-                EventBus.Raise(new OpponentFindWordFailEvent());
-            }
+            if (!_isPlay) return;
+
+            _isPlay = false;
+            foreach (var algorithm in _algorithms)
+                algorithm.TimeExpired();
+
+            EventBus.Raise(new OpponentFindWordFailEvent());
         }
     }
 }

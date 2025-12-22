@@ -171,7 +171,7 @@ namespace Core.Data
         /// <returns>Успех</returns>
         internal bool TrySetLetter(int index)
         {
-            if ((index < 0 && index >= _items.Count) || !_items[index].Empty()) // Целевая позиция должна быть свободна
+            if ((index < 0 || index >= _items.Count) || !_items[index].Empty()) // Целевая позиция должна быть свободна
                 return false;
 
             // Рядом есть другая буква

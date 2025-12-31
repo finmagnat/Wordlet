@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _letterText: {fileID: 5636559329123960667}
   _mainBackground: {fileID: 8640537996718657259}
-  _speed: 1000
+  _speed: 5000
 --- !u!1 &8537293969902627481
 GameObject:
   m_ObjectHideFlags: 0

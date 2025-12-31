@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: INFO_Texts_en-US
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en-US
+  m_SharedData: {fileID: 11400000, guid: 50d4f8a5b29ff6c4d81e6cf9c447f908, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 166060244992
+    m_Localized: Rules of the game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 502774775808
+    m_Localized: '* A random word from the built-in dictionary is placed in the center
+      line of the board.
+
+      * The player must drag one letter from the alphabet
+      and place it in an empty cell on the board next to other letters to form a
+      new word.
+
+      * Then, they must sequentially select letters on the board
+      to form the word and click the "Move" button.
+
+      * Words cannot be repeated
+      during a single game.
+
+      * A word cannot contain the same letter on the
+      board twice.
+
+      * A word can be read in any direction except diagonally.
+
+      *
+      One point is awarded for each letter in the word.
+
+      * The player must
+      make a move within the allotted time.
+
+      * If a player fails to make a
+      move, they are awarded a pass.
+
+      * If a player''s number of passes reaches
+      the maximum, they are awarded a loss and the game ends (the number of points
+      scored is not counted).
+
+      * The game is also considered complete when
+      all the board cells are filled with letters. * The player with the most points
+      wins.
+
+      * If the players have the same number of points, the game is declared
+      a draw.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20447734677504
+    m_Localized: Questions and Answers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20937088319488
+    m_Localized: "<b>How do I remove the highlighted letters on the board?</b>\r\n
+      - Click the \"Clear\" button. This does not remove the letter from the board.\r\n\r\n<b>How
+      do I remove a letter from the board?</b>\r\n - Click the \"Cancel\" button.
+      This not only removes the letter from the board but also removes the highlight
+      (if the letters were highlighted).\r\n\r\n<b>How do I pause the game?</b>\r\n
+      - Click the \"Pause\" button. This stops the turn timer and hides the letters
+      on the board for the duration of the pause.\r\n - To resume the game, click
+      the \"Pause\" button again.\r\n\r\n<b>How do I exit a game if it's not finished
+      yet?</b>\r\n - Click the \"Home\" button.\r\n - If you're playing with AI,
+      a window will appear asking if you want to save the current game.\r\n --  If
+      the game has been saved, you can load it later and continue playing from the
+      saved point.\r\n\r\n<b>How do I use the \"Bukovka\" booster?</b>\r\n - Click
+      the booster icon on the panel, if available. When activated, AI algorithms
+      are used to search for a word (the longest possible), place a letter on the
+      board, and highlight that word on the board.\r\n - If the AI \u200B\u200Bfails
+      to find the word, the booster will be returned to the player's inventory.\r\n\r\n<b>How
+      do I use the Slowdown booster?</b>\r\n - Click the booster icon on the panel
+      if one is available.\r\n - When activated, it pauses the timer for a certain
+      period (e.g., 30 seconds), giving the player additional time to make a move.\r\n\r\n<b>How
+      do I purchase boosters?</b>\r\n - Boosters are always available for purchase
+      in the in-game store for real money.\r\n - Boosters can also be obtained by
+      watching ads."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

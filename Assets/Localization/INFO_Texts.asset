@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: Dynamic_Texts
-  m_EditorClassIdentifier: 
-  m_SharedTableData: {fileID: 11400000, guid: bf1657451bac2ea42b1ac138e41856c0, type: 2}
+  m_Name: INFO_Texts
+  m_EditorClassIdentifier: Unity.Localization.Editor::UnityEditor.Localization.StringTableCollection
+  m_SharedTableData: {fileID: 11400000, guid: 50d4f8a5b29ff6c4d81e6cf9c447f908, type: 2}
   m_Tables:
-  - {fileID: 11400000, guid: 234f6729a4255a2419af64aa3965a5e1, type: 2}
-  - {fileID: 11400000, guid: bb18d5470b78293408c090fc59c99488, type: 2}
-  - {fileID: 11400000, guid: 304012a6c9cd4694f8e88d4ca54b54b8, type: 2}
+  - {fileID: 11400000, guid: b807b542df2d07149a27cfaeced2352c, type: 2}
+  - {fileID: 11400000, guid: e4eaa7b9c5227464c860d9d8f4a5b6c8, type: 2}
+  - {fileID: 11400000, guid: 8f6fa1fd2b44fcf4f9cec017c03458f4, type: 2}
   m_Extensions: []
   m_Group: String Table
   references:

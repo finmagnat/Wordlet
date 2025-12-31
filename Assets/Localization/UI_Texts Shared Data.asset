@@ -251,6 +251,10 @@ MonoBehaviour:
     m_Key: BUTTON_YES
     m_Metadata:
       m_Items: []
+  - m_Id: 18097187790929920
+    m_Key: POPUP_INFO_TITLE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

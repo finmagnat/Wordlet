@@ -37,10 +37,10 @@ MonoBehaviour:
     AddressKey: bkg_list_red
   - Id: bkg_main_blue
     AddressKey: bkg_main_blue
-  - Id: AIGameExitPopup
-    AddressKey: AIGameExitPopup
   - Id: WinPopup
     AddressKey: WinPopup
+  - Id: AIGameExitPopup
+    AddressKey: AIGameExitPopup
   - Id: MainMenuScreen
     AddressKey: MainMenuScreen
   - Id: LoadingScreen
@@ -57,9 +57,11 @@ MonoBehaviour:
     AddressKey: AIGameSetupPopup
   - Id: AIGameScreen
     AddressKey: AIGameScreen
-  - Id: LosePopup
-    AddressKey: LosePopup
+  - Id: InfoPopup
+    AddressKey: InfoPopup
   - Id: SettingsPopup
     AddressKey: SettingsPopup
   - Id: NewWordPopup
     AddressKey: NewWordPopup
+  - Id: LosePopup
+    AddressKey: LosePopup

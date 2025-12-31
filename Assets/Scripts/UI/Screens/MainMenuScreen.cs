@@ -73,6 +73,16 @@ namespace UI.Screens
 
                 _isProcessing = false;
             });
+            
+            _infoButton.onClick.AddListener(async () =>
+            {
+                if (_isProcessing) return;
+                _isProcessing = true;
+
+                await _ui.ShowPopupAsync<InfoPopup>(AssetKey.InfoPopup);
+
+                _isProcessing = false;
+            });
         }
     }
 }

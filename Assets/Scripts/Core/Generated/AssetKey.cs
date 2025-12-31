@@ -14,8 +14,8 @@ namespace Core.Generated
         letter_drop_red,
         bkg_list_red,
         bkg_main_blue,
-        AIGameExitPopup,
         WinPopup,
+        AIGameExitPopup,
         MainMenuScreen,
         LoadingScreen,
         InGameLoadingScreen,
@@ -24,8 +24,9 @@ namespace Core.Generated
         DrawPopup,
         AIGameSetupPopup,
         AIGameScreen,
-        LosePopup,
+        InfoPopup,
         SettingsPopup,
         NewWordPopup,
+        LosePopup,
     }
 }

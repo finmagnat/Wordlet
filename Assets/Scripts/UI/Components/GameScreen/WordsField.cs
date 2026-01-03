@@ -13,6 +13,7 @@ namespace UI.Components
      
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
+        [Inject] private DiContainer _container;
         
         private List<SelectableLetter> _items = new (WordsFieldData.AMOUNT_LETTERS);
         private bool _isInitialized;
@@ -22,7 +23,7 @@ namespace UI.Components
             {
                 for (int i = 0; i < WordsFieldData.AMOUNT_LETTERS; ++i)
                 {
-                    var clonePrefab = Instantiate(_selectebleLetterPrefab);
+                    var clonePrefab = _container.InstantiatePrefab(_selectebleLetterPrefab);
                     clonePrefab.transform.SetParent(transform);
                     clonePrefab.transform.localScale = new Vector3(1, 1, 1);
 

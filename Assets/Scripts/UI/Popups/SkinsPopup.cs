@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Core.Audio;
 using Core.Config;
-using Core.Generated;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
@@ -16,15 +16,15 @@ namespace UI.Popups
         [SerializeField] private Transform _scrollListContent;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _applyButton;
+
+        [Inject] private SkinsService _skinsService;
+        [Inject] private ISpriteService _spritesService;
+        [Inject] private AudioService _audioService;
         
         private readonly List<SkinButton> _buttons = new();
 
         private SkinType _newSkin;
         private SkinType _oldSkin;
-
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spritesService;
-
 
         private void Start()
         {
@@ -45,7 +45,7 @@ namespace UI.Popups
             if (_skinsService.SkinCurrent.SkinType != _newSkin)
             {
                 _skinsService.SaveSkinCurrent(_newSkin);
-
+                _audioService?.PlaySfxAsync(Sounds.SoundSfx_SkinChanged);
                 //Dictionary<string, string> paramDictionary = new() { { Constants.Type, _newSkin.ToString() } };
                 //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
             }

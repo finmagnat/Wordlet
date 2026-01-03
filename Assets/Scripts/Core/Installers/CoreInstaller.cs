@@ -35,12 +35,15 @@ namespace Core.Installers
             Container.Bind<DictionaryService>().AsSingle();
             Container.Bind<DictionaryManager>().AsSingle().NonLazy();
             
-            Container.Bind<LocalSaveService>().AsSingle();
+            //Container.Bind<SaveService>().AsSingle();
             
             Container.Bind<AudioService>().AsSingle();
             Container.Bind<SkinsService>().AsSingle().NonLazy();
             
             Container.Bind<GameController>().AsSingle();
+            
+            Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
+
         }
 
         public override void Start()

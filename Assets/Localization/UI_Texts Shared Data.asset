@@ -255,6 +255,30 @@ MonoBehaviour:
     m_Key: POPUP_INFO_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 18884028689432576
+    m_Key: BUTTON_CONTINUE_GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18895829044969472
+    m_Key: POPUP_SAVED_GAME_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18899516425388032
+    m_Key: POPUP_SAVED_GAME_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18909657128386560
+    m_Key: BUTTON_REMOVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18921322360225792
+    m_Key: TEXT_YES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18921469953589248
+    m_Key: TEXT_NO
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

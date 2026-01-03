@@ -65,3 +65,5 @@ MonoBehaviour:
     AddressKey: NewWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
+  - Id: LoadSavedGamePopup
+    AddressKey: LoadSavedGamePopup

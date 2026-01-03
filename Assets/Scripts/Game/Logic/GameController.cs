@@ -17,7 +17,7 @@ using Zenject;
 namespace Game.Logic
 {
     /*
-     * управляет состояниями: инициализация поля, PlayerTurn, OpponentTurn, GameOver.
+     * Управляет состояниями: инициализация поля, PlayerTurn, OpponentTurn, GameOver.
      */
     public class GameController
     {
@@ -38,7 +38,11 @@ namespace Game.Logic
         private bool _bLetterPut; // Буква установлена игроком (текущего клиента)
         private bool _bModePlayOwner = true; // Режим хода игрока (текущего клиента)
         private uint _maxPasses;
-        
+        private ComplexityAI _complexityAI;
+        private int _durationGame;
+        private string _firstWord;
+        private SaveGameData _saveGameData;
+
         public async UniTask InitializeAsync()
         {
             EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
@@ -82,32 +86,62 @@ namespace Game.Logic
             _wordsFieldManager.Destroy();
             _lettersFieldManager.Destroy();
         }
+
+        public SaveGameData GetGameData()
+        {
+            var data = new SaveGameData
+            {
+                version = _configService.Game.version,
+                localeCode = _localization.CurrentLocale.Identifier.Code,
+                savedAtUtcTicks = System.DateTime.UtcNow.Ticks,
+                
+                mode = _gameOpponent.ToString(),
+                boardSize = _configService.Game.defaultBoardSize,
+                boardRows = _wordsFieldManager.WordsFieldData.GetBoardData(),
+                levelComplexityAI = (int)_complexityAI,
+                playerTurn = _bModePlayOwner,
+                maxSeconds = _durationGame,
+                currentSeconds = _gameScreen.TimerBar.GetCurrentValue(),
+                
+                playerScore = _gameScreen.PlayerPanelOwner.Score,
+                opponentScore = _gameScreen.PlayerPanelOpponent.Score,
+                playerPasses = _gameScreen.PlayerPanelOwner.Pass,
+                opponentPasses = _gameScreen.PlayerPanelOpponent.Pass,
+                
+                firstWord = _firstWord,
+                playerWords = _gameScreen.PlayerPanelOwner.Words,
+                opponentWords = _gameScreen.PlayerPanelOpponent.Words
+            };
+            
+            return data;
+        }
+
+        public void SetGameData(SaveGameData data)
+        {
+            _saveGameData = data;
+        }
         
         private void OnGameScreenStartEvent(GameScreenStartEvent eventData)
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
-            
-            var wordsFieldItems = _gameScreen.InitWordsField();
-            _wordsFieldManager.SetWordsFieldData(wordsFieldItems);
-            _aIAlgorithm.Init(_wordsFieldManager, _dictionaryService);
 
-            var lettersFieldItems = _gameScreen.InitAlphabetField();
-            _lettersFieldManager.Init(lettersFieldItems);
+            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
-            string firstWord = _dictionaryService.GetRandomWord(_configService.Game.defaultBoardSize);
-            _wordsFieldManager.SetFirstWord(firstWord);
-            _lettersFieldManager.SetEnable();
-
-            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER"));
             switch (_gameOpponent)
             {
                 case GameOpponent.AI:
-                    var complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI);
-                    var settings = _configService.Game.GetComplexityAIItem(complexityAI);
-                    _aIAlgorithm.SetSettings(settings);
                     _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_AI"));
+                    
+                    _complexityAI = _saveGameData != null ? 
+                        (ComplexityAI)_saveGameData.levelComplexityAI :
+                        (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI);
+                    
+                    var settings = _configService.Game.GetComplexityAIItem(_complexityAI);
                     _maxPasses = settings.MaxPasses;
+                    
+                    _aIAlgorithm.Init(_wordsFieldManager, _dictionaryService, settings);
+                    
                     _bModePlayOwner = true;
                     break;
                 case GameOpponent.FRIEND:
@@ -117,17 +151,47 @@ namespace Game.Logic
                     break;
             }
             
-            _gameScreen.PlayerPanelOwner.SetPass(0, _maxPasses);
-            _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
+            var wordsFieldItems = _gameScreen.InitWordsField();
+            _wordsFieldManager.SetWordsFieldData(wordsFieldItems);
+                
+            var lettersFieldItems = _gameScreen.InitAlphabetField();
+            _lettersFieldManager.Init(lettersFieldItems);
+            
+            if(_saveGameData != null)
+            {
+                _firstWord = _saveGameData.firstWord;
+                _wordsFieldManager.WordsFieldData.SetSaveGameData(_saveGameData);
+                
+                _gameScreen.PlayerPanelOwner.AddWords(_saveGameData.playerWords);
+                _gameScreen.PlayerPanelOwner.SetData(_saveGameData.playerScore, _saveGameData.playerPasses, _maxPasses);
+            
+                _gameScreen.PlayerPanelOpponent.AddWords(_saveGameData.opponentWords);
+                _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
+
+                _durationGame = _saveGameData.maxSeconds;
+                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+                _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
+            }
+            else
+            {
+                _firstWord = _dictionaryService.GetRandomWord(_configService.Game.defaultBoardSize);
+                _wordsFieldManager.SetFirstWord(_firstWord);
+                
+                _gameScreen.PlayerPanelOwner.SetPass(0, _maxPasses);
+                _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
+                
+                _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame);
+                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+            }
+            
+            _lettersFieldManager.SetEnable();
 
             if (_bModePlayOwner)
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
             else
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
 
-            var durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame);
-            _gameScreen.TimerBar.SetTargetValue(durationGame, true);
-
+            _saveGameData = null;
             _bStart = true;
             
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_StartNewGame);

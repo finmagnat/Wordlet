@@ -33,7 +33,10 @@ namespace Core.Config
         public bool unityAdsTestMode = true;
 
         [Header("Gameplay")]
-        [Tooltip("Размер поля 'Балды' по умолчанию")]
+        [Tooltip("Версия игровой механики (влияет на пользовательскиие сейвы)")]
+        public int version = 1;
+        
+        [Tooltip("Размер поля по умолчанию")]
         public uint defaultBoardSize = 5;
         
         [Space(10)]

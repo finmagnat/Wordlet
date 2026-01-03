@@ -220,5 +220,25 @@ namespace Core.Data
             _words.Clear();
             _setItem = null;
         }
+
+        public string[] GetBoardData()
+        {
+            string[] list = new string[AMOUNT_LETTERS];
+
+            for (int i = 0; i < AMOUNT_LETTERS; ++i)
+                list[i] = _items[i].GetLetter();
+            
+            return list;
+        }
+
+        public void SetSaveGameData(SaveGameData saveGameData)
+        {
+            _words.Add(saveGameData.firstWord);
+            for (int i = 0; i < saveGameData.boardRows.Length; ++i)
+                _items[i].SetLetter(saveGameData.boardRows[i]);
+            
+            _words.AddRange(saveGameData.playerWords);
+            _words.AddRange(saveGameData.opponentWords);
+        }
     }
 }

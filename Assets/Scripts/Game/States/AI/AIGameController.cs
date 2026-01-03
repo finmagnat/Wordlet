@@ -30,14 +30,10 @@ namespace Game.AI
             EventBus.Unsubscribe<TimeExpiredEvent>(OnTimeExpired);
         }
 
-        internal void Init(WordsFieldManager wordsFieldManager, DictionaryService dictionaryService)
+        internal void Init(WordsFieldManager wordsFieldManager, DictionaryService dictionaryService, ComplexityAISettings settings)
         {
             _wordsFieldManager = wordsFieldManager;
             _dictionaryService = dictionaryService;
-        }
-
-        internal void SetSettings(ComplexityAISettings settings)
-        {
             _settings = settings;
         }
 

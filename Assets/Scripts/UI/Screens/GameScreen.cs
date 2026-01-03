@@ -29,13 +29,13 @@ namespace UI.Screens
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
-
+        
         [Inject] protected LocalizationService _localization;
         [Inject] protected SkinsService _skinsService;
         [Inject] protected ISpriteService _spritesService;
         [Inject] protected IUIManager _ui;
         [Inject] protected ILoadingUI _loadingUI;
-        [Inject] protected LocalSaveService _localSaveService;
+        [Inject] protected ISaveService _saveService;
         
         protected bool _isProcessing;
         
@@ -106,7 +106,7 @@ namespace UI.Screens
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
 
             if (isSaveGame)
-                await _localSaveService.Save();
+                await _saveService.SaveAsync();
 
             Reset();
 

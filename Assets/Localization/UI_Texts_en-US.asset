@@ -264,6 +264,63 @@ MonoBehaviour:
     m_Localized: Information
     m_Metadata:
       m_Items: []
+  - m_Id: 18884028689432576
+    m_Localized: Continue the game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18895829044969472
+    m_Localized: SAVED GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18899516425388032
+    m_Localized: 'Game Mechanics Version: {0}
+
+      Save Date/Time: {1}
+
+      Location:
+      {2}
+
+      Game Mode: {3}
+
+      Difficulty Level: {4}
+
+      Player Turn:
+      {5}
+
+      Turn Time: {6} sec.
+
+      Current Turn Time: {7} sec.
+
+      Score:
+      {8}
+
+      Skip Points: {9}
+
+      Opponent Score: {10}
+
+      Opponent Skip
+      Points: {11}
+
+      Original Word: {12}
+
+      Player Words: {13}
+
+      Opponent
+      Words: {14}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18909657128386560
+    m_Localized: Delete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18921322360225792
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18921469953589248
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

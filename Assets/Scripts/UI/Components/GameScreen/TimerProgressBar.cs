@@ -58,6 +58,13 @@ namespace UI.Components
             _dtTimer = 0;
             _slider.value = 0;
         }
+
+        public float SetCurrentValue(float value) => _slider.value = value;
+        public float GetCurrentValue() => _slider.value;
         
+        private void OnDestroy()
+        {
+            
+        }
     }
 }

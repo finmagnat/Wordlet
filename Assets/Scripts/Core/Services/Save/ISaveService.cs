@@ -1,9 +1,13 @@
+using Core.Data;
 using Cysharp.Threading.Tasks;
 
 namespace Core.Services
 {
     public interface ISaveService : IService
     {
-        UniTask Save();
+        UniTask SaveAsync();
+        bool HasSave();
+        UniTask<SaveGameData> LoadAsync();
+        UniTask ClearAsync();
     }
 }

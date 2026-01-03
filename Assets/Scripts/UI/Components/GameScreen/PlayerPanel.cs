@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -11,6 +12,7 @@ namespace UI.Components
     {
         public uint Score { get; private set; }
         public uint Pass { get; private set; }
+        public List<string> Words { get; private set; } = new();
 
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private TextMeshProUGUI _playerNameText;
@@ -44,7 +46,27 @@ namespace UI.Components
                 
                 TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
                 itemWord.text = value;
+                Words.Add(value);
                 
+                await UniTask.Delay(500);
+                
+                _scrollRect.verticalNormalizedPosition = 0;
+            }
+        }
+        
+        public async void AddWords(List<string> words)
+        {
+            if (_wordListItemPrefab && _listContent)
+            {
+                foreach (var value in words)
+                {
+                    GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
+
+                    TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
+                    itemWord.text = value;
+                    Words.Add(value);
+                }
+
                 await UniTask.Delay(500);
                 
                 _scrollRect.verticalNormalizedPosition = 0;
@@ -78,6 +100,7 @@ namespace UI.Components
             Score = 0;
             SetPlayerName("");
             SetData();
+            Words.Clear();
             if (_listContent)
             {
                 foreach (Transform child in _listContent.transform)
@@ -91,12 +114,11 @@ namespace UI.Components
         {
             SetData(Score, Pass, _maxPasses);
         }
-        
+
         private async UniTask SetSkin()
         {
             var skin = _skinsService.SkinCurrent;
             _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
         }
-        
     }
 }

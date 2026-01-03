@@ -28,5 +28,6 @@ namespace Core.Generated
         SettingsPopup,
         NewWordPopup,
         LosePopup,
+        LoadSavedGamePopup,
     }
 }

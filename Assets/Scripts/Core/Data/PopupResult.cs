@@ -8,6 +8,7 @@ namespace Core.Data
         Close = 3,
         Error = 4,
         Exit = 5,
-        SaveAndExit = 6
+        SaveAndExit = 6,
+        RemoveAndExit = 7,
     }
 }

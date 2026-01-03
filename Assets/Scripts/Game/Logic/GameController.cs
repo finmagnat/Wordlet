@@ -89,6 +89,9 @@ namespace Game.Logic
 
         public SaveGameData GetGameData()
         {
+            if (_bLetterPut)
+                Cancel();
+            
             var data = new SaveGameData
             {
                 version = _configService.Game.version,

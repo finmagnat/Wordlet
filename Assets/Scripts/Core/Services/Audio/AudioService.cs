@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Config;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Core.Services
 {
     public class AudioService : IAudioService
     {
+        public float MasterVolume;
+            
         private readonly AddressablesLoader _loader;
 
         private readonly Dictionary<string, AudioClip> _sfxCache = new();
@@ -20,6 +23,9 @@ namespace Core.Services
 
         public UniTask InitializeAsync()
         {
+            MasterVolume = PlayerPrefs.GetFloat(PlayerPrefsKey.MasterVolume, 1f);
+            SetSfxVolume(MasterVolume);
+            
             // Создаём скрытый GameObject под AudioSource
             var go = new GameObject("[AudioService]");
             Object.DontDestroyOnLoad(go);
@@ -34,7 +40,7 @@ namespace Core.Services
 
         public async UniTask PlaySfxAsync(string addressKey)
         {
-            if (string.IsNullOrEmpty(addressKey))
+            if (string.IsNullOrEmpty(addressKey) || _sfxVolume < 0.1f)
                 return;
 
             // 1️⃣ берём из кэша или загружаем
@@ -57,6 +63,7 @@ namespace Core.Services
         public void SetSfxVolume(float value)
         {
             _sfxVolume = Mathf.Clamp01(value);
+            PlayerPrefs.SetFloat(PlayerPrefsKey.MasterVolume, value);
             if (_sfxSource != null)
                 _sfxSource.volume = _sfxVolume;
         }

@@ -1,7 +1,10 @@
+using Core.Audio;
 using Core.Events;
+using Core.Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Components
 {
@@ -12,6 +15,8 @@ namespace UI.Components
         [SerializeField] private Image _mainBackground;
         [SerializeField] private uint _blinkCount = 3; // Количество миганий
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
+        
+        [Inject] private AudioService _audioService;
         
         private float _blinkDtTimer = 0;
         private float _blinkCounter = 0;
@@ -154,11 +159,13 @@ namespace UI.Components
                 if (_selectImage.activeInHierarchy)
                 {
                     _selectImage.SetActive(false);
+                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterUnblinking);
                 }
                 else
                 {
                     ++_blinkCounter;
                     _selectImage.SetActive(true);
+                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterBlinking);
                 }
             }
         }

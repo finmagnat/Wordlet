@@ -37,6 +37,42 @@ MonoBehaviour:
     AddressKey: bkg_list_red
   - Id: bkg_main_blue
     AddressKey: bkg_main_blue
+  - Id: sfx_baseball
+    AddressKey: sfx_baseball
+  - Id: sfx_click3
+    AddressKey: sfx_click3
+  - Id: sfx_insid15
+    AddressKey: sfx_insid15
+  - Id: sfx_jungl15
+    AddressKey: sfx_jungl15
+  - Id: sfx_logoff
+    AddressKey: sfx_logoff
+  - Id: sfx_loser
+    AddressKey: sfx_loser
+  - Id: sfx_musicaer
+    AddressKey: sfx_musicaer
+  - Id: sfx_question
+    AddressKey: sfx_question
+  - Id: sfx_rezo_shape
+    AddressKey: sfx_rezo_shape
+  - Id: sfx_robotzex
+    AddressKey: sfx_robotzex
+  - Id: sfx_scien10
+    AddressKey: sfx_scien10
+  - Id: sfx_scien15
+    AddressKey: sfx_scien15
+  - Id: sfx_scienc4
+    AddressKey: sfx_scienc4
+  - Id: sfx_spacee1
+    AddressKey: sfx_spacee1
+  - Id: sfx_spaceo1
+    AddressKey: sfx_spaceo1
+  - Id: sfx_utopia1
+    AddressKey: sfx_utopia1
+  - Id: sfx_utopiare
+    AddressKey: sfx_utopiare
+  - Id: sfx_winner
+    AddressKey: sfx_winner
   - Id: WinPopup
     AddressKey: WinPopup
   - Id: AIGameExitPopup
@@ -57,6 +93,8 @@ MonoBehaviour:
     AddressKey: AIGameSetupPopup
   - Id: AIGameScreen
     AddressKey: AIGameScreen
+  - Id: LoadSavedGamePopup
+    AddressKey: LoadSavedGamePopup
   - Id: InfoPopup
     AddressKey: InfoPopup
   - Id: SettingsPopup
@@ -65,5 +103,3 @@ MonoBehaviour:
     AddressKey: NewWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: LoadSavedGamePopup
-    AddressKey: LoadSavedGamePopup

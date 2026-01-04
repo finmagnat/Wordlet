@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Core.Data;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
@@ -21,6 +20,7 @@ namespace UI.Popups
         [SerializeField] private Button _closeButton;
         
         [Inject] private LocalizationService _localization;
+        [Inject] private AudioService _audioService;
         
         private readonly Dictionary<string, LanguageButton> _buttons = new ();
         private Locale _newLanguage;
@@ -52,6 +52,7 @@ namespace UI.Popups
             }
             
             SelectLanguage(_oldLanguage);
+            UpdateSoundView();
             
             await base.ShowAsync();
         }
@@ -63,6 +64,17 @@ namespace UI.Popups
                 await HideAsync();
                 //_completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
             });
+        }
+        
+        private void UpdateSoundView() =>
+            _soundOn.SetActive(_audioService.MasterVolume > 0.1f);
+        
+        public void OnSoundButtonClick()
+        {
+            _audioService.MasterVolume = _audioService.MasterVolume < 0.1f ? 1f : 0f;
+            _audioService.SetSfxVolume(_audioService.MasterVolume);
+           
+            UpdateSoundView();
         }
         
         private void SelectLanguage(Locale locale)

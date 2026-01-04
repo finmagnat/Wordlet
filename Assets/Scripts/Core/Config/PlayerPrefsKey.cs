@@ -7,5 +7,6 @@ namespace Core.Config
         public const string ComplexityAI = "ComplexityAI";
         public const string SkinCurrent = "SkinCurrent";
         public const string LocaleCurrent = "LocaleCurrent";
+        public static string MasterVolume = "MasterVolume";
     }
 }

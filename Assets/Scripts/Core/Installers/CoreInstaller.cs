@@ -35,9 +35,8 @@ namespace Core.Installers
             Container.Bind<DictionaryService>().AsSingle();
             Container.Bind<DictionaryManager>().AsSingle().NonLazy();
             
-            //Container.Bind<SaveService>().AsSingle();
-            
-            Container.Bind<AudioService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
+
             Container.Bind<SkinsService>().AsSingle().NonLazy();
             
             Container.Bind<GameController>().AsSingle();
@@ -78,6 +77,9 @@ namespace Core.Installers
 
             await Container.Resolve<GameController>().InitializeAsync();
             loading.SetProgress(0.90f);
+            
+            await Container.Resolve<AudioService>().InitializeAsync();
+            loading.SetProgress(0.95f);
             
             // Здесь же можно Addressables.InitializeAsync(), авторизацию, подготовку кэшей и т.п.
             // var initHandle = Addressables.InitializeAsync();

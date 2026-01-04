@@ -321,6 +321,14 @@ MonoBehaviour:
     m_Localized: No
     m_Metadata:
       m_Items: []
+  - m_Id: 19542291852443648
+    m_Localized: 'Score:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19542646694756352
+    m_Localized: 'Skip Points:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

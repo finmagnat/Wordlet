@@ -743,7 +743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 556.5, y: -400}
+  m_AnchoredPosition: {x: 576.5, y: -430}
   m_SizeDelta: {x: 1113, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1526741966934393331
@@ -812,7 +812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 800
+  m_MinHeight: 840
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5300523609215163207}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.63414633
+  m_Size: 0.60465115
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

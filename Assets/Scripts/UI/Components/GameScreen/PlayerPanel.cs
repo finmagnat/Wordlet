@@ -12,6 +12,7 @@ namespace UI.Components
     {
         public uint Score { get; private set; }
         public uint Pass { get; private set; }
+        public string PlayerName => _playerNameText.text;
         public List<string> Words { get; private set; } = new();
 
         [SerializeField] private ScrollRect _scrollRect;

@@ -453,21 +453,40 @@ namespace Game.Logic
             }
 
             EventBus.Raise(new GameEndEvent());
+            
+            ShowFinishGamePopup(resultGame);
+        }
+        
+        protected async void ShowFinishGamePopup(ResultGame resultGame)
+        {
+            // TEST
+            //resultGame = ResultGame.DRAW;
+            //*******************************
+            FinishGamePopup finishPopup;
             switch (resultGame)
             {
                 case ResultGame.OWNER_WIN:
-                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.WinPopup);
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.WinPopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_IWon);
                     break;
                 case ResultGame.OWNER_LOSE:
-                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.LosePopup);
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.LosePopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentWon);
                     break;
                 default:
-                    _ui.ShowPopupAsync<MessagePopup>(AssetKey.DrawPopup);
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.DrawPopup);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_Draw);
                     break;
             }
+            
+            finishPopup.statsTable.SetText(
+                _gameScreen.PlayerPanelOwner.PlayerName,
+                _gameScreen.PlayerPanelOpponent.PlayerName,
+                _gameScreen.PlayerPanelOwner.Score.ToString(),
+                _gameScreen.PlayerPanelOpponent.Score.ToString(),
+                $"{_gameScreen.PlayerPanelOwner.Pass} / {_maxPasses}",
+                $"{_gameScreen.PlayerPanelOpponent.Pass} / {_maxPasses}"
+                );
         }
 
         private void Reset()

@@ -12,20 +12,29 @@ namespace UI.Popups
         [SerializeField] private TextMeshProUGUI _playerPasses;
         [SerializeField] private TextMeshProUGUI _opponentPasses;
         
-        public void SetText(
+        public void SetData(
             string playerName, 
             string opponentName, 
-            string playerScore, 
-            string opponentScore, 
-            string playerPasses, 
-            string opponentPasses)
+            uint playerScore, 
+            uint opponentScore, 
+            uint playerPasses, 
+            uint opponentPasses,
+            uint maxPasses
+            )
         {
             _playerName.text = playerName;
             _opponentName.text = opponentName;
-            _playerScore.text = playerScore;
-            _opponentScore.text = opponentScore;
-            _playerPasses.text = playerPasses;
-            _opponentPasses.text = opponentPasses;
+            _playerScore.text = playerScore.ToString();
+            _opponentScore.text = opponentScore.ToString();
+            _playerPasses.text = GetFormatedPasses(playerPasses, maxPasses);
+            _opponentPasses.text = GetFormatedPasses(opponentPasses, maxPasses);
+        }
+
+        private string GetFormatedPasses(uint passes, uint maxPasses)
+        {
+            return passes == maxPasses ? 
+                $"<color=red><b>{passes} / {maxPasses}</b></color>" : 
+                $"{passes} / {maxPasses}";
         }
     }
 }

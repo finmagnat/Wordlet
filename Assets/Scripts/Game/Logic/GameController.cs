@@ -494,13 +494,14 @@ namespace Game.Logic
                     break;
             }
             
-            finishPopup.statsTable.SetText(
+            finishPopup.statsTable.SetData(
                 _gameScreen.PlayerPanelOwner.PlayerName,
                 _gameScreen.PlayerPanelOpponent.PlayerName,
-                _gameScreen.PlayerPanelOwner.Score.ToString(),
-                _gameScreen.PlayerPanelOpponent.Score.ToString(),
-                $"{_gameScreen.PlayerPanelOwner.Pass} / {_maxPasses}",
-                $"{_gameScreen.PlayerPanelOpponent.Pass} / {_maxPasses}"
+                _gameScreen.PlayerPanelOwner.Score,
+                _gameScreen.PlayerPanelOpponent.Score,
+                _gameScreen.PlayerPanelOwner.Pass,
+                _gameScreen.PlayerPanelOpponent.Pass,
+                _maxPasses
                 );
         }
 

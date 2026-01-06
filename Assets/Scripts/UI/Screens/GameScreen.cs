@@ -60,6 +60,7 @@ namespace UI.Screens
         public void OnPressedClear() => EventBus.Raise(new GameClearEvent());
         
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
+        public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
 
         public override UniTask ShowAsync()
         {

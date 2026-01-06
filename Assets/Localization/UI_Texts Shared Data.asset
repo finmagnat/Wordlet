@@ -287,6 +287,10 @@ MonoBehaviour:
     m_Key: STATS_TABLE_LABEL_PASSES
     m_Metadata:
       m_Items: []
+  - m_Id: 20263721728622592
+    m_Key: BUTTON_SKIP
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -51,6 +51,7 @@ namespace Game.Logic
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
             EventBus.Subscribe<GameClearEvent>(OnGameClear);
             EventBus.Subscribe<GameCancelEvent>(OnGameCancel);
+            EventBus.Subscribe<GameSkipEvent>(OnGameSkip);
 
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -73,6 +74,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
             EventBus.Unsubscribe<GameClearEvent>(OnGameClear);
             EventBus.Unsubscribe<GameCancelEvent>(OnGameCancel);
+            EventBus.Unsubscribe<GameSkipEvent>(OnGameSkip);
 
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -276,7 +278,7 @@ namespace Game.Logic
             
             Cancel();
         }
-
+        
         private void Cancel()
         {
             _bLetterPut = false;
@@ -343,7 +345,20 @@ namespace Game.Logic
             CheckFinishGame();
         }
 
+        private void OnGameSkip(IGameEvent eventData)
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
+            PassedGame();
+        }
+        
         private void OnTimeExpired(IGameEvent eventData)
+        {
+            PassedGame();
+        }
+        
+        private void PassedGame()
         {
             _gameScreen.TimerBar.ResetTimer();
 

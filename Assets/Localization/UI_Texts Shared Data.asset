@@ -291,6 +291,14 @@ MonoBehaviour:
     m_Key: BUTTON_SKIP
     m_Metadata:
       m_Items: []
+  - m_Id: 20674151252901888
+    m_Key: POPUP_MISSING_WORD_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20674509266108416
+    m_Key: POPUP_MISSING_WORD_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

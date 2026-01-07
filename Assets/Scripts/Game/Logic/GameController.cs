@@ -244,14 +244,16 @@ namespace Game.Logic
                 {
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
                     
-                    var popup = await _ui.ShowPopupAsync<NewWordPopup>(AssetKey.NewWordPopup);
+                    var popup = await _ui.ShowPopupAsync<MissingWordPopup>(AssetKey.MissingWordPopup);
                     popup.SetWindowData(word);
                     
                     var dataResult = await popup.WaitForResultAsync();
-                    
+                    /*
+                    // Функция сохранения новых слов пока отключена по этическим причинам.
                     if(dataResult.Result == PopupResult.SaveAndExit)
                         SaveWordAndContinueGame(word);
                     else
+                    */
                         Cancel();
                 }
                 else
@@ -494,13 +496,14 @@ namespace Game.Logic
                     break;
             }
             
-            finishPopup.statsTable.SetText(
+            finishPopup.statsTable.SetData(
                 _gameScreen.PlayerPanelOwner.PlayerName,
                 _gameScreen.PlayerPanelOpponent.PlayerName,
-                _gameScreen.PlayerPanelOwner.Score.ToString(),
-                _gameScreen.PlayerPanelOpponent.Score.ToString(),
-                $"{_gameScreen.PlayerPanelOwner.Pass} / {_maxPasses}",
-                $"{_gameScreen.PlayerPanelOpponent.Pass} / {_maxPasses}"
+                _gameScreen.PlayerPanelOwner.Score,
+                _gameScreen.PlayerPanelOpponent.Score,
+                _gameScreen.PlayerPanelOwner.Pass,
+                _gameScreen.PlayerPanelOpponent.Pass,
+                _maxPasses
                 );
         }
 

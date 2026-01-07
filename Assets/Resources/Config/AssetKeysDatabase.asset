@@ -99,7 +99,7 @@ MonoBehaviour:
     AddressKey: InfoPopup
   - Id: SettingsPopup
     AddressKey: SettingsPopup
-  - Id: NewWordPopup
-    AddressKey: NewWordPopup
+  - Id: MissingWordPopup
+    AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup

@@ -244,14 +244,16 @@ namespace Game.Logic
                 {
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
                     
-                    var popup = await _ui.ShowPopupAsync<NewWordPopup>(AssetKey.NewWordPopup);
+                    var popup = await _ui.ShowPopupAsync<MissingWordPopup>(AssetKey.MissingWordPopup);
                     popup.SetWindowData(word);
                     
                     var dataResult = await popup.WaitForResultAsync();
-                    
+                    /*
+                    // Функция сохранения новых слов пока отключена по этическим причинам.
                     if(dataResult.Result == PopupResult.SaveAndExit)
                         SaveWordAndContinueGame(word);
                     else
+                    */
                         Cancel();
                 }
                 else

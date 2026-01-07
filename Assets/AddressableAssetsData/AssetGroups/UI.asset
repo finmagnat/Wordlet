@@ -94,7 +94,7 @@ MonoBehaviour:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: efebd468bae0e41468ce68a506ab25e5
-    m_Address: NewWordPopup
+    m_Address: MissingWordPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

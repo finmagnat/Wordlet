@@ -9,6 +9,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
+using Inventory;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -21,8 +22,9 @@ namespace Game.Logic
      */
     public class GameController
     {
-        [Inject] private LocalizationService _localization;
         [Inject] private DictionaryService _dictionaryService;
+        [Inject] private LocalizationService _localization;
+        [Inject] private IInventoryService _inventory;
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
@@ -62,6 +64,8 @@ namespace Game.Logic
             EventBus.Subscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Subscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
             
+            EventBus.Subscribe<UseBoosterEvent>(OnActivateBooster);
+            
             _wordsFieldManager.Initialize();
             _lettersFieldManager.Initialize();
         }
@@ -84,6 +88,8 @@ namespace Game.Logic
 
             EventBus.Unsubscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Unsubscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
+            
+            EventBus.Unsubscribe<UseBoosterEvent>(OnActivateBooster);
             
             _wordsFieldManager.Destroy();
             _lettersFieldManager.Destroy();
@@ -398,7 +404,7 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentFindWordFail);
             CheckFinishGame();
         }
-
+        
         private void CheckFinishGame()
         {
             // Допустил ли кто-то максимальное количество пропусков?
@@ -505,6 +511,47 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.Pass,
                 _maxPasses
                 );
+        }
+        
+        private void OnActivateBooster(UseBoosterEvent eventData)
+        {
+            if(!_inventory.TryConsumeBooster(eventData.boosterType))
+            {
+                // TODO: бустера нет - открыть магазин (не хочет покупать/смотреть рекламу, быстро закрыл и играет дальше)
+                Debug.Log($"TODO: бустера [{eventData.boosterType}] нет - открыть магазин.");
+                //return; // TEST
+            }
+            
+            _gameScreen.BoosterPanel.Refresh();
+                
+            switch (eventData.boosterType)
+            {
+                case BoosterType.Letter:
+                    ActivateBoosterLetter();
+                    break;
+                case BoosterType.Slowdown:
+                    ActivateBoosterSlowdownAsync();
+                    break;
+            }
+        }
+
+        private void ActivateBoosterLetter()
+        {
+            if (!_bStart || _bPause || _bLetterPut || !_bModePlayOwner)
+                return;   
+        }
+
+        private async void ActivateBoosterSlowdownAsync()
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
+            _gameScreen.TimerBar.StopTimer();
+            
+            EventBus.Raise(new SlowdownStartEvent{slowdownDelay = _configService.Game.slowdownDelay});
+            
+            await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);
+            _gameScreen.TimerBar.StartTimer();
         }
 
         private void Reset()

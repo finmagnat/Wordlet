@@ -14,10 +14,10 @@ namespace Core.Config
         [Tooltip("Матчинг ширины/высоты для Canvas Scaler (0=по ширине, 1=по высоте)")]
         public float screenMatch = 0.5f;
 
-        [Header("Application")]
+        [Header("APPLICATION")]
         public int targetFps = 60;
 
-        [Header("Services")]
+        [Header("SERVICES")]
         public bool enableAnalytics = true;
         public bool enableAds = true;
         public bool useDebugLogs = true;
@@ -28,11 +28,11 @@ namespace Core.Config
         [Tooltip("Firebase Realtime DB URL")]
         public string firebaseRealtimeDbUrl;
 
-        [Header("Ads (Unity Ads, при необходимости)")]
+        [Header("ADS (Unity Ads, при необходимости)")]
         public string unityAdsGameIdAndroid;
         public bool unityAdsTestMode = true;
 
-        [Header("Gameplay")]
+        [Header("GAMEPLAY")]
         [Tooltip("Версия игровой механики (влияет на пользовательскиие сейвы)")]
         public int version = 1;
         
@@ -49,7 +49,7 @@ namespace Core.Config
         [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
         public uint maxPassesByDefault = 2;
         
-        [Header("Сложность игры с ИИ")]
+        [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
         
@@ -58,5 +58,9 @@ namespace Core.Config
         
         public ComplexityAISettings GetComplexityAIItem(ComplexityAI сomplexityAI) =>
             _сomplexityAIList.Find(item => item.СomplexityAiLevel == сomplexityAI);
+        
+        [Header("БУСТЕРЫ")]
+        [Tooltip("Время замедления игрового таймера (секунды)")]
+        public int slowdownDelay;
     }
 }

@@ -11,16 +11,16 @@ namespace Game.AI
 {
     public sealed class SmartWordAlgorithmAsync : IAIAlgorithmAsync
     {
-        private bool _timeExpired;
+        private bool _bCancel;
 
-        public void TimeExpired() => _timeExpired = true;
+        public void Cancel() => _bCancel = true;
 
         public async UniTask<AIWordResult> GetWordAsync(
             ComplexityAISettings settings,
             WordsFieldManager wordsFieldManager,
             DictionaryService dictionaryService)
         {
-            _timeExpired = false;
+            _bCancel = false;
 
             var items = wordsFieldManager.WordsFieldData.Items;
             int boardMaxLen = items.Count; // 25
@@ -49,7 +49,7 @@ namespace Game.AI
                 wordsFieldManager: wordsFieldManager,
                 getWordsOfLength: dictionaryService.GetWordsOfLength,
                 lengthsToTryDesc: lengthsToTry,
-                timeExpired: () => _timeExpired,
+                bCancelFunc: () => _bCancel,
                 wordAlreadyUsed: wordsFieldManager.WordExist,
                 yieldEveryWordChecks: 250);
 
@@ -60,6 +60,9 @@ namespace Game.AI
             items[result.InsertIndex].SetLetter(result.InsertChar.ToString());
             foreach (int idx in result.PathIndexes)
                 items[idx].Highlight();
+                
+            wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
+            wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
             return AIWordResult.Ok(result.Word);
         }

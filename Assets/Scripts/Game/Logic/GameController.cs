@@ -31,7 +31,7 @@ namespace Game.Logic
         
         private WordsFieldManager _wordsFieldManager = new ();
         private LettersFieldManager _lettersFieldManager = new ();
-        private AIGameController _aIAlgorithm = new ();
+        private AIGameController _ai = new ();
         private GameScreen _gameScreen;
         private GameOpponent _gameOpponent;
         
@@ -41,6 +41,7 @@ namespace Game.Logic
         private bool _bModePlayOwner = true; // Режим хода игрока (текущего клиента)
         private uint _maxPasses;
         private ComplexityAI _complexityAI;
+        private ComplexityAISettings _complexityAISettings;
         private int _durationGame;
         private string _firstWord;
         private SaveGameData _saveGameData;
@@ -148,10 +149,10 @@ namespace Game.Logic
                         (ComplexityAI)_saveGameData.levelComplexityAI :
                         (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI);
                     
-                    var settings = _configService.Game.GetComplexityAIItem(_complexityAI);
-                    _maxPasses = settings.MaxPasses;
+                    _complexityAISettings = _configService.Game.GetComplexityAIItem(_complexityAI);
+                    _maxPasses = _complexityAISettings.MaxPasses;
                     
-                    _aIAlgorithm.Init(_wordsFieldManager, _dictionaryService, settings);
+                    _ai.Init(_wordsFieldManager, _dictionaryService);
                     
                     _bModePlayOwner = true;
                     break;
@@ -260,7 +261,7 @@ namespace Game.Logic
                         SaveWordAndContinueGame(word);
                     else
                     */
-                        Cancel();
+                    Cancel();
                 }
                 else
                 {
@@ -342,7 +343,7 @@ namespace Game.Logic
             
             _gameScreen.SetTextWord("");
 
-            // TODO: Добавить новое слово в локальный словарь игрока
+            // TODO: Добавить новое слово в локальный словарь игрока [пока это не делаем]
             //_dictionaryService.AddWord(word);
             
             _wordsFieldManager.SaveWord(word);
@@ -363,6 +364,8 @@ namespace Game.Logic
         
         private void OnTimeExpired(IGameEvent eventData)
         {
+            _ai.AbortSearch();
+            
             PassedGame();
         }
         
@@ -438,7 +441,7 @@ namespace Game.Logic
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
-                        _aIAlgorithm.PlayAsync();
+                        AIPlayAsync();
                         break;
                 }
             }
@@ -513,6 +516,16 @@ namespace Game.Logic
                 );
         }
         
+        private async UniTaskVoid AIPlayAsync()
+        {
+            var res = await _ai.FindWordAsync(_complexityAISettings);
+
+            if (res.Success)
+                EventBus.Raise(new OpponentFindWordEvent { word = res.Word });
+            else
+                EventBus.Raise(new OpponentFindWordFailEvent());
+        }
+        
         private void OnActivateBooster(UseBoosterEvent eventData)
         {
             if(!_inventory.TryConsumeBooster(eventData.boosterType))
@@ -527,19 +540,57 @@ namespace Game.Logic
             switch (eventData.boosterType)
             {
                 case BoosterType.Letter:
-                    ActivateBoosterLetter();
+                    ActivateBoosterLetterAsync();
                     break;
                 case BoosterType.Slowdown:
                     ActivateBoosterSlowdownAsync();
                     break;
             }
         }
-
-        private void ActivateBoosterLetter()
+        
+        private async UniTask ActivateBoosterLetterAsync()
         {
-            if (!_bStart || _bPause || _bLetterPut || !_bModePlayOwner)
-                return;   
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+
+            Cancel(); // "очистить мусор"
+
+            // Бустер = поиск как HARD
+            var boosterSettings = _configService.Game.GetComplexityAIItem(ComplexityAI.HARD);
+            var res = await _ai.FindWordAsync(boosterSettings);
+
+            if (res.Success)
+                ShowBoosterSuccess(res.Word);
+            else
+                ShowBoosterFail();
         }
+
+        private void ShowBoosterSuccess(string resWord)
+        {
+            _gameScreen.SetTextWord(resWord);
+            _wordsFieldManager.SetModeSelect(true);
+            _bLetterPut = true;
+            _lettersFieldManager.SetEnable(false);
+            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
+        }
+
+        private void ShowBoosterFail()
+        {
+            
+        }
+
+        private void BlockUI(bool isBlocked)
+        {
+            if (isBlocked)
+            {
+                
+            }
+            else
+            {
+                
+            }
+        }
+
 
         private async void ActivateBoosterSlowdownAsync()
         {
@@ -547,7 +598,6 @@ namespace Game.Logic
                 return;
             
             _gameScreen.TimerBar.StopTimer();
-            
             EventBus.Raise(new SlowdownStartEvent{slowdownDelay = _configService.Game.slowdownDelay});
             
             await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);

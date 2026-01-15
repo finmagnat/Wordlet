@@ -34,7 +34,7 @@ namespace Game.AI
             WordsFieldManager wordsFieldManager,
             Func<int, IReadOnlyList<string>> getWordsOfLength,
             IEnumerable<int> lengthsToTryDesc,
-            Func<bool> timeExpired,
+            Func<bool> bCancelFunc,
             Func<string, bool> wordAlreadyUsed,
             int yieldEveryWordChecks = 250)
         {
@@ -56,7 +56,7 @@ namespace Game.AI
 
                 foreach (var raw in words)
                 {
-                    if (timeExpired())
+                    if (bCancelFunc())
                         return SearchResult.Fail();
 
                     // ✅ периодически отдаём кадр, чтобы таймер не фризил

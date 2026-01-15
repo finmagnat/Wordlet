@@ -25,10 +25,12 @@ namespace UI.Screens
         [SerializeField] protected PlayerPanel _playerPanelOpponent;
         [SerializeField] protected WordsField _wordsField;
         [SerializeField] protected LettersField _lettersField;
+        [SerializeField] protected BoosterPanel _boosterPanel;
         
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
+        internal BoosterPanel BoosterPanel => _boosterPanel;
         
         [Inject] protected LocalizationService _localization;
         [Inject] protected SkinsService _skinsService;
@@ -68,6 +70,7 @@ namespace UI.Screens
             
             SetSkin();
             Reset();
+            _boosterPanel.Refresh();
             
             _isProcessing = true;
             

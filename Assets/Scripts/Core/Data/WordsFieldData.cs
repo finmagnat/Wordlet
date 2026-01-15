@@ -194,6 +194,16 @@ namespace Core.Data
             return false;
         }
 
+        internal void SetSelectedIndexes(List<int> selectedIndex)
+        {
+            _selectedIndex = selectedIndex;
+        }
+        
+        internal void SetLetterItem(SelectableLetter item)
+        {
+            _setItem = item;
+        }
+
         /// <summary>
         /// Смыть выделение.
         /// </summary>

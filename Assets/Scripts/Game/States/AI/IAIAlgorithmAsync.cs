@@ -22,6 +22,6 @@ namespace Game.AI
         /// <summary>
         /// Время хода закончилось
         /// </summary>
-        public void TimeExpired();
+        public void Cancel();
     }
 }

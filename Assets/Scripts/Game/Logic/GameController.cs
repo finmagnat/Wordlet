@@ -9,6 +9,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
+using Inventory;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -21,15 +22,16 @@ namespace Game.Logic
      */
     public class GameController
     {
-        [Inject] private LocalizationService _localization;
         [Inject] private DictionaryService _dictionaryService;
+        [Inject] private LocalizationService _localization;
+        [Inject] private IInventoryService _inventory;
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         
         private WordsFieldManager _wordsFieldManager = new ();
         private LettersFieldManager _lettersFieldManager = new ();
-        private AIGameController _aIAlgorithm = new ();
+        private AIGameController _ai = new ();
         private GameScreen _gameScreen;
         private GameOpponent _gameOpponent;
         
@@ -39,6 +41,7 @@ namespace Game.Logic
         private bool _bModePlayOwner = true; // Режим хода игрока (текущего клиента)
         private uint _maxPasses;
         private ComplexityAI _complexityAI;
+        private ComplexityAISettings _complexityAISettings;
         private int _durationGame;
         private string _firstWord;
         private SaveGameData _saveGameData;
@@ -62,6 +65,8 @@ namespace Game.Logic
             EventBus.Subscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Subscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
             
+            EventBus.Subscribe<UseBoosterEvent>(OnActivateBooster);
+            
             _wordsFieldManager.Initialize();
             _lettersFieldManager.Initialize();
         }
@@ -84,6 +89,8 @@ namespace Game.Logic
 
             EventBus.Unsubscribe<OpponentFindWordEvent>(OnOpponentFindWordSuccess);
             EventBus.Unsubscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
+            
+            EventBus.Unsubscribe<UseBoosterEvent>(OnActivateBooster);
             
             _wordsFieldManager.Destroy();
             _lettersFieldManager.Destroy();
@@ -130,7 +137,8 @@ namespace Game.Logic
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
-
+            _gameScreen.BoosterPanel.Refresh();
+            
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
             switch (_gameOpponent)
@@ -142,10 +150,10 @@ namespace Game.Logic
                         (ComplexityAI)_saveGameData.levelComplexityAI :
                         (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI);
                     
-                    var settings = _configService.Game.GetComplexityAIItem(_complexityAI);
-                    _maxPasses = settings.MaxPasses;
+                    _complexityAISettings = _configService.Game.GetComplexityAIItem(_complexityAI);
+                    _maxPasses = _complexityAISettings.MaxPasses;
                     
-                    _aIAlgorithm.Init(_wordsFieldManager, _dictionaryService, settings);
+                    _ai.Init(_wordsFieldManager, _dictionaryService);
                     
                     _bModePlayOwner = true;
                     break;
@@ -204,7 +212,7 @@ namespace Game.Logic
 
         private void OnGamePause(IGameEvent eventData)
         {
-            if (!_bStart || !_bModePlayOwner)
+            if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
                 return;
 
             _bPause = !_bPause;
@@ -254,12 +262,13 @@ namespace Game.Logic
                         SaveWordAndContinueGame(word);
                     else
                     */
-                        Cancel();
+                    Cancel();
                 }
                 else
                 {
                     SaveWordAndContinueGame(word);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_IMadeMove);
+                    _gameScreen.BoosterPanel.SlowdownStop();
                 }                
             }            
         }
@@ -336,7 +345,7 @@ namespace Game.Logic
             
             _gameScreen.SetTextWord("");
 
-            // TODO: Добавить новое слово в локальный словарь игрока
+            // TODO: Добавить новое слово в локальный словарь игрока [пока это не делаем]
             //_dictionaryService.AddWord(word);
             
             _wordsFieldManager.SaveWord(word);
@@ -352,11 +361,14 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
             
+            _gameScreen.BoosterPanel.SlowdownStop();
             PassedGame();
         }
         
         private void OnTimeExpired(IGameEvent eventData)
         {
+            _ai.AbortSearch();
+            
             PassedGame();
         }
         
@@ -398,7 +410,7 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentFindWordFail);
             CheckFinishGame();
         }
-
+        
         private void CheckFinishGame()
         {
             // Допустил ли кто-то максимальное количество пропусков?
@@ -432,7 +444,7 @@ namespace Game.Logic
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
-                        _aIAlgorithm.PlayAsync();
+                        AIPlayAsync();
                         break;
                 }
             }
@@ -471,6 +483,8 @@ namespace Game.Logic
 
             EventBus.Raise(new GameEndEvent());
             
+            _gameScreen.BoosterPanel.SlowdownStop();
+            
             ShowFinishGamePopup(resultGame);
         }
         
@@ -505,6 +519,91 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.Pass,
                 _maxPasses
                 );
+        }
+        
+        private async UniTaskVoid AIPlayAsync()
+        {
+            var res = await _ai.FindWordAsync(_complexityAISettings);
+
+            if (res.Success)
+                EventBus.Raise(new OpponentFindWordEvent { word = res.Word });
+            else
+                EventBus.Raise(new OpponentFindWordFailEvent());
+        }
+        
+        private void OnActivateBooster(UseBoosterEvent eventData)
+        {
+            _inventory.TryConsumeBooster(eventData.boosterType);
+            _gameScreen.BoosterPanel.Refresh();
+                
+            switch (eventData.boosterType)
+            {
+                case BoosterType.Letter:
+                    ActivateBoosterLetterAsync();
+                    break;
+                case BoosterType.Slowdown:
+                    ActivateBoosterSlowdownAsync();
+                    break;
+            }
+        }
+        
+        private async UniTask ActivateBoosterLetterAsync()
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+
+            BlockUI(true);
+            Cancel(); // "очистить мусор"
+
+            // Бустер = поиск как HARD
+            var boosterSettings = _configService.Game.GetComplexityAIItem(ComplexityAI.HARD);
+            var res = await _ai.FindWordAsync(boosterSettings);
+
+            if (res.Success)
+                ShowBoosterLetterSuccess(res.Word);
+            else
+                ShowBoosterLetterFail();
+            
+            BlockUI(false);
+        }
+
+        private void ShowBoosterLetterSuccess(string resWord)
+        {
+            _gameScreen.SetTextWord(resWord);
+            _wordsFieldManager.SetModeSelect(true);
+            _bLetterPut = true;
+            _lettersFieldManager.SetEnable(false);
+            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
+            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
+        }
+
+        private void ShowBoosterLetterFail()
+        {
+            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
+            _inventory.SetBoosterCount(BoosterType.Letter, 1, true); // Возврат бустера
+            _gameScreen.BoosterPanel.Refresh();
+        }
+
+        private void BlockUI(bool isBlocked)
+        {
+            if (isBlocked)
+                _ui.ShowScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+            else
+                _ui.HideScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+        }
+
+        private async void ActivateBoosterSlowdownAsync()
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
+            _gameScreen.TimerBar.StopTimer();
+            _gameScreen.BoosterPanel.SlowdownStart();
+            
+            await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);
+            
+            if (!_bPause && _bStart)
+                _gameScreen.TimerBar.StartTimer();
         }
 
         private void Reset()

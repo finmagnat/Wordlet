@@ -299,6 +299,14 @@ MonoBehaviour:
     m_Key: POPUP_MISSING_WORD_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 23577441229750272
+    m_Key: STATUS_LABEL_BOOSTER_SUCCESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23577908114505728
+    m_Key: STATUS_LABEL_BOOSTER_FAIL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

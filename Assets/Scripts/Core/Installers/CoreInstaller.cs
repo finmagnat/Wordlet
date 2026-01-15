@@ -5,6 +5,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
+using Inventory;
 using UI.Screens;
 using UI.UI;
 using Zenject;
@@ -42,6 +43,7 @@ namespace Core.Installers
             Container.Bind<GameController>().AsSingle();
             
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
+            Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
 
         }
 

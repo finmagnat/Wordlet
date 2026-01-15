@@ -25,5 +25,10 @@ namespace UI.Components
         }
         
         public abstract void ActivateBooster();
+
+        public virtual void Cancel()
+        {
+            IsActive = false;
+        }
     }
 }

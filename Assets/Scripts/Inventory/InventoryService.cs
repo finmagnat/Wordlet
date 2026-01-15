@@ -12,7 +12,15 @@ namespace Inventory
         {
             return _boosters.TryGetValue(type, out var item) && item.Count > 0;
         }
-
+        
+        public int GetCount(BoosterType type)
+        {
+            if (!HasBooster(type))
+                return 0;
+            
+            return _boosters[type].Count;
+        }
+        
         public bool TryConsumeBooster(BoosterType type)
         {
             if (!HasBooster(type))
@@ -22,10 +30,10 @@ namespace Inventory
             return true;
         }
 
-        public void SetBoosterCount(BoosterType type, int count)
+        public void SetBoosterCount(BoosterType type, int count, bool bAdd = false)
         {
             if (_boosters.ContainsKey(type))
-                _boosters[type].Count = count;
+                _boosters[type].Count = bAdd ? _boosters[type].Count + count : count;
             else
                 _boosters[type] = new BoosterItem(type, count);
         }

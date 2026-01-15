@@ -1,14 +1,18 @@
 using System;
 using System.Threading;
+using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Components
 {
     public class SlowdownBooster : BoosterUI
     {
+        [Inject] private ConfigService _configService;
+        
         [Header("Refs")] 
         [SerializeField] private Image _overlayRadial; // CooldownOverlay (Image Filled Radial360)
         [SerializeField] private TextMeshProUGUI _counterText; // CounterText
@@ -21,11 +25,13 @@ namespace UI.Components
 
         private int _seconds;
         
-        private void Awake()
+        private void Start()
         {
             SetVisible(false);
             if (_overlayRadial != null)
                 _overlayRadial.fillAmount = 0f;
+
+            _seconds = _configService.Game.slowdownDelay;
         }
 
         private void OnDisable()
@@ -47,19 +53,7 @@ namespace UI.Components
             RunCountdown(_seconds, _cts.Token).Forget();
         }
         
-        
-        public void SetSeconds(int seconds)
-        {
-            if (seconds <= 0)
-            {
-                Finish();
-                return;
-            }
-
-            _seconds = seconds;
-        }
-
-        public void Cancel()
+        public override void Cancel()
         {
             CancelRunning();
             Finish();

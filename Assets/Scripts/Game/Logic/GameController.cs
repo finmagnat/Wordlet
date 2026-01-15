@@ -137,7 +137,8 @@ namespace Game.Logic
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
-
+            _gameScreen.BoosterPanel.Refresh();
+            
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
             switch (_gameOpponent)
@@ -211,7 +212,7 @@ namespace Game.Logic
 
         private void OnGamePause(IGameEvent eventData)
         {
-            if (!_bStart || !_bModePlayOwner)
+            if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
                 return;
 
             _bPause = !_bPause;
@@ -267,6 +268,7 @@ namespace Game.Logic
                 {
                     SaveWordAndContinueGame(word);
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_IMadeMove);
+                    _gameScreen.BoosterPanel.SlowdownStop();
                 }                
             }            
         }
@@ -359,6 +361,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
             
+            _gameScreen.BoosterPanel.SlowdownStop();
             PassedGame();
         }
         
@@ -480,6 +483,8 @@ namespace Game.Logic
 
             EventBus.Raise(new GameEndEvent());
             
+            _gameScreen.BoosterPanel.SlowdownStop();
+            
             ShowFinishGamePopup(resultGame);
         }
         
@@ -528,13 +533,7 @@ namespace Game.Logic
         
         private void OnActivateBooster(UseBoosterEvent eventData)
         {
-            if(!_inventory.TryConsumeBooster(eventData.boosterType))
-            {
-                // TODO: бустера нет - открыть магазин (не хочет покупать/смотреть рекламу, быстро закрыл и играет дальше)
-                Debug.Log($"TODO: бустера [{eventData.boosterType}] нет - открыть магазин.");
-                //return; // TEST
-            }
-            
+            _inventory.TryConsumeBooster(eventData.boosterType);
             _gameScreen.BoosterPanel.Refresh();
                 
             switch (eventData.boosterType)
@@ -553,6 +552,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            BlockUI(true);
             Cancel(); // "очистить мусор"
 
             // Бустер = поиск как HARD
@@ -560,37 +560,37 @@ namespace Game.Logic
             var res = await _ai.FindWordAsync(boosterSettings);
 
             if (res.Success)
-                ShowBoosterSuccess(res.Word);
+                ShowBoosterLetterSuccess(res.Word);
             else
-                ShowBoosterFail();
+                ShowBoosterLetterFail();
+            
+            BlockUI(false);
         }
 
-        private void ShowBoosterSuccess(string resWord)
+        private void ShowBoosterLetterSuccess(string resWord)
         {
             _gameScreen.SetTextWord(resWord);
             _wordsFieldManager.SetModeSelect(true);
             _bLetterPut = true;
             _lettersFieldManager.SetEnable(false);
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
+            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
         }
 
-        private void ShowBoosterFail()
+        private void ShowBoosterLetterFail()
         {
-            
+            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
+            _inventory.SetBoosterCount(BoosterType.Letter, 1, true); // Возврат бустера
+            _gameScreen.BoosterPanel.Refresh();
         }
 
         private void BlockUI(bool isBlocked)
         {
             if (isBlocked)
-            {
-                
-            }
+                _ui.ShowScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
             else
-            {
-                
-            }
+                _ui.HideScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
         }
-
 
         private async void ActivateBoosterSlowdownAsync()
         {
@@ -598,10 +598,12 @@ namespace Game.Logic
                 return;
             
             _gameScreen.TimerBar.StopTimer();
-            EventBus.Raise(new SlowdownStartEvent{slowdownDelay = _configService.Game.slowdownDelay});
+            _gameScreen.BoosterPanel.SlowdownStart();
             
             await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);
-            _gameScreen.TimerBar.StartTimer();
+            
+            if (!_bPause && _bStart)
+                _gameScreen.TimerBar.StartTimer();
         }
 
         private void Reset()

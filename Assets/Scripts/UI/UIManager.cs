@@ -67,6 +67,16 @@ namespace Core.UI
             return screen;
         }
 
+        public async UniTask<T> HideScreenAsync<T>(AssetKey assetKey) where T : UIScreen
+        {
+            if (_loadedScreens.TryGetValue(assetKey.ToString(), out var screen) && screen != null)
+            {
+                await screen.HideAsync();
+                return screen as T;
+            }
+            return null;
+        }
+        
         public async UniTask HideAllScreensAsync()
         {
             foreach (var pair in _loadedScreens)

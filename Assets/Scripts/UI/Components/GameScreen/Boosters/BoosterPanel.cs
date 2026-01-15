@@ -12,57 +12,57 @@ namespace UI.Components
 
         [Inject] private IInventoryService _inventory;
 
-        private void Start()
-        {
-            EventBus.Subscribe<SlowdownStartEvent>(OnSlowdownStart);
-        }
-
-        private void OnDestroy()
-        {
-            EventBus.Unsubscribe<SlowdownStartEvent>(OnSlowdownStart);
-        }
-
         public void Refresh()
         {
-            foreach (var booster in _inventory.Boosters.Values)
-            {
-                Debug.Log($"[BoosterPanel][Refresh] {booster.Type}: {booster.Count}");
-                switch (booster.Type)
-                {
-                    case BoosterType.Letter:
-                        boosterLetter.SetBoosterCount(booster.Count);
-                        break;
-                    case BoosterType.Slowdown:
-                        boosterSlowdown.SetBoosterCount(booster.Count);
-                        break;
-                }
-            }
+            var count = _inventory.GetCount(BoosterType.Letter);
+            boosterLetter.SetBoosterCount(count);
+            boosterLetter.gameObject.SetActive(count > 0);
+            
+            count = _inventory.GetCount(BoosterType.Slowdown);
+            boosterSlowdown.SetBoosterCount(count);
+            boosterSlowdown.gameObject.SetActive(count > 0);
         }
 
         public void OnUseLetter()
         {
-            Debug.Log("Буковка КЛИК");
+            //Debug.Log("Буковка КЛИК");
             if (!boosterLetter.IsActive)
             {
-                Debug.Log("Буковка использована");
+                Debug.Log("Использовать Буковку");
                 EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Letter });
             }
         }
 
         public void OnUseSlowdown()
         {
-            Debug.Log("Замедлялка КЛИК");
+            //Debug.Log("Замедлялка КЛИК");
             if (!boosterSlowdown.IsActive)
             {
-                Debug.Log("Замедлялка использована");
+                Debug.Log("Использовать Замедлялку");
                 EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Slowdown });
             }
         }
         
-        private void OnSlowdownStart(SlowdownStartEvent startEvent)
+        public void SlowdownStart()
         {
-            (boosterSlowdown as SlowdownBooster).SetSeconds(startEvent.slowdownDelay);
-            boosterSlowdown.ActivateBooster();
+            if (!boosterSlowdown.IsActive)
+                boosterSlowdown.ActivateBooster();
+        }
+        
+        public void SlowdownStop()
+        {
+            if (boosterSlowdown.IsActive)
+                boosterSlowdown.Cancel();
+        }
+        
+        public bool IsActive(BoosterType boosterType)
+        {
+            switch (boosterType)
+            {
+                case BoosterType.Letter: return boosterLetter.IsActive;
+                case BoosterType.Slowdown: return boosterSlowdown.IsActive;
+            }
+            return false;
         }
     }
 }

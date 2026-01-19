@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0724353e5cc4c5b968984d306abefee, type: 3}
+  m_Name: ShopCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::Core.Config.ShopCatalog
+  Packs:
+  - ProductId: BestPricePack
+    Title: STORE_TITLE_BEST_PRICE
+    Description: 
+    Rewards:
+    - ItemId: 0
+      Amount: 15
+    - ItemId: 1
+      Amount: 15
+    DebugPriceText: 19.99
+    DebugAvailable: 1
+  - ProductId: Pack_Wordlet_x10_9.99
+    Title: 
+    Description: 
+    Rewards:
+    - ItemId: 0
+      Amount: 10
+    DebugPriceText: 9.99
+    DebugAvailable: 1
+  - ProductId: Pack_Slowdown_x10_9.99
+    Title: 
+    Description: 
+    Rewards:
+    - ItemId: 1
+      Amount: 10
+    DebugPriceText: 9.99
+    DebugAvailable: 1

@@ -15,7 +15,7 @@ namespace UI.Components
         
         [Header("Refs")] 
         [SerializeField] private Image _overlayRadial; // CooldownOverlay (Image Filled Radial360)
-        [SerializeField] private TextMeshProUGUI _counterText; // CounterText
+        [SerializeField] private TextMeshProUGUI _cooldownCounterText; // CounterText
 
         [Header("Options")] 
         [SerializeField] private bool _hideWhenFinished = true;
@@ -107,8 +107,8 @@ namespace UI.Components
 
         private void SetState(int remainingSeconds, int totalSeconds)
         {
-            if (_counterText != null)
-                _counterText.text = remainingSeconds.ToString();
+            if (_cooldownCounterText != null)
+                _cooldownCounterText.text = remainingSeconds.ToString();
 
             if (_overlayRadial != null)
             {
@@ -135,8 +135,8 @@ namespace UI.Components
             if (_overlayRadial != null)
                 _overlayRadial.gameObject.SetActive(visible);
 
-            if (_counterText != null)
-                _counterText.gameObject.SetActive(visible);
+            if (_cooldownCounterText != null)
+                _cooldownCounterText.gameObject.SetActive(visible);
         }
 
         private void CancelRunning()

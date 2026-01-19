@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Config/Game Config", fileName = "GameConfig")]
+    [CreateAssetMenu(menuName = "Wordlet/Config/Game Config", fileName = "GameConfig")]
     public class GameConfig : ScriptableObject
     {
         [Header("UI")]

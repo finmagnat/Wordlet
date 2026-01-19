@@ -349,6 +349,14 @@ MonoBehaviour:
     m_Localized: Wordlet couldn't find the word. The booster has been returned.
     m_Metadata:
       m_Items: []
+  - m_Id: 24306362871070720
+    m_Localized: Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24330393435389952
+    m_Localized: Best price
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

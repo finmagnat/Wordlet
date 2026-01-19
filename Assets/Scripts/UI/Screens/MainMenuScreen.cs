@@ -19,6 +19,7 @@ namespace UI.Screens
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _infoButton;
         [SerializeField] private Button _skinsButton;
+        [SerializeField] private Button _shopButton;
 
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
@@ -55,6 +56,12 @@ namespace UI.Screens
 
                     // Убираем лоадинг
                     await _loadingUI.HideLoadingAsync();
+                }
+                else if (data.Result == PopupResult.GotoShop)
+                {
+                    Debug.Log($"🎮 Открыть Магазин");
+                    var shopPopup = await _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup);
+                    var shopPopupData = await popup.WaitForResultAsync();
                 }
                 else
                 {
@@ -114,6 +121,17 @@ namespace UI.Screens
 
                 _isProcessing = false;
             });
+
+
+            _infoButton.onClick.AddListener(async () =>
+            {
+                if (_isProcessing) return;
+                _isProcessing = true;
+
+                await _ui.ShowPopupAsync<InfoPopup>(AssetKey.InfoPopup);
+
+                _isProcessing = false;
+            });
             
             _skinsButton.onClick.AddListener(async () =>
             {
@@ -125,19 +143,22 @@ namespace UI.Screens
                 _isProcessing = false;
             });
             
-            _infoButton.onClick.AddListener(async () =>
+            _shopButton.onClick.AddListener(async () =>
             {
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                await _ui.ShowPopupAsync<InfoPopup>(AssetKey.InfoPopup);
+                await _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup);
 
                 _isProcessing = false;
             });
         }
-        
-        private void OnDestroy() => _localization.OnLocaleChanged -= OnLocaleChanged;
 
+        private void OnDestroy()
+        {
+            _localization.OnLocaleChanged -= OnLocaleChanged;
+        }
+        
         private void OnLocaleChanged(Locale locale)
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());

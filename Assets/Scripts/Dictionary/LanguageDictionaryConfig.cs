@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Core.Dictionary
 {
-    [CreateAssetMenu(menuName = "Balda/Dictionary/Language Config", fileName = "LanguageDictionaryConfig")]
+    [CreateAssetMenu(menuName = "Wordlet/Dictionary/Language Config", fileName = "LanguageDictionaryConfig")]
     public class LanguageDictionaryConfig : ScriptableObject
     {
         [Header("Language Info")]

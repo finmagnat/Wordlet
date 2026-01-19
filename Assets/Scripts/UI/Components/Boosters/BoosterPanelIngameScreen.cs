@@ -1,26 +1,17 @@
 using Core.Events;
 using Inventory;
 using UnityEngine;
-using Zenject;
 
 namespace UI.Components
 {
-    public class BoosterPanel : MonoBehaviour
+    public class BoosterPanelIngameScreen : BoosterPanelUI
     {
-        [SerializeField] private BoosterUI boosterLetter;
-        [SerializeField] private BoosterUI boosterSlowdown;
-
-        [Inject] private IInventoryService _inventory;
-
-        public void Refresh()
+        public override void Refresh()
         {
-            var count = _inventory.GetCount(BoosterType.Letter);
-            boosterLetter.SetBoosterCount(count);
-            boosterLetter.gameObject.SetActive(count > 0);
+            base.Refresh();
             
-            count = _inventory.GetCount(BoosterType.Slowdown);
-            boosterSlowdown.SetBoosterCount(count);
-            boosterSlowdown.gameObject.SetActive(count > 0);
+            boosterLetter.gameObject.SetActive(!boosterLetter.IsEmpty);
+            boosterSlowdown.gameObject.SetActive(!boosterSlowdown.IsEmpty);
         }
 
         public void OnUseLetter()

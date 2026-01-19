@@ -1,8 +1,10 @@
 using Core.Config;
 using Core.Data;
+using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UI.Components;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,6 +21,7 @@ namespace UI.Popups
         [SerializeField] private ToggleGroup _toggleGroup;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _closeButton;
+        [SerializeField] private BoosterPanelUI _boosterPanel;
         
         [Inject] private ConfigService _configService;
         
@@ -53,8 +56,21 @@ namespace UI.Popups
                 await HideAsync();
                 _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
             });
+            
+            EventBus.Subscribe<GotoShopEvent>(OnGotoShopEvent);
         }
-        
+
+        private void OnDestroy()
+        {
+            EventBus.Unsubscribe<GotoShopEvent>(OnGotoShopEvent);
+        }
+
+        private async void OnGotoShopEvent(GotoShopEvent objEvent)
+        {
+            await HideAsync();
+            _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.GotoShop });
+        }
+
         public UniTask<GameSetupData> WaitForResultAsync() => _completionSource.Task;
         
         public override async UniTask ShowAsync()
@@ -64,6 +80,8 @@ namespace UI.Popups
             _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)gameConfig.complexityAiByDefault);
                 
             _completionSource = new UniTaskCompletionSource<GameSetupData>();
+            
+            _boosterPanel.Refresh();
             
             await base.ShowAsync();
             

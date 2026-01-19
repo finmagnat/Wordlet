@@ -39,6 +39,7 @@ namespace Core.Generated
         InGameLoadingScreen,
         SkinsPopup,
         AdvicePopup,
+        BlockUIScreen,
         DrawPopup,
         AIGameSetupPopup,
         AIGameScreen,
@@ -47,6 +48,6 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        BlockUIScreen,
+        ShopPopup,
     }
 }

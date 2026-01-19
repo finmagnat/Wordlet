@@ -29,8 +29,6 @@ namespace Core.Services
             
             PlayerPrefs.SetInt(PlayerPrefsKey.SkinCurrent, (int)skinType);
             PlayerPrefs.Save();
-            
-            //EventAggregator.SkinChanged.Publish();
         }
         
     }

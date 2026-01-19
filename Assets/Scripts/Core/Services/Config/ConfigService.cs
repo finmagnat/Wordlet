@@ -15,9 +15,11 @@ namespace Core.Services
     {
         public GameConfig Game => _gameConfig;
         public SkinsConfig Skins => _skinsConfig;
+        public ShopCatalog Shop => _shopConfig;
         
         [Inject(Optional = true)] private GameConfig _gameConfig;     // приходит из инсталлера
         [Inject(Optional = true)] private SkinsConfig _skinsConfig;
+        [Inject(Optional = true)] private ShopCatalog _shopConfig;
         // при желании добавляй другие конфиги таким же образом
 
         public async UniTask InitializeAsync()

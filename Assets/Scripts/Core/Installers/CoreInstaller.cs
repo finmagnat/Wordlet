@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Core.Dictionary;
 using Core.Generated;
 using Core.Services;
+using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
@@ -44,7 +45,8 @@ namespace Core.Installers
             
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
-
+            
+            Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
         }
 
         public override void Start()
@@ -78,10 +80,13 @@ namespace Core.Installers
             loading.SetProgress(0.80f);
 
             await Container.Resolve<GameController>().InitializeAsync();
-            loading.SetProgress(0.90f);
+            loading.SetProgress(0.85f);
             
             await Container.Resolve<AudioService>().InitializeAsync();
-            loading.SetProgress(0.95f);
+            loading.SetProgress(0.90f);
+            
+            await Container.Resolve<IShopService>().InitializeAsync();
+            loading.SetProgress(0.90f);
             
             // Здесь же можно Addressables.InitializeAsync(), авторизацию, подготовку кэшей и т.п.
             // var initHandle = Addressables.InitializeAsync();

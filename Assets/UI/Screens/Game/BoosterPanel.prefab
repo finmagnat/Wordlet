@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 5447040741808120369}
   - component: {fileID: 3079027801118813471}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CooldownText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -587,7 +587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d006479c06854e6f9cd73ce317eeb895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.LetterBooster
-  _type: 0
   _emptyGO: {fileID: 6110628721260892942}
   _counterText: {fileID: 7028419659302273519}
 --- !u!1 &3214389964946861337
@@ -1165,11 +1164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424e1216f9ea4cb388f833f883712dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.SlowdownBoosterUI
-  _type: 0
   _emptyGO: {fileID: 19900630801861609}
-  _counterText: {fileID: 3079027801118813471}
+  _counterText: {fileID: 1112377308462085591}
   _overlayRadial: {fileID: 6478056630145812987}
-  _counterText: {fileID: 3079027801118813471}
+  _cooldownCounterText: {fileID: 3079027801118813471}
   _hideWhenFinished: 1
   _showZeroForOneSecond: 0
 --- !u!1 &6110628721260892942

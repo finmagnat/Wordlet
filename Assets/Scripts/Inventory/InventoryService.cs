@@ -37,6 +37,7 @@ namespace Inventory
             else
                 _boosters[type] = new BoosterItem(type, count);
         }
+        
     }
 
 }

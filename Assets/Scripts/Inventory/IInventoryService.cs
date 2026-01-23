@@ -12,6 +12,8 @@ namespace Inventory
         bool TryConsumeBooster(BoosterType type);
 
         void SetBoosterCount(BoosterType type, int count, bool bAdd = false);
+
+        void Add(BoosterType type, int count);
     }
 
 }

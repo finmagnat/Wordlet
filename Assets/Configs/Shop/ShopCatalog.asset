@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShopCatalog
   m_EditorClassIdentifier: Assembly-CSharp::Core.Config.ShopCatalog
   Packs:
-  - ProductId: BestPricePack
+  - ProductId: wordlet_pack_best
     Title: STORE_TITLE_BEST_PRICE
     Description: 
     Rewards:
@@ -23,7 +23,7 @@ MonoBehaviour:
       Amount: 15
     DebugPriceText: 19.99
     DebugAvailable: 1
-  - ProductId: Pack_Wordlet_x10_9.99
+  - ProductId: wordlet_pack_hint_10
     Title: 
     Description: 
     Rewards:
@@ -31,7 +31,7 @@ MonoBehaviour:
       Amount: 10
     DebugPriceText: 9.99
     DebugAvailable: 1
-  - ProductId: Pack_Slowdown_x10_9.99
+  - ProductId: wordlet_pack_slowtime_10
     Title: 
     Description: 
     Rewards:

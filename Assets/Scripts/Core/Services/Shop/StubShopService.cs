@@ -47,7 +47,7 @@ namespace Core.Services.Shop
             if (!pack.DebugAvailable) return UniTask.FromResult(PurchaseResult.Fail("Not available"));
 
             foreach (var r in pack.Rewards)
-                _inventory.SetBoosterCount(r.ItemId, r.Amount, true);
+                _inventory.Add(r.ItemId, r.Amount);
 
             return UniTask.FromResult(PurchaseResult.Ok());
         }

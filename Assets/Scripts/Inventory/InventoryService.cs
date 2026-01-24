@@ -38,6 +38,11 @@ namespace Inventory
                 _boosters[type] = new BoosterItem(type, count);
         }
         
+        public void Add(BoosterType type, int count)
+        {
+            SetBoosterCount(type, count, true);
+        }
+        
     }
 
 }

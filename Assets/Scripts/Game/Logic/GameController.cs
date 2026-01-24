@@ -580,7 +580,7 @@ namespace Game.Logic
         private void ShowBoosterLetterFail()
         {
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
-            _inventory.SetBoosterCount(BoosterType.Letter, 1, true); // Возврат бустера
+            _inventory.Add(BoosterType.Letter, 1);
             _gameScreen.BoosterPanel.Refresh();
         }
 

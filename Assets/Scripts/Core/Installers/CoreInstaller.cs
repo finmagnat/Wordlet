@@ -46,7 +46,11 @@ namespace Core.Installers
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
             
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
+#else
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
+#endif
         }
 
         public override void Start()

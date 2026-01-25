@@ -13,10 +13,10 @@ namespace UI.Components
 
         public virtual void Refresh()
         {
-            var count = _inventory.GetCount(BoosterType.Letter);
+            var count = _inventory.GetQuantity(BoosterType.Letter);
             boosterLetter.SetBoosterData(BoosterType.Letter, count);
             
-            count = _inventory.GetCount(BoosterType.Slowdown);
+            count = _inventory.GetQuantity(BoosterType.Slowdown);
             boosterSlowdown.SetBoosterData(BoosterType.Slowdown, count);
         }
     }

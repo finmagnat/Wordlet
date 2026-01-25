@@ -1,39 +1,80 @@
+using System;
+using Cysharp.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
 namespace Core.Services
 {
-    public class PlayFabAuthService : MonoBehaviour
+    public class PlayFabAuthService : IService
     {
-        private void Start()
+        public bool IsLoggedIn { get; private set; }
+        public bool NewlyCreated { get; private set; }
+        public string PlayFabId { get; private set; }
+
+        public async UniTask InitializeAsync()
         {
-            Login();
+            // Пока для smoke-test используем CustomId.
+            // Перед релизом: AndroidDeviceID / IOSDeviceID, а CustomID запретим в настройках.
+            var loginResult = await LoginWithCustomIdAsync(SystemInfo.deviceUniqueIdentifier);
+
+            IsLoggedIn = true;
+            NewlyCreated = loginResult.NewlyCreated;
+            PlayFabId = loginResult.PlayFabId;
+
+            Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. PlayFabId: {PlayFabId}");
+
+            if (NewlyCreated)
+            {
+                await GrantStarterGiftAsync();
+                Debug.Log("Starter gift granted");
+            }
         }
 
-        private void Login()
+        private static UniTask<LoginResult> LoginWithCustomIdAsync(string customId)
         {
+            var tcs = new UniTaskCompletionSource<LoginResult>();
+
             var request = new LoginWithCustomIDRequest
             {
-                CustomId = SystemInfo.deviceUniqueIdentifier,
+                CustomId = customId,
                 CreateAccount = true
             };
 
             PlayFabClientAPI.LoginWithCustomID(
                 request,
-                OnLoginSuccess,
-                OnLoginError
+                r => tcs.TrySetResult(r),
+                e => tcs.TrySetException(new Exception(e.GenerateErrorReport()))
             );
+
+            return tcs.Task;
         }
 
-        private void OnLoginSuccess(LoginResult result)
+        private static UniTask GrantStarterGiftAsync()
         {
-            Debug.Log($"PlayFab login OK. New account: {result.NewlyCreated}");
-        }
+            var tcs = new UniTaskCompletionSource();
 
-        private void OnLoginError(PlayFabError error)
-        {
-            Debug.LogError(error.GenerateErrorReport());
+            var request = new ExecuteCloudScriptRequest
+            {
+                FunctionName = "GrantStarterGift",
+                GeneratePlayStreamEvent = true
+            };
+
+            PlayFabClientAPI.ExecuteCloudScript(
+                request,
+                r =>
+                {
+                    if (r.Error != null)
+                    {
+                        tcs.TrySetException(new Exception($"CloudScript error: {r.Error.Message}"));
+                        return;
+                    }
+                    tcs.TrySetResult();
+                },
+                e => tcs.TrySetException(new Exception(e.GenerateErrorReport()))
+            );
+
+            return tcs.Task;
         }
     }
 }

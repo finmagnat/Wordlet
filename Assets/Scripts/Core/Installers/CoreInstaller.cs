@@ -46,6 +46,9 @@ namespace Core.Installers
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
             
+            Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
+
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
 #else
@@ -69,33 +72,39 @@ namespace Core.Installers
 
             // 2) Инициализация сервисов с прогрессом
             await Container.Resolve<ConfigService>().InitializeAsync();
-            loading.SetProgress(0.30f);
+            loading.SetProgress(0.10f);
 
             await Container.Resolve<GameLogger>().InitializeAsync();
-            loading.SetProgress(0.40f);
+            loading.SetProgress(0.15f);
             
             await Container.Resolve<LocalizationService>().InitializeAsync();
-            loading.SetProgress(0.60f);
+            loading.SetProgress(0.20f);
             
             await Container.Resolve<DictionaryManager>().InitializeAsync();
-            loading.SetProgress(0.70f);
+            loading.SetProgress(0.25f);
             
             await Container.Resolve<SkinsService>().InitializeAsync();
-            loading.SetProgress(0.80f);
+            loading.SetProgress(0.30f);
 
             await Container.Resolve<GameController>().InitializeAsync();
-            loading.SetProgress(0.85f);
+            loading.SetProgress(0.35f);
             
             await Container.Resolve<AudioService>().InitializeAsync();
-            loading.SetProgress(0.90f);
+            loading.SetProgress(0.40f);
             
             await Container.Resolve<IShopService>().InitializeAsync();
-            loading.SetProgress(0.90f);
+            loading.SetProgress(0.50f);
             
-            // Здесь же можно Addressables.InitializeAsync(), авторизацию, подготовку кэшей и т.п.
-            // var initHandle = Addressables.InitializeAsync();
-            // await initHandle;
-            // loading.SetProgress01(0.75f);
+            await Container.Resolve<IShopService>().InitializeAsync();
+            loading.SetProgress(0.60f);
+
+            // PlayFab Auth (создание юзера + подарок)
+            await Container.Resolve<PlayFabAuthService>().InitializeAsync();
+            loading.SetProgress(0.70f);
+
+            // Inventory sync (PlayFab -> Local)
+            await Container.Resolve<InventorySyncService>().InitializeAsync();
+            loading.SetProgress(0.80f);
 
             // 3) UI → Main Menu
             loading.SetProgress(1.0f);

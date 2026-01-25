@@ -9,8 +9,9 @@ namespace UI.Components
         public bool IsActive { get; protected set; }
         public bool IsEmpty => _count <= 0;
         
-        [SerializeField] protected GameObject _emptyGO;
         [SerializeField] protected TextMeshProUGUI _counterText;
+        [SerializeField] protected bool _useEmpty;
+        [SerializeField] protected GameObject _emptyGO;
         
         protected BoosterType _boosterType;
         protected int _count;
@@ -20,16 +21,9 @@ namespace UI.Components
             _boosterType = type;
             _count = count;
             
-            if (_count > 0)
-            {
-                _emptyGO?.SetActive(false);
-                _counterText.text = _count.ToString();
-            }
-            else
-            {
-                _emptyGO?.SetActive(true);
-                _counterText.text = "";
-            }
+            _counterText.text = IsEmpty ? "0" : _count.ToString();
+            if(_useEmpty)
+                _emptyGO.SetActive(IsEmpty);
         }
 
         public virtual void ActivateBooster()

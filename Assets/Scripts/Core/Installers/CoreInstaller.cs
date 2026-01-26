@@ -20,10 +20,9 @@ namespace Core.Installers
     {
         [Inject] private DictionaryManagerPresenter _dictPresenter;
 
-        public override void InstallBindings() {
-            
+        public override void InstallBindings() 
+        {
             Debug.Log($"<color=yellow>BUILD: {BuildInfo.VersionName} code={BuildInfo.AndroidVersionCode} utc={BuildInfo.Utc}</color>");
-
             
             // 🔧 1. Бинды всех сервисов
             Container.Bind<GameLogger>().AsSingle();

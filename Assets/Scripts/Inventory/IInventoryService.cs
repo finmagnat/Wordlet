@@ -8,10 +8,10 @@ namespace Inventory
         IReadOnlyDictionary<BoosterType, BoosterItem> Boosters { get; }
 
         bool HasBooster(BoosterType type);
-        int GetCount(BoosterType type);
+        int GetQuantity(BoosterType type);
         bool TryConsumeBooster(BoosterType type);
 
-        void SetBoosterCount(BoosterType type, int count, bool bAdd = false);
+        void SetQuantity(BoosterType type, int count, bool bAdd = false);
 
         void Add(BoosterType type, int count);
     }

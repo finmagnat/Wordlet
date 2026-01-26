@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using Core.Audio;
 using Core.Config;
 using Core.Data;
@@ -25,9 +26,12 @@ namespace Game.Logic
         [Inject] private DictionaryService _dictionaryService;
         [Inject] private LocalizationService _localization;
         [Inject] private IInventoryService _inventory;
+        [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        
+        private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
         private WordsFieldManager _wordsFieldManager = new ();
         private LettersFieldManager _lettersFieldManager = new ();
@@ -45,6 +49,7 @@ namespace Game.Logic
         private int _durationGame;
         private string _firstWord;
         private SaveGameData _saveGameData;
+        private bool _boosterProcessing;
 
         public async UniTask InitializeAsync()
         {
@@ -531,41 +536,68 @@ namespace Game.Logic
                 EventBus.Raise(new OpponentFindWordFailEvent());
         }
         
-        private void OnActivateBooster(UseBoosterEvent eventData)
+        private async void OnActivateBooster(UseBoosterEvent eventData)
         {
-            _inventory.TryConsumeBooster(eventData.boosterType);
-            _gameScreen.BoosterPanel.Refresh();
-                
-            switch (eventData.boosterType)
-            {
-                case BoosterType.Letter:
-                    ActivateBoosterLetterAsync();
-                    break;
-                case BoosterType.Slowdown:
-                    ActivateBoosterSlowdownAsync();
-                    break;
-            }
-        }
-        
-        private async UniTask ActivateBoosterLetterAsync()
-        {
+            if (_boosterProcessing)
+                return;
+
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
-            BlockUI(true);
+            // не даём прожать активный бустер
+            if (_gameScreen.BoosterPanel.IsActive(eventData.boosterType))
+                return;
+
+            _boosterProcessing = true;
+            await BlockUIAsync(true);
+
+            // 1) серверное списание
+            // TryUseBoosterAsync должен:
+            // - дернуть CloudScript ConsumeBooster
+            // - обновить локальный IInventoryService из ответа/ресинка
+            // - вернуть true/false
+            bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+            
+            // 2) обновляем UI бустеров после серверного результата
+            _gameScreen.BoosterPanel.Refresh();
+
+            if (!ok)
+            {
+                await BlockUIAsync(false);
+                _boosterProcessing = false;
+                return;
+            }
+
+            // 3) применяем эффект
+            switch (eventData.boosterType)
+            {
+                case BoosterType.Letter:
+                    await ActivateBoosterLetterAsync();   // см. ниже — убираем внутренний BlockUI
+                    break;
+
+                case BoosterType.Slowdown:
+                    ActivateBoosterSlowdownAsync();       // можно оставить async void, он не критичен
+                    break;
+            }
+
+            await BlockUIAsync(false);
+            _boosterProcessing = false;
+        }
+
+        
+        private async UniTask ActivateBoosterLetterAsync()
+        {
             Cancel(); // "очистить мусор"
 
-            // Бустер = поиск как HARD
             var boosterSettings = _configService.Game.GetComplexityAIItem(ComplexityAI.HARD);
             var res = await _ai.FindWordAsync(boosterSettings);
 
             if (res.Success)
                 ShowBoosterLetterSuccess(res.Word);
             else
-                ShowBoosterLetterFail();
-            
-            BlockUI(false);
+                await ShowBoosterLetterFailAsync();
         }
+
 
         private void ShowBoosterLetterSuccess(string resWord)
         {
@@ -577,19 +609,31 @@ namespace Game.Logic
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
         }
 
-        private void ShowBoosterLetterFail()
+        private async UniTask ShowBoosterLetterFailAsync()
         {
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
-            _inventory.Add(BoosterType.Letter, 1);
+
+            // серверный возврат
+            await _inventorySync.GrantBoosterAsync(BoosterType.Letter, 1);
+
+            // и обновить панель
             _gameScreen.BoosterPanel.Refresh();
         }
 
-        private void BlockUI(bool isBlocked)
+        private async UniTask BlockUIAsync(bool isBlocked)
         {
-            if (isBlocked)
-                _ui.ShowScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
-            else
-                _ui.HideScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+            await _blockUiLock.WaitAsync();
+            try
+            {
+                if (isBlocked)
+                    await _ui.ShowScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+                else
+                    await _ui.HideScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+            }
+            finally
+            {
+                _blockUiLock.Release();
+            }
         }
 
         private async void ActivateBoosterSlowdownAsync()

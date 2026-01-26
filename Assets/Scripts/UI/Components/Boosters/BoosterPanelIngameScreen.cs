@@ -6,18 +6,10 @@ namespace UI.Components
 {
     public class BoosterPanelIngameScreen : BoosterPanelUI
     {
-        public override void Refresh()
-        {
-            base.Refresh();
-            
-            boosterLetter.gameObject.SetActive(!boosterLetter.IsEmpty);
-            boosterSlowdown.gameObject.SetActive(!boosterSlowdown.IsEmpty);
-        }
-
         public void OnUseLetter()
         {
             //Debug.Log("Буковка КЛИК");
-            if (!boosterLetter.IsActive)
+            if (!boosterLetter.IsActive && !boosterLetter.IsEmpty)
             {
                 Debug.Log("Использовать Буковку");
                 EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Letter });
@@ -27,7 +19,7 @@ namespace UI.Components
         public void OnUseSlowdown()
         {
             //Debug.Log("Замедлялка КЛИК");
-            if (!boosterSlowdown.IsActive)
+            if (!boosterSlowdown.IsActive && !boosterSlowdown.IsEmpty)
             {
                 Debug.Log("Использовать Замедлялку");
                 EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Slowdown });

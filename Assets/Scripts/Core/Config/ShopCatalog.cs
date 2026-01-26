@@ -8,6 +8,10 @@ namespace Core.Config
     [CreateAssetMenu(menuName = "Wordlet/Shop/Shop Catalog", fileName = "ShopCatalog")]
     public sealed class ShopCatalog : ScriptableObject
     {
+        [Header("Config Service")] 
+        public bool EnablePurchasePushToServer = true;
+        
+        [Header("Products")]
         public List<ShopPackConfig> Packs = new();
     }
 

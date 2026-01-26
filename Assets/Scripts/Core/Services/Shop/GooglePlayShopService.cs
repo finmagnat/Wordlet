@@ -172,6 +172,7 @@ namespace Core.Services.Shop
 
                 // 2) Подтверждаем покупку (ACK/consume) — чтобы не было автоотмен и "already owned"
                 _controller.ConfirmPendingPurchase(product);
+                Debug.Log($"[IAP] ConfirmPendingPurchase OK: {productId}");
 
                 // 3) Опционально пушим награды на сервер (без валидации чека) и ресинкаемся
                 if (EnablePurchasePushToServer && pack != null)

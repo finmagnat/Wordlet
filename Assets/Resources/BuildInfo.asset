@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377101263aed439ab6c4909c89d2013a, type: 3}
+  m_Name: BuildInfo
+  m_EditorClassIdentifier: Assembly-CSharp::Core.Build.BuildInfoSO
+  buildUtc: 2026-01-26 12:49:36 UTC
+  buildLocal: 2026-01-26 14:49:36
+  unityVersion: 6000.3.0f1
+  platform: Android
+  configuration: Release
+  versionName: 1.0.1
+  androidVersionCode: 8

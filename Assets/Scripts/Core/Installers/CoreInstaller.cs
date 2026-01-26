@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Build;
 using Core.Dictionary;
 using Core.Generated;
 using Core.Services;
@@ -9,6 +10,7 @@ using Game.Logic;
 using Inventory;
 using UI.Screens;
 using UI.UI;
+using UnityEngine;
 using Zenject;
 
 namespace Core.Installers
@@ -18,8 +20,11 @@ namespace Core.Installers
     {
         [Inject] private DictionaryManagerPresenter _dictPresenter;
 
-        public override void InstallBindings()
-        {
+        public override void InstallBindings() {
+            
+            Debug.Log($"<color=yellow>BUILD: {BuildInfo.VersionName} code={BuildInfo.AndroidVersionCode} utc={BuildInfo.Utc}</color>");
+
+            
             // 🔧 1. Бинды всех сервисов
             Container.Bind<GameLogger>().AsSingle();
             

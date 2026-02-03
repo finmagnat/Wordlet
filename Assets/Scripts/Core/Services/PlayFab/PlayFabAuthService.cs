@@ -6,11 +6,12 @@ using UnityEngine;
 
 namespace Core.Services
 {
-    public class PlayFabAuthService : IService
+    public class PlayFabAuthService : IService , IPlayFabAuthFacade
     {
         public bool IsLoggedIn { get; private set; }
         public bool NewlyCreated { get; private set; }
         public string PlayFabId { get; private set; }
+        public string DisplayName { get; private set; }
 
         public async UniTask InitializeAsync()
         {
@@ -22,13 +23,21 @@ namespace Core.Services
             NewlyCreated = loginResult.NewlyCreated;
             PlayFabId = loginResult.PlayFabId;
 
-            Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. PlayFabId: {PlayFabId}");
+            // ✅ если профиль был запрошен — можно получить DisplayName
+            DisplayName = loginResult.InfoResultPayload?.PlayerProfile?.DisplayName;
+
+            Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. PlayFabId: {PlayFabId}. Name: {DisplayName}");
 
             if (NewlyCreated)
             {
                 await GrantStarterGiftAsync();
                 Debug.Log("Starter gift granted");
             }
+        }
+
+        public void SetDisplayNameLocal(string name)
+        {
+            DisplayName = name;
         }
 
         private static UniTask<LoginResult> LoginWithCustomIdAsync(string customId)
@@ -38,7 +47,17 @@ namespace Core.Services
             var request = new LoginWithCustomIDRequest
             {
                 CustomId = customId,
-                CreateAccount = true
+                CreateAccount = true,
+
+                // ✅ просим профиль, чтобы сразу знать DisplayName
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetPlayerProfile = true,
+                    ProfileConstraints = new PlayerProfileViewConstraints
+                    {
+                        ShowDisplayName = true
+                    }
+                }
             };
 
             PlayFabClientAPI.LoginWithCustomID(

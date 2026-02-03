@@ -62,5 +62,12 @@ namespace Core.Config
         [Header("БУСТЕРЫ")]
         [Tooltip("Время замедления игрового таймера (секунды)")]
         public int slowdownDelay;
+        
+        [Header("LEADERBOARD")]
+        [Tooltip("Сколько строк показывать в Top-N")]
+        public int leaderboardTopN = 10;
+
+        [Tooltip("Кэш Score (секунды), чтобы не спамить PlayFab")]
+        public int scoreCacheSeconds = 15;
     }
 }

@@ -51,8 +51,9 @@ namespace Core.Installers
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
             
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
-
+            
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
 #else
@@ -99,11 +100,12 @@ namespace Core.Installers
             await Container.Resolve<IShopService>().InitializeAsync();
             loading.SetProgress(0.50f);
             
-            await Container.Resolve<IShopService>().InitializeAsync();
-            loading.SetProgress(0.60f);
-
             // PlayFab Auth (создание юзера + подарок)
             await Container.Resolve<PlayFabAuthService>().InitializeAsync();
+            loading.SetProgress(0.60f);
+            
+            // ✅ Profile (nickname + score + leaderboard base)
+            await Container.Resolve<ProfileService>().InitializeAsync();
             loading.SetProgress(0.70f);
 
             // Inventory sync (PlayFab -> Local)

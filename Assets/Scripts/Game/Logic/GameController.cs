@@ -28,6 +28,7 @@ namespace Game.Logic
         [Inject] private IInventoryService _inventory;
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
+        [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         
@@ -498,6 +499,9 @@ namespace Game.Logic
             // TEST
             //resultGame = ResultGame.DRAW;
             //*******************************
+
+            _profile.AddScoreAsync((int)_gameScreen.PlayerPanelOwner.Score);
+                
             FinishGamePopup finishPopup;
             switch (resultGame)
             {
@@ -650,11 +654,6 @@ namespace Game.Logic
                 _gameScreen.TimerBar.StartTimer();
         }
 
-        private void Reset()
-        {
-            _wordsFieldManager.Reset();
-            _gameScreen.Reset();
-        }
         
     }
 }

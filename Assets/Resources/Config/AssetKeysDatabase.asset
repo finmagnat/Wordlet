@@ -91,6 +91,8 @@ MonoBehaviour:
     AddressKey: BlockUIScreen
   - Id: DrawPopup
     AddressKey: DrawPopup
+  - Id: ShopPopup
+    AddressKey: ShopPopup
   - Id: AIGameSetupPopup
     AddressKey: AIGameSetupPopup
   - Id: AIGameScreen
@@ -105,5 +107,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: ShopPopup
-    AddressKey: ShopPopup

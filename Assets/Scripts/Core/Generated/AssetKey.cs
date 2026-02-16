@@ -41,13 +41,13 @@ namespace Core.Generated
         AdvicePopup,
         BlockUIScreen,
         DrawPopup,
+        ShopPopup,
         AIGameSetupPopup,
-        AIGameScreen,
         LoadSavedGamePopup,
         InfoPopup,
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        ShopPopup,
+        AIGameScreen,
     }
 }

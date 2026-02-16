@@ -95,8 +95,6 @@ MonoBehaviour:
     AddressKey: ShopPopup
   - Id: AIGameSetupPopup
     AddressKey: AIGameSetupPopup
-  - Id: AIGameScreen
-    AddressKey: AIGameScreen
   - Id: LoadSavedGamePopup
     AddressKey: LoadSavedGamePopup
   - Id: InfoPopup
@@ -107,3 +105,5 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
+  - Id: AIGameScreen
+    AddressKey: AIGameScreen

@@ -43,11 +43,11 @@ namespace Core.Generated
         DrawPopup,
         ShopPopup,
         AIGameSetupPopup,
-        AIGameScreen,
         LoadSavedGamePopup,
         InfoPopup,
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
+        AIGameScreen,
     }
 }

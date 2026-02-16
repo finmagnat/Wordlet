@@ -57,6 +57,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 797a65c132a972b4abc0a926a017acc3
+    m_Address: AIGameScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c032aa51a0489ef4099b1d96afd9b831
     m_Address: BlockUIScreen
     m_ReadOnly: 0
@@ -77,12 +82,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dca49907340372148b0bab10c22d25fb
     m_Address: AIGameSetupPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: de1b22c1f2f05e745be3adcbb14808bf
-    m_Address: AIGameScreen
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

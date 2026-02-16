@@ -1,4 +1,5 @@
 using Core.Events;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,8 @@ namespace UI.Components
     {
         private const float DtDelay = 1.0f; // Интервал 1 секунда
         
-        [SerializeField] private Slider _slider; // Компонент Slider
+        [SerializeField] private Slider _slider;
+        [SerializeField] private TextMeshProUGUI _progressText;
 
         private float _dtTimer = 0.0f; // Инкрементный счетчик времени (дельтатайм) (при достижении DtDelay увеличивается _secondsCounter)
         private bool _bRun = false; // Старт/Пауза таймера
@@ -17,6 +19,7 @@ namespace UI.Components
         {
             _slider.value = 0;
             //SetTargetValue(10, true); //test
+            _progressText.text = "";
         }
 
         // Update is called once per frame
@@ -28,7 +31,9 @@ namespace UI.Components
                 if (_dtTimer >= DtDelay)
                 {
                     _dtTimer = 0;
-                    if (++_slider.value >= _slider.maxValue)
+                    ++_slider.value;
+                    _progressText.text = $"{_slider.maxValue - _slider.value}";
+                    if (_slider.value >= _slider.maxValue)
                     {
                         StopTimer();
                         EventBus.Raise(new TimeExpiredEvent()); 
@@ -42,7 +47,8 @@ namespace UI.Components
             if (value > 0)
             {
                 _slider.maxValue = value;
-
+                _progressText.text = value.ToString();
+                
                 if (autostartTimer)
                     StartTimer();
             }
@@ -57,9 +63,15 @@ namespace UI.Components
             _bRun = false;
             _dtTimer = 0;
             _slider.value = 0;
+            _progressText.text = "";
         }
 
-        public float SetCurrentValue(float value) => _slider.value = value;
+        public void SetCurrentValue(float value)
+        {
+            _slider.value = value;
+            _progressText.text = $"{_slider.maxValue - value}";
+        }
+
         public float GetCurrentValue() => _slider.value;
         
         private void OnDestroy()

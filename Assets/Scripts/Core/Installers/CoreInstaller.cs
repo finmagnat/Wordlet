@@ -27,7 +27,7 @@ namespace Core.Installers
             // 🔧 1. Бинды всех сервисов
             Container.Bind<GameLogger>().AsSingle();
             
-            Container.Bind<ConfigService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ConfigService>().AsSingle().NonLazy();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
             
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle();
@@ -59,6 +59,9 @@ namespace Core.Installers
 #else
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
 #endif
+            Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
+
         }
 
         public override void Start()
@@ -103,6 +106,10 @@ namespace Core.Installers
             // PlayFab Auth (создание юзера + подарок)
             await Container.Resolve<PlayFabAuthService>().InitializeAsync();
             loading.SetProgress(0.60f);
+            
+            // ✅ Ads (init + preload rewarded)
+            await Container.Resolve<RewardedAdsService>().InitializeAsync();
+            loading.SetProgress(0.65f);
             
             // ✅ Profile (nickname + score + leaderboard base)
             await Container.Resolve<ProfileService>().InitializeAsync();

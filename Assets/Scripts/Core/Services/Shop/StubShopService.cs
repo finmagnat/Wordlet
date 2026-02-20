@@ -22,35 +22,61 @@ namespace Core.Services.Shop
         private readonly IInventoryService _inventory;
         private readonly ShopCatalog _catalog;
         private readonly InventorySyncService _inventorySync;
+        private readonly RewardedAdsService _ads;
+        private readonly LocalizationService _localization;
 
         [Inject]
-        public StubShopService(ConfigService configService, IInventoryService inventory, InventorySyncService inventorySync)
+        public StubShopService(ConfigService configService, IInventoryService inventory, InventorySyncService inventorySync, RewardedAdsService ads, LocalizationService localization)
         {
             _catalog = configService.Shop;
             _inventory = inventory;
             _inventorySync = inventorySync;
+            _ads = ads;
+            _localization = localization;
         }
 
         public UniTask InitializeAsync() => UniTask.CompletedTask;
 
-        public UniTask<IReadOnlyList<ShopPackDto>> GetCatalogAsync()
+        public UniTask<IReadOnlyList<ShopOfferDto>> GetCatalogAsync()
         {
-            var list = _catalog.Packs.Select(p => new ShopPackDto
+            var list = _catalog.Offers.Select(o => new ShopOfferDto
             {
-                ProductId = p.ProductId,
-                Title = p.Title,
-                Description = p.Description,
-                PriceText = p.DebugPriceText,
-                IsAvailable = p.DebugAvailable,
-                Rewards = p.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
+                Type = (ShopOfferTypeDto)o.Type,
+                ProductId = o.ProductId,
+                RewardType = o.RewardType,
+                Title = o.Title,
+                Description = o.Description,
+                CtaText = o.Type == ShopOfferType.IapPack ? o.DebugPriceText : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
+                IsAvailable = o.DebugAvailable, // + позже сюда добавим cooldown/limit для Rewarded
+                Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
             }).ToList();
 
-            return UniTask.FromResult((IReadOnlyList<ShopPackDto>)list);
+            return UniTask.FromResult((IReadOnlyList<ShopOfferDto>)list);
         }
+        
+        public async UniTask<PurchaseResult> ExecuteOfferAsync(ShopOfferDto offer)
+        {
+            if (offer == null) return PurchaseResult.Fail("Offer is null");
+
+            switch (offer.Type)
+            {
+                case ShopOfferTypeDto.IapPack:
+                    return await PurchaseAsync(offer.ProductId);
+
+                case ShopOfferTypeDto.RewardedAd:
+                    // тут позже воткнём лимиты/cooldown
+                    _ads.ShowFor(offer.RewardType);
+                    return PurchaseResult.Ok();
+
+                default:
+                    return PurchaseResult.Fail("Unknown offer type");
+            }
+        }
+
 
         public async UniTask<PurchaseResult> PurchaseAsync(string productId)
         {
-            var pack = _catalog.Packs.FirstOrDefault(p => p.ProductId == productId);
+            var pack = _catalog.Offers.FirstOrDefault(p => p.ProductId == productId);
             if (pack == null) return PurchaseResult.Fail("Pack not found");
             if (!pack.DebugAvailable) return PurchaseResult.Fail("Not available");
 

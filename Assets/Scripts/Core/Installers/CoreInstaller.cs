@@ -111,6 +111,9 @@ namespace Core.Installers
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
             loading.SetProgress(0.65f);
             
+            await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
+            loading.SetProgress(0.68f);
+            
             // ✅ Profile (nickname + score + leaderboard base)
             await Container.Resolve<ProfileService>().InitializeAsync();
             loading.SetProgress(0.70f);

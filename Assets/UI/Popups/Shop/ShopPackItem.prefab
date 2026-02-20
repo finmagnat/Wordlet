@@ -223,7 +223,7 @@ MonoBehaviour:
   _header: {fileID: 6734162702858729742}
   _title: {fileID: 8882471195550630128}
   _buyButton: {fileID: 1605595533637128369}
-  _priceText: {fileID: 3377431985831000961}
+  _ctaText: {fileID: 3377431985831000961}
 --- !u!1 &5163956610733976072
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 1193767068029593063}
   - component: {fileID: 3377431985831000961}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CtaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

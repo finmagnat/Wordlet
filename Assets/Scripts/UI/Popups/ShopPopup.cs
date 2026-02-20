@@ -55,27 +55,28 @@ namespace UI.Popups
             for (int i = _contentRoot.childCount - 1; i >= 0; i--)
                 Destroy(_contentRoot.GetChild(i).gameObject);
 
-            var catalog = await _shop.GetCatalogAsync();
+            var offers = await _shop.GetCatalogAsync();
 
-            foreach (var pack in catalog)
+            foreach (var offer in offers)
             {
                 var view = _container.InstantiatePrefabForComponent<ShopPackItemView>(_itemPrefab, _contentRoot);
-                view.Bind(pack, OnBuyClicked);
+                view.Bind(offer, OnOfferClicked);
             }
         }
-
-        private async void OnBuyClicked(string productId)
+        
+        private async void OnOfferClicked(ShopOfferDto offer)
         {
-            var result = await _shop.PurchaseAsync(productId);
+            var result = await _shop.ExecuteOfferAsync(offer);
             if (!result.Success)
             {
-                Debug.LogWarning($"Purchase failed: {result.Error}");
+                Debug.LogWarning($"Offer failed: {result.Error}");
                 // позже: показать попап
                 return;
             }
 
-            Debug.Log($"Purchased: {productId}");
-            // позже: pop-up “Успешно”, обновить инвентарь UI и т.п.
+            Debug.Log($"Purchased: {offer}");
+            // позже: pop-up “Успешно”, обновить UI и т.п.
         }
+
     }
 }

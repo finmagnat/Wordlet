@@ -12,30 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0724353e5cc4c5b968984d306abefee, type: 3}
   m_Name: ShopCatalog
   m_EditorClassIdentifier: Assembly-CSharp::Core.Config.ShopCatalog
-  Packs:
-  - ProductId: wordlet_pack_best
+  EnablePurchasePushToServer: 1
+  Offers:
+  - Type: 0
     Title: STORE_TITLE_BEST_PRICE
     Description: 
     Rewards:
-    - ItemId: 0
-      Amount: 15
     - ItemId: 1
       Amount: 15
+    - ItemId: 2
+      Amount: 15
+    ProductId: wordlet_pack_best
     DebugPriceText: 19.99
     DebugAvailable: 1
-  - ProductId: wordlet_pack_hint_10
-    Title: 
-    Description: 
-    Rewards:
-    - ItemId: 0
-      Amount: 10
-    DebugPriceText: 9.99
-    DebugAvailable: 1
-  - ProductId: wordlet_pack_slowtime_10
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+  - Type: 0
     Title: 
     Description: 
     Rewards:
     - ItemId: 1
       Amount: 10
+    ProductId: wordlet_pack_hint_10
     DebugPriceText: 9.99
     DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+  - Type: 0
+    Title: 
+    Description: 
+    Rewards:
+    - ItemId: 2
+      Amount: 10
+    ProductId: wordlet_pack_slowtime_10
+    DebugPriceText: 9.99
+    DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+  - Type: 1
+    Title: 
+    Description: 
+    Rewards:
+    - ItemId: 1
+      Amount: 1
+    ProductId: 
+    DebugPriceText: 
+    DebugAvailable: 1
+    RewardType: 1
+    DailyLimit: 0
+    CooldownSeconds: 0
+  - Type: 1
+    Title: 
+    Description: 
+    Rewards:
+    - ItemId: 2
+      Amount: 1
+    ProductId: 
+    DebugPriceText: 
+    DebugAvailable: 1
+    RewardType: 2
+    DailyLimit: 0
+    CooldownSeconds: 0

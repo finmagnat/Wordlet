@@ -315,6 +315,10 @@ MonoBehaviour:
     m_Key: STORE_TITLE_BEST_PRICE
     m_Metadata:
       m_Items: []
+  - m_Id: 35877070642233344
+    m_Key: TEXT_LOOK
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

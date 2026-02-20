@@ -7,7 +7,8 @@ namespace Core.Services.Shop
     public interface IShopService : IService
     {
         UniTask InitializeAsync();
-        UniTask<IReadOnlyList<ShopPackDto>> GetCatalogAsync();
+        UniTask<IReadOnlyList<ShopOfferDto>> GetCatalogAsync();
+        UniTask<PurchaseResult> ExecuteOfferAsync(ShopOfferDto offer);
         UniTask<PurchaseResult> PurchaseAsync(string productId);
     }
 }

@@ -357,6 +357,10 @@ MonoBehaviour:
     m_Localized: Best price
     m_Metadata:
       m_Items: []
+  - m_Id: 35877070642233344
+    m_Localized: Look
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

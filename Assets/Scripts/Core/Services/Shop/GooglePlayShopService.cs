@@ -12,14 +12,16 @@ using Zenject;
 namespace Core.Services.Shop
 {
     /// <summary>
-    /// MVP: покупка и выдача наград на клиенте (Unity IAP).
-    /// Опционально: пушим награды на сервер (PlayFab AddBooster) и делаем SyncFromServerAsync.
+    /// Покупка и выдача наград через Unity IAP (Google Play).
+    /// Rewarded офферы не покупаются — они триггерят показ рекламы.
     /// </summary>
     public sealed class GooglePlayShopService : IShopService, IStoreListener
     {
         private readonly ShopCatalog _catalog;
         private readonly IInventoryService _inventory;
         private readonly InventorySyncService _inventorySync;
+        private readonly RewardedAdsService _ads;
+        private readonly LocalizationService _localization;
 
         private IStoreController _controller;
         private IExtensionProvider _extensions;
@@ -30,51 +32,96 @@ namespace Core.Services.Shop
         private UniTaskCompletionSource<PurchaseResult> _purchaseTcs;
         private string _pendingPurchaseId;
 
-        // TODO: вынеси в конфиг (ShopCatalog/ConfigService), если хочешь.
-        // MVP: выключено по умолчанию, чтобы покупки работали без PlayFab.
         private bool EnablePurchasePushToServer => _catalog.EnablePurchasePushToServer;
 
         [Inject]
-        public GooglePlayShopService(ShopCatalog catalog, IInventoryService inventory, InventorySyncService inventorySync)
+        public GooglePlayShopService(
+            ShopCatalog catalog,
+            IInventoryService inventory,
+            InventorySyncService inventorySync,
+            RewardedAdsService ads,
+            LocalizationService localization)
         {
             _catalog = catalog;
             _inventory = inventory;
             _inventorySync = inventorySync;
+            _ads = ads;
+            _localization = localization;
         }
 
         // -------- IShopService --------
 
         public UniTask InitializeAsync() => UniTask.CompletedTask;
 
-        public async UniTask<IReadOnlyList<ShopPackDto>> GetCatalogAsync()
+        public async UniTask<IReadOnlyList<ShopOfferDto>> GetCatalogAsync()
         {
-            await EnsureInitializedAsync();
+            // Инициализируем IAP ТОЛЬКО если есть IAP офферы
+            if (HasAnyIapOffers())
+                await EnsureInitializedAsync();
 
-            var list = new List<ShopPackDto>(_catalog.Packs.Count);
-            foreach (var p in _catalog.Packs)
+            var list = new List<ShopOfferDto>(_catalog.Offers.Count);
+
+            foreach (var o in _catalog.Offers)
             {
-                var dto = new ShopPackDto
+                var dto = new ShopOfferDto
                 {
-                    ProductId = p.ProductId,
-                    Title = p.Title,
-                    Description = p.Description,
-                    IsAvailable = true,
-                    PriceText = p.DebugPriceText, // fallback
-                    Rewards = p.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
+                    Type = (ShopOfferTypeDto)o.Type,
+                    ProductId = o.ProductId,
+                    RewardType = o.RewardType,
+
+                    Title = o.Title,
+                    Description = o.Description,
+
+                    Rewards = o.Rewards.Select(r => new ShopRewardDto
+                    {
+                        ItemId = r.ItemId,
+                        Amount = r.Amount
+                    }).ToList(),
+
+                    // По умолчанию
+                    IsAvailable = o.DebugAvailable,
+                    CtaText = o.Type == ShopOfferType.RewardedAd ? _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook) : o.DebugPriceText
                 };
 
-                var product = _controller?.products?.WithID(p.ProductId);
-                if (product != null)
+                // Для IAP пробуем подставить реальную цену из Unity IAP
+                if (o.Type == ShopOfferType.IapPack && !string.IsNullOrWhiteSpace(o.ProductId) && _controller != null)
                 {
-                    dto.IsAvailable = product.availableToPurchase;
-                    if (product.metadata != null && !string.IsNullOrWhiteSpace(product.metadata.localizedPriceString))
-                        dto.PriceText = product.metadata.localizedPriceString;
+                    var product = _controller.products.WithID(o.ProductId);
+                    if (product != null)
+                    {
+                        dto.IsAvailable = product.availableToPurchase;
+
+                        var price = product.metadata?.localizedPriceString;
+                        if (!string.IsNullOrWhiteSpace(price))
+                            dto.CtaText = price;
+                    }
                 }
 
                 list.Add(dto);
             }
 
             return list;
+        }
+
+        public async UniTask<PurchaseResult> ExecuteOfferAsync(ShopOfferDto offer)
+        {
+            if (offer == null)
+                return PurchaseResult.Fail("Offer is null");
+
+            switch (offer.Type)
+            {
+                case ShopOfferTypeDto.IapPack:
+                    return await PurchaseAsync(offer.ProductId);
+
+                case ShopOfferTypeDto.RewardedAd:
+                    // Показ рекламы; выдача награды у тебя делается RewardedBoosterGrantService по OnRewardEarned
+                    Debug.Log($"[ShopService] Execute rewarded: rewardType={offer.RewardType}");
+                    _ads.ShowFor(offer.RewardType);
+                    return PurchaseResult.Ok();
+
+                default:
+                    return PurchaseResult.Fail($"Unknown offer type: {offer.Type}");
+            }
         }
 
         public async UniTask<PurchaseResult> PurchaseAsync(string productId)
@@ -100,6 +147,13 @@ namespace Core.Services.Shop
 
         // -------- Unity IAP init --------
 
+        private bool HasAnyIapOffers()
+        {
+            return _catalog.Offers.Any(o =>
+                o.Type == ShopOfferType.IapPack &&
+                !string.IsNullOrWhiteSpace(o.ProductId));
+        }
+
         private UniTask EnsureInitializedAsync()
         {
             if (_controller != null)
@@ -114,9 +168,14 @@ namespace Core.Services.Shop
                 var module = StandardPurchasingModule.Instance(AppStore.GooglePlay);
                 var builder = ConfigurationBuilder.Instance(module);
 
-                // Все твои паки — расходники
-                foreach (var p in _catalog.Packs)
-                    builder.AddProduct(p.ProductId, ProductType.Consumable);
+                // Добавляем ТОЛЬКО IAP офферы
+                foreach (var o in _catalog.Offers)
+                {
+                    if (o.Type != ShopOfferType.IapPack) continue;
+                    if (string.IsNullOrWhiteSpace(o.ProductId)) continue;
+
+                    builder.AddProduct(o.ProductId, ProductType.Consumable);
+                }
 
                 UnityPurchasing.Initialize(this, builder);
             }
@@ -135,7 +194,6 @@ namespace Core.Services.Shop
             _initTcs = null;
         }
 
-        // Держим обе сигнатуры, чтобы не зависеть от версии Unity IAP
         public void OnInitializeFailed(InitializationFailureReason error)
         {
             _initTcs?.TrySetException(new Exception($"IAP init failed: {error}"));
@@ -155,32 +213,29 @@ namespace Core.Services.Shop
 
             try
             {
-                // 1) Начисляем награду локально по ShopCatalog
-                var pack = _catalog.Packs.FirstOrDefault(p => p.ProductId == productId);
+                // Начисляем награду локально по ShopCatalog (только для IAP офферов)
+                var pack = _catalog.Offers.FirstOrDefault(p =>
+                    p.Type == ShopOfferType.IapPack &&
+                    p.ProductId == productId);
+
                 if (pack == null)
                 {
-                    Debug.LogError($"[IAP] Pack not found in ShopCatalog: {productId}. Confirming purchase to avoid stuck.");
+                    Debug.LogError($"[IAP] Offer not found in ShopCatalog: {productId}. Confirming purchase.");
                 }
                 else
                 {
                     foreach (var reward in pack.Rewards)
-                    {
-                        // reward.ItemId — это BoosterType (enum) у тебя в YAML: 0/1
                         _inventory.Add((BoosterType)reward.ItemId, reward.Amount);
-                    }
                 }
 
-                // 2) Подтверждаем покупку (ACK/consume) — чтобы не было автоотмен и "already owned"
+                // Confirm/consume
                 _controller.ConfirmPendingPurchase(product);
                 Debug.Log($"[IAP] ConfirmPendingPurchase OK: {productId}");
 
-                // 3) Опционально пушим награды на сервер (без валидации чека) и ресинкаемся
+                // Optional server push + sync
                 if (EnablePurchasePushToServer && pack != null)
-                {
                     PushPurchaseToServerAsync(pack).Forget();
-                }
 
-                // 4) Разрешаем UI (успех)
                 if (_purchaseTcs != null && _pendingPurchaseId == productId)
                 {
                     _purchaseTcs.TrySetResult(PurchaseResult.Ok());
@@ -192,8 +247,6 @@ namespace Core.Services.Shop
             {
                 Debug.LogError($"[IAP] ProcessPurchase exception for {productId}: {ex}");
 
-                // Даже при ошибке лучше подтвердить покупку, чтобы не оставлять ее "owned"/pending.
-                // Награду можно не выдавать (или выдать частично), но магазин не должен ломаться.
                 try { _controller.ConfirmPendingPurchase(product); } catch { /* ignore */ }
 
                 if (_purchaseTcs != null && _pendingPurchaseId == productId)
@@ -204,7 +257,6 @@ namespace Core.Services.Shop
                 }
             }
 
-            // В MVP мы завершаем покупку сразу.
             return PurchaseProcessingResult.Complete;
         }
 
@@ -222,24 +274,19 @@ namespace Core.Services.Shop
 
         // -------- Optional server sync --------
 
-        private async UniTaskVoid PushPurchaseToServerAsync(ShopPackConfig pack)
+        private async UniTaskVoid PushPurchaseToServerAsync(ShopOfferConfig pack)
         {
             try
             {
-                // Пушим именно "добавление" бустеров на сервер.
                 foreach (var reward in pack.Rewards)
-                {
                     await _inventorySync.GrantBoosterAsync((BoosterType)reward.ItemId, reward.Amount);
-                }
 
-                // После пуша тянем сервер -> клиент (источник истины)
                 await _inventorySync.SyncFromServerAsync();
 
                 Debug.Log($"[IAP] Purchase pushed to server and synced: {pack.ProductId}");
             }
             catch (Exception ex)
             {
-                // MVP: покупка считается успешной локально, даже если серверный пуш упал.
                 Debug.LogError($"[IAP] PushPurchaseToServer failed for {pack.ProductId}: {ex}");
             }
         }

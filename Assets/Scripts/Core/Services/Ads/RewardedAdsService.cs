@@ -15,33 +15,32 @@ namespace Core.Services
     {
         private readonly Dictionary<RewardType, RewardedAd> _ads = new();
         private readonly HashSet<RewardType> _loading = new();
+        private readonly HashSet<RewardType> _showing = new();
 
-        
         [Inject] private IConfigService _configs;
         private AdsConfig Ads => _configs.Ads;
-
-        private RewardedAd _rewardedAd;
-        private bool _isLoading;
 
         private RewardType _pendingReward = RewardType.None;
         private bool _rewardGrantedThisAd;
 
-        public bool IsReady => _rewardedAd != null && _rewardedAd.CanShowAd();
-
         /// <summary>Срабатывает только когда сеть реально дала "earned".</summary>
         public event Action<RewardType> OnRewardEarned;
 
-        /// <summary>Для UI: готова ли реклама.</summary>
-        public event Action<bool> OnAvailabilityChanged;
+        /// <summary>Для UI: готовность rewarded по конкретному типу.</summary>
+        public event Action<RewardType, bool> OnAvailabilityChanged;
+
+        /// <summary>Для UI: сейчас показывается ли реклама по конкретному типу.</summary>
+        public event Action<RewardType, bool> OnShowingChanged;
 
         public async UniTask InitializeAsync()
         {
 #if UNITY_ANDROID || UNITY_IOS
             await InitializeMobileAdsAsync();
+
+            // Прелоадим оба типа
             EnsureLoaded(RewardType.Letter);
             EnsureLoaded(RewardType.Slowdown);
 #else
-            // В редакторе можешь оставить так (или тоже инициализировать — не критично)
             Debug.Log("[Ads] Skipping MobileAds init on this platform.");
 #endif
         }
@@ -59,13 +58,21 @@ namespace Core.Services
             return tcs.Task;
         }
 
+        public bool IsReady(RewardType type)
+        {
+            return _ads.TryGetValue(type, out var ad) && ad != null && ad.CanShowAd();
+        }
+
+        public bool IsShowing(RewardType type) => _showing.Contains(type);
+
         public void EnsureLoaded(RewardType type)
         {
+            if (type == RewardType.None) return;
             if (_loading.Contains(type)) return;
 
-            if (_ads.TryGetValue(type, out var ad) && ad != null && ad.CanShowAd())
+            if (IsReady(type))
             {
-                OnAvailabilityChanged?.Invoke(true);
+                OnAvailabilityChanged?.Invoke(type, true);
                 return;
             }
 
@@ -74,17 +81,33 @@ namespace Core.Services
 
         public void ShowFor(RewardType rewardType)
         {
+            Debug.Log($"[Ads] ShowFor called with: {rewardType}");
+            
             if (rewardType == RewardType.None) return;
 
-            if (!_ads.TryGetValue(rewardType, out var ad) || ad == null || !ad.CanShowAd())
+            if (!IsReady(rewardType))
             {
                 Debug.Log($"[Ads] Rewarded not ready for {rewardType}. Triggering load.");
                 EnsureLoaded(rewardType);
+                OnAvailabilityChanged?.Invoke(rewardType, false);
                 return;
             }
 
+            if (_showing.Contains(rewardType))
+            {
+                Debug.LogWarning($"[Ads] ShowFor ignored. Already showing: {rewardType}");
+                return;
+            }
+
+            if (!_ads.TryGetValue(rewardType, out var ad) || ad == null)
+                return;
+
             _pendingReward = rewardType;
             _rewardGrantedThisAd = false;
+
+            _showing.Add(rewardType);
+            OnShowingChanged?.Invoke(rewardType, true);
+            OnAvailabilityChanged?.Invoke(rewardType, false);
 
             Debug.Log($"[Ads] Showing rewarded for: {_pendingReward}");
 
@@ -100,7 +123,6 @@ namespace Core.Services
             });
         }
 
-
         private void LoadRewarded(RewardType type)
         {
             var adUnitId = Ads.GetRewardedId(type);
@@ -111,7 +133,7 @@ namespace Core.Services
             }
 
             _loading.Add(type);
-            OnAvailabilityChanged?.Invoke(false);
+            OnAvailabilityChanged?.Invoke(type, false);
 
             // уничтожаем старую по этому типу
             if (_ads.TryGetValue(type, out var oldAd) && oldAd != null)
@@ -127,33 +149,45 @@ namespace Core.Services
                 if (error != null || ad == null)
                 {
                     Debug.LogWarning($"[Ads] Failed to load rewarded for {type}: {error}");
-                    OnAvailabilityChanged?.Invoke(false);
+                    OnAvailabilityChanged?.Invoke(type, false);
                     return;
                 }
 
                 _ads[type] = ad;
                 Debug.Log($"[Ads] Rewarded loaded for {type}");
-                OnAvailabilityChanged?.Invoke(true);
 
                 HookFullScreenEvents(type, ad);
+
+                // Если прямо сейчас не показываем — считаем готовой
+                if (!_showing.Contains(type))
+                    OnAvailabilityChanged?.Invoke(type, true);
             });
         }
-
 
         private void HookFullScreenEvents(RewardType type, RewardedAd ad)
         {
             ad.OnAdFullScreenContentClosed += () =>
             {
                 Debug.Log($"[Ads] Rewarded closed for {type}. Reloading...");
+
+                if (_showing.Remove(type))
+                    OnShowingChanged?.Invoke(type, false);
+
                 EnsureLoaded(type);
             };
 
             ad.OnAdFullScreenContentFailed += err =>
             {
                 Debug.LogWarning($"[Ads] Fullscreen failed for {type}: {err}");
+
+                if (_showing.Remove(type))
+                    OnShowingChanged?.Invoke(type, false);
+
                 EnsureLoaded(type);
             };
-        }
 
+            ad.OnAdFullScreenContentOpened += () => Debug.Log($"[Ads] Rewarded opened for {type}.");
+            ad.OnAdImpressionRecorded += () => Debug.Log($"[Ads] Impression recorded for {type}.");
+        }
     }
 }

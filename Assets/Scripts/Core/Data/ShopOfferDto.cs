@@ -1,20 +1,27 @@
 using System;
 using System.Collections.Generic;
+using Core.Services;
 using Inventory;
 
 namespace Core.Data
 {
+    public enum ShopOfferTypeDto { IapPack = 0, RewardedAd = 1 }
+    
     [Serializable]
-    public sealed class ShopPackDto
+    public sealed class ShopOfferDto
     {
-        public string ProductId;
+        public ShopOfferTypeDto Type;
+
+        public string ProductId;      // для IAP
+        public RewardType RewardType; // для Rewarded
+
         public string Title;
         public string Description;
 
-        public string PriceText;   // "114,99 грн" / "$1.99" / "—" если не загружено
-        public bool IsAvailable;   // купится ли сейчас
+        public string CtaText;        // "19.99" или "Смотреть"
+        public bool IsAvailable;
 
-        public IReadOnlyList<ShopRewardDto> Rewards;
+        public List<ShopRewardDto> Rewards = new();
     }
     
     [Serializable]

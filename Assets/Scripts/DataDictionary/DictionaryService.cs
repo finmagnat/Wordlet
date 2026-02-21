@@ -4,7 +4,7 @@ using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Dictionary
+namespace Core.DataDictionary
 {
     public class DictionaryService : IDictionaryService
     {

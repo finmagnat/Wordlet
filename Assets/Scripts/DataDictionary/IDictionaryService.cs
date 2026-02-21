@@ -1,6 +1,6 @@
 using Core.Services;
 
-namespace Core.Dictionary
+namespace Core.DataDictionary
 {
     public interface IDictionaryService : IService
     {

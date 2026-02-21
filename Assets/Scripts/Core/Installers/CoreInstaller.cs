@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Build;
-using Core.Dictionary;
+using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.Shop;
@@ -61,7 +61,7 @@ namespace Core.Installers
 #endif
             Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
-
+            Container.BindInterfacesAndSelfTo<RewardedLimitsService>().AsSingle().NonLazy();
         }
 
         public override void Start()
@@ -112,11 +112,12 @@ namespace Core.Installers
             loading.SetProgress(0.65f);
             
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
-            loading.SetProgress(0.68f);
+            await Container.Resolve<RewardedLimitsService>().InitializeAsync();
+            loading.SetProgress(0.70f);
             
             // ✅ Profile (nickname + score + leaderboard base)
             await Container.Resolve<ProfileService>().InitializeAsync();
-            loading.SetProgress(0.70f);
+            loading.SetProgress(0.75f);
 
             // Inventory sync (PlayFab -> Local)
             await Container.Resolve<InventorySyncService>().InitializeAsync();

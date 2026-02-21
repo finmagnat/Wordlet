@@ -62,8 +62,8 @@ MonoBehaviour:
     DebugPriceText: 
     DebugAvailable: 1
     RewardType: 1
-    DailyLimit: 0
-    CooldownSeconds: 0
+    DailyLimit: 2
+    CooldownSeconds: 30
   - Type: 1
     Title: 
     Description: 
@@ -74,5 +74,5 @@ MonoBehaviour:
     DebugPriceText: 
     DebugAvailable: 1
     RewardType: 2
-    DailyLimit: 0
-    CooldownSeconds: 0
+    DailyLimit: 3
+    CooldownSeconds: 45

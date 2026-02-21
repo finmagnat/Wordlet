@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Core.Dictionary;
+using Core.DataDictionary;
 using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;

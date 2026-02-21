@@ -3,7 +3,7 @@ using System.IO;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.Dictionary
+namespace Core.DataDictionary
 {
     public class UserDictionaryService
     {

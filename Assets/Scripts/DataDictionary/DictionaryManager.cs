@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 using UnityEngine.Localization;
 
-namespace Core.Dictionary
+namespace Core.DataDictionary
 {
     public class DictionaryManager
     {

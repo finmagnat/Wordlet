@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377101263aed439ab6c4909c89d2013a, type: 3}
   m_Name: BuildInfo
   m_EditorClassIdentifier: Assembly-CSharp::Core.Build.BuildInfoSO
-  buildUtc: 2026-02-17 20:05:47 UTC
-  buildLocal: 2026-02-17 22:05:47
+  buildUtc: 2026-02-21 09:36:45 UTC
+  buildLocal: 2026-02-21 11:36:45
   unityVersion: 6000.3.0f1
   platform: Android
   configuration: Release

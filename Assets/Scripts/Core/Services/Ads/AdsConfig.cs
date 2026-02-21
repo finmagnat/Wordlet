@@ -8,6 +8,7 @@ namespace Core.Services
         [Header("Android Rewarded Ad Units")]
         public string RewardedLetter;
         public string RewardedSlowdown;
+        public string InterstitialAd;
 
 #if UNITY_EDITOR
         [Header("Test Mode")]

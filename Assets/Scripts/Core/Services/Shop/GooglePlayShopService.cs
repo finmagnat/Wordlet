@@ -22,6 +22,7 @@ namespace Core.Services.Shop
         private readonly InventorySyncService _inventorySync;
         private readonly RewardedAdsService _ads;
         private readonly LocalizationService _localization;
+        private readonly AdsEntitlementService _adsEntitlement;
 
         private IStoreController _controller;
         private IExtensionProvider _extensions;
@@ -40,13 +41,15 @@ namespace Core.Services.Shop
             IInventoryService inventory,
             InventorySyncService inventorySync,
             RewardedAdsService ads,
-            LocalizationService localization)
+            LocalizationService localization,
+            AdsEntitlementService adsEntitlement)
         {
             _catalog = catalog;
             _inventory = inventory;
             _inventorySync = inventorySync;
             _ads = ads;
             _localization = localization;
+            _adsEntitlement = adsEntitlement;
         }
 
         // -------- IShopService --------
@@ -173,8 +176,9 @@ namespace Core.Services.Shop
                 {
                     if (o.Type != ShopOfferType.IapPack) continue;
                     if (string.IsNullOrWhiteSpace(o.ProductId)) continue;
-
-                    builder.AddProduct(o.ProductId, ProductType.Consumable);
+                    
+                    var type = o.IsNonConsumable ? ProductType.NonConsumable : ProductType.Consumable;
+                    builder.AddProduct(o.ProductId, type);
                 }
 
                 UnityPurchasing.Initialize(this, builder);
@@ -222,12 +226,17 @@ namespace Core.Services.Shop
                 {
                     Debug.LogError($"[IAP] Offer not found in ShopCatalog: {productId}. Confirming purchase.");
                 }
+                else if (pack != null && pack.DisableInterstitialAds)
+                {
+                    // Ставим entitlement (локально + PlayFab user data)
+                    _adsEntitlement.SetNoInterstitialAdsAsync(true).Forget();
+                }
                 else
                 {
                     foreach (var reward in pack.Rewards)
                         _inventory.Add((BoosterType)reward.ItemId, reward.Amount);
                 }
-
+                
                 // Confirm/consume
                 _controller.ConfirmPendingPurchase(product);
                 Debug.Log($"[IAP] ConfirmPendingPurchase OK: {productId}");

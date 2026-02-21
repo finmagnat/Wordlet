@@ -38,6 +38,7 @@ namespace UI.Screens
         [Inject] protected IUIManager _ui;
         [Inject] protected ILoadingUI _loadingUI;
         [Inject] protected ISaveService _saveService;
+        [Inject] protected InterstitialPolicyService _interstitialService;
         
         protected bool _isProcessing;
         
@@ -105,6 +106,9 @@ namespace UI.Screens
 
         protected async UniTask GoToHome(bool isSaveGame = false)
         {
+            // Пытаемся показать interstitial и ждём закрытия (если показалась)
+            await _interstitialService.TryShowAndWaitAsync("exit_game");
+            
             // Показ in-game loading
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
 

@@ -28,6 +28,8 @@ MonoBehaviour:
     RewardType: 0
     DailyLimit: 0
     CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
   - Type: 0
     Title: 
     Description: 
@@ -40,6 +42,8 @@ MonoBehaviour:
     RewardType: 0
     DailyLimit: 0
     CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
   - Type: 0
     Title: 
     Description: 
@@ -52,6 +56,8 @@ MonoBehaviour:
     RewardType: 0
     DailyLimit: 0
     CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
   - Type: 1
     Title: 
     Description: 
@@ -64,6 +70,8 @@ MonoBehaviour:
     RewardType: 1
     DailyLimit: 2
     CooldownSeconds: 30
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
   - Type: 1
     Title: 
     Description: 
@@ -76,3 +84,17 @@ MonoBehaviour:
     RewardType: 2
     DailyLimit: 3
     CooldownSeconds: 45
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
+  - Type: 0
+    Title: 
+    Description: 
+    Rewards: []
+    ProductId: remove_interstitial_ads
+    DebugPriceText: 49.99
+    DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 1

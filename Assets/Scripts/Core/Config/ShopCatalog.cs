@@ -43,6 +43,10 @@ namespace Core.Config
         public RewardType RewardType;   // Letter / Slowdown (какой ad unit дергать)
         public int DailyLimit = 20;     // лимит на “фарм”
         public int CooldownSeconds = 60; // анти-спам
+        
+        [Header("Interstitial Ads only")]
+        public bool DisableInterstitialAds; // ✅ remove ads purchase (только interstitial)
+        public bool IsNonConsumable = true; // ✅ для remove ads обычно true
     }
 
     [Serializable]
@@ -51,4 +55,5 @@ namespace Core.Config
         public BoosterType ItemId;
         public int Amount;
     }
+    
 }

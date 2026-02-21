@@ -62,6 +62,10 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedLimitsService>().AsSingle().NonLazy();
+            
+            Container.Bind<AdsEntitlementService>().AsSingle();
+            Container.Bind<InterstitialAdsService>().AsSingle();
+            Container.Bind<InterstitialPolicyService>().AsSingle();
         }
 
         public override void Start()
@@ -109,6 +113,9 @@ namespace Core.Installers
             
             // ✅ Ads (init + preload rewarded)
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
+            await Container.Resolve<AdsEntitlementService>().InitializeAsync();
+            await Container.Resolve<InterstitialAdsService>().InitializeAsync();
+            await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
             loading.SetProgress(0.65f);
             
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();

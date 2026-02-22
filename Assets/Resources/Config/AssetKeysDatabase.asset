@@ -87,6 +87,10 @@ MonoBehaviour:
     AddressKey: SkinsPopup
   - Id: AdvicePopup
     AddressKey: AdvicePopup
+  - Id: AIGameScreen
+    AddressKey: AIGameScreen
+  - Id: NoAdsPopup
+    AddressKey: NoAdsPopup
   - Id: BlockUIScreen
     AddressKey: BlockUIScreen
   - Id: DrawPopup
@@ -105,5 +109,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: AIGameScreen
-    AddressKey: AIGameScreen

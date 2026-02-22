@@ -361,6 +361,14 @@ MonoBehaviour:
     m_Localized: Look
     m_Metadata:
       m_Items: []
+  - m_Id: 37305861944000512
+    m_Localized: Advertising is disabled
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37306138763870208
+    m_Localized: Interstitial advertising will no longer be shown.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

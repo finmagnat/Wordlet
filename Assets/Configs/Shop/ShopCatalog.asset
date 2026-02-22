@@ -96,5 +96,5 @@ MonoBehaviour:
     RewardType: 0
     DailyLimit: 0
     CooldownSeconds: 0
-    DisableInterstitialAds: 0
+    DisableInterstitialAds: 1
     IsNonConsumable: 1

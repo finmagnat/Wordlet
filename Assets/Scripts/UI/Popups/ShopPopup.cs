@@ -1,6 +1,8 @@
 using Core.Config;
 using Core.Data;
+using Core.Generated;
 using Core.Services.Shop;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +14,7 @@ namespace UI.Popups
     {
         [Inject] private IShopService _shop;
         [Inject] private DiContainer _container;
+        [Inject] private IUIManager _ui;
         
         [Header("UI Elements")]
         [SerializeField] protected Button _exitButton;
@@ -70,12 +73,13 @@ namespace UI.Popups
                 // MVP-уведомление (без зависимости от других попапов)
                 Debug.Log("[Shop] Interstitial-реклама отключена");
 
-                // Если у тебя есть MessageBox/Toast — вот сюда воткнём
-                // await _popupService.ShowMessageAsync("Реклама отключена", "Interstitial-реклама больше не будет показываться.");
+                // 2) Обновляем витрину, чтобы remove_ads исчез сразу
+                await RebuildCatalogAsync();
+                
+                await _ui.ShowPopupAsync<NoAdsPopup>(AssetKey.NoAdsPopup);
+                
+                HideAsync();
             }
-
-            // 2) Обновляем витрину, чтобы remove_ads исчез сразу
-            await RebuildCatalogAsync();
         }
         
         private async UniTask RebuildCatalogAsync()

@@ -319,6 +319,14 @@ MonoBehaviour:
     m_Key: TEXT_LOOK
     m_Metadata:
       m_Items: []
+  - m_Id: 37305861944000512
+    m_Key: POPUP_ADVERTISING_IS_DISABLED_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37306138763870208
+    m_Key: POPUP_ADVERTISING_IS_DISABLED_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

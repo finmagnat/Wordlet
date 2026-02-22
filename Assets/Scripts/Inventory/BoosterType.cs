@@ -2,7 +2,7 @@ namespace Inventory
 {
     public enum BoosterType
     {
-        Letter,      // “Буковка”
+        Letter = 1,      // “Буковка”
         Slowdown     // “Замедлялка”
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Build;
-using Core.Dictionary;
+using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.Shop;
@@ -27,7 +27,7 @@ namespace Core.Installers
             // 🔧 1. Бинды всех сервисов
             Container.Bind<GameLogger>().AsSingle();
             
-            Container.Bind<ConfigService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ConfigService>().AsSingle().NonLazy();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
             
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle();
@@ -59,6 +59,13 @@ namespace Core.Installers
 #else
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
 #endif
+            Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<RewardedLimitsService>().AsSingle().NonLazy();
+            
+            Container.Bind<AdsEntitlementService>().AsSingle();
+            Container.Bind<InterstitialAdsService>().AsSingle();
+            Container.Bind<InterstitialPolicyService>().AsSingle();
         }
 
         public override void Start()
@@ -104,9 +111,24 @@ namespace Core.Installers
             await Container.Resolve<PlayFabAuthService>().InitializeAsync();
             loading.SetProgress(0.60f);
             
+            // ✅ Ads (init + preload rewarded)
+            await Container.Resolve<RewardedAdsService>().InitializeAsync();
+            await Container.Resolve<AdsEntitlementService>().InitializeAsync();
+            await Container.Resolve<InterstitialAdsService>().InitializeAsync();
+            await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
+            loading.SetProgress(0.65f);
+            
+            var go = new GameObject("SRDebugAdsBridge");
+            DontDestroyOnLoad(go);
+            Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
+            
+            await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
+            await Container.Resolve<RewardedLimitsService>().InitializeAsync();
+            loading.SetProgress(0.70f);
+            
             // ✅ Profile (nickname + score + leaderboard base)
             await Container.Resolve<ProfileService>().InitializeAsync();
-            loading.SetProgress(0.70f);
+            loading.SetProgress(0.75f);
 
             // Inventory sync (PlayFab -> Local)
             await Container.Resolve<InventorySyncService>().InitializeAsync();

@@ -1,5 +1,8 @@
+using Core.Config;
 using Core.Data;
+using Core.Generated;
 using Core.Services.Shop;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +14,7 @@ namespace UI.Popups
     {
         [Inject] private IShopService _shop;
         [Inject] private DiContainer _container;
+        [Inject] private IUIManager _ui;
         
         [Header("UI Elements")]
         [SerializeField] protected Button _exitButton;
@@ -51,31 +55,47 @@ namespace UI.Popups
         
         private async UniTask InitializeAsync()
         {
+            await RebuildCatalogAsync();
+        }
+        
+        private async void OnOfferClicked(ShopOfferDto offer)
+        {
+            var result = await _shop.ExecuteOfferAsync(offer);
+            if (!result.Success)
+            {
+                Debug.LogWarning($"Offer failed: {result.Error}");
+                return;
+            }
+
+            // 1) Уведомление
+            if (offer.Type == ShopOfferTypeDto.IapPack && offer.ProductId == ShopCatalog.RemoveInterstitialProductId)
+            {
+                // MVP-уведомление (без зависимости от других попапов)
+                Debug.Log("[Shop] Interstitial-реклама отключена");
+
+                // 2) Обновляем витрину, чтобы remove_ads исчез сразу
+                await RebuildCatalogAsync();
+                
+                await _ui.ShowPopupAsync<NoAdsPopup>(AssetKey.NoAdsPopup);
+                
+                HideAsync();
+            }
+        }
+        
+        private async UniTask RebuildCatalogAsync()
+        {
             // очистка
             for (int i = _contentRoot.childCount - 1; i >= 0; i--)
                 Destroy(_contentRoot.GetChild(i).gameObject);
 
-            var catalog = await _shop.GetCatalogAsync();
+            var offers = await _shop.GetCatalogAsync();
 
-            foreach (var pack in catalog)
+            foreach (var offer in offers)
             {
                 var view = _container.InstantiatePrefabForComponent<ShopPackItemView>(_itemPrefab, _contentRoot);
-                view.Bind(pack, OnBuyClicked);
+                view.Bind(offer, OnOfferClicked);
             }
         }
 
-        private async void OnBuyClicked(string productId)
-        {
-            var result = await _shop.PurchaseAsync(productId);
-            if (!result.Success)
-            {
-                Debug.LogWarning($"Purchase failed: {result.Error}");
-                // позже: показать попап
-                return;
-            }
-
-            Debug.Log($"Purchased: {productId}");
-            // позже: pop-up “Успешно”, обновить инвентарь UI и т.п.
-        }
     }
 }

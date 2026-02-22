@@ -3,7 +3,7 @@ using System.Threading;
 using Core.Audio;
 using Core.Config;
 using Core.Data;
-using Core.Dictionary;
+using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;

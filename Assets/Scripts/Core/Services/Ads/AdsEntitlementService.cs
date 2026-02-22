@@ -8,8 +8,7 @@ namespace Core.Services
 {
     public sealed class AdsEntitlementService : IService
     {
-        private const string KeyLocal = "ads_no_interstitial";
-        private const string KeyPlayFab = "no_interstitial_ads";
+        public const string KeyNoInterstitialAds = "no_interstitial_ads";
 
         public event Action Changed;
 
@@ -18,7 +17,7 @@ namespace Core.Services
         public async UniTask InitializeAsync()
         {
             // Локальный кэш
-            NoInterstitialAds = PlayerPrefs.GetInt(KeyLocal, 0) == 1;
+            NoInterstitialAds = PlayerPrefs.GetInt(KeyNoInterstitialAds, 0) == 1;
 
             // Пытаемся подтянуть с PlayFab (если залогинен) — мягко, без падений
             try
@@ -34,7 +33,7 @@ namespace Core.Services
         public async UniTask SetNoInterstitialAdsAsync(bool value)
         {
             NoInterstitialAds = value;
-            PlayerPrefs.SetInt(KeyLocal, value ? 1 : 0);
+            PlayerPrefs.SetInt(KeyNoInterstitialAds, value ? 1 : 0);
             PlayerPrefs.Save();
             Changed?.Invoke();
 
@@ -43,7 +42,7 @@ namespace Core.Services
             {
                 Data = new System.Collections.Generic.Dictionary<string, string>
                 {
-                    { KeyPlayFab, value ? "1" : "0" }
+                    { KeyNoInterstitialAds, value ? "1" : "0" }
                 }
             };
 
@@ -58,7 +57,7 @@ namespace Core.Services
         {
             var req = new GetUserDataRequest
             {
-                Keys = new System.Collections.Generic.List<string> { KeyPlayFab }
+                Keys = new System.Collections.Generic.List<string> { KeyNoInterstitialAds }
             };
 
             var tcs = new UniTaskCompletionSource<GetUserDataResult>();
@@ -69,11 +68,11 @@ namespace Core.Services
             var res = await tcs.Task;
 
             bool serverValue = false;
-            if (res.Data != null && res.Data.TryGetValue(KeyPlayFab, out var record))
+            if (res.Data != null && res.Data.TryGetValue(KeyNoInterstitialAds, out var record))
                 serverValue = record.Value == "1";
 
             NoInterstitialAds = serverValue;
-            PlayerPrefs.SetInt(KeyLocal, serverValue ? 1 : 0);
+            PlayerPrefs.SetInt(KeyNoInterstitialAds, serverValue ? 1 : 0);
             PlayerPrefs.Save();
             Changed?.Invoke();
         }

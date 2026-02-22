@@ -66,6 +66,9 @@ namespace Core.Services.Shop
 
             foreach (var o in _catalog.Offers)
             {
+                if (o.DisableInterstitialAds && _adsEntitlement.NoInterstitialAds)
+                    continue;
+                
                 var dto = new ShopOfferDto
                 {
                     Type = (ShopOfferTypeDto)o.Type,
@@ -234,7 +237,7 @@ namespace Core.Services.Shop
                 else
                 {
                     foreach (var reward in pack.Rewards)
-                        _inventory.Add((BoosterType)reward.ItemId, reward.Amount);
+                        _inventory.Add(reward.ItemId, reward.Amount);
                 }
                 
                 // Confirm/consume

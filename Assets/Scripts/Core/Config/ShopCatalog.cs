@@ -45,7 +45,7 @@ namespace Core.Config
         public int CooldownSeconds = 60; // анти-спам
         
         [Header("Interstitial Ads only")]
-        public bool DisableInterstitialAds; // ✅ remove ads purchase (только interstitial)
+        public bool DisableInterstitialAds; // ✅ Если игрок купит этот оффер — мы должны выставить entitlement на отключение interstitial (только interstitial)
         public bool IsNonConsumable = true; // ✅ для remove ads обычно true
     }
 

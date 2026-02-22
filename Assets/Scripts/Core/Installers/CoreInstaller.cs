@@ -118,6 +118,10 @@ namespace Core.Installers
             await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
             loading.SetProgress(0.65f);
             
+            var go = new GameObject("SRDebugAdsBridge");
+            DontDestroyOnLoad(go);
+            Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
+            
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();
             loading.SetProgress(0.70f);

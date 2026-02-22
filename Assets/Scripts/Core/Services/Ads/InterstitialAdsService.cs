@@ -53,7 +53,8 @@ namespace Core.Services
 
         public void Show()
         {
-            if (!IsReady || _showing) return;
+            if (!IsReady || _showing) 
+                return;
 
             _showing = true;
             OnShowingChanged?.Invoke(true);

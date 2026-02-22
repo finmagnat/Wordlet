@@ -27,6 +27,7 @@ namespace Core.DebugTools
         public void SetNoInterstitialAds(bool value)
         {
             // Важно: применится локально сразу, а сервер запишется async.
+            _entitlement.SetNoInterstitialAdsLocal(value);
             _entitlement.SetNoInterstitialAdsAsync(value).Forget();
         }
 

@@ -1,3 +1,4 @@
+using Core.Config;
 using Core.Data;
 using Core.Services.Shop;
 using Cysharp.Threading.Tasks;
@@ -51,6 +52,34 @@ namespace UI.Popups
         
         private async UniTask InitializeAsync()
         {
+            await RebuildCatalogAsync();
+        }
+        
+        private async void OnOfferClicked(ShopOfferDto offer)
+        {
+            var result = await _shop.ExecuteOfferAsync(offer);
+            if (!result.Success)
+            {
+                Debug.LogWarning($"Offer failed: {result.Error}");
+                return;
+            }
+
+            // 1) Уведомление
+            if (offer.Type == ShopOfferTypeDto.IapPack && offer.ProductId == ShopCatalog.RemoveInterstitialProductId)
+            {
+                // MVP-уведомление (без зависимости от других попапов)
+                Debug.Log("[Shop] Interstitial-реклама отключена");
+
+                // Если у тебя есть MessageBox/Toast — вот сюда воткнём
+                // await _popupService.ShowMessageAsync("Реклама отключена", "Interstitial-реклама больше не будет показываться.");
+            }
+
+            // 2) Обновляем витрину, чтобы remove_ads исчез сразу
+            await RebuildCatalogAsync();
+        }
+        
+        private async UniTask RebuildCatalogAsync()
+        {
             // очистка
             for (int i = _contentRoot.childCount - 1; i >= 0; i--)
                 Destroy(_contentRoot.GetChild(i).gameObject);
@@ -62,20 +91,6 @@ namespace UI.Popups
                 var view = _container.InstantiatePrefabForComponent<ShopPackItemView>(_itemPrefab, _contentRoot);
                 view.Bind(offer, OnOfferClicked);
             }
-        }
-        
-        private async void OnOfferClicked(ShopOfferDto offer)
-        {
-            var result = await _shop.ExecuteOfferAsync(offer);
-            if (!result.Success)
-            {
-                Debug.LogWarning($"Offer failed: {result.Error}");
-                // позже: показать попап
-                return;
-            }
-
-            Debug.Log($"Purchased: {offer}");
-            // позже: pop-up “Успешно”, обновить UI и т.п.
         }
 
     }

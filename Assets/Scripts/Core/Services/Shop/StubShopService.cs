@@ -19,37 +19,51 @@ namespace Core.Services.Shop
         private const string DEBUG_SECRET = "";
 #endif
         
-        private readonly IInventoryService _inventory;
         private readonly ShopCatalog _catalog;
         private readonly InventorySyncService _inventorySync;
         private readonly RewardedAdsService _ads;
         private readonly LocalizationService _localization;
-
+        private readonly AdsEntitlementService _adsEntitlement;
+        
         [Inject]
-        public StubShopService(ConfigService configService, IInventoryService inventory, InventorySyncService inventorySync, RewardedAdsService ads, LocalizationService localization)
+        public StubShopService(ConfigService configService, 
+            InventorySyncService inventorySync, 
+            RewardedAdsService ads, 
+            LocalizationService localization,
+            AdsEntitlementService adsEntitlement)
         {
             _catalog = configService.Shop;
-            _inventory = inventory;
             _inventorySync = inventorySync;
             _ads = ads;
             _localization = localization;
+            _adsEntitlement = adsEntitlement;
         }
 
         public UniTask InitializeAsync() => UniTask.CompletedTask;
 
         public UniTask<IReadOnlyList<ShopOfferDto>> GetCatalogAsync()
         {
-            var list = _catalog.Offers.Select(o => new ShopOfferDto
+            var list = new List<ShopOfferDto>(_catalog.Offers.Count);
+
+            foreach (var o in _catalog.Offers)
             {
-                Type = (ShopOfferTypeDto)o.Type,
-                ProductId = o.ProductId,
-                RewardType = o.RewardType,
-                Title = o.Title,
-                Description = o.Description,
-                CtaText = o.Type == ShopOfferType.IapPack ? o.DebugPriceText : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
-                IsAvailable = o.DebugAvailable, // + позже сюда добавим cooldown/limit для Rewarded
-                Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
-            }).ToList();
+                if (o.DisableInterstitialAds && _adsEntitlement.NoInterstitialAds)
+                    continue;
+
+                list.Add(new ShopOfferDto
+                {
+                    Type = (ShopOfferTypeDto)o.Type,
+                    ProductId = o.ProductId,
+                    RewardType = o.RewardType,
+                    Title = o.Title,
+                    Description = o.Description,
+                    CtaText = o.Type == ShopOfferType.IapPack
+                        ? o.DebugPriceText
+                        : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
+                    IsAvailable = o.DebugAvailable,
+                    Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
+                });
+            }
 
             return UniTask.FromResult((IReadOnlyList<ShopOfferDto>)list);
         }
@@ -57,7 +71,18 @@ namespace Core.Services.Shop
         public async UniTask<PurchaseResult> ExecuteOfferAsync(ShopOfferDto offer)
         {
             if (offer == null) return PurchaseResult.Fail("Offer is null");
+            
+            if (offer.Type == ShopOfferTypeDto.IapPack && offer.ProductId == ShopCatalog.RemoveInterstitialProductId)
+            {
+                // ✅ применяем сразу в этой сессии
+                _adsEntitlement.SetNoInterstitialAdsLocal(true);
 
+                // опционально: пишем на сервер (если PlayFab доступен и ты хочешь чтобы в Editor тоже записывалось)
+                _adsEntitlement.SetNoInterstitialAdsAsync(true).Forget();
+
+                return PurchaseResult.Ok();
+            }
+            
             switch (offer.Type)
             {
                 case ShopOfferTypeDto.IapPack:

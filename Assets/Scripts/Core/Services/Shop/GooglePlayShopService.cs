@@ -232,6 +232,7 @@ namespace Core.Services.Shop
                 else if (pack != null && pack.DisableInterstitialAds)
                 {
                     // Ставим entitlement (локально + PlayFab user data)
+                    _adsEntitlement.SetNoInterstitialAdsLocal(true);
                     _adsEntitlement.SetNoInterstitialAdsAsync(true).Forget();
                 }
                 else

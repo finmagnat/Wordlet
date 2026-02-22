@@ -30,13 +30,16 @@ namespace Core.Services
             }
         }
 
-        public async UniTask SetNoInterstitialAdsAsync(bool value)
+        public void SetNoInterstitialAdsLocal(bool value)
         {
             NoInterstitialAds = value;
             PlayerPrefs.SetInt(KeyNoInterstitialAds, value ? 1 : 0);
             PlayerPrefs.Save();
             Changed?.Invoke();
-
+        }
+        
+        public async UniTask SetNoInterstitialAdsAsync(bool value)
+        {
             // Сохраняем на PlayFab (UserData, не ReadOnly)
             var req = new UpdateUserDataRequest
             {

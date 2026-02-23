@@ -31,13 +31,7 @@ namespace Core.Config
 
     public enum PopupType
     {
-        MESSAGE_BOX_ERROR = 1,       
-        MESSAGE_BOX_WIN,
-        MESSAGE_BOX_LOSE,
-        MESSAGE_BOX_DEAD_HEAT,
-        NEW_GAME,
-        NEW_WORD,
-        LIDER_BOARD
+        MESSAGE_BOX_APPLICATION_RESTART,
     }
     
     public enum SkinType

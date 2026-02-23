@@ -369,6 +369,19 @@ MonoBehaviour:
     m_Localized: Interstitial advertising will no longer be shown.
     m_Metadata:
       m_Items: []
+  - m_Id: 37313854043471872
+    m_Localized: No internet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37313952001441792
+    m_Localized: Check
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37313886545133568
+    m_Localized: There is no internet connection. Try to restore it on your device
+      and click the "Check" button.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

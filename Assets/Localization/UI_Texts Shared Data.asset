@@ -327,6 +327,18 @@ MonoBehaviour:
     m_Key: POPUP_ADVERTISING_IS_DISABLED_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 37313854043471872
+    m_Key: POPUP_NO_INTERNET_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37313886545133568
+    m_Key: POPUP_NO_INTERNET_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37313952001441792
+    m_Key: POPUP_NO_INTERNET_BUTTON
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

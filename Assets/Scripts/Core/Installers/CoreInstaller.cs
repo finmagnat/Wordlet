@@ -34,6 +34,9 @@ namespace Core.Installers
             
             Container.Bind<AddressablesLoader>().AsSingle();
             Container.Bind<IUIManager>().To<UIManager>().FromComponentInHierarchy().AsSingle();
+            
+            Container.Bind<IGamePauseService>().To<GamePauseService>().AsSingle();
+            Container.Bind<IInternetConnectionService>().To<InternetConnectionService>().AsSingle();
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
             
@@ -77,6 +80,7 @@ namespace Core.Installers
         {
             var ui = Container.Resolve<IUIManager>();
             var loadingUI = Container.Resolve<ILoadingUI>();
+            var internetService = Container.Resolve<IInternetConnectionService>();
 
             // 1) Показать экран загрузки
             var loading = await loadingUI.ShowLoadingAsync<LoadingScreen>(AssetKey.LoadingScreen);
@@ -91,6 +95,19 @@ namespace Core.Installers
             
             await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.20f);
+            
+            await internetService.InitializeAsync();
+            if (!await internetService.CheckNowAsync())
+            {
+                // апку запустили без интернета...
+                await loadingUI.HideLoadingAsync();
+
+                // ждём интернет
+                while (!await internetService.CheckNowAsync())
+                    await UniTask.Delay(500, ignoreTimeScale: true); // ignoreTimeScale на случай паузы
+
+                await loadingUI.ShowLoadingAsync<LoadingScreen>(AssetKey.LoadingScreen);
+            }
             
             await Container.Resolve<DictionaryManager>().InitializeAsync();
             loading.SetProgress(0.25f);

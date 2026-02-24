@@ -98,7 +98,13 @@ namespace UI.Screens
 
         internal void SetStatusLocalizationKey(string localizationKey) => 
             _statusText.text = _localization.Get(LocalizationConst.TableUI, localizationKey);
-
+        
+        internal void RemoveLastLetter()
+        {
+            if (_wordText.text.Length > 0)
+                _wordText.text = _wordText.text[..^1]; // C# range operator
+        }
+        
         protected virtual async void OnGoToHome(GoToHomeEvent eventData)
         {
             await GoToHome();
@@ -140,6 +146,5 @@ namespace UI.Screens
             var skin = _skinsService.SkinCurrent;
             _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.GameBackgroundAlias);
         }
-
     }
 }

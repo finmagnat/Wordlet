@@ -5,10 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using UnityEngine.EventSystems;
 
 namespace UI.Components
 {
-    public class SelectableLetter : MonoBehaviour
+    public class SelectableLetter : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
     {
         [SerializeField] private TextMeshProUGUI _letterText;
         [SerializeField] private GameObject _selectImage; // Выделение на кнопке
@@ -17,6 +18,9 @@ namespace UI.Components
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
         
         [Inject] private AudioService _audioService;
+        
+        private WordsField _wordsField;
+        private float _suppressClickUntil;
         
         private float _blinkDtTimer = 0;
         private float _blinkCounter = 0;
@@ -28,8 +32,32 @@ namespace UI.Components
 
         public int Index { get; set; } // Индекс элемента на поле [0 - n]
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (Empty()) return;
+
+            _suppressClickUntil = Time.unscaledTime + 0.05f;
+            _wordsField?.BeginDragSelection(this);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (Empty()) return;
+
+            _wordsField?.ContinueDragSelection(this);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            _wordsField?.EndDragSelection();
+        }
+        
         public void OnPressed()
         {
+            // если PointerDown уже выбрал букву — не дублируем выбор по клику
+            if (Time.unscaledTime < _suppressClickUntil)
+                return;
+
             if (!Empty() && !IsHighlight())
             {
                 ModeBlinkClear();
@@ -125,6 +153,7 @@ namespace UI.Components
         private void Start()
         {
             _collider = GetComponent<BoxCollider2D>();
+            _wordsField = GetComponentInParent<WordsField>();
         }
 
         private void Update()

@@ -64,6 +64,7 @@ namespace Game.Logic
 
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
+            EventBus.Subscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
             EventBus.Subscribe<PlayerErrorEvent>(OnErrorPlayer);
 
             EventBus.Subscribe<TimeExpiredEvent>(OnTimeExpired);
@@ -89,6 +90,7 @@ namespace Game.Logic
 
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
+            EventBus.Unsubscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
             EventBus.Unsubscribe<PlayerErrorEvent>(OnErrorPlayer);
 
             EventBus.Unsubscribe<TimeExpiredEvent>(OnTimeExpired);
@@ -315,6 +317,12 @@ namespace Game.Logic
         {
             _gameScreen.AddLetterToWord(eventData.letter);
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterSelected);
+        }
+
+        private void OnLetterRemoveLastFromWord(LetterRemoveLastFromWordEvent eventData)
+        {
+            // удалить последнюю букву
+            _gameScreen.RemoveLastLetter();
         }
 
         private async void OnErrorPlayer(PlayerErrorEvent eventData)

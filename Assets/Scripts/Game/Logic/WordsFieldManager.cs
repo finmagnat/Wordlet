@@ -19,6 +19,7 @@ namespace Game.Logic
             EventBus.Subscribe<LetterReleaseEvent>(OnLetterRelease);
             EventBus.Subscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
+            EventBus.Subscribe<LetterBacktrackEvent>(OnLetterBacktrack);
         }
 
         public void Destroy()
@@ -26,6 +27,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<LetterReleaseEvent>(OnLetterRelease);
             EventBus.Unsubscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
+            EventBus.Unsubscribe<LetterBacktrackEvent>(OnLetterBacktrack);
         }
         
         internal void SetWordsFieldData(List<SelectableLetter> items)
@@ -133,6 +135,17 @@ namespace Game.Logic
         private void OnGameEnd(GameEndEvent eventData)
         {
             SetModeSelect(false);
+        }
+        
+        private void OnLetterBacktrack(LetterBacktrackEvent eventData)
+        {
+            if (!_bModeSelectWord) return;
+
+            if (_wordsFildData.BacktrackOneStep(out var removedItem))
+            {
+                removedItem.UnHighlight();
+                EventBus.Raise(new LetterRemoveLastFromWordEvent());
+            }
         }
     }
 }

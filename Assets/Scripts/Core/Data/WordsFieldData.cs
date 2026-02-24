@@ -230,6 +230,20 @@ namespace Core.Data
             _words.Clear();
             _setItem = null;
         }
+        
+        internal bool BacktrackOneStep(out SelectableLetter removedItem)
+        {
+            removedItem = null;
+
+            if (_selectedIndex == null || _selectedIndex.Count == 0)
+                return false;
+
+            int lastIndex = _selectedIndex[_selectedIndex.Count - 1];
+            _selectedIndex.RemoveAt(_selectedIndex.Count - 1);
+
+            removedItem = _items[lastIndex];
+            return true;
+        }
 
         public string[] GetBoardData()
         {

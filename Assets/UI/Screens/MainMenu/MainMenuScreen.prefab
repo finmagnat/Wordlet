@@ -30,8 +30,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5629654538998116453}
-  - {fileID: 31818848361430782}
   - {fileID: 509656819223237662}
+  - {fileID: 31818848361430782}
   - {fileID: 7525043953221720759}
   m_Father: {fileID: 8571691137915962572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1325,6 +1325,10 @@ PrefabInstance:
     - target: {fileID: 4781026062244210530, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6462160334809494525, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       propertyPath: m_Pivot.x

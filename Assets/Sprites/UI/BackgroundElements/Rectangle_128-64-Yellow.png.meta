@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2e7a5ad5bd6faca45b5a8cb6fb8b3e00
+guid: 0026e7f4c173a06499b9a111ab450a24
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4699129485234397762
-    second: BestPrice_0
+      213: 7456359118054421547
+    second: Rectangle_128-64-Yellow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BestPrice_0
+      name: Rectangle_128-64-Yellow_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 237
-        height: 69
+        width: 128
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 24, z: 24, w: 24}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 242e5f8ae59a63140800000000000000
-      internalID: 4699129485234397762
+      spriteID: b24f065cc1f4a7760800000000000000
+      internalID: 7456359118054421547
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7a42863bb509341499f24893503d811f
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BestPrice_0: 4699129485234397762
+      Rectangle_128-64-Yellow_0: 7456359118054421547
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

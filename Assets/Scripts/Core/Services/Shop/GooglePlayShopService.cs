@@ -76,12 +76,14 @@ namespace Core.Services.Shop
                     RewardType = o.RewardType,
 
                     Title = o.Title,
+                    SpriteHeader = o.SpriteHeader,
                     Description = o.Description,
 
                     Rewards = o.Rewards.Select(r => new ShopRewardDto
                     {
                         ItemId = r.ItemId,
-                        Amount = r.Amount
+                        Amount = r.Amount,
+                        SpriteIcon = r.SpriteIcon
                     }).ToList(),
 
                     // По умолчанию

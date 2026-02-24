@@ -8,25 +8,26 @@ namespace Core.Services.Shop
 {
     public class ShopItemView : MonoBehaviour
     {
+        [SerializeField] private GameObject _adsPanel;
+        [SerializeField] private GameObject _boosterPanel;
         [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _countText;
         
-        [Header("Shop Item Images")]
-        [SerializeField] private Sprite _spriteWordlet;
-        [SerializeField] private Sprite _spriteSlowdown;
-        
         public void Bind(ShopRewardDto dtoItem)
         {
-            switch (dtoItem.ItemId)
+            if (dtoItem.ItemId == BoosterType.None)
             {
-                case BoosterType.Letter:
-                    _iconImage.sprite = _spriteWordlet;
-                    break;
-                case BoosterType.Slowdown:
-                    _iconImage.sprite = _spriteSlowdown;
-                    break;
+                _boosterPanel.SetActive(false);
+                _adsPanel.SetActive(true);
             }
-            _countText.text = dtoItem.Amount.ToString();
+            else
+            {
+                _boosterPanel.SetActive(true);
+                _adsPanel.SetActive(false);
+                _countText.text = dtoItem.Amount.ToString();
+            }
+            
+            _iconImage.sprite = dtoItem.SpriteIcon;
         }
     }
 }

@@ -56,12 +56,13 @@ namespace Core.Services.Shop
                     ProductId = o.ProductId,
                     RewardType = o.RewardType,
                     Title = o.Title,
+                    SpriteHeader = o.SpriteHeader,
                     Description = o.Description,
                     CtaText = o.Type == ShopOfferType.IapPack
                         ? o.DebugPriceText
                         : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
                     IsAvailable = o.DebugAvailable,
-                    Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
+                    Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount, SpriteIcon = r.SpriteIcon }).ToList()
                 });
             }
 

@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 21c37d4d6bed71d46a207ecc4cc99bd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -222,6 +222,7 @@ MonoBehaviour:
   _itemPrefab: {fileID: 2512670948320122007, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
   _contentRoot: {fileID: 7418700457807117596}
   _header: {fileID: 6734162702858729742}
+  _headerImage: {fileID: 6576034315918778629}
   _title: {fileID: 8882471195550630128}
   _buyButton: {fileID: 1605595533637128369}
   _ctaText: {fileID: 3377431985831000961}
@@ -288,14 +289,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41960788, g: 0.8738743, b: 1, a: 0.6745098}
+  m_Color: {r: 0.9700936, g: 1, b: 0.6273585, a: 0.6745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 4317191129012137724, guid: ef8ab015e11f7bf4697abbbb9f0b5e19, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.1
+  m_PixelsPerUnitMultiplier: 0.8
 --- !u!1 &6734162702858729742
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +341,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 242, y: -50}
+  m_AnchoredPosition: {x: 292, y: -60}
   m_SizeDelta: {x: 615, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &525377835572689691
@@ -371,7 +372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4699129485234397762, guid: 2e7a5ad5bd6faca45b5a8cb6fb8b3e00, type: 3}
+  m_Sprite: {fileID: -8712292064805691243, guid: 1678b7affc1014343a89c740a7b3ffe7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -806,8 +807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 0, y: -170}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 0, y: -180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2998331642297755576
 CanvasRenderer:
@@ -854,7 +855,6 @@ GameObject:
   - component: {fileID: 5206638167396281503}
   - component: {fileID: 3766705037058567915}
   - component: {fileID: 8882471195550630128}
-  - component: {fileID: 3701391342844402184}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -878,8 +878,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 57.036865, y: 0}
-  m_SizeDelta: {x: 314.8453, y: 80}
+  m_AnchoredPosition: {x: 71, y: 0}
+  m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3766705037058567915
 CanvasRenderer:
@@ -936,12 +936,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.05
+  m_fontSize: 40
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -981,30 +981,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3701391342844402184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8876714942585584185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb59f96e2f24cd793f0cae7d14330fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.LocalizedTMPStringEvent
-  localizedString:
-    m_TableReference:
-      m_TableCollectionName: GUID:0a5ae1994ef9a1a4b9c1933bb33f7666
-    m_TableEntryReference:
-      m_KeyId: 24330393435389952
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1001 &6738346614211768213
 PrefabInstance:
   m_ObjectHideFlags: 0

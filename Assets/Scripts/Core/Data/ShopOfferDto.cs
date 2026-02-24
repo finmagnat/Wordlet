@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using Core.Services;
 using Inventory;
+using UnityEngine;
 
 namespace Core.Data
 {
-    public enum ShopOfferTypeDto { IapPack = 0, RewardedAd = 1 }
+    public enum ShopOfferTypeDto
+    {
+        IapPack = 0, 
+        RewardedAd = 1
+    }
     
     [Serializable]
     public sealed class ShopOfferDto
@@ -16,6 +21,7 @@ namespace Core.Data
         public RewardType RewardType; // для Rewarded
 
         public string Title;
+        public Sprite SpriteHeader;
         public string Description;
 
         public string CtaText;        // "19.99" или "Смотреть"
@@ -27,8 +33,8 @@ namespace Core.Data
     [Serializable]
     public sealed class ShopRewardDto
     {
-        //public string ItemId;  // "booster_hint", "booster_slowtime", "no_ads"
         public BoosterType ItemId;  // "booster_hint", "booster_slowtime", "no_ads"
         public int Amount;
+        public Sprite SpriteIcon;
     }
 }

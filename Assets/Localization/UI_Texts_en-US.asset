@@ -382,6 +382,22 @@ MonoBehaviour:
       and click the "Check" button.
     m_Metadata:
       m_Items: []
+  - m_Id: 37654904469602304
+    m_Localized: Wordlet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37655851719606272
+    m_Localized: Slowdown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37656391945961472
+    m_Localized: For free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37656894520049664
+    m_Localized: Disable advertising
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

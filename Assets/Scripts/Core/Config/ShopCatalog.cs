@@ -31,6 +31,7 @@ namespace Core.Config
 
         [Header("Common")]
         public string Title;
+        public Sprite SpriteHeader;
         [TextArea] public string Description;
         public List<ShopRewardConfig> Rewards = new();
 
@@ -56,6 +57,7 @@ namespace Core.Config
     {
         public BoosterType ItemId;
         public int Amount;
+        public Sprite SpriteIcon;
     }
     
 }

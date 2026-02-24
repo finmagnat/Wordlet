@@ -339,6 +339,22 @@ MonoBehaviour:
     m_Key: POPUP_NO_INTERNET_BUTTON
     m_Metadata:
       m_Items: []
+  - m_Id: 37654904469602304
+    m_Key: STORE_TITLE_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37655851719606272
+    m_Key: STORE_TITLE_SLOWDOWN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37656391945961472
+    m_Key: STORE_TITLE_FREE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37656894520049664
+    m_Key: STORE_TITLE_REMOVE_INTERSTITIAL_ADS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

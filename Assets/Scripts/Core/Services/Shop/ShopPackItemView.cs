@@ -18,6 +18,7 @@ namespace Core.Services.Shop
         [SerializeField] private ShopItemView _itemPrefab;
         [SerializeField] private Transform _contentRoot;
         [SerializeField] private GameObject _header;
+        [SerializeField] private Image _headerImage;
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private Button _buyButton;
         [SerializeField] private TextMeshProUGUI _ctaText;
@@ -49,6 +50,7 @@ namespace Core.Services.Shop
             if (!string.IsNullOrEmpty(dto.Title))
             {
                 _header.gameObject.SetActive(true);
+                _headerImage.sprite = dto.SpriteHeader;
                 _title.text = _localization.Get(LocalizationConst.TableUI, dto.Title);
             }
             else
@@ -68,6 +70,12 @@ namespace Core.Services.Shop
                 var view = Instantiate(_itemPrefab, _contentRoot);
                 view.Bind(item);
             }
+
+            /*if (dto.ProductId == ShopCatalog.RemoveInterstitialProductId)
+            {
+                var view = Instantiate(_itemPrefab, _contentRoot);
+                view.Bind(new);
+            }*/
 
             _buyButton.onClick.RemoveAllListeners();
             _buyButton.onClick.AddListener(OnButtonClick);

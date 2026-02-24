@@ -14,5 +14,7 @@ namespace Core.Services
         public const string KeyTextYes = "TEXT_YES";
         public const string KeyTextNo = "TEXT_NO";
         public const string KeyTextLook = "TEXT_LOOK";
+        public const string KeyTextThrough = "TEXT_THROUGH";
+        public const string KeyTextLimit = "TEXT_LIMIT";
     }
 }

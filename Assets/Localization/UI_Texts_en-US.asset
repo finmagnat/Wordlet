@@ -398,6 +398,14 @@ MonoBehaviour:
     m_Localized: Disable advertising
     m_Metadata:
       m_Items: []
+  - m_Id: 38027282143920128
+    m_Localized: Limit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38027508804108288
+    m_Localized: Through
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

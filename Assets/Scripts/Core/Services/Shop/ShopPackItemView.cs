@@ -71,12 +71,6 @@ namespace Core.Services.Shop
                 view.Bind(item);
             }
 
-            /*if (dto.ProductId == ShopCatalog.RemoveInterstitialProductId)
-            {
-                var view = Instantiate(_itemPrefab, _contentRoot);
-                view.Bind(new);
-            }*/
-
             _buyButton.onClick.RemoveAllListeners();
             _buyButton.onClick.AddListener(OnButtonClick);
 
@@ -266,13 +260,13 @@ namespace Core.Services.Shop
         private void SetBlockedDaily()
         {
             _buyButton.interactable = false;
-            _ctaText.text = "Лимит";
+            _ctaText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLimit);
         }
 
         private void SetCooldown(int remainSeconds)
         {
             _buyButton.interactable = false;
-            _ctaText.text = $"Через {FormatMMSS(remainSeconds)}";
+            _ctaText.text = $"{_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextThrough)} {FormatMMSS(remainSeconds)}";
         }
 
         // showDots=true -> "..." (нажатие/показ), false -> "Загрузка..." (ждём preload)

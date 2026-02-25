@@ -262,8 +262,11 @@ namespace Core.Data
         {
             _words.Add(saveGameData.firstWord);
             for (int i = 0; i < saveGameData.boardRows.Length; ++i)
+            {
                 _items[i].SetLetter(saveGameData.boardRows[i]);
-            
+                _items[i].UnHighlight();
+            }
+
             _words.AddRange(saveGameData.playerWords);
             _words.AddRange(saveGameData.opponentWords);
         }

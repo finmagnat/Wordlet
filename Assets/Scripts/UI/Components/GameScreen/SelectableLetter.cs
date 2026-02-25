@@ -13,6 +13,7 @@ namespace UI.Components
     {
         [SerializeField] private TextMeshProUGUI _letterText;
         [SerializeField] private GameObject _selectImage; // Выделение на кнопке
+        [SerializeField] private GameObject _selectImageRed; // Выделение на кнопке Красным
         [SerializeField] private Image _mainBackground;
         [SerializeField] private uint _blinkCount = 3; // Количество миганий
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
@@ -91,6 +92,7 @@ namespace UI.Components
         {
             _letter = letter;
             _letterText.text = _letter;
+            _selectImageRed.SetActive(string.IsNullOrEmpty(letter) ? false : true);
         }
 
         internal string GetLetter() => _letter;
@@ -107,6 +109,7 @@ namespace UI.Components
             ModeBlinkClear();
             _isHighlight = true;
             _selectImage.SetActive(_isHighlight);
+            _selectImageRed.SetActive(false);
         }
         /// <summary>
         /// Убрать выделение с буквы
@@ -116,6 +119,7 @@ namespace UI.Components
             ModeBlinkClear();
             _isHighlight = false;
             _selectImage.SetActive(_isHighlight);
+            _selectImageRed.SetActive(false);
         }
 
         internal bool IsHighlight() => _isHighlight;

@@ -28,7 +28,10 @@ namespace Core.Data
         {
             _words.Add(word);
             for (int i = 10, n = 0; i < 15; ++i, ++n)
+            {
                 _items[i].SetLetter(word[n].ToString());
+                _items[i].UnHighlight();
+            }
         }
         
         /// <summary>

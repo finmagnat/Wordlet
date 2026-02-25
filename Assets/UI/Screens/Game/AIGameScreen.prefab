@@ -1475,6 +1475,7 @@ GameObject:
   - component: {fileID: 2281758249871591356}
   - component: {fileID: 6330576723951823726}
   - component: {fileID: 1882456887132103752}
+  - component: {fileID: 5689286121469514212}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -1595,6 +1596,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5689286121469514212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444600465554957645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9b8d5de3334985afb2aa2e202cdef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.PauseButtonAnimator
+  buttonRect: {fileID: 442873816986387002}
+  optionalGlow: {fileID: 6330576723951823726}
 --- !u!1 &3636492630603125483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3987,6 +4002,7 @@ MonoBehaviour:
   _wordsField: {fileID: 6212051450170019999}
   _lettersField: {fileID: 5516587893162684448}
   _boosterPanel: {fileID: 477262855574425321}
+  _pauseButtonAnimator: {fileID: 5689286121469514212}
 --- !u!114 &5041397750972415920 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9168181062993022318, guid: 4a6897af94451294898de8812c12fcb9, type: 3}

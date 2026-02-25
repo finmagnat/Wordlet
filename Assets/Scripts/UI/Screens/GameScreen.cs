@@ -26,6 +26,7 @@ namespace UI.Screens
         [SerializeField] protected WordsField _wordsField;
         [SerializeField] protected LettersField _lettersField;
         [SerializeField] protected BoosterPanelIngameScreen _boosterPanel;
+        [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
         
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
@@ -41,6 +42,7 @@ namespace UI.Screens
         [Inject] protected InterstitialPolicyService _interstitialService;
         
         protected bool _isProcessing;
+        protected bool _isPaused = false;
         
         protected void Start()
         {
@@ -55,8 +57,13 @@ namespace UI.Screens
         }
         
         public void OnPressedHome() => EventBus.Raise(new GoToHomeEvent());
-        
-        public void OnPressedPause() => EventBus.Raise(new GamePauseEvent());
+
+        public void OnPressedPause()
+        {
+            EventBus.Raise(new GamePauseEvent());
+            _isPaused = !_isPaused;
+            _pauseButtonAnimator.SetPaused(_isPaused);
+        }
 
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         

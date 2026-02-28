@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Core.Build;
 using Core.DataDictionary;
@@ -156,6 +157,11 @@ namespace Core.Installers
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<UIScreen>(AssetKey.MainMenuScreen);
             await loadingUI.HideLoadingAsync();
+        }
+
+        private void OnDestroy()
+        {
+            Container.Resolve<GameController>().Dispose();
         }
     }
 }

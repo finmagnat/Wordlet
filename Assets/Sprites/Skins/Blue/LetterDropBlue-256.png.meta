@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1709130844ea8894ab39e51014d0a3d7
+guid: 71056481b8c1c6e48908e633a25dcb4e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2704585380071478335
-    second: ButtonPause_0
+      213: -8920579547870331714
+    second: LetterDropBlue-256_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonPause_0
+      name: LetterDropBlue-256_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 512
+        width: 256
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1cbef142de1677ad0800000000000000
-      internalID: -2704585380071478335
+      spriteID: ebcf29a1a2cb33480800000000000000
+      internalID: -8920579547870331714
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonPause_0: -2704585380071478335
+      LetterDropBlue-256_0: -8920579547870331714
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

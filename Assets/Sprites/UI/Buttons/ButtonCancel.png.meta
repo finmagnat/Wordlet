@@ -5,9 +5,6 @@ TextureImporter:
   - first:
       213: -385046301964461424
     second: ButtonCancel_0
-  - first:
-      213: 8715027281157776218
-    second: ButtonCancel_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -129,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -145,10 +142,10 @@ TextureImporter:
       name: ButtonCancel_0
       rect:
         serializedVersion: 2
-        x: 80
-        y: 259
-        width: 104
-        height: 37
+        x: 2
+        y: 0
+        width: 249
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,28 +156,6 @@ TextureImporter:
       bones: []
       spriteID: 09a945dad6a08aaf0800000000000000
       internalID: -385046301964461424
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ButtonCancel_1
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 0
-        width: 261
-        height: 248
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a536f35532ff1f870800000000000000
-      internalID: 8715027281157776218
       vertices: []
       indices: 
       edges: []
@@ -200,7 +175,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       ButtonCancel_0: -385046301964461424
-      ButtonCancel_1: 8715027281157776218
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

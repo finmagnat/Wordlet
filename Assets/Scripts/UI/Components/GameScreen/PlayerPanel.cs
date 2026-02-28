@@ -33,7 +33,7 @@ namespace UI.Components
         
         private void Start()
         {
-            SetSkin();
+            //SetSkin();
         }
         
         /// <summary>

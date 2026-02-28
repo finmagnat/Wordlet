@@ -61,7 +61,7 @@ namespace UI.Components
                 }
             }
 
-            SetSkin();
+            //SetSkin();
             
             return _items;
         }

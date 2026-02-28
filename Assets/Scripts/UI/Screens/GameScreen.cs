@@ -40,6 +40,7 @@ namespace UI.Screens
         [Inject] protected ILoadingUI _loadingUI;
         [Inject] protected ISaveService _saveService;
         [Inject] protected InterstitialPolicyService _interstitialService;
+        [Inject] protected IGamePauseService _pauseService;
         
         protected bool _isProcessing;
         protected bool _isPaused = false;
@@ -60,9 +61,10 @@ namespace UI.Screens
 
         public void OnPressedPause()
         {
-            EventBus.Raise(new GamePauseEvent());
+            //EventBus.Raise(new GamePauseEvent());
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
+            _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
 
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
@@ -76,7 +78,7 @@ namespace UI.Screens
         {
             _gameControlsPanel.SetActive(true);
             
-            SetSkin();
+            //SetSkin();
             Reset();
             
             _isProcessing = true;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading;
 using Core.Audio;
@@ -21,7 +22,7 @@ namespace Game.Logic
     /*
      * Управляет состояниями: инициализация поля, PlayerTurn, OpponentTurn, GameOver.
      */
-    public class GameController
+    public class GameController : IDisposable
     {
         [Inject] private DictionaryService _dictionaryService;
         [Inject] private LocalizationService _localization;
@@ -56,7 +57,7 @@ namespace Game.Logic
         {
             EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
             
-            EventBus.Subscribe<GamePauseEvent>(OnGamePause);
+            EventBus.Subscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
             EventBus.Subscribe<GameClearEvent>(OnGameClear);
             EventBus.Subscribe<GameCancelEvent>(OnGameCancel);
@@ -78,11 +79,11 @@ namespace Game.Logic
             _lettersFieldManager.Initialize();
         }
         
-        public void Destroy()
+        public void Dispose()
         {
             EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
             
-            EventBus.Unsubscribe<GamePauseEvent>(OnGamePause);
+            EventBus.Unsubscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
             EventBus.Unsubscribe<GameClearEvent>(OnGameClear);
             EventBus.Unsubscribe<GameCancelEvent>(OnGameCancel);
@@ -103,7 +104,7 @@ namespace Game.Logic
             _wordsFieldManager.Destroy();
             _lettersFieldManager.Destroy();
         }
-
+        
         public SaveGameData GetGameData()
         {
             if (_bLetterPut)
@@ -219,7 +220,7 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_StartNewGame);
         }
 
-        private void OnGamePause(IGameEvent eventData)
+        /*private void OnGamePause(IGameEvent eventData)
         {
             if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
                 return;
@@ -240,6 +241,32 @@ namespace Game.Logic
             _lettersFieldManager.SetEnable(!_bPause);
             _wordsFieldManager.ShowLetters(!_bPause);
             
+            _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pause);
+        }*/
+        
+        private void OnGamePause(GamePauseChangedEvent eventData)
+        {
+            //var e = (GamePauseChangedEvent)eventData;
+
+            if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
+                return;
+
+            _bPause = eventData.IsPaused;
+
+            if (_bPause)
+            {
+                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_PAUSE");
+                _gameScreen.TimerBar.StopTimer();
+            }
+            else
+            {
+                _gameScreen.TimerBar.StartTimer();
+                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+            }
+
+            _lettersFieldManager.SetEnable(!_bPause);
+            _wordsFieldManager.ShowLetters(!_bPause);
+
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pause);
         }
 
@@ -662,7 +689,6 @@ namespace Game.Logic
             if (!_bPause && _bStart)
                 _gameScreen.TimerBar.StartTimer();
         }
-
         
     }
 }

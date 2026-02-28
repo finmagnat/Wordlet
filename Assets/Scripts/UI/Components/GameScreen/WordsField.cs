@@ -52,7 +52,7 @@ namespace UI.Components
                 _items.ForEach(item => item.Reset());
             }
 
-            SetSkin();
+            //SetSkin();
             
             return _items;
         }

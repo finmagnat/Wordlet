@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a601b33eaa506e947b2d859158b6f7c8
+guid: 0f5dcab324400424691cb01d0e42b985
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2078772407022187880
-    second: ButtonClear_0
+      213: -1630406560913182094
+    second: PlayerPanel_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonClear_0
+      name: PlayerPanel_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 236
-        height: 236
+        width: 500
+        height: 199
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 74, y: 140, z: 72, w: 51}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 865f0798d7849dc10800000000000000
-      internalID: 2078772407022187880
+      spriteID: 272bd410fd1af59e0800000000000000
+      internalID: -1630406560913182094
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0f445527bcc40324e95ce4eb75785a7a
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonClear_0: 2078772407022187880
+      PlayerPanel_0: -1630406560913182094
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

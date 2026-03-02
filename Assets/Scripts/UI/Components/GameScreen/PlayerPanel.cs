@@ -13,72 +13,26 @@ namespace UI.Components
         public uint Score { get; private set; }
         public uint Pass { get; private set; }
         public string PlayerName => _playerNameText.text;
-        public List<string> Words { get; private set; } = new();
+        public List<string> Words { get; private set; } = new(); // TODO: перенести в панель статистики
 
-        [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private TextMeshProUGUI _playerNameText;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _passText;
-        [Tooltip("Ссылка на контейнер для списка слов")]
-        [SerializeField] private Transform _listContent;
-        [Tooltip("Ссылка на префаб с элементом текстового поля")]
-        [SerializeField] private GameObject _wordListItemPrefab;
         [SerializeField] private Image _mainBackground;
         
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
         
-        public uint _maxPasses;
-        
         private void Start()
         {
             //SetSkin();
         }
         
-        /// <summary>
-        /// Добавить слово.
-        /// </summary>
-        public async void AddWord(string value)
-        {
-            if (_wordListItemPrefab && _listContent)
-            {
-                GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
-                
-                TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
-                itemWord.text = value;
-                Words.Add(value);
-                
-                await UniTask.Delay(500);
-                
-                _scrollRect.verticalNormalizedPosition = 0;
-            }
-        }
-        
-        public async void AddWords(List<string> words)
-        {
-            if (_wordListItemPrefab && _listContent)
-            {
-                foreach (var value in words)
-                {
-                    GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
-
-                    TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
-                    itemWord.text = value;
-                    Words.Add(value);
-                }
-
-                await UniTask.Delay(500);
-                
-                _scrollRect.verticalNormalizedPosition = 0;
-            }
-        }
-
         public void SetPlayerName(string name) => _playerNameText.text = name;
         
         public void SetData(uint score = 0, uint pass = 0, uint maxPasses = 0)
         {
-            _maxPasses = maxPasses;
             SetScore(score);
             SetPass(pass, maxPasses);
         }
@@ -101,21 +55,8 @@ namespace UI.Components
             Score = 0;
             SetPlayerName("");
             SetData();
-            Words.Clear();
-            if (_listContent)
-            {
-                foreach (Transform child in _listContent.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
         }
         
-        public void UpdateText()
-        {
-            SetData(Score, Pass, _maxPasses);
-        }
-
         private async UniTask SetSkin()
         {
             var skin = _skinsService.SkinCurrent;

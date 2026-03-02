@@ -185,10 +185,11 @@ namespace Game.Logic
                 _firstWord = _saveGameData.firstWord;
                 _wordsFieldManager.WordsFieldData.SetSaveGameData(_saveGameData);
                 
-                _gameScreen.PlayerPanelOwner.AddWords(_saveGameData.playerWords);
+                _gameScreen.StatisticsPanel.SetStartWord(_firstWord);
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWords(_saveGameData.playerWords);
                 _gameScreen.PlayerPanelOwner.SetData(_saveGameData.playerScore, _saveGameData.playerPasses, _maxPasses);
             
-                _gameScreen.PlayerPanelOpponent.AddWords(_saveGameData.opponentWords);
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWords(_saveGameData.opponentWords);
                 _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
 
                 _durationGame = _saveGameData.maxSeconds;
@@ -200,6 +201,7 @@ namespace Game.Logic
                 _firstWord = _dictionaryService.GetRandomWord(_configService.Game.defaultBoardSize);
                 _wordsFieldManager.SetFirstWord(_firstWord);
                 
+                _gameScreen.StatisticsPanel.SetStartWord(_firstWord);
                 _gameScreen.PlayerPanelOwner.SetPass(0, _maxPasses);
                 _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
                 
@@ -220,34 +222,8 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_StartNewGame);
         }
 
-        /*private void OnGamePause(IGameEvent eventData)
-        {
-            if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
-                return;
-
-            _bPause = !_bPause;
-
-            if (_bPause)
-            {
-                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_PAUSE");
-                _gameScreen.TimerBar.StopTimer();
-            }
-            else
-            {
-                _gameScreen.TimerBar.StartTimer();
-                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
-            }
-            
-            _lettersFieldManager.SetEnable(!_bPause);
-            _wordsFieldManager.ShowLetters(!_bPause);
-            
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pause);
-        }*/
-        
         private void OnGamePause(GamePauseChangedEvent eventData)
         {
-            //var e = (GamePauseChangedEvent)eventData;
-
             if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
                 return;
 
@@ -376,12 +352,12 @@ namespace Game.Logic
             _gameScreen.TimerBar.ResetTimer();
             if (_bModePlayOwner)
             {
-                _gameScreen.PlayerPanelOwner.AddWord(word);                
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWord(word);                
                 _gameScreen.PlayerPanelOwner.SetScore(_gameScreen.PlayerPanelOwner.Score + (uint)word.Length);
             }
             else
             {
-                _gameScreen.PlayerPanelOpponent.AddWord(word);
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWord(word);
                 _gameScreen.PlayerPanelOpponent.SetScore(_gameScreen.PlayerPanelOpponent.Score + (uint)word.Length);
             }
             

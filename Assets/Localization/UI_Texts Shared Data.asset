@@ -363,6 +363,18 @@ MonoBehaviour:
     m_Key: TEXT_THROUGH
     m_Metadata:
       m_Items: []
+  - m_Id: 40198534363234304
+    m_Key: MOVE_HISTORY_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198718312824832
+    m_Key: STARTING_WORD_LABEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198905135513600
+    m_Key: SELECT_LETTER_TIP
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

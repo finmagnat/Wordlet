@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1121843996622848
-    m_Localized: Go
+    m_Localized: Apply
     m_Metadata:
       m_Items: []
   - m_Id: 1122301901373440
@@ -404,6 +404,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 38027508804108288
     m_Localized: Through
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198534363234304
+    m_Localized: Move history
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198718312824832
+    m_Localized: 'Starting word:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198905135513600
+    m_Localized: Select a letter to place it in the highlighted cell on the board.
     m_Metadata:
       m_Items: []
   references:

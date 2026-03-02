@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UI.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -27,10 +28,16 @@ namespace UI.Screens
         [SerializeField] protected LettersField _lettersField;
         [SerializeField] protected BoosterPanelIngameScreen _boosterPanel;
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
+        [SerializeField] protected StatisticsPanel _statisticsPanel;
+        [SerializeField] protected KeyboardPanel _keyboardPanel;
         
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
+        
+        internal StatisticsPanel StatisticsPanel => _statisticsPanel;
+        internal KeyboardPanel KeyboardPanel => _keyboardPanel;
+        
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
         
         [Inject] protected LocalizationService _localization;
@@ -61,7 +68,6 @@ namespace UI.Screens
 
         public void OnPressedPause()
         {
-            //EventBus.Raise(new GamePauseEvent());
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
             _pauseService.SetUserPause(!_pauseService.IsPaused);
@@ -73,6 +79,7 @@ namespace UI.Screens
         
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
         public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
+        public void OnOpenStatistic() => _statisticsPanel.ShowAsync().Forget();
 
         public override UniTask ShowAsync()
         {
@@ -90,9 +97,10 @@ namespace UI.Screens
         {
             SetStatusLocalizationKey("STATUS_LABEL_NEW_GAME");
             SetTextWord("");
-            PlayerPanelOwner.Reset();
-            PlayerPanelOpponent.Reset();
-            TimerBar.ResetTimer();
+            _statisticsPanel.Reset();
+            _playerPanelOwner.Reset();
+            _playerPanelOpponent.Reset();
+            _progressBar.ResetTimer();
         }
         
         internal List<SelectableLetter> InitWordsField() => _wordsField.InitField();
@@ -102,6 +110,7 @@ namespace UI.Screens
         internal void SetTextWord(string value) => _wordText.text = value;
 
         internal string GetTextWord() => _wordText.text;
+        
         
         internal void AddLetterToWord(string letter) => _wordText.text += letter;
 

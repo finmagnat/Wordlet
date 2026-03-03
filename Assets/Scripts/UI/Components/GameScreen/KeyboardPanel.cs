@@ -1,3 +1,4 @@
+using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using UI.Popups;
@@ -18,8 +19,19 @@ namespace UI.Components
         private void Start()
         {
             //SetSkin();
+            EventBus.Subscribe<KeyboardLetterSelectEvent>(OnKeyBoardLetterSelect);
         }
-        
+
+        private void OnDestroy()
+        {
+            EventBus.Unsubscribe<KeyboardLetterSelectEvent>(OnKeyBoardLetterSelect);
+        }
+
+        private void OnKeyBoardLetterSelect(KeyboardLetterSelectEvent obj)
+        {
+            HideAsync().Forget();
+        }
+
         private async UniTask SetSkin()
         {
             var skin = _skinsService.SkinCurrent;

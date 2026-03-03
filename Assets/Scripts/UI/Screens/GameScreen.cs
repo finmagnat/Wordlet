@@ -7,7 +7,6 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UI.Components;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -20,7 +19,12 @@ namespace UI.Screens
         [SerializeField] protected TextMeshProUGUI _statusText;
         [SerializeField] protected TextMeshProUGUI _wordText;
         [SerializeField] protected TimerProgressBar _progressBar;
-        [SerializeField] protected GameObject _gameControlsPanel;
+        
+        [SerializeField] protected Button _pauseButton;
+        [SerializeField] protected Button _skipButton;
+        [SerializeField] protected Button _cancelButton;
+        [SerializeField] protected Button _goButton;
+        
         [SerializeField] protected Image _mainBackground;
         [SerializeField] protected PlayerPanel _playerPanelOwner;
         [SerializeField] protected PlayerPanel _playerPanelOpponent;
@@ -51,7 +55,7 @@ namespace UI.Screens
         
         protected bool _isProcessing;
         protected bool _isPaused = false;
-        
+
         protected void Start()
         {
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
@@ -75,15 +79,13 @@ namespace UI.Screens
 
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         
-        public void OnPressedClear() => EventBus.Raise(new GameClearEvent());
-        
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
         public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
         public void OnOpenStatistic() => _statisticsPanel.ShowAsync().Forget();
 
         public override UniTask ShowAsync()
         {
-            _gameControlsPanel.SetActive(true);
+            ShowButtons();
             
             //SetSkin();
             Reset();
@@ -91,6 +93,14 @@ namespace UI.Screens
             _isProcessing = true;
             
             return base.ShowAsync();
+        }
+        
+        protected void ShowButtons(bool show = true)
+        {
+            _pauseButton.gameObject.SetActive(show);
+            _skipButton.gameObject.SetActive(show);
+            _cancelButton.gameObject.SetActive(show);
+            _goButton.gameObject.SetActive(show);
         }
         
         internal void Reset()
@@ -105,7 +115,7 @@ namespace UI.Screens
         
         internal List<SelectableLetter> InitWordsField() => _wordsField.InitField();
 
-        internal List<DraggedLetter> InitAlphabetField() => _lettersField.InitField();
+        internal void InitAlphabetField() => _lettersField.InitField();
 
         internal void SetTextWord(string value) => _wordText.text = value;
 
@@ -153,7 +163,7 @@ namespace UI.Screens
         
         protected void OnGameEnd(GameEndEvent eventData)
         {
-            _gameControlsPanel.SetActive(false);
+            ShowButtons(false);
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
             _isProcessing = false;

@@ -13,6 +13,7 @@ namespace Core.Data
 
         private List<SelectableLetter> _items; // Список всех элементов на поле.
         private List<int> _selectedIndex = new(); // Индексы выбранных букв составляющих слово.
+        private SelectableLetter _selectedItem; // Выделенная пустая ячейка (для будущей установки в нее буквы).
         private SelectableLetter _setItem; // Установленная буква.
         private List<string> _words = new(); // Список слов собранных в текущей игровой сессии.
 
@@ -205,6 +206,25 @@ namespace Core.Data
         internal void SetLetterItem(SelectableLetter item)
         {
             _setItem = item;
+        }
+        
+        internal void SetSelectedCell(SelectableLetter item)
+        {
+            _selectedItem = item;
+        }
+        
+        internal bool SetLetterToSelectedCell(string letter)
+        {
+            if (_selectedItem != null)
+            {
+                _selectedItem.SetLetter(letter);
+                _selectedItem.HighlightCell();
+                _setItem = _selectedItem;
+                _selectedItem = null;
+                return true;
+            }
+            
+            return false;
         }
 
         /// <summary>

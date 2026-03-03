@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.DataDictionary;
-using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -17,28 +16,18 @@ namespace UI.Components
         [Inject] private LocalizationService _localization;
         [Inject] private DictionaryService _dictionaryService;
         
-        private List<DraggedLetter> _items;
+        private List<KeyboardLetter> _items;
       
-        private void Start()
-        {
-            EventBus.Subscribe<GameEndEvent>(OnGameEnd);
-        }
-
-        private void OnDestroy()
-        {
-            EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
-        }
-        
-        public List<DraggedLetter> InitField()
+        public void InitField()
         {
             string alphabet = _dictionaryService.Alphabet;
             if(alphabet.Length == 0)
-                return null;
+                return;
          
             char[] arrAlphabet = alphabet.ToCharArray();
             
             if(_items == null)
-                _items = new List<DraggedLetter>(alphabet.Length);
+                _items = new List<KeyboardLetter>(alphabet.Length);
             else
                 _items.ForEach(item => item.gameObject.SetActive(false));
             
@@ -47,14 +36,14 @@ namespace UI.Components
                 if (_items.Count > i && _items[i] != null)
                 {
                     var item = _items[i].gameObject;
-                    item.GetComponent<DraggedLetter>().SetLetter(arrAlphabet[i].ToString());
+                    item.GetComponent<KeyboardLetter>().SetLetter(arrAlphabet[i].ToString());
                     item.SetActive(true);
                 }
                 else
                 {
                     var clonePrefab = Instantiate(_dragbleLetterPrefab, transform);
 
-                    var draggedLetter = clonePrefab.GetComponent<DraggedLetter>();
+                    var draggedLetter = clonePrefab.GetComponent<KeyboardLetter>();
                     draggedLetter.SetLetter(arrAlphabet[i].ToString());
 
                     _items.Add(draggedLetter);
@@ -62,24 +51,15 @@ namespace UI.Components
             }
 
             //SetSkin();
-            
-            return _items;
         }
-        
-        public void SetEnable(bool value = true) => _items.ForEach(item => item.SetEnable(value));
         
         private async UniTask SetSkin()
         {
             var skin = _skinsService.SkinCurrent;
             var sprite = await _spriteService.GetSpriteAsync(skin.DragableLetterAlias);
             _items.ForEach(item =>
-                item.gameObject.GetComponent<DraggedLetter>().SetSkin(sprite)
+                item.gameObject.GetComponent<KeyboardLetter>().SetSkin(sprite)
             );
-        }
-        
-        private void OnGameEnd(GameEndEvent eventData)
-        {
-            SetEnable(false);
         }
     }
 }

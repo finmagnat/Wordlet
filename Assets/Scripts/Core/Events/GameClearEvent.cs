@@ -1,4 +1,4 @@
 namespace Core.Events
 {
-    public class GameClearEvent : IGameEvent { }
+    //public class GameClearEvent : IGameEvent { }
 }

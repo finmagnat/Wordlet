@@ -12,27 +12,60 @@ namespace UI.Components
     public class SelectableLetter : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
     {
         [SerializeField] private TextMeshProUGUI _letterText;
-        [SerializeField] private GameObject _selectImage; // Выделение на кнопке
-        [SerializeField] private GameObject _selectImageRed; // Выделение на кнопке Красным
         [SerializeField] private Image _mainBackground;
         [SerializeField] private uint _blinkCount = 3; // Количество миганий
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
         
+        [Header("Спрайты фона и выделения")]
+        [SerializeField] private Sprite _mainBackgroundEmpty; // Фон пустой ячейки по умолчанию (skined)
+        [SerializeField] private Sprite _mainBackgroundFilled; // Фон с установленной буквой (skined)
+        [SerializeField] private Sprite _selectedCell; // Выделение выбранной ячейки (пустой или с только что установленной буквой) (оранжевый)
+        [SerializeField] private Sprite _selectedLetter; // Выделение буквы (при выделении слова - желтый)
+        
         [Inject] private AudioService _audioService;
+        
+        public int Index { get; set; } // Индекс элемента на поле [0 - n]
+        
+        private bool IsHighlight => _highlightState == HighlightState.Highlighted;
         
         private WordsField _wordsField;
         private float _suppressClickUntil;
         
         private float _blinkDtTimer = 0;
         private float _blinkCounter = 0;
-        private bool _bModeBlink = false; // Режим мигания
-
+        private bool _bModeBlink; // Режим мигания
+        private bool _isIlluminated; // Состояние подсветки в Режиме мигания
         private string _letter;
-        private bool _isHighlight = false; // Режим подсветки (буква выделена)
+        
         private BoxCollider2D _collider;
 
-        public int Index { get; set; } // Индекс элемента на поле [0 - n]
+        private HighlightState _highlightState = HighlightState.None; // Режим подсветки (выделена буква или ячейка)
+        enum HighlightState { None, SelectedCell, Highlighted };
 
+        private void Start()
+        {
+            _collider = GetComponent<BoxCollider2D>();
+            _wordsField = GetComponentInParent<WordsField>();
+        }
+
+        private void Update()
+        {
+            if (_bModeBlink)
+            {
+                _blinkDtTimer += Time.deltaTime;
+                if (_blinkDtTimer >= _blinkDtDelay)
+                {
+                    _blinkDtTimer = 0;
+                    Blink();
+                    if (_blinkCounter > _blinkCount)
+                    {
+                        ModeBlinkClear();
+                        HighlightCell();
+                    }
+                }
+            }
+        }
+        
         public void OnPointerDown(PointerEventData eventData)
         {
             if (Empty()) return;
@@ -58,8 +91,14 @@ namespace UI.Components
             // если PointerDown уже выбрал букву — не дублируем выбор по клику
             if (Time.unscaledTime < _suppressClickUntil)
                 return;
+            
+            if (Empty() && !IsHighlight)
+            {
+                EventBus.Raise(new CellSelectEvent{ letter = this }); // Игрок кликнул по пустой ячейке
+                return;
+            }
 
-            if (!Empty() && !IsHighlight())
+            if (!Empty() && !IsHighlight)
             {
                 ModeBlinkClear();
                 EventBus.Raise(new LetterSelectEvent{ letter = this });
@@ -71,6 +110,8 @@ namespace UI.Components
             SetLetter("");
             UnHighlight();
         }
+        
+        internal void SetSkin(Sprite sprite) => _mainBackground.sprite = sprite;
         
         /// <summary>
         /// Включить режим "Помигать буквой"
@@ -92,7 +133,6 @@ namespace UI.Components
         {
             _letter = letter;
             _letterText.text = _letter;
-            _selectImageRed.SetActive(string.IsNullOrEmpty(letter) ? false : true);
         }
 
         internal string GetLetter() => _letter;
@@ -102,28 +142,32 @@ namespace UI.Components
         internal bool Empty() => _letter == "";
         
         /// <summary>
+        /// Выделить пустую ячейку
+        /// </summary>
+        internal void HighlightCell()
+        {
+            ModeBlinkClear();
+            SetHighlightState(HighlightState.SelectedCell);
+        }
+        
+        /// <summary>
         /// Выделить букву
         /// </summary>
         internal void Highlight()
         {
             ModeBlinkClear();
-            _isHighlight = true;
-            _selectImage.SetActive(_isHighlight);
-            _selectImageRed.SetActive(false);
+            SetHighlightState(HighlightState.Highlighted);
         }
+        
         /// <summary>
         /// Убрать выделение с буквы
         /// </summary>
         internal void UnHighlight()
         {
             ModeBlinkClear();
-            _isHighlight = false;
-            _selectImage.SetActive(_isHighlight);
-            _selectImageRed.SetActive(false);
+            SetHighlightState(HighlightState.None);
         }
 
-        internal bool IsHighlight() => _isHighlight;
-        
         /// <summary>
         /// Отобразить или скрыть букву на поле
         /// </summary>
@@ -136,70 +180,43 @@ namespace UI.Components
                 if (value)
                 {
                     _letterText.text = _letter;
-                    if (_isHighlight && _selectImage)
-                    {
-                        _selectImage.SetActive(true);
-                    }
+                    SetHighlightState(_highlightState);
                 }
                 else
                 {
                     _letterText.text = "";
-                    if (_isHighlight && _selectImage)
-                    {
-                        _selectImage.SetActive(false);
-                    }
+                    _mainBackground.sprite = _mainBackgroundEmpty;
                 }
             }            
         }
         
-        internal void SetSkin(Sprite sprite) => _mainBackground.sprite = sprite;
-        
-        private void Start()
+        private void SetHighlightState(HighlightState state)
         {
-            _collider = GetComponent<BoxCollider2D>();
-            _wordsField = GetComponentInParent<WordsField>();
-        }
-
-        private void Update()
-        {
-            if (_bModeBlink)
+            _highlightState = state;
+            _mainBackground.sprite = state switch
             {
-                _blinkDtTimer += Time.deltaTime;
-                if (_blinkDtTimer >= _blinkDtDelay)
-                {
-                    _blinkDtTimer = 0;
-                    Blink();
-                    if (_blinkCounter > _blinkCount)
-                    {
-                        ModeBlinkClear();
-                        if (_isHighlight)
-                        {
-                            Highlight();
-                        }
-                        else
-                        {
-                            UnHighlight();
-                        }
-                    }
-                }
-            }
+                HighlightState.SelectedCell => _selectedCell,
+                HighlightState.Highlighted => _selectedLetter,
+                _ => Empty() ? _mainBackgroundEmpty : _mainBackgroundFilled
+            };
         }
+        
+        
 
         private void Blink()
         {
-            if (_selectImage)
+            _isIlluminated = !_isIlluminated;
+
+            if (_isIlluminated)
             {
-                if (_selectImage.activeInHierarchy)
-                {
-                    _selectImage.SetActive(false);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterUnblinking);
-                }
-                else
-                {
-                    ++_blinkCounter;
-                    _selectImage.SetActive(true);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterBlinking);
-                }
+                _mainBackground.sprite = _mainBackgroundFilled;
+                _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterUnblinking);
+            }
+            else
+            {
+                ++_blinkCounter;
+                _mainBackground.sprite = _selectedCell;
+                _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterBlinking);
             }
         }
 
@@ -208,6 +225,7 @@ namespace UI.Components
             if (_bModeBlink)
             {
                 _bModeBlink = false;
+                _isIlluminated = false;
                 _blinkDtTimer = 0;
                 _blinkCounter = 0;
             }

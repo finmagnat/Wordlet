@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 61886e82fcde0a14a86c47e00eb39a5e
+guid: 64b6733399ddd9f44ab42f9065ae41d2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7577713993019752945
-    second: LetterBlueFill_0
+      213: -5698993346670099127
+    second: Handle_Pink_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LetterBlueFill_0
+      name: Handle_Pink_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 328
-        height: 321
+        width: 319
+        height: 234
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 142, y: 112, z: 148, w: 102}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0efc84954d86d690800000000000000
-      internalID: -7577713993019752945
+      spriteID: 9450a6aeebb19e0b0800000000000000
+      internalID: -5698993346670099127
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6c62b4d34287f12489ce011c96fbb718
+    spriteID: 3fc854c5f66c90e4187d4c820d27f71a
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LetterBlueFill_0: -7577713993019752945
+      Handle_Pink_0: -5698993346670099127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -14,61 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Skins
   m_GUID: 2a8a01c8bc9622e4db02cb977cb1e9ea
-  m_SerializeEntries:
-  - m_GUID: 07ec439194ff5c344859a63f7b0b3967
-    m_Address: letter_select_yellow
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 15984c903135ae24081bffa490de2e27
-    m_Address: letter_drop_blue
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 479d4d56aa2f2a14b93fe7fdbac77a09
-    m_Address: bkg_main_red
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 48ed901e4914f7d478dc05665efb5775
-    m_Address: letter_blue
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 49d68683fdb771840887e862fcba6a7e
-    m_Address: letter_red
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 926d38736d8c4be41ad03b7d76a40d0c
-    m_Address: bkg_list_blue
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: db93cea3f80d99a42bcdc0ee86b168af
-    m_Address: letter_drop_red
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e49bf46484f9683438218781874bf985
-    m_Address: bkg_list_red
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ebdf68a9d71fe5445827a401ac62b9a5
-    m_Address: bkg_main_blue
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6dce5b1d62bc7c4448f3589e4c3a789e, type: 2}
   m_SchemaSet:

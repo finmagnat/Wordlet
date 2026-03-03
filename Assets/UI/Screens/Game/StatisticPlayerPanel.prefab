@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5668518402485374812, guid: 8f2bd7cbb5704314a9635946aa1685f7, type: 3}
+  m_Sprite: {fileID: 6080271184826949166, guid: f973895360edc8543818bb9d6745d908, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!1 &6655500255918130231
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +164,6 @@ GameObject:
   - component: {fileID: 6865442349372137143}
   - component: {fileID: 6759488726178955575}
   - component: {fileID: 6866916704052234953}
-  - component: {fileID: 6759560977350444709}
   m_Layer: 5
   m_Name: ListScrollView
   m_TagString: Untagged
@@ -231,36 +230,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6655532531812587937}
   m_CullTransparentMesh: 1
---- !u!114 &6759560977350444709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6655532531812587937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e49bf46484f9683438218781874bf985, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6655722072036339641
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +445,7 @@ MonoBehaviour:
   _scrollRect: {fileID: 6759488726178955575}
   _listContent: {fileID: 6865101208918700581}
   _wordListItemPrefab: {fileID: 2701634397093355419, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
-  _mainBackground: {fileID: 6759560977350444709}
+  _mainBackground: {fileID: 0}
 --- !u!1 &6655968857254161375
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +511,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7930265040436356065, guid: 078a1e557536aff45a0d2f850d9dd529, type: 3}
+  m_Sprite: {fileID: -4607238526197879883, guid: 71f54d7d2a523c44e8979886ba77c7be, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -551,7 +520,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!1 &6656035798822912347
 GameObject:
   m_ObjectHideFlags: 0

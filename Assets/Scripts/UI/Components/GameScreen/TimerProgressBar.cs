@@ -11,6 +11,9 @@ namespace UI.Components
         
         [SerializeField] private Slider _slider;
         [SerializeField] private TextMeshProUGUI _progressText;
+        [SerializeField] private int _timeExpire = 10;
+        [SerializeField] private Color _timeColor = Color.white;
+        [SerializeField] private Color _timeColorExpire = Color.coral;
 
         private float _dtTimer = 0.0f; // Инкрементный счетчик времени (дельтатайм) (при достижении DtDelay увеличивается _secondsCounter)
         private bool _bRun = false; // Старт/Пауза таймера
@@ -20,6 +23,7 @@ namespace UI.Components
             _slider.value = 0;
             //SetTargetValue(10, true); //test
             _progressText.text = "";
+            _progressText.color = _timeColor;
         }
 
         // Update is called once per frame
@@ -32,7 +36,7 @@ namespace UI.Components
                 {
                     _dtTimer = 0;
                     ++_slider.value;
-                    _progressText.text = $"{_slider.maxValue - _slider.value}";
+                    SetFormatMMSS((int)(_slider.maxValue - _slider.value));
                     if (_slider.value >= _slider.maxValue)
                     {
                         StopTimer();
@@ -47,7 +51,7 @@ namespace UI.Components
             if (value > 0)
             {
                 _slider.maxValue = value;
-                _progressText.text = value.ToString();
+                SetFormatMMSS((int)value);
                 
                 if (autostartTimer)
                     StartTimer();
@@ -64,19 +68,25 @@ namespace UI.Components
             _dtTimer = 0;
             _slider.value = 0;
             _progressText.text = "";
+            _progressText.color = _timeColor;
         }
 
         public void SetCurrentValue(float value)
         {
             _slider.value = value;
-            _progressText.text = $"{_slider.maxValue - value}";
+            SetFormatMMSS((int)(_slider.maxValue - value));
         }
 
         public float GetCurrentValue() => _slider.value;
         
-        private void OnDestroy()
+        private void SetFormatMMSS(int seconds)
         {
-            
+            if (seconds < 0) seconds = 0;
+            int m = seconds / 60;
+            int s = seconds % 60;
+            _progressText.text = $"{m:00}:{s:00}";
+            if (seconds <= _timeExpire)
+                _progressText.color = _timeColorExpire;
         }
     }
 }

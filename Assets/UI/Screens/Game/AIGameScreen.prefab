@@ -229,6 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 1842635623733925945}
   _progressText: {fileID: 7728592968394486674}
+  _timeColor: {r: 1, g: 0.9607843, b: 0.88235295, a: 1}
+  _timeColorLast: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &331005890202240374
 GameObject:
   m_ObjectHideFlags: 0

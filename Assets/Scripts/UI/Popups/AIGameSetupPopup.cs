@@ -14,7 +14,6 @@ namespace UI.Popups
     public class AIGameSetupPopup : UIPopup
     {
         private const int STEP_TIME = 5;
-        private const int MIN_TIME = 5;
         
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI _numericTimeText;
@@ -25,6 +24,7 @@ namespace UI.Popups
         
         [Inject] private ConfigService _configService;
         
+        private GameConfig _gameConfig;
         private ComplexityAI _complexityAI;
         private int _durationGame;
         private Toggle[] _toggles;
@@ -75,9 +75,9 @@ namespace UI.Popups
         
         public override async UniTask ShowAsync()
         {
-            var gameConfig = _configService.Game;
-            _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame, gameConfig.durationGameByDefault);
-            _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)gameConfig.complexityAiByDefault);
+            _gameConfig = _configService.Game;
+            _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame, _gameConfig.durationGameByDefault);
+            _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)_gameConfig.complexityAiByDefault);
                 
             _completionSource = new UniTaskCompletionSource<GameSetupData>();
             
@@ -96,13 +96,16 @@ namespace UI.Popups
         
         public void OnIncrTimeButton()
         {
-            _durationGame += STEP_TIME;
-            ChangeTimeText();
+            if (_durationGame + STEP_TIME <= _gameConfig.durationGameMaximum)
+            {
+                _durationGame += STEP_TIME;
+                ChangeTimeText();
+            }
         }
 
         public void OnDecrTimeButton()
         {
-            if (_durationGame - STEP_TIME > MIN_TIME)
+            if (_durationGame - STEP_TIME >= _gameConfig.durationGameMinimum)
             {
                 _durationGame -= STEP_TIME;
                 ChangeTimeText();

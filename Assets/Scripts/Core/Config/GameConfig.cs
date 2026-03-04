@@ -22,9 +22,6 @@ namespace Core.Config
         public bool enableAds = true;
         public bool useDebugLogs = true;
 
-        [Tooltip("PlayFab Title Id")]
-        public string playFabTitleId;
-
         [Tooltip("Firebase Realtime DB URL")]
         public string firebaseRealtimeDbUrl;
 
@@ -42,6 +39,10 @@ namespace Core.Config
         [Space(10)]
         [Tooltip("Время хода игрока по умолчанию (секунды)")]
         public int durationGameByDefault = 60;
+        [Tooltip("Время хода игрока минимальное (секунды)")]
+        public int durationGameMinimum = 10;
+        [Tooltip("Время хода игрока максимальное (секунды)")]
+        public int durationGameMaximum = 120;
         
         [Tooltip("Оппонент игрока по умолчанию")]
         public GameOpponent gameOpponentByDefault = GameOpponent.AI;

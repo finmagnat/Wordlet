@@ -29,15 +29,16 @@ namespace UI.Components
             {
                 await HideAsync();
             });
-            //SetSkin();
         }
         
         internal void SetStartWord(string value) => _startWordText.text = value;
         
-        private async UniTask SetSkin()
+        internal async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MaidBackgroundAlias);
+            _statisticPlayerPlayerPanelOwner.UpdateSkin();
+            _statisticPlayerPlayerPanelOpponent.UpdateSkin();
         }
 
         internal void Reset()

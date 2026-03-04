@@ -57,32 +57,6 @@ namespace Core.Data
             _words.Add(word);
         }
         
-        /// <summary>
-        /// Проверить, можно ли установить букву в текущую позицию.
-        /// </summary>
-        /// <param name="position">Позиция центра элемента с буквой "брошенного" игроком над полем</param>
-        /// <param name="letter">Устанавливаемая буква</param>
-        /// <returns>Успех</returns>
-        internal bool CheckSetLetter(Vector3 position, string letter)
-        {
-            int index = 0;
-            foreach (var item in _items)
-            {
-                if (index == 5)
-                {
-                    int a = 0;
-                }
-                if (item.HitTest(position) && TrySetLetter(index))
-                {
-                    item.SetLetter(letter);
-                    _setItem = item;
-                    return true;
-                }
-                ++index;
-            }
-            return false;
-        }
-               
         internal void BlinkNoSelectedLetter()
         {
             if (_setItem)

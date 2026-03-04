@@ -11,9 +11,13 @@ namespace UI.Components
         [SerializeField] private Image _mainBackground;
         
         public void SetLetter(string letter) => _letterText.text = letter;
-        
-        public void SetSkin(Sprite sprite) => _mainBackground.sprite = sprite;
-        
+
+        public void SetSkin(Sprite spriteTile, Color letterColor)
+        {
+            _mainBackground.sprite = spriteTile;
+            _letterText.color = letterColor;
+        }
+
         public void OnClick()
         {
             EventBus.Raise(new KeyboardLetterSelectEvent{ letter = _letterText.text });

@@ -58,7 +58,6 @@ namespace Game.Logic
             
             EventBus.Subscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
-            //EventBus.Subscribe<GameClearEvent>(OnGameClear);
             EventBus.Subscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Subscribe<GameSkipEvent>(OnGameSkip);
 
@@ -84,7 +83,6 @@ namespace Game.Logic
             
             EventBus.Unsubscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
-            //EventBus.Unsubscribe<GameClearEvent>(OnGameClear);
             EventBus.Unsubscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Unsubscribe<GameSkipEvent>(OnGameSkip);
 
@@ -151,7 +149,7 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.PauseButton.SetActive(true);
-            _gameScreen.SkipButton.SetActive(true);
+            _gameScreen.PassButton.SetActive(true);
             
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
@@ -451,14 +449,14 @@ namespace Game.Logic
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
                 _gameScreen.PauseButton.SetActive(true);
-                _gameScreen.SkipButton.SetActive(true);
+                _gameScreen.PassButton.SetActive(true);
             }
             else
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
                 _wordsFieldManager.SetModeSelect(false);
                 _gameScreen.PauseButton.SetActive(false);
-                _gameScreen.SkipButton.SetActive(false);
+                _gameScreen.PassButton.SetActive(false);
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
                 switch (_gameOpponent)
@@ -476,7 +474,7 @@ namespace Game.Logic
             _bPause = false;
             _bLetterPut = false;
             _gameScreen.PauseButton.SetActive(false);
-            _gameScreen.SkipButton.SetActive(false);
+            _gameScreen.PassButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.GoButton.SetActive(false);
 
@@ -626,8 +624,10 @@ namespace Game.Logic
             _gameScreen.SetTextWord(resWord);
             _wordsFieldManager.SetModeSelect(true);
             _bLetterPut = true;
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
+            _gameScreen.CancelButton.SetActive(true);
+            _gameScreen.GoButton.SetActive(true);
+            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
         }
 
         private async UniTask ShowBoosterLetterFailAsync()

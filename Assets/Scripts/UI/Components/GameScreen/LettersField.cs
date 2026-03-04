@@ -9,7 +9,7 @@ namespace UI.Components
 {
     public class LettersField : MonoBehaviour
     {
-        [SerializeField] private GameObject _dragbleLetterPrefab;
+        [SerializeField] private KeyboardLetter _keyboardLetterPrefab;
 
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spriteService;
@@ -35,30 +35,27 @@ namespace UI.Components
             {
                 if (_items.Count > i && _items[i] != null)
                 {
-                    var item = _items[i].gameObject;
-                    item.GetComponent<KeyboardLetter>().SetLetter(arrAlphabet[i].ToString());
-                    item.SetActive(true);
+                    var item = _items[i];
+                    item.SetLetter(arrAlphabet[i].ToString());
+                    item.gameObject.SetActive(true);
                 }
                 else
                 {
-                    var clonePrefab = Instantiate(_dragbleLetterPrefab, transform);
-
-                    var draggedLetter = clonePrefab.GetComponent<KeyboardLetter>();
-                    draggedLetter.SetLetter(arrAlphabet[i].ToString());
-
-                    _items.Add(draggedLetter);
+                    var keyboardLetter = Instantiate(_keyboardLetterPrefab, transform);
+                    keyboardLetter.SetLetter(arrAlphabet[i].ToString());
+                    _items.Add(keyboardLetter);
                 }
             }
 
-            //SetSkin();
+            SetSkin();
         }
         
         private async UniTask SetSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            var sprite = await _spriteService.GetSpriteAsync(skin.DragableLetterAlias);
+            var keyboardTile = await _spriteService.GetSpriteAsync(skin.KeyboardTileAlias);
             _items.ForEach(item =>
-                item.gameObject.GetComponent<KeyboardLetter>().SetSkin(sprite)
+                item.SetSkin(keyboardTile, skin.KeyboardLetterColor)
             );
         }
     }

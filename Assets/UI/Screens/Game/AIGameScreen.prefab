@@ -229,8 +229,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 1842635623733925945}
   _progressText: {fileID: 7728592968394486674}
+  _timeExpire: 10
   _timeColor: {r: 1, g: 0.9607843, b: 0.88235295, a: 1}
-  _timeColorLast: {r: 1, g: 0, b: 0, a: 1}
+  _timeColorExpire: {r: 1, g: 0.4980392, b: 0.3137255, a: 1}
 --- !u!1 &331005890202240374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectebleLetterPrefab: {fileID: 393263811628112172, guid: 61dfc05550e81b246a725221e8ac8675, type: 3}
+  _mainBackground: {fileID: 7627556124183397554}
 --- !u!1 &1661720624926344547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,7 +3281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9044fa3834db48fb95bc750babd7956b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dragbleLetterPrefab: {fileID: 8536656829885788905, guid: f179b00e697303d4ba9973bf4cbcee27, type: 3}
+  _keyboardLetterPrefab: {fileID: 3095589076343028331, guid: f179b00e697303d4ba9973bf4cbcee27, type: 3}
 --- !u!1 &6826348050515642894
 GameObject:
   m_ObjectHideFlags: 0
@@ -3937,7 +3939,7 @@ GameObject:
   - component: {fileID: 1186052122572867452}
   - component: {fileID: 8922178149204596851}
   m_Layer: 5
-  m_Name: OpenStatisticButton
+  m_Name: StatisticButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5166,10 +5168,12 @@ MonoBehaviour:
   _statusText: {fileID: 4233852849794394991}
   _wordText: {fileID: 6151323356136281719}
   _progressBar: {fileID: 6580441538550110275}
+  _homeButton: {fileID: 939743396283217504}
   _pauseButton: {fileID: 1882456887132103752}
-  _skipButton: {fileID: 4696974156665089600}
   _cancelButton: {fileID: 4164994028988700059}
   _goButton: {fileID: 5329730401535053689}
+  _passButton: {fileID: 4696974156665089600}
+  _statisticButton: {fileID: 8922178149204596851}
   _mainBackground: {fileID: 5041397750972415920}
   _playerPanelOwner: {fileID: 1804453536542516080}
   _playerPanelOpponent: {fileID: 7112144571270252615}

@@ -17,18 +17,16 @@ namespace Core.UI.Components
         
         public SkinType SkinType => _skinType;
         
-        private bool _isActive;
         public SkinType _skinType;
         
-        public void SetSkinData(Sprite sprite, SkinType skinType)
+        public void SetSkinData(Color colorPreviewTile, SkinType skinType)
         {
-            _imagePreview.sprite = sprite;
+            _imagePreview.color = colorPreviewTile;
             _skinType = skinType;
         }
         
         public void SetActiveStatus(bool status)
         {
-            _isActive = status;
             _image.color = status ? activeColor : anActiveColor;
         }
     }

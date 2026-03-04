@@ -18,15 +18,11 @@ namespace UI.Components
         [Tooltip("Ссылка на префаб с элементом текстового поля")]
         [SerializeField] private GameObject _wordListItemPrefab;
         [SerializeField] private Image _mainBackground;
+        [SerializeField] private Image _handleBackground;
         
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
-        
-        private void Start()
-        {
-            //SetSkin();
-        }
         
         /// <summary>
         /// Добавить слово.
@@ -41,7 +37,6 @@ namespace UI.Components
                 itemWord.text = $"{value.Length} {value}";
                 Words.Add(value);
                 
-                //await UniTask.Delay(500);
                 await UniTask.Yield();
                 
                 _scrollRect.verticalNormalizedPosition = 0;
@@ -61,7 +56,6 @@ namespace UI.Components
                     Words.Add(value);
                 }
 
-                //await UniTask.Delay(500);
                 await UniTask.Yield();
                 
                 _scrollRect.verticalNormalizedPosition = 0;
@@ -80,10 +74,11 @@ namespace UI.Components
             }
         }
         
-        private async UniTask SetSkin()
+        public async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.FrameBackgroundAlias);
+            _handleBackground.sprite = await _spritesService.GetSpriteAsync(skin.HandleBackgroundAlias);
         }
     }
 }

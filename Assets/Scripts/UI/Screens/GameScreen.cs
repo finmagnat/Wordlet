@@ -20,10 +20,12 @@ namespace UI.Screens
         [SerializeField] protected TextMeshProUGUI _wordText;
         [SerializeField] protected TimerProgressBar _progressBar;
         
+        [SerializeField] protected Button _homeButton;
         [SerializeField] protected Button _pauseButton;
-        [SerializeField] protected Button _skipButton;
         [SerializeField] protected Button _cancelButton;
         [SerializeField] protected Button _goButton;
+        [SerializeField] protected Button _passButton;
+        [SerializeField] protected Button _statisticButton;
         
         [SerializeField] protected Image _mainBackground;
         [SerializeField] protected PlayerPanel _playerPanelOwner;
@@ -42,7 +44,7 @@ namespace UI.Screens
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
         internal GameObject PauseButton => _pauseButton.gameObject;
-        internal GameObject SkipButton => _skipButton.gameObject;
+        internal GameObject PassButton => _passButton.gameObject;
         internal GameObject CancelButton => _cancelButton.gameObject;
         internal GameObject GoButton => _goButton.gameObject;
         
@@ -62,6 +64,8 @@ namespace UI.Screens
         {
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
+
+            //UpdateSkin();
         }
 
         protected void OnDestroy()
@@ -87,7 +91,7 @@ namespace UI.Screens
 
         public override UniTask ShowAsync()
         {
-            //SetSkin();
+            UpdateSkin();
             Reset();
             
             _isProcessing = true;
@@ -160,10 +164,22 @@ namespace UI.Screens
             _isProcessing = false;
         }
         
-        protected async UniTask SetSkin()
+        protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.GameBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MaidBackgroundAlias);
+            _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
+            _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
+            _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
+            _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);
+            _passButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PassButtonAlias);
+            _statisticButton.image.sprite = await _spritesService.GetSpriteAsync(skin.StatisticButtonAlias);
+            
+            await _playerPanelOwner.UpdateSkin();
+            await _playerPanelOpponent.UpdateSkin();
+            await _wordsField.UpdateSkin();
+            await _statisticsPanel.UpdateSkin();
+            await _keyboardPanel.UpdateSkin();
         }
     }
 }

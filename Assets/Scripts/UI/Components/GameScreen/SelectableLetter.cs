@@ -16,18 +16,13 @@ namespace UI.Components
         [SerializeField] private uint _blinkCount = 3; // Количество миганий
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
         
-        [Header("Спрайты фона и выделения")]
-        [SerializeField] private Sprite _mainBackgroundEmpty; // Фон пустой ячейки по умолчанию (skined)
-        [SerializeField] private Sprite _mainBackgroundFilled; // Фон с установленной буквой (skined)
-        [SerializeField] private Sprite _selectedCell; // Выделение выбранной ячейки (пустой или с только что установленной буквой) (оранжевый)
-        [SerializeField] private Sprite _selectedLetter; // Выделение буквы (при выделении слова - желтый)
-        
         [Inject] private AudioService _audioService;
         
         public int Index { get; set; } // Индекс элемента на поле [0 - n]
         
         private bool IsHighlight => _highlightState == HighlightState.Highlighted;
         
+        private SkinCellData _skin;
         private WordsField _wordsField;
         private float _suppressClickUntil;
         
@@ -37,14 +32,11 @@ namespace UI.Components
         private bool _isIlluminated; // Состояние подсветки в Режиме мигания
         private string _letter;
         
-        private BoxCollider2D _collider;
-
         private HighlightState _highlightState = HighlightState.None; // Режим подсветки (выделена буква или ячейка)
         enum HighlightState { None, SelectedCell, Highlighted };
 
         private void Start()
         {
-            _collider = GetComponent<BoxCollider2D>();
             _wordsField = GetComponentInParent<WordsField>();
         }
 
@@ -110,24 +102,18 @@ namespace UI.Components
             SetLetter("");
             UnHighlight();
         }
-        
-        internal void SetSkin(Sprite sprite) => _mainBackground.sprite = sprite;
-        
+
+        internal void SetSkin(SkinCellData skin)
+        {
+            _skin = skin;
+            _letterText.color = skin.letterTextColor;
+            SetHighlightState(HighlightState.None);
+        }
+
         /// <summary>
         /// Включить режим "Помигать буквой"
         /// </summary>
         internal void SetModeBlink() => _bModeBlink = true;
-        
-
-        internal bool HitTest(Vector3 position)
-        {
-            if (_collider)
-            {
-                //Debug.Log($"_collider.bounds: {_collider.bounds} : {position}");
-                return _collider.OverlapPoint(position); 
-            }
-            return false;
-        }
 
         internal void SetLetter(string letter)
         {
@@ -185,7 +171,7 @@ namespace UI.Components
                 else
                 {
                     _letterText.text = "";
-                    _mainBackground.sprite = _mainBackgroundEmpty;
+                    _mainBackground.sprite = _skin.cellBackgroundDefault;
                 }
             }            
         }
@@ -195,13 +181,11 @@ namespace UI.Components
             _highlightState = state;
             _mainBackground.sprite = state switch
             {
-                HighlightState.SelectedCell => _selectedCell,
-                HighlightState.Highlighted => _selectedLetter,
-                _ => Empty() ? _mainBackgroundEmpty : _mainBackgroundFilled
+                HighlightState.SelectedCell => _skin.selectedCell,
+                HighlightState.Highlighted => _skin.selectedLetter,
+                _ => Empty() ? _skin.cellBackgroundDefault : _skin.cellBackgroundFilled
             };
         }
-        
-        
 
         private void Blink()
         {
@@ -209,13 +193,13 @@ namespace UI.Components
 
             if (_isIlluminated)
             {
-                _mainBackground.sprite = _mainBackgroundFilled;
+                _mainBackground.sprite = _skin.cellBackgroundFilled;
                 _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterUnblinking);
             }
             else
             {
                 ++_blinkCounter;
-                _mainBackground.sprite = _selectedCell;
+                _mainBackground.sprite = _skin.selectedCell;
                 _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterBlinking);
             }
         }

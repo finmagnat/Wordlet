@@ -12,19 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 1
+  SkinByDefault: 2
   _skins:
   - SkinType: 1
-    GameBackgroundAlias: bkg_main_red
-    SelectableLetterAlias: letter_red
-    DragableLetterAlias: letter_drop_red
-    ListBackgroundAlias: bkg_list_red
-    BacklightLetterAlias: letter_select_yellow
-    PreviewAlias: bkg_main_red
+    ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
+    MaidBackgroundAlias: MainBackgroundBlue
+    PlayerPanelBackgroundAlias: PlayerPanel_Blue
+    FrameBackgroundAlias: Frame_Blue
+    HandleBackgroundAlias: Handle_Blue
+    CellBackgroundDefaultAlias: CellBackgroundDefaultBlue
+    CellBackgroundFilledAlias: CellBackgroundFilledBlue
+    CellSelectedAlias: CellSelected
+    LettersSelectedAlias: LetterSelected
+    LettersFieldColor: {r: 0.23642753, g: 0.3400565, b: 0.6509434, a: 1}
+    KeyboardTileAlias: KeybourdTile
+    KeyboardLetterColor: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
+    HomeButtonAlias: ButtonHome_Blue
+    PauseButtonAlias: ButtonPause_Blue
+    CancelButtonAlias: ButtonCancel_Blue
+    GoButtonAlias: ButtonGo_Blue
+    PassButtonAlias: ButtonPass_Blue
+    StatisticButtonAlias: ButtonStatistic_Blue
   - SkinType: 2
-    GameBackgroundAlias: bkg_main_blue
-    SelectableLetterAlias: letter_blue
-    DragableLetterAlias: letter_drop_blue
-    ListBackgroundAlias: bkg_list_blue
-    BacklightLetterAlias: letter_select_yellow
-    PreviewAlias: bkg_main_blue
+    ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
+    MaidBackgroundAlias: MainBackgroundPink
+    PlayerPanelBackgroundAlias: PlayerPanel_Pink
+    FrameBackgroundAlias: Frame_Pink
+    HandleBackgroundAlias: Handle_Pink
+    CellBackgroundDefaultAlias: CellBackgroundDefaultPink
+    CellBackgroundFilledAlias: CellBackgroundFilledPink
+    CellSelectedAlias: CellSelected
+    LettersSelectedAlias: LetterSelected
+    LettersFieldColor: {r: 0.4433962, g: 0.018823417, b: 0.4433962, a: 1}
+    KeyboardTileAlias: KeybourdTile
+    KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
+    HomeButtonAlias: ButtonHome_Orange
+    PauseButtonAlias: ButtonPause_Orange
+    CancelButtonAlias: ButtonCancel_Orange
+    GoButtonAlias: ButtonGo_Orange
+    PassButtonAlias: ButtonPass_Orange
+    StatisticButtonAlias: ButtonStatistic_Orange

@@ -18,7 +18,6 @@ namespace UI.Components
         
         private void Start()
         {
-            //SetSkin();
             EventBus.Subscribe<KeyboardLetterSelectEvent>(OnKeyBoardLetterSelect);
         }
 
@@ -26,16 +25,16 @@ namespace UI.Components
         {
             EventBus.Unsubscribe<KeyboardLetterSelectEvent>(OnKeyBoardLetterSelect);
         }
+        
+        public async UniTask UpdateSkin()
+        {
+            var skin = _skinsService.SkinCurrent;
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.FrameBackgroundAlias);
+        }
 
         private void OnKeyBoardLetterSelect(KeyboardLetterSelectEvent obj)
         {
             HideAsync().Forget();
-        }
-
-        private async UniTask SetSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
         }
     }
 }

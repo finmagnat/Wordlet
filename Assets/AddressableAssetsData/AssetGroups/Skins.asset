@@ -14,7 +14,169 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Skins
   m_GUID: 2a8a01c8bc9622e4db02cb977cb1e9ea
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0e014a509fe29104f8618a8dae1d426a
+    m_Address: ButtonPause_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 107392ef657ddc541bfc57dfeb0b56d5
+    m_Address: ButtonPass_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a222750b4752ee45a931149be1ea943
+    m_Address: ButtonCancel_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e0111ed872905b40a786c0c0fab57c1
+    m_Address: ButtonGo_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 226060d77257708498cfb45458f8a706
+    m_Address: LetterSelected
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 278bec269380d9a4d84aede7e1fa4fd3
+    m_Address: PlayerPanel_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42ec4456d10852645bcbfdc193bb25ef
+    m_Address: ButtonCancel_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ed6b74af4f00214788fe1b92c8c987c
+    m_Address: PlayerPanel_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54e951fbd62668a4d9918e6b781ddf2e
+    m_Address: CellBackgroundDefaultPink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ba16bc3a657324439473b7031405f96
+    m_Address: MainBackgroundPink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61886e82fcde0a14a86c47e00eb39a5e
+    m_Address: CellBackgroundFilledBlue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64b6733399ddd9f44ab42f9065ae41d2
+    m_Address: Handle_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 673a883db8690d6489506e0c1bc1f0e1
+    m_Address: ButtonStatistic_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b770700351c17d4285f994f4750631b
+    m_Address: Frame_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71056481b8c1c6e48908e633a25dcb4e
+    m_Address: KeybourdTile
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71f54d7d2a523c44e8979886ba77c7be
+    m_Address: Handle_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78ae07fb8f9480b4f89ad9ce1910393e
+    m_Address: CellBackgroundDefaultBlue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ba581e17c2b2ff4694ed1164c9a192c
+    m_Address: ButtonHome_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a518780f3588da742a58161463f5252c
+    m_Address: ButtonGo_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: baf1bdf95086e47499b75e503a9eff6f
+    m_Address: MainBackgroundBlue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c72d00bc41b183043a76d9473aa120ab
+    m_Address: ButtonPause_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da5c52ed8bc341446bea432e3e280956
+    m_Address: ButtonStatistic_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e051a7596194d85409df7b0545ce5380
+    m_Address: ButtonPass_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e99e36e28be16e44d875241ea30cb73f
+    m_Address: ButtonHome_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebd5378d0a35da84b83171193404c4ba
+    m_Address: CellBackgroundFilledPink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f973895360edc8543818bb9d6745d908
+    m_Address: Frame_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc66889706f8ef1448132ad64bcd5218
+    m_Address: CellSelected
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6dce5b1d62bc7c4448f3589e4c3a789e, type: 2}
   m_SchemaSet:

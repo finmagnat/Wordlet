@@ -445,7 +445,8 @@ MonoBehaviour:
   _scrollRect: {fileID: 6759488726178955575}
   _listContent: {fileID: 6865101208918700581}
   _wordListItemPrefab: {fileID: 2701634397093355419, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
-  _mainBackground: {fileID: 0}
+  _mainBackground: {fileID: 7701792891080328310}
+  _handleBackground: {fileID: 6759573914571525507}
 --- !u!1 &6655968857254161375
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,11 +24,6 @@ namespace UI.Components
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
         
-        private void Start()
-        {
-            //SetSkin();
-        }
-        
         public void SetPlayerName(string name) => _playerNameText.text = name;
         
         public void SetData(uint score = 0, uint pass = 0, uint maxPasses = 0)
@@ -57,10 +52,10 @@ namespace UI.Components
             SetData();
         }
         
-        private async UniTask SetSkin()
+        public async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ListBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.PlayerPanelBackgroundAlias);
         }
     }
 }

@@ -148,6 +148,11 @@ namespace Game.Logic
             _gameScreen.BoosterPanel.Refresh();
             _wordsFieldManager.Reset();
             
+            _gameScreen.GoButton.SetActive(false);
+            _gameScreen.CancelButton.SetActive(false);
+            _gameScreen.PauseButton.SetActive(true);
+            _gameScreen.SkipButton.SetActive(true);
+            
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
             switch (_gameOpponent)
@@ -280,15 +285,6 @@ namespace Game.Logic
             }            
         }
 
-        /*private void OnGameClear(IGameEvent eventData)
-        {
-            if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner)
-                return;
-            
-            _wordsFieldManager.Clear();
-            _gameScreen.SetTextWord("");
-        }*/
-
         private void OnGameCancel(IGameEvent eventData)
         {
             if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner)
@@ -302,6 +298,8 @@ namespace Game.Logic
             _bLetterPut = false;
             _wordsFieldManager.Cancel();
             _gameScreen.SetTextWord("");
+            _gameScreen.GoButton.SetActive(false);
+            _gameScreen.CancelButton.SetActive(false);
         }
 
         private void OnCellSelectSuccess(IGameEvent eventData)
@@ -312,6 +310,8 @@ namespace Game.Logic
         private void OnLetterPutSuccess(IGameEvent eventData)
         {
             _bLetterPut = true;
+            _gameScreen.GoButton.SetActive(true);
+            _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
         }
 
@@ -450,11 +450,17 @@ namespace Game.Logic
             if (_bModePlayOwner)
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+                _gameScreen.PauseButton.SetActive(true);
+                _gameScreen.SkipButton.SetActive(true);
             }
             else
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
                 _wordsFieldManager.SetModeSelect(false);
+                _gameScreen.PauseButton.SetActive(false);
+                _gameScreen.SkipButton.SetActive(false);
+                _gameScreen.CancelButton.SetActive(false);
+                _gameScreen.GoButton.SetActive(false);
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
@@ -469,6 +475,10 @@ namespace Game.Logic
             _bStart = false;
             _bPause = false;
             _bLetterPut = false;
+            _gameScreen.PauseButton.SetActive(false);
+            _gameScreen.SkipButton.SetActive(false);
+            _gameScreen.CancelButton.SetActive(false);
+            _gameScreen.GoButton.SetActive(false);
 
             // Определение победителя:
             ResultGame resultGame = ResultGame.DRAW;

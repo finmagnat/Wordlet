@@ -38,11 +38,13 @@ namespace UI.Screens
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
-        
         internal StatisticsPanel StatisticsPanel => _statisticsPanel;
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
-        
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
+        internal GameObject PauseButton => _pauseButton.gameObject;
+        internal GameObject SkipButton => _skipButton.gameObject;
+        internal GameObject CancelButton => _cancelButton.gameObject;
+        internal GameObject GoButton => _goButton.gameObject;
         
         [Inject] protected LocalizationService _localization;
         [Inject] protected SkinsService _skinsService;
@@ -54,7 +56,7 @@ namespace UI.Screens
         [Inject] protected IGamePauseService _pauseService;
         
         protected bool _isProcessing;
-        protected bool _isPaused = false;
+        protected bool _isPaused;
 
         protected void Start()
         {
@@ -85,22 +87,12 @@ namespace UI.Screens
 
         public override UniTask ShowAsync()
         {
-            ShowButtons();
-            
             //SetSkin();
             Reset();
             
             _isProcessing = true;
             
             return base.ShowAsync();
-        }
-        
-        protected void ShowButtons(bool show = true)
-        {
-            _pauseButton.gameObject.SetActive(show);
-            _skipButton.gameObject.SetActive(show);
-            _cancelButton.gameObject.SetActive(show);
-            _goButton.gameObject.SetActive(show);
         }
         
         internal void Reset()
@@ -163,7 +155,6 @@ namespace UI.Screens
         
         protected void OnGameEnd(GameEndEvent eventData)
         {
-            ShowButtons(false);
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
             _isProcessing = false;

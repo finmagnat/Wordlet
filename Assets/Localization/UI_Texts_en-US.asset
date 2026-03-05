@@ -159,7 +159,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6207590239928320
-    m_Localized: Your move. Select a cell on the field next to another letter.
+    m_Localized: 'Your move.
+
+      Select a cell on the field next to another letter.'
     m_Metadata:
       m_Items: []
   - m_Id: 6207742686101504
@@ -342,7 +344,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272
-    m_Localized: The Wordlet found a word. Click "GO".
+    m_Localized: The Wordlet found a word. Click "Aplly".
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728
@@ -415,7 +417,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 40198905135513600
-    m_Localized: Select a letter to place it in the highlighted cell on the board.
+    m_Localized: Select a letter to place it in the highlighted cell on the field.
     m_Metadata:
       m_Items: []
   references:

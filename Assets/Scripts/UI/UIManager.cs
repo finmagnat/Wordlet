@@ -129,6 +129,15 @@ namespace Core.UI
                 }
             }
         }
+        
+        public async UniTask HideAllPopupsAsync()
+        {
+            foreach (var pair in _loadedPopups)
+            {
+                if (pair.Value != null)
+                    await pair.Value.HideAsync();
+            }
+        }
 
     }
 }

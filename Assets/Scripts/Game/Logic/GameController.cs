@@ -543,6 +543,8 @@ namespace Game.Logic
             //*******************************
 
             _profile.AddScoreAsync((int)_gameScreen.PlayerPanelOwner.Score);
+
+            await _ui.HideAllPopupsAsync();
                 
             FinishGamePopup finishPopup;
             switch (resultGame)

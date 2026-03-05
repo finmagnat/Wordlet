@@ -11,7 +11,7 @@ namespace Core.Data
         public Color ColorPreviewTile; // Цвет тайла в окне выбора скина 
         
         [Header("Фоны, панели, рамки, скролы")]
-        public string MaidBackgroundAlias; // Главный фон для экранов/попапов
+        public string MainBackgroundAlias; // Главный фон для экранов/попапов
         public string PlayerPanelBackgroundAlias; // Фон панели игрока
         public string FrameBackgroundAlias; // Фон рамки панелей/полей
         public string HandleBackgroundAlias; // Фон ползунка на скролах
@@ -35,5 +35,8 @@ namespace Core.Data
         public string GoButtonAlias; // Применить
         public string PassButtonAlias; // Пропустить
         public string StatisticButtonAlias; // Статистика
+        
+        [Header("Кнопки домашнего экрана и попапов")]
+        public string DefaultButtonAlias;
     }
 }

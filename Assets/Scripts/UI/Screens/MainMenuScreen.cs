@@ -20,10 +20,13 @@ namespace UI.Screens
         [SerializeField] private Button _infoButton;
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
-
+        [SerializeField] protected Image _mainBackground;
+        
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
         [Inject] private ISaveService _saveService;
+        [Inject] protected SkinsService _skinsService;
+        [Inject] protected ISpriteService _spritesService;
         [Inject] private GameController _gameController;
         [Inject] private LocalizationService _localization;
 
@@ -32,6 +35,7 @@ namespace UI.Screens
         private void Start()
         {
             _localization.OnLocaleChanged += OnLocaleChanged; 
+            _skinsService.OnSkinChanged += OnSkinChanged; 
             
             _playAIButton.onClick.AddListener(async () =>
             {
@@ -152,6 +156,8 @@ namespace UI.Screens
 
                 _isProcessing = false;
             });
+            
+            UpdateSkin();
         }
 
         private void OnDestroy()
@@ -163,11 +169,23 @@ namespace UI.Screens
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
         }
+        
+        private void OnSkinChanged(SkinData skinCurrent)
+        {
+            UpdateSkin();
+        }
 
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
             return base.ShowAsync();
         } 
+        protected async UniTask UpdateSkin()
+        {
+            var skin = _skinsService.SkinCurrent;
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
+            _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
+            _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
+        }
     }
 }

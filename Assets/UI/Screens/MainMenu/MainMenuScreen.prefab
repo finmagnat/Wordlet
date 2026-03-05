@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 2945305743475674207}
   - component: {fileID: 5748855789468647786}
   m_Layer: 5
-  m_Name: ButtonLoadAndPlay
+  m_Name: ButtonLoadAndPlay_OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -444}
-  m_SizeDelta: {x: 796, y: 149}
+  m_SizeDelta: {x: 796, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6919140010944266466
 CanvasRenderer:
@@ -133,8 +133,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84e776d277b53944883380e8062cfdf7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.75
 --- !u!114 &5748855789468647786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,8 +823,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -294.17847}
-  m_SizeDelta: {x: 796, y: 149}
+  m_AnchoredPosition: {x: 0, y: -294}
+  m_SizeDelta: {x: 796, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1954545647499422058
 CanvasRenderer:
@@ -854,8 +854,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84e776d277b53944883380e8062cfdf7, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -863,7 +863,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.75
 --- !u!114 &2590087109750988269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1422,6 +1422,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9168181062993022318, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7768209385516449521, guid: baf1bdf95086e47499b75e503a9eff6f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1447,6 +1451,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7135874436514091517, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
   m_PrefabInstance: {fileID: 5682884457702787367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3595637579864540233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9168181062993022318, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+  m_PrefabInstance: {fileID: 5682884457702787367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &5959051164036345406 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2048966547396175641, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
@@ -1470,3 +1485,4 @@ MonoBehaviour:
   _infoButton: {fileID: 8553876845664028689}
   _skinsButton: {fileID: 6599060534725721966}
   _shopButton: {fileID: 7366626905683214290}
+  _mainBackground: {fileID: 3595637579864540233}

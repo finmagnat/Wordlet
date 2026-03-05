@@ -165,7 +165,7 @@ namespace UI.Screens
         protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MaidBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
             _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
             _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);

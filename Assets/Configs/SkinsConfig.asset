@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 2
+  SkinByDefault: 1
   _skins:
   - SkinType: 1
     ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
-    MaidBackgroundAlias: MainBackgroundBlue
+    MainBackgroundAlias: MainBackgroundBlue
     PlayerPanelBackgroundAlias: PlayerPanel_Blue
     FrameBackgroundAlias: Frame_Blue
     HandleBackgroundAlias: Handle_Blue
@@ -34,9 +34,10 @@ MonoBehaviour:
     GoButtonAlias: ButtonGo_Blue
     PassButtonAlias: ButtonPass_Blue
     StatisticButtonAlias: ButtonStatistic_Blue
+    DefaultButtonAlias: ButtonBlue
   - SkinType: 2
     ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
-    MaidBackgroundAlias: MainBackgroundPink
+    MainBackgroundAlias: MainBackgroundPink
     PlayerPanelBackgroundAlias: PlayerPanel_Pink
     FrameBackgroundAlias: Frame_Pink
     HandleBackgroundAlias: Handle_Pink
@@ -54,3 +55,4 @@ MonoBehaviour:
     GoButtonAlias: ButtonGo_Orange
     PassButtonAlias: ButtonPass_Orange
     StatisticButtonAlias: ButtonStatistic_Orange
+    DefaultButtonAlias: ButtonPink

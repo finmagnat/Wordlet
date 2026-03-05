@@ -36,7 +36,7 @@ namespace UI.Components
         internal async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MaidBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _statisticPlayerPlayerPanelOwner.UpdateSkin();
             _statisticPlayerPlayerPanelOpponent.UpdateSkin();
         }

@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1222b410996a41d4fac6fb59773af4c0
+    m_Address: ButtonPink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1a222750b4752ee45a931149be1ea943
     m_Address: ButtonCancel_Blue
     m_ReadOnly: 0
@@ -131,6 +137,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ba581e17c2b2ff4694ed1164c9a192c
     m_Address: ButtonHome_Orange
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 923a6125b2db0f1438295d4c0f5cea8e
+    m_Address: ButtonBlue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

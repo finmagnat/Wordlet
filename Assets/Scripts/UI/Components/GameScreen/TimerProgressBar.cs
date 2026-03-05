@@ -1,7 +1,10 @@
 using Core.Events;
+using Core.Services;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Components
 {
@@ -10,11 +13,15 @@ namespace UI.Components
         private const float DtDelay = 1.0f; // Интервал 1 секунда
         
         [SerializeField] private Slider _slider;
+        [SerializeField] private Image _mainBackground;
         [SerializeField] private TextMeshProUGUI _progressText;
         [SerializeField] private int _timeExpire = 10;
         [SerializeField] private Color _timeColor = Color.white;
         [SerializeField] private Color _timeColorExpire = Color.coral;
 
+        [Inject] private SkinsService _skinsService;
+        [Inject] private ISpriteService _spritesService;
+        
         private float _dtTimer = 0.0f; // Инкрементный счетчик времени (дельтатайм) (при достижении DtDelay увеличивается _secondsCounter)
         private bool _bRun = false; // Старт/Пауза таймера
 
@@ -78,6 +85,12 @@ namespace UI.Components
         }
 
         public float GetCurrentValue() => _slider.value;
+        
+        public async UniTask UpdateSkin()
+        {
+            var skin = _skinsService.SkinCurrent;
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ProgressBackgroundAlias);
+        }
         
         private void SetFormatMMSS(int seconds)
         {

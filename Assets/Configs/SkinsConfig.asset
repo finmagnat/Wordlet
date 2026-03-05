@@ -20,6 +20,7 @@ MonoBehaviour:
     PlayerPanelBackgroundAlias: PlayerPanel_Blue
     FrameBackgroundAlias: Frame_Blue
     HandleBackgroundAlias: Handle_Blue
+    ProgressBackgroundAlias: ProgressBkg_Blue
     CellBackgroundDefaultAlias: CellBackgroundDefaultBlue
     CellBackgroundFilledAlias: CellBackgroundFilledBlue
     CellSelectedAlias: CellSelected
@@ -39,6 +40,7 @@ MonoBehaviour:
     PlayerPanelBackgroundAlias: PlayerPanel_Pink
     FrameBackgroundAlias: Frame_Pink
     HandleBackgroundAlias: Handle_Pink
+    ProgressBackgroundAlias: ProgressBkg_Pink
     CellBackgroundDefaultAlias: CellBackgroundDefaultPink
     CellBackgroundFilledAlias: CellBackgroundFilledPink
     CellSelectedAlias: CellSelected

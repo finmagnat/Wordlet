@@ -51,6 +51,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 316f45d58af72274dbf23b461a2c4b09
+    m_Address: ProgressBkg_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42caad6ded4324e4b8ab3dcfb5cfd884
+    m_Address: ProgressBkg_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 42ec4456d10852645bcbfdc193bb25ef
     m_Address: ButtonCancel_Orange
     m_ReadOnly: 0

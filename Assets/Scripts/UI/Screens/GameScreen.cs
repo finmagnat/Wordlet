@@ -64,8 +64,6 @@ namespace UI.Screens
         {
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
-
-            //UpdateSkin();
         }
 
         protected void OnDestroy()
@@ -175,6 +173,7 @@ namespace UI.Screens
             _passButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PassButtonAlias);
             _statisticButton.image.sprite = await _spritesService.GetSpriteAsync(skin.StatisticButtonAlias);
             
+            await _progressBar.UpdateSkin();
             await _playerPanelOwner.UpdateSkin();
             await _playerPanelOpponent.UpdateSkin();
             await _wordsField.UpdateSkin();

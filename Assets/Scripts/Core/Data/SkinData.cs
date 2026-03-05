@@ -15,6 +15,7 @@ namespace Core.Data
         public string PlayerPanelBackgroundAlias; // Фон панели игрока
         public string FrameBackgroundAlias; // Фон рамки панелей/полей
         public string HandleBackgroundAlias; // Фон ползунка на скролах
+        public string ProgressBackgroundAlias; // Фон прогресбара
         
         [Header("Игровое поле")]
         public string CellBackgroundDefaultAlias; // Фон ячейки поля по умолчанию (темный)

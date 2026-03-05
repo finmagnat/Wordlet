@@ -1014,8 +1014,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -719}
-  m_SizeDelta: {x: 760, y: 760}
+  m_AnchoredPosition: {x: 0, y: -770}
+  m_SizeDelta: {x: 860, y: 860}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2424991388049619277
 MonoBehaviour:
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 150, y: 150}
+  m_CellSize: {x: 170, y: 170}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -1652,7 +1652,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 20
     m_Right: 20
-    m_Top: 0
+    m_Top: 20
     m_Bottom: 0
   m_ChildAlignment: 1
   m_Spacing: 20
@@ -1677,7 +1677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 200
+  m_MinHeight: 220
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 20
     m_Right: 20
-    m_Top: 350
+    m_Top: 380
     m_Bottom: 20
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -3179,7 +3179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1192}
+  m_AnchoredPosition: {x: 0, y: -1290}
   m_SizeDelta: {x: 828, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8097846222316925439
@@ -3242,8 +3242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -540}
-  m_SizeDelta: {x: -60, y: 500}
+  m_AnchoredPosition: {x: 0, y: -450}
+  m_SizeDelta: {x: 0, y: 450}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2775306941004013388
 MonoBehaviour:
@@ -3260,12 +3260,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 10
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 96, y: 96}
+  m_CellSize: {x: 102, y: 102}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 4
@@ -4237,8 +4237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 400}
-  m_SizeDelta: {x: -20, y: 800}
+  m_AnchoredPosition: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7088843173599144197
 CanvasRenderer:
@@ -4449,8 +4449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -175}
-  m_SizeDelta: {x: 0, y: -350}
+  m_AnchoredPosition: {x: 0, y: -190}
+  m_SizeDelta: {x: 0, y: -380}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5756743237885570236
 CanvasRenderer:
@@ -5207,6 +5207,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7933744582809521191}
     m_Modifications:
+    - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6655894593779672703, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_Name
       value: StatisticPlayerPanelOpponent
@@ -5368,6 +5372,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7933744582809521191}
     m_Modifications:
+    - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6655894593779672703, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_Name
       value: StatisticPlayerPanel

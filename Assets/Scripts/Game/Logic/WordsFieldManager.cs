@@ -16,7 +16,6 @@ namespace Game.Logic
 
         public void Initialize()
         {
-            EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Subscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Subscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
@@ -25,7 +24,6 @@ namespace Game.Logic
 
         public void Destroy()
         {
-            EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Unsubscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Unsubscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
@@ -114,9 +112,9 @@ namespace Game.Logic
         /// Проверяет можно ли выбрать данную пустую ячейку, чтобы позже установить в нее букву.
         /// </summary>
         /// <param name="eventData"></param>
-        internal void OnCellSelect(CellSelectEvent eventData)
+        internal void TryCellSelect(CellSelectEvent eventData)
         {
-            //Debug.Log("[CaneSelectCell] Position: " + data.position + ", Letter: " + data.letter);
+            //Debug.Log("[CaneSelectCell] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
 
             if(_wordsFildData.TrySetLetter(eventData.letter.Index))
             {
@@ -128,8 +126,6 @@ namespace Game.Logic
         
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
         {
-            //Debug.Log("[OnLetterReleaseEvent] Position: " + data.position + ", Letter: " + data.letter);
-
             if(_wordsFildData.SetLetterToSelectedCell(eventData.letter))
             {
                 EventBus.Raise(new LetterPutSuccessEvent());

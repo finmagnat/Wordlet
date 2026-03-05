@@ -61,6 +61,7 @@ namespace Game.Logic
             EventBus.Subscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Subscribe<GameSkipEvent>(OnGameSkip);
 
+            EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Subscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -86,6 +87,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Unsubscribe<GameSkipEvent>(OnGameSkip);
 
+            EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Unsubscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -299,9 +301,21 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
         }
+        
+        internal void OnCellSelect(CellSelectEvent eventData)
+        {
+            //Debug.Log("[CaneSelectCell] Position: " + data.position + ", Letter: " + data.letter);
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+
+            _wordsFieldManager.TryCellSelect(eventData);
+        }
 
         private void OnCellSelectSuccess(IGameEvent eventData)
         {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
             _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
         
@@ -333,14 +347,23 @@ namespace Game.Logic
             {
                 Error = eventData.GameError
             };
-
-            if (eventData.GameError == GameError.SET_LETTER_NO_SELECTED)
-                messageBoxData.ExecuteOnClose = () => { _wordsFieldManager.BlinkNoSelectedLetter(); };
-
+            
             var popup = await _ui.ShowPopupAsync<AdvicePopup>(AssetKey.AdvicePopup);
             popup.SetWindowData(messageBoxData);
             
             _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupWorning);
+            
+            await popup.WaitForResultAsync();
+            
+            switch(eventData.GameError)
+            {
+                case GameError.SET_LETTER_NO_SELECTED:
+                    _wordsFieldManager.BlinkNoSelectedLetter();
+                    break;
+                case GameError.WORD_ALREADY_BEEN:
+                    Cancel();
+                    break;
+            }
         }
         
         private void SaveWordAndContinueGame(string word)
@@ -382,6 +405,9 @@ namespace Game.Logic
         private void OnTimeExpired(IGameEvent eventData)
         {
             _ai.AbortSearch();
+            
+            _gameScreen.StatisticsPanel.HideAsync().Forget();
+            _gameScreen.KeyboardPanel.HideAsync().Forget();
             
             PassedGame();
         }

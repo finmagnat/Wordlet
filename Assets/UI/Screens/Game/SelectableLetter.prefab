@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 463039986509032158}
   - component: {fileID: 461233308411970978}
   - component: {fileID: 352504462739064962}
-  - component: {fileID: 392910284032428707}
   - component: {fileID: 3845428050795301805}
   m_Layer: 5
   m_Name: SelectableLetter
@@ -105,52 +104,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &392910284032428707
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393263811628112172}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 80, y: 80}
-  m_EdgeRadius: 0
 --- !u!114 &3845428050795301805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,10 +120,6 @@ MonoBehaviour:
   _mainBackground: {fileID: 6052713400673500421}
   _blinkCount: 3
   _blinkDtDelay: 0.5
-  _mainBackgroundEmpty: {fileID: -3793331831421068527, guid: 78ae07fb8f9480b4f89ad9ce1910393e, type: 3}
-  _mainBackgroundFilled: {fileID: -7577713993019752945, guid: 61886e82fcde0a14a86c47e00eb39a5e, type: 3}
-  _selectedCell: {fileID: -8596039695151481375, guid: fc66889706f8ef1448132ad64bcd5218, type: 3}
-  _selectedLetter: {fileID: 6335204803917403115, guid: 226060d77257708498cfb45458f8a706, type: 3}
 --- !u!1 &393959519315753028
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,8 +130,6 @@ GameObject:
   m_Component:
   - component: {fileID: 463577067698597770}
   - component: {fileID: 461079149228713972}
-  - component: {fileID: 354585134739662792}
-  - component: {fileID: 352929723110109370}
   - component: {fileID: 7275816158971572331}
   m_Layer: 5
   m_Name: LetterText
@@ -207,8 +154,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4, y: 4}
-  m_SizeDelta: {x: 8, y: 8}
+  m_AnchoredPosition: {x: -4, y: 10}
+  m_SizeDelta: {x: 8, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &461079149228713972
 CanvasRenderer:
@@ -218,36 +165,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393959519315753028}
   m_CullTransparentMesh: 1
---- !u!114 &354585134739662792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393959519315753028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.44852942, g: 0.08574827, b: 0.08574827, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
---- !u!114 &352929723110109370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393959519315753028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!114 &7275816158971572331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,12 +212,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
+  m_fontSize: 120
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 90
+  m_fontSizeMax: 120
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

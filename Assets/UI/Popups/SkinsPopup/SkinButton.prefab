@@ -211,7 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 3184606271429573311}
   _imagePreview: {fileID: 5464443815711996879}
-  activeColor: {r: 1, g: 0.9986277, b: 0, a: 1}
+  activeColor: {r: 1, g: 0, b: 0.011764706, a: 1}
   anActiveColor: {r: 0.8901961, g: 0.90588236, b: 0.93333334, a: 1}
   button: {fileID: 1369192508305927432}
   _skinType: 1

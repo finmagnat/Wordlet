@@ -139,7 +139,8 @@ namespace UI.Screens
             
             _skinsButton.onClick.AddListener(async () =>
             {
-                if (_isProcessing) return;
+                if (_isProcessing) 
+                    return;
                 _isProcessing = true;
 
                 await _ui.ShowPopupAsync<SkinsPopup>(AssetKey.SkinsPopup);

@@ -10,8 +10,6 @@ namespace Core.UI.Components
         [SerializeField] private Image _imagePreview;
         [SerializeField] private Color activeColor;
         [SerializeField] private Color anActiveColor;
-        [SerializeField] private Color activeColorText;
-        [SerializeField] private Color anActiveColorText;
         
         public Button button;
         
@@ -19,9 +17,9 @@ namespace Core.UI.Components
         
         public SkinType _skinType;
         
-        public void SetSkinData(Color colorPreviewTile, SkinType skinType)
+        public void SetSkinData(Sprite spritePreview, SkinType skinType)
         {
-            _imagePreview.color = colorPreviewTile;
+            _imagePreview.sprite = spritePreview;
             _skinType = skinType;
         }
         

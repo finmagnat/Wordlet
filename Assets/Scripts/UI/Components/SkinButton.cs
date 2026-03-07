@@ -8,6 +8,7 @@ namespace Core.UI.Components
     {
         [SerializeField] private Image _image;
         [SerializeField] private Image _imagePreview;
+        [SerializeField] private Image _imageCheck;
         [SerializeField] private Color activeColor;
         [SerializeField] private Color anActiveColor;
         
@@ -26,6 +27,7 @@ namespace Core.UI.Components
         public void SetActiveStatus(bool status)
         {
             _image.color = status ? activeColor : anActiveColor;
+            _imageCheck.gameObject.SetActive(status);
         }
     }
 }

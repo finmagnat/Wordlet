@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using Core.Config;
+using Core.Events;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
+using UI.Parallax;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Networking;
@@ -14,6 +17,7 @@ namespace UI.Popups
     {
         [Header("UI Elements")]
         [SerializeField] private GameObject _soundOn;
+        [SerializeField] private GameObject _giroParallaxOn;
         [SerializeField] private LanguageButton _languageButtonPrefab;
         [SerializeField] private GameObject _content;
         [SerializeField] private GameObject _languageBar;
@@ -25,6 +29,7 @@ namespace UI.Popups
         private readonly Dictionary<string, LanguageButton> _buttons = new ();
         private Locale _newLanguage;
         private Locale _oldLanguage;
+        private bool _gyroEnabled;
         
 
         public override async UniTask ShowAsync()
@@ -64,10 +69,10 @@ namespace UI.Popups
                 await HideAsync();
                 //_completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
             });
+            
+            _gyroEnabled = PlayerPrefs.GetInt(PlayerPrefsKey.GyroKey, 1) == 1;
+            UpdateGyroView();
         }
-        
-        private void UpdateSoundView() =>
-            _soundOn.SetActive(_audioService.MasterVolume > 0.1f);
         
         public void OnSoundButtonClick()
         {
@@ -143,5 +148,26 @@ namespace UI.Popups
 
             HideAsync();
         }
+        
+        private void UpdateSoundView() =>
+            _soundOn.SetActive(_audioService.MasterVolume > 0.1f);
+        
+        private void UpdateGyroView() =>
+            _giroParallaxOn.SetActive(_gyroEnabled);
+        
+        public void OnGyroButtonClick()
+        {
+            _gyroEnabled = !_gyroEnabled;
+            
+            PlayerPrefs.SetInt(PlayerPrefsKey.GyroKey, _gyroEnabled ? 1 : 0);
+            PlayerPrefs.Save();
+            
+            EventBus.Raise(new GyroEnableEvent{ ParallaxMode = _gyroEnabled
+                ? UIParallaxMode.GyroAndAuto
+                : UIParallaxMode.TouchAndAuto});
+           
+            UpdateGyroView();
+        }
+        
     }
 }

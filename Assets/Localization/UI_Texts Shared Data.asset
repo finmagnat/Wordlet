@@ -375,6 +375,10 @@ MonoBehaviour:
     m_Key: SELECT_LETTER_TIP
     m_Metadata:
       m_Items: []
+  - m_Id: 42393487151611904
+    m_Key: POPUP_LABEL_GYROSCOPE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

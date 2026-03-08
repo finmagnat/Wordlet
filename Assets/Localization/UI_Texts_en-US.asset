@@ -420,6 +420,10 @@ MonoBehaviour:
     m_Localized: Select a letter to place it in the highlighted cell on the field.
     m_Metadata:
       m_Items: []
+  - m_Id: 42393487151611904
+    m_Localized: Tilt the phone
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

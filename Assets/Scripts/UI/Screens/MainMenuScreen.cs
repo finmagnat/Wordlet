@@ -20,7 +20,7 @@ namespace UI.Screens
         [SerializeField] private Button _infoButton;
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
-        [SerializeField] protected Image _mainBackground;
+        //[SerializeField] protected Image _mainBackground;
         
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
@@ -184,7 +184,7 @@ namespace UI.Screens
         protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
+            //_mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
             _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
         }

@@ -50,6 +50,6 @@ namespace Core.Data
         public Color CloudsMidColor = Color.white;
         public Color CloudsNearColor = Color.white;
         public Color AtmosphericLightColor = Color.white;
-        public Color GlowColor = Color.white;
+        //public Color GlowColor = Color.white;
     }
 }

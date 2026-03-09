@@ -38,5 +38,18 @@ namespace Core.Data
         
         [Header("Кнопки домашнего экрана и попапов")]
         public string DefaultButtonAlias;
+        
+        public MainScreenThemeData MainScreenTheme;
+    }
+    
+    [Serializable]
+    public class MainScreenThemeData
+    {
+        public Color SkyColor = Color.white;
+        public Color CloudsFarColor = Color.white;
+        public Color CloudsMidColor = Color.white;
+        public Color CloudsNearColor = Color.white;
+        public Color AtmosphericLightColor = Color.white;
+        public Color GlowColor = Color.white;
     }
 }

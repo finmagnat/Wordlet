@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 1
+  SkinByDefault: 2
   _skins:
   - SkinType: 1
     ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
@@ -35,6 +35,13 @@ MonoBehaviour:
     PassButtonAlias: ButtonPass_Blue
     StatisticButtonAlias: ButtonStatistic_Blue
     DefaultButtonAlias: ButtonBlue
+    MainScreenTheme:
+      SkyColor: {r: 0.71488965, g: 0.7952953, b: 0.990566, a: 1}
+      CloudsFarColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      CloudsMidColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      CloudsNearColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      AtmosphericLightColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      GlowColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
   - SkinType: 2
     ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
     MainBackgroundAlias: MainBackgroundPink
@@ -56,3 +63,10 @@ MonoBehaviour:
     PassButtonAlias: ButtonPass_Orange
     StatisticButtonAlias: ButtonStatistic_Orange
     DefaultButtonAlias: ButtonPink
+    MainScreenTheme:
+      SkyColor: {r: 1, g: 1, b: 1, a: 1}
+      CloudsFarColor: {r: 1, g: 1, b: 1, a: 1}
+      CloudsMidColor: {r: 1, g: 1, b: 1, a: 1}
+      CloudsNearColor: {r: 1, g: 1, b: 1, a: 1}
+      AtmosphericLightColor: {r: 1, g: 1, b: 1, a: 1}
+      GlowColor: {r: 1, g: 1, b: 1, a: 1}

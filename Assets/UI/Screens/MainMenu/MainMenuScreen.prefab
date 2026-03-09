@@ -681,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8329477, g: 0.85972047, b: 0.9245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8329477, g: 0.85972047, b: 0.9245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1503,7 +1503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8329477, g: 0.85972047, b: 0.9245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1691,7 +1691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: c11a4ade358932342996387c7f3501df, type: 2}
-  m_Color: {r: 0.8329477, g: 0.85972047, b: 0.9245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2987,6 +2987,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8954045247379009217}
+    - targetCorrespondingSourceObject: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7850633050088885917}
   m_SourcePrefab: {fileID: 100100000, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
 --- !u!1 &1691018156965879755 stripped
 GameObject:
@@ -3035,6 +3038,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DebugTools.ParallaxDebugBootstrap
   _parallaxController: {fileID: 2060327898616831623}
   _showPanelOnStart: 0
+--- !u!114 &7850633050088885917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691018156965879755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dedf2cbbb0364cf091db87170d5d3a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.ParallaxThemeView
+  _sky: {fileID: 8244093084869540017}
+  _cloudsFar: {fileID: 4442531867616794159}
+  _cloudsMid: {fileID: 1490558189182924712}
+  _cloudsNear: {fileID: 4449032290213569793}
+  _atmosphericLight: {fileID: 1572019717141883662}
 --- !u!224 &3303987018140227802 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7135874436514091517, guid: 4a6897af94451294898de8812c12fcb9, type: 3}

@@ -136,11 +136,7 @@ namespace UI.Popups
 
         public void OnCloseButtonClick(bool sendAnalytics = true)
         {
-            /*if (_oldLanguage != _newLanguage)
-            {
-                HandleLocaleSelectedAsync(Languages.CurrentLanguage).Forget();
-            }
-
+            /*
             if (sendAnalytics)
             {
                 _analyticsManager.SendEvent(Constants.SettingsBackEvent);
@@ -163,8 +159,8 @@ namespace UI.Popups
             PlayerPrefs.Save();
             
             EventBus.Raise(new GyroEnableEvent{ ParallaxMode = _gyroEnabled
-                ? UIParallaxMode.GyroAndAuto
-                : UIParallaxMode.TouchAndAuto});
+                ? UIParallaxMode.TouchAndGyro
+                : UIParallaxMode.Touch});
            
             UpdateGyroView();
         }

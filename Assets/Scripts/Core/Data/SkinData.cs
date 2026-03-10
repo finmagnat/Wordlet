@@ -50,6 +50,11 @@ namespace Core.Data
         public Color CloudsMidColor = Color.white;
         public Color CloudsNearColor = Color.white;
         public Color AtmosphericLightColor = Color.white;
-        //public Color GlowColor = Color.white;
+        
+        [Header("Кнопки меню домашнего экрана")]
+        public string SettingsButtonAlias;
+        public string SkinButtonAlias;
+        public string InfoButtonAlias;
+        public string ShopButtonAlias;
     }
 }

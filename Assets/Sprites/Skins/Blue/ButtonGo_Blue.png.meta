@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 73738f75011ad174690908442d3bdf9b
+guid: 1e0111ed872905b40a786c0c0fab57c1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6688028076057925701
-    second: ButtonClose_Gold_0
+      213: -9065174274972187950
+    second: ButtonGo_Blue_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonClose_Gold_0
+      name: ButtonGo_Blue_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 239
+        width: 714
+        height: 240
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5489549b916a0dc50800000000000000
-      internalID: 6688028076057925701
+      spriteID: 2d20649b608023280800000000000000
+      internalID: -9065174274972187950
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5c5b1e7b620f90749a397d8e8bdea5e9
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonClose_Gold_0: 6688028076057925701
+      ButtonGo_Blue_0: -9065174274972187950
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

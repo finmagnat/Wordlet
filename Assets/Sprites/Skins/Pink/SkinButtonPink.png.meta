@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 673a883db8690d6489506e0c1bc1f0e1
+guid: 6fb6d77e4d422c847b3d2246d8fb0041
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1897077771743037749
-    second: ButtonStatistic_Blue_0
+      213: 4205473629259079077
+    second: SkinButtonPink_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonStatistic_Blue_0
+      name: SkinButtonPink_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 438
-        height: 322
+        width: 428
+        height: 412
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bc677f751d93ca5e0800000000000000
-      internalID: -1897077771743037749
+      spriteID: 5ad9248fbf7dc5a30800000000000000
+      internalID: 4205473629259079077
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonStatistic_Blue_0: -1897077771743037749
+      SkinButtonPink_0: 4205473629259079077
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

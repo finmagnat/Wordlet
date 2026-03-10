@@ -41,7 +41,10 @@ MonoBehaviour:
       CloudsMidColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
       CloudsNearColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
       AtmosphericLightColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
-      GlowColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      SettingsButtonAlias: SettingsButtonBlue
+      SkinButtonAlias: SkinButtonBlue
+      InfoButtonAlias: InfoButtonBlue
+      ShopButtonAlias: ShopButtonBlue
   - SkinType: 2
     ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
     MainBackgroundAlias: MainBackgroundPink
@@ -56,12 +59,12 @@ MonoBehaviour:
     LettersFieldColor: {r: 0.4433962, g: 0.018823417, b: 0.4433962, a: 1}
     KeyboardTileAlias: KeybourdTile
     KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
-    HomeButtonAlias: ButtonHome_Orange
-    PauseButtonAlias: ButtonPause_Orange
+    HomeButtonAlias: ButtonHome_Pink
+    PauseButtonAlias: ButtonPause_Pink
     CancelButtonAlias: ButtonCancel_Orange
     GoButtonAlias: ButtonGo_Orange
-    PassButtonAlias: ButtonPass_Orange
-    StatisticButtonAlias: ButtonStatistic_Orange
+    PassButtonAlias: ButtonPass_Pink
+    StatisticButtonAlias: ButtonStatistic_Pink
     DefaultButtonAlias: ButtonPink
     MainScreenTheme:
       SkyColor: {r: 1, g: 1, b: 1, a: 1}
@@ -69,4 +72,7 @@ MonoBehaviour:
       CloudsMidColor: {r: 1, g: 1, b: 1, a: 1}
       CloudsNearColor: {r: 1, g: 1, b: 1, a: 1}
       AtmosphericLightColor: {r: 1, g: 1, b: 1, a: 1}
-      GlowColor: {r: 1, g: 1, b: 1, a: 1}
+      SettingsButtonAlias: SettingsButtonPink
+      SkinButtonAlias: SkinButtonPink
+      InfoButtonAlias: InfoButtonPink
+      ShopButtonAlias: ShopButtonPink

@@ -187,6 +187,11 @@ namespace UI.Screens
             //_mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
             _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
+
+            _settingsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SettingsButtonAlias);
+            _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
+            _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
+            _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
         }
     }
 }

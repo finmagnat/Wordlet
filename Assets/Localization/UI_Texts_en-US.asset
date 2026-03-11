@@ -341,7 +341,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 20674509266108416
-    m_Localized: There is no such word in the dictionary.
+    m_Localized: 'There is no such word in the dictionary.
+
+
+      Would you like
+      to vote to have it added to the dictionary?'
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272

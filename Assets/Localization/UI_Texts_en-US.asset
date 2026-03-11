@@ -229,6 +229,7 @@ MonoBehaviour:
   - m_Id: 11300996570824704
     m_Localized: 'You are leaving an unfinished game.
 
+
       Do you want to save
       the current game to continue later?'
     m_Metadata:

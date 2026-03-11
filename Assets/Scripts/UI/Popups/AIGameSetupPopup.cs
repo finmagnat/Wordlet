@@ -16,11 +16,12 @@ namespace UI.Popups
         private const int STEP_TIME = 5;
         
         [Header("UI Elements")]
-        [SerializeField] private TextMeshProUGUI _numericTimeText;
         [SerializeField] private ToggleGroup _toggleGroup;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private BoosterPanelUI _boosterPanel;
+        [SerializeField] private TextMeshProUGUI _timeText;
+        [SerializeField] private Slider _durationGameSlider;
         
         [Inject] private ConfigService _configService;
         
@@ -75,13 +76,12 @@ namespace UI.Popups
         
         public override async UniTask ShowAsync()
         {
-            _gameConfig = _configService.Game;
-            _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame, _gameConfig.durationGameByDefault);
-            _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)_gameConfig.complexityAiByDefault);
-                
             _completionSource = new UniTaskCompletionSource<GameSetupData>();
             
-            _boosterPanel.Refresh();
+            _gameConfig = _configService.Game;
+            
+            // Сложность игры
+            _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)_gameConfig.complexityAiByDefault);
             
             await base.ShowAsync();
             
@@ -91,10 +91,29 @@ namespace UI.Popups
             }
             _toggles[(int)_complexityAI - 1].isOn = true;
             
+            // Время хода
+            _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame, _gameConfig.durationGameByDefault);
+            _durationGameSlider.minValue = 0;
+            _durationGameSlider.maxValue = _gameConfig.durationGameMaximum;
             ChangeTimeText();
+            
+            _boosterPanel.Refresh();
+        }
+
+        public void OnDurationGameSlider()
+        {
+            _durationGame = Mathf.RoundToInt(_durationGameSlider.value);
+            if (_durationGame <= _gameConfig.durationGameMinimum)
+            {
+                _durationGame = _gameConfig.durationGameMinimum;
+                _durationGameSlider.value = _durationGame;
+            }
+            
+            SetFormatMMSS(_durationGame);
+            //Debug.Log($"OnDurationGameSlider: {_durationGameSlider.value} = {_durationGame}");
         }
         
-        public void OnIncrTimeButton()
+        /*public void OnIncrTimeButton()
         {
             if (_durationGame + STEP_TIME <= _gameConfig.durationGameMaximum)
             {
@@ -110,13 +129,27 @@ namespace UI.Popups
                 _durationGame -= STEP_TIME;
                 ChangeTimeText();
             }            
-        }
+        }*/
 
         public void OnSelectComplexityAI(int value)
         {
             _complexityAI = (ComplexityAI)value;
         }
         
-        private void ChangeTimeText() => _numericTimeText.text = _durationGame.ToString();
+        //private void ChangeTimeText() => _timeText.text = _durationGame.ToString();
+        
+        private void ChangeTimeText()
+        {
+            _durationGameSlider.value = _durationGame;
+            SetFormatMMSS(_durationGame);
+        }
+        
+        private void SetFormatMMSS(int seconds)
+        {
+            if (seconds < 0) seconds = 0;
+            int m = seconds / 60;
+            int s = seconds % 60;
+            _timeText.text = $"{m:00}:{s:00}";
+        }
     }
 }

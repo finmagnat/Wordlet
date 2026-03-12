@@ -385,8 +385,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 37313886545133568
-    m_Localized: There is no internet connection. Try to restore it on your device
-      and click the "Check" button.
+    m_Localized: 'There is no internet connection.
+
+
+      Try to restore it on your
+      device and click the "Check" button.'
     m_Metadata:
       m_Items: []
   - m_Id: 37654904469602304
@@ -427,6 +430,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 42393487151611904
     m_Localized: Tilt the phone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816085303476224
+    m_Localized: 'Score: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816193575239680
+    m_Localized: 'Passes: '
     m_Metadata:
       m_Items: []
   references:

@@ -8,5 +8,6 @@ namespace Core.Config
         public const string SkinCurrent = "SkinCurrent";
         public const string LocaleCurrent = "LocaleCurrent";
         public static string MasterVolume = "MasterVolume";
+        public static string GyroKey = "settings.parallax.gyro";
     }
 }

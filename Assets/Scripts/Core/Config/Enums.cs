@@ -36,7 +36,7 @@ namespace Core.Config
     
     public enum SkinType
     {
-        RED = 1,       
-        BLUE
+        BLUE = 1,       
+        PINK
     }
 }

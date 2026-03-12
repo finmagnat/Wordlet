@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 50552a2210ea3124aaaa9864baf87315
+guid: 2cdcc9de071790945824867a8253af48
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5162948712606213977
-    second: BestPrice04_0
+      213: 8606923226320510315
+    second: ShopHeader04_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BestPrice04_0
+      name: ShopHeader04_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 473
-        height: 85
+        width: 971
+        height: 178
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a8db8710858958b0800000000000000
-      internalID: -5162948712606213977
+      spriteID: b6d94e9a21fe17770800000000000000
+      internalID: 8606923226320510315
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BestPrice04_0: -5162948712606213977
+      ShopHeader04_0: 8606923226320510315
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

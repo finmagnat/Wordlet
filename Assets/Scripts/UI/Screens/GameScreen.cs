@@ -19,7 +19,14 @@ namespace UI.Screens
         [SerializeField] protected TextMeshProUGUI _statusText;
         [SerializeField] protected TextMeshProUGUI _wordText;
         [SerializeField] protected TimerProgressBar _progressBar;
-        [SerializeField] protected GameObject _gameControlsPanel;
+        
+        [SerializeField] protected Button _homeButton;
+        [SerializeField] protected Button _pauseButton;
+        [SerializeField] protected Button _cancelButton;
+        [SerializeField] protected Button _goButton;
+        [SerializeField] protected Button _passButton;
+        [SerializeField] protected Button _statisticButton;
+        
         [SerializeField] protected Image _mainBackground;
         [SerializeField] protected PlayerPanel _playerPanelOwner;
         [SerializeField] protected PlayerPanel _playerPanelOpponent;
@@ -27,11 +34,19 @@ namespace UI.Screens
         [SerializeField] protected LettersField _lettersField;
         [SerializeField] protected BoosterPanelIngameScreen _boosterPanel;
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
+        [SerializeField] protected StatisticsPanel _statisticsPanel;
+        [SerializeField] protected KeyboardPanel _keyboardPanel;
         
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
+        internal StatisticsPanel StatisticsPanel => _statisticsPanel;
+        internal KeyboardPanel KeyboardPanel => _keyboardPanel;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
+        internal GameObject PauseButton => _pauseButton.gameObject;
+        internal GameObject PassButton => _passButton.gameObject;
+        internal GameObject CancelButton => _cancelButton.gameObject;
+        internal GameObject GoButton => _goButton.gameObject;
         
         [Inject] protected LocalizationService _localization;
         [Inject] protected SkinsService _skinsService;
@@ -40,10 +55,11 @@ namespace UI.Screens
         [Inject] protected ILoadingUI _loadingUI;
         [Inject] protected ISaveService _saveService;
         [Inject] protected InterstitialPolicyService _interstitialService;
+        [Inject] protected IGamePauseService _pauseService;
         
         protected bool _isProcessing;
-        protected bool _isPaused = false;
-        
+        protected bool _isPaused;
+
         protected void Start()
         {
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
@@ -60,23 +76,20 @@ namespace UI.Screens
 
         public void OnPressedPause()
         {
-            EventBus.Raise(new GamePauseEvent());
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
+            _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
 
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         
-        public void OnPressedClear() => EventBus.Raise(new GameClearEvent());
-        
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
         public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
+        public void OnOpenStatistic() => _statisticsPanel.ShowAsync().Forget();
 
         public override UniTask ShowAsync()
         {
-            _gameControlsPanel.SetActive(true);
-            
-            SetSkin();
+            UpdateSkin();
             Reset();
             
             _isProcessing = true;
@@ -88,18 +101,20 @@ namespace UI.Screens
         {
             SetStatusLocalizationKey("STATUS_LABEL_NEW_GAME");
             SetTextWord("");
-            PlayerPanelOwner.Reset();
-            PlayerPanelOpponent.Reset();
-            TimerBar.ResetTimer();
+            _statisticsPanel.Reset();
+            _playerPanelOwner.Reset();
+            _playerPanelOpponent.Reset();
+            _progressBar.ResetTimer();
         }
         
         internal List<SelectableLetter> InitWordsField() => _wordsField.InitField();
 
-        internal List<DraggedLetter> InitAlphabetField() => _lettersField.InitField();
+        internal void InitAlphabetField() => _lettersField.InitField();
 
         internal void SetTextWord(string value) => _wordText.text = value;
 
         internal string GetTextWord() => _wordText.text;
+        
         
         internal void AddLetterToWord(string letter) => _wordText.text += letter;
 
@@ -142,16 +157,28 @@ namespace UI.Screens
         
         protected void OnGameEnd(GameEndEvent eventData)
         {
-            _gameControlsPanel.SetActive(false);
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
             _isProcessing = false;
         }
         
-        protected async UniTask SetSkin()
+        protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.GameBackgroundAlias);
+            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
+            _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
+            _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
+            _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
+            _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);
+            _passButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PassButtonAlias);
+            _statisticButton.image.sprite = await _spritesService.GetSpriteAsync(skin.StatisticButtonAlias);
+            
+            await _progressBar.UpdateSkin();
+            await _playerPanelOwner.UpdateSkin();
+            await _playerPanelOpponent.UpdateSkin();
+            await _wordsField.UpdateSkin();
+            await _statisticsPanel.UpdateSkin();
+            await _keyboardPanel.UpdateSkin();
         }
     }
 }

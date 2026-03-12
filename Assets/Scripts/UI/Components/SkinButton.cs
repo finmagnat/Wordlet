@@ -8,28 +8,26 @@ namespace Core.UI.Components
     {
         [SerializeField] private Image _image;
         [SerializeField] private Image _imagePreview;
+        [SerializeField] private Image _imageCheck;
         [SerializeField] private Color activeColor;
         [SerializeField] private Color anActiveColor;
-        [SerializeField] private Color activeColorText;
-        [SerializeField] private Color anActiveColorText;
         
         public Button button;
         
         public SkinType SkinType => _skinType;
         
-        private bool _isActive;
         public SkinType _skinType;
         
-        public void SetSkinData(Sprite sprite, SkinType skinType)
+        public void SetSkinData(Sprite spritePreview, SkinType skinType)
         {
-            _imagePreview.sprite = sprite;
+            _imagePreview.sprite = spritePreview;
             _skinType = skinType;
         }
         
         public void SetActiveStatus(bool status)
         {
-            _isActive = status;
             _image.color = status ? activeColor : anActiveColor;
+            _imageCheck.gameObject.SetActive(status);
         }
     }
 }

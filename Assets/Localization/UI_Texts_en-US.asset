@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 263065272320
-    m_Localized: New game
+    m_Localized: Play
     m_Metadata:
       m_Items: []
   - m_Id: 611167338496
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1121843996622848
-    m_Localized: Go
+    m_Localized: Apply
     m_Metadata:
       m_Items: []
   - m_Id: 1122301901373440
@@ -159,7 +159,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6207590239928320
-    m_Localized: Your move
+    m_Localized: 'Your move.
+
+      Select a cell on the field next to another letter.'
     m_Metadata:
       m_Items: []
   - m_Id: 6207742686101504
@@ -227,6 +229,7 @@ MonoBehaviour:
   - m_Id: 11300996570824704
     m_Localized: 'You are leaving an unfinished game.
 
+
       Do you want to save
       the current game to continue later?'
     m_Metadata:
@@ -265,7 +268,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18884028689432576
-    m_Localized: Continue the game
+    m_Localized: Continue
     m_Metadata:
       m_Items: []
   - m_Id: 18895829044969472
@@ -338,11 +341,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 20674509266108416
-    m_Localized: There is no such word in the dictionary.
+    m_Localized: 'There is no such word in the dictionary.
+
+
+      Would you like
+      to vote to have it added to the dictionary?'
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272
-    m_Localized: The Wordlet found a word. Click "GO".
+    m_Localized: The Wordlet found a word. Click "Aplly".
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728
@@ -378,8 +385,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 37313886545133568
-    m_Localized: There is no internet connection. Try to restore it on your device
-      and click the "Check" button.
+    m_Localized: 'There is no internet connection.
+
+
+      Try to restore it on your
+      device and click the "Check" button.'
     m_Metadata:
       m_Items: []
   - m_Id: 37654904469602304
@@ -404,6 +414,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 38027508804108288
     m_Localized: Through
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198534363234304
+    m_Localized: Move history
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198718312824832
+    m_Localized: 'Starting word:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198905135513600
+    m_Localized: Select a letter to place it in the highlighted cell on the field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42393487151611904
+    m_Localized: Tilt the phone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816085303476224
+    m_Localized: 'Score: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816193575239680
+    m_Localized: 'Passes: '
     m_Metadata:
       m_Items: []
   references:

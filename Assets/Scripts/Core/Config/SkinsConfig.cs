@@ -11,7 +11,7 @@ namespace Core.Config
         
         [Space(10)]
         [Tooltip("Скин по умолчанию")]
-        public SkinType SkinByDefault = SkinType.RED;
+        public SkinType SkinByDefault = SkinType.PINK;
         
         [SerializeField] private List<SkinData> _skins = new ();
         

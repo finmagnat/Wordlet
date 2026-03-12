@@ -363,6 +363,30 @@ MonoBehaviour:
     m_Key: TEXT_THROUGH
     m_Metadata:
       m_Items: []
+  - m_Id: 40198534363234304
+    m_Key: MOVE_HISTORY_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198718312824832
+    m_Key: STARTING_WORD_LABEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40198905135513600
+    m_Key: SELECT_LETTER_TIP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42393487151611904
+    m_Key: POPUP_LABEL_GYROSCOPE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816085303476224
+    m_Key: TABLE_TEXT_SCORE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43816193575239680
+    m_Key: TABLE_TEXT_PASSES
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -16,15 +16,15 @@ MonoBehaviour:
   Offers:
   - Type: 0
     Title: STORE_TITLE_BEST_PRICE
-    SpriteHeader: {fileID: -8712292064805691243, guid: 1678b7affc1014343a89c740a7b3ffe7, type: 3}
+    SpriteHeader: {fileID: 8385822268567176513, guid: b4658802d10f01b43aedca598096f90b, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
       Amount: 15
-      SpriteIcon: {fileID: 8195471373103460817, guid: 4cce6383f3babb3469c46bada895c946, type: 3}
+      SpriteIcon: {fileID: 555895916406473244, guid: afd4b8c352876db428dafadca7ca9116, type: 3}
     - ItemId: 2
       Amount: 15
-      SpriteIcon: {fileID: 8008623525406225030, guid: fad5dc08cb2d97a489ee57ba3e55b0f0, type: 3}
+      SpriteIcon: {fileID: 1792576677913618156, guid: 79fe58751968bc8488d55ed5ae3ad3fe, type: 3}
     ProductId: wordlet_pack_best
     DebugPriceText: 19.99
     DebugAvailable: 1
@@ -35,12 +35,12 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_LETTER
-    SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
+    SpriteHeader: {fileID: -4613852888227127739, guid: a2e285d007e92c0428f537e40febdc05, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
       Amount: 10
-      SpriteIcon: {fileID: 8195471373103460817, guid: 4cce6383f3babb3469c46bada895c946, type: 3}
+      SpriteIcon: {fileID: 555895916406473244, guid: afd4b8c352876db428dafadca7ca9116, type: 3}
     ProductId: wordlet_pack_hint_10
     DebugPriceText: 9.99
     DebugAvailable: 1
@@ -51,12 +51,12 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_SLOWDOWN
-    SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
+    SpriteHeader: {fileID: -4613852888227127739, guid: a2e285d007e92c0428f537e40febdc05, type: 3}
     Description: 
     Rewards:
     - ItemId: 2
       Amount: 10
-      SpriteIcon: {fileID: 8008623525406225030, guid: fad5dc08cb2d97a489ee57ba3e55b0f0, type: 3}
+      SpriteIcon: {fileID: 1792576677913618156, guid: 79fe58751968bc8488d55ed5ae3ad3fe, type: 3}
     ProductId: wordlet_pack_slowtime_10
     DebugPriceText: 9.99
     DebugAvailable: 1
@@ -67,12 +67,12 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 1
     Title: STORE_TITLE_FREE
-    SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
+    SpriteHeader: {fileID: -2191240055030767158, guid: 26342e9a6cf1149419f0b84b2f9ec59e, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
       Amount: 1
-      SpriteIcon: {fileID: 8195471373103460817, guid: 4cce6383f3babb3469c46bada895c946, type: 3}
+      SpriteIcon: {fileID: 555895916406473244, guid: afd4b8c352876db428dafadca7ca9116, type: 3}
     ProductId: 
     DebugPriceText: 
     DebugAvailable: 1
@@ -83,12 +83,12 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 1
     Title: STORE_TITLE_FREE
-    SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
+    SpriteHeader: {fileID: -2191240055030767158, guid: 26342e9a6cf1149419f0b84b2f9ec59e, type: 3}
     Description: 
     Rewards:
     - ItemId: 2
       Amount: 1
-      SpriteIcon: {fileID: 8008623525406225030, guid: fad5dc08cb2d97a489ee57ba3e55b0f0, type: 3}
+      SpriteIcon: {fileID: 1792576677913618156, guid: 79fe58751968bc8488d55ed5ae3ad3fe, type: 3}
     ProductId: 
     DebugPriceText: 
     DebugAvailable: 1
@@ -99,7 +99,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_REMOVE_INTERSTITIAL_ADS
-    SpriteHeader: {fileID: 6446714670211303354, guid: 26342e9a6cf1149419f0b84b2f9ec59e, type: 3}
+    SpriteHeader: {fileID: 8606923226320510315, guid: 2cdcc9de071790945824867a8253af48, type: 3}
     Description: 
     Rewards:
     - ItemId: 0

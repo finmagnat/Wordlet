@@ -12,5 +12,6 @@ namespace Core.UI
         UniTask HideAllScreensAsync();
         UniTask<T> ShowPopupAsync<T>(AssetKey assetKey) where T : UIPopup;
         UniTask HidePopupAsync<T>() where T : UIPopup;
+        UniTask HideAllPopupsAsync();
     }
 }

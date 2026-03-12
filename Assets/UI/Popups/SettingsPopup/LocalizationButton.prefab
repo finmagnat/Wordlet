@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41960788, g: 0.28235295, b: 0.8862746, a: 1}
+  m_Color: {r: 0.9411765, g: 0.4117647, b: 0.20392157, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1644278335890104056}
   text: {fileID: 6836540761952086695}
-  activeColor: {r: 0.41960785, g: 0.28235295, b: 0.8862745, a: 1}
+  activeColor: {r: 0.9411765, g: 0.4117647, b: 0.20392157, a: 1}
   anActiveColor: {r: 0.8901961, g: 0.90588236, b: 0.93333334, a: 1}
   activeColorText: {r: 1, g: 1, b: 1, a: 1}
   anActiveColorText: {r: 0.30588236, g: 0.3647059, b: 0.47058824, a: 1}
@@ -241,10 +241,11 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 40
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

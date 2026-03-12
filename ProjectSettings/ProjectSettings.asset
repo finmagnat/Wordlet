@@ -911,7 +911,13 @@ PlayerSettings:
   windowsGamepadBackendHint: 0
   cloudProjectId: 5f549642-6be3-4ba7-b1a0-81224287655e
   framebufferDepthMemorylessMode: 0
-  qualitySettingsNames: []
+  qualitySettingsNames:
+  - Very Low
+  - Low
+  - Medium
+  - High
+  - Very High
+  - Ultra
   projectName: Balda
   organizationId: finmagnat
   cloudEnabled: 0

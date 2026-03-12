@@ -16,7 +16,7 @@ namespace Game.Logic
 
         public void Initialize()
         {
-            EventBus.Subscribe<LetterReleaseEvent>(OnLetterRelease);
+            EventBus.Subscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Subscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
             EventBus.Subscribe<LetterBacktrackEvent>(OnLetterBacktrack);
@@ -24,12 +24,12 @@ namespace Game.Logic
 
         public void Destroy()
         {
-            EventBus.Unsubscribe<LetterReleaseEvent>(OnLetterRelease);
+            EventBus.Unsubscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Unsubscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
             EventBus.Unsubscribe<LetterBacktrackEvent>(OnLetterBacktrack);
         }
-        
+
         internal void SetWordsFieldData(List<SelectableLetter> items)
         {
             _wordsFildData.SetItems(items);
@@ -108,11 +108,25 @@ namespace Game.Logic
             return _wordsFildData.TrySetLetter(indexItem);
         }
         
-        private void OnLetterRelease(LetterReleaseEvent eventData)
+        /// <summary>
+        /// Проверяет можно ли выбрать данную пустую ячейку, чтобы позже установить в нее букву.
+        /// </summary>
+        /// <param name="eventData"></param>
+        internal void TryCellSelect(CellSelectEvent eventData)
         {
-            //Debug.Log("[OnLetterReleaseEvent] Position: " + data.position + ", Letter: " + data.letter);
+            //Debug.Log("[CaneSelectCell] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
 
-            if(_wordsFildData.CheckSetLetter(eventData.position, eventData.letter))
+            if(_wordsFildData.TrySetLetter(eventData.letter.Index))
+            {
+                _wordsFildData.SetSelectedCell(eventData.letter);
+                eventData.letter.HighlightCell();
+                EventBus.Raise(new CellSelectSuccessEvent());
+            }
+        }
+        
+        private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
+        {
+            if(_wordsFildData.SetLetterToSelectedCell(eventData.letter))
             {
                 EventBus.Raise(new LetterPutSuccessEvent());
                 _bModeSelectWord = true;

@@ -13,6 +13,7 @@ namespace Core.Data
 
         private List<SelectableLetter> _items; // Список всех элементов на поле.
         private List<int> _selectedIndex = new(); // Индексы выбранных букв составляющих слово.
+        private SelectableLetter _selectedItem; // Выделенная пустая ячейка (для будущей установки в нее буквы).
         private SelectableLetter _setItem; // Установленная буква.
         private List<string> _words = new(); // Список слов собранных в текущей игровой сессии.
 
@@ -56,32 +57,6 @@ namespace Core.Data
             _words.Add(word);
         }
         
-        /// <summary>
-        /// Проверить, можно ли установить букву в текущую позицию.
-        /// </summary>
-        /// <param name="position">Позиция центра элемента с буквой "брошенного" игроком над полем</param>
-        /// <param name="letter">Устанавливаемая буква</param>
-        /// <returns>Успех</returns>
-        internal bool CheckSetLetter(Vector3 position, string letter)
-        {
-            int index = 0;
-            foreach (var item in _items)
-            {
-                if (index == 5)
-                {
-                    int a = 0;
-                }
-                if (item.HitTest(position) && TrySetLetter(index))
-                {
-                    item.SetLetter(letter);
-                    _setItem = item;
-                    return true;
-                }
-                ++index;
-            }
-            return false;
-        }
-               
         internal void BlinkNoSelectedLetter()
         {
             if (_setItem)
@@ -205,6 +180,25 @@ namespace Core.Data
         internal void SetLetterItem(SelectableLetter item)
         {
             _setItem = item;
+        }
+        
+        internal void SetSelectedCell(SelectableLetter item)
+        {
+            _selectedItem = item;
+        }
+        
+        internal bool SetLetterToSelectedCell(string letter)
+        {
+            if (_selectedItem != null)
+            {
+                _selectedItem.SetLetter(letter);
+                _selectedItem.HighlightCell();
+                _setItem = _selectedItem;
+                _selectedItem = null;
+                return true;
+            }
+            
+            return false;
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Core.Services
             // ✅ если профиль был запрошен — можно получить DisplayName
             DisplayName = loginResult.InfoResultPayload?.PlayerProfile?.DisplayName;
 
-            Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. PlayFabId: {PlayFabId}. Name: {DisplayName}");
+            Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. <color=yellow>PlayFabId: {PlayFabId}. Name: {DisplayName}</color>");
 
             if (NewlyCreated)
             {

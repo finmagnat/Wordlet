@@ -1,5 +1,7 @@
+using Core.Services;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Popups
 {
@@ -12,6 +14,8 @@ namespace UI.Popups
         [SerializeField] private TextMeshProUGUI _playerPasses;
         [SerializeField] private TextMeshProUGUI _opponentPasses;
         
+        [Inject] private LocalizationService _localization;
+        
         public void SetData(
             string playerName, 
             string opponentName, 
@@ -22,12 +26,25 @@ namespace UI.Popups
             uint maxPasses
             )
         {
+            var textScore = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTableTextScore);
+            var textPass = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTableTextPasses);
+                
             _playerName.text = playerName;
             _opponentName.text = opponentName;
-            _playerScore.text = playerScore.ToString();
-            _opponentScore.text = opponentScore.ToString();
-            _playerPasses.text = GetFormatedPasses(playerPasses, maxPasses);
-            _opponentPasses.text = GetFormatedPasses(opponentPasses, maxPasses);
+
+            string playerScoreFormated = playerScore.ToString();
+            if (playerPasses < maxPasses)
+            {
+                if(playerScore > opponentScore)
+                    playerScoreFormated = $"<color=green><b>{playerScore}</b></color>";
+                if(playerScore < opponentScore)
+                    playerScoreFormated = $"<color=red><b>{playerScore}</b></color>";
+            }
+            
+            _playerScore.text = textScore + playerScoreFormated;
+            _opponentScore.text = textScore + opponentScore;
+            _playerPasses.text = textPass + GetFormatedPasses(playerPasses, maxPasses);
+            _opponentPasses.text = textPass + GetFormatedPasses(opponentPasses, maxPasses);
         }
 
         private string GetFormatedPasses(uint passes, uint maxPasses)

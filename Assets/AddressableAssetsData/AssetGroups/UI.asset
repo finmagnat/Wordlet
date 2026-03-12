@@ -51,12 +51,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74b0d3207995ca04db004c5310801640
-    m_Address: SkinsPopup
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77b74d906885b29468992cbc990c38f2
     m_Address: AdvicePopup
     m_ReadOnly: 0
@@ -77,6 +71,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c032aa51a0489ef4099b1d96afd9b831
     m_Address: BlockUIScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3ba3c88aae1292499fa96fff4dd3ab3
+    m_Address: SkinsPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

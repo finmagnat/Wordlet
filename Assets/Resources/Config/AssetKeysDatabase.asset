@@ -19,24 +19,84 @@ MonoBehaviour:
     AddressKey: dict_en
   - Id: dict_ru
     AddressKey: dict_ru
-  - Id: letter_select_yellow
-    AddressKey: letter_select_yellow
-  - Id: letter_drop_blue
-    AddressKey: letter_drop_blue
-  - Id: bkg_main_red
-    AddressKey: bkg_main_red
-  - Id: letter_blue
-    AddressKey: letter_blue
-  - Id: letter_red
-    AddressKey: letter_red
-  - Id: bkg_list_blue
-    AddressKey: bkg_list_blue
-  - Id: letter_drop_red
-    AddressKey: letter_drop_red
-  - Id: bkg_list_red
-    AddressKey: bkg_list_red
-  - Id: bkg_main_blue
-    AddressKey: bkg_main_blue
+  - Id: InfoButtonBlue
+    AddressKey: InfoButtonBlue
+  - Id: ButtonPause_Blue
+    AddressKey: ButtonPause_Blue
+  - Id: ButtonPink
+    AddressKey: ButtonPink
+  - Id: ButtonCancel_Blue
+    AddressKey: ButtonCancel_Blue
+  - Id: ButtonHome_Pink
+    AddressKey: ButtonHome_Pink
+  - Id: ButtonGo_Blue
+    AddressKey: ButtonGo_Blue
+  - Id: LetterSelected
+    AddressKey: LetterSelected
+  - Id: PlayerPanel_Blue
+    AddressKey: PlayerPanel_Blue
+  - Id: ProgressBkg_Blue
+    AddressKey: ProgressBkg_Blue
+  - Id: ProgressBkg_Pink
+    AddressKey: ProgressBkg_Pink
+  - Id: ButtonCancel_Orange
+    AddressKey: ButtonCancel_Orange
+  - Id: PlayerPanel_Pink
+    AddressKey: PlayerPanel_Pink
+  - Id: CellBackgroundDefaultPink
+    AddressKey: CellBackgroundDefaultPink
+  - Id: ShopButtonBlue
+    AddressKey: ShopButtonBlue
+  - Id: MainBackgroundPink
+    AddressKey: MainBackgroundPink
+  - Id: CellBackgroundFilledBlue
+    AddressKey: CellBackgroundFilledBlue
+  - Id: ShopButtonPink
+    AddressKey: ShopButtonPink
+  - Id: Handle_Pink
+    AddressKey: Handle_Pink
+  - Id: ButtonStatistic_Blue
+    AddressKey: ButtonStatistic_Blue
+  - Id: Frame_Pink
+    AddressKey: Frame_Pink
+  - Id: SkinButtonPink
+    AddressKey: SkinButtonPink
+  - Id: KeybourdTile
+    AddressKey: KeybourdTile
+  - Id: Handle_Blue
+    AddressKey: Handle_Blue
+  - Id: CellBackgroundDefaultBlue
+    AddressKey: CellBackgroundDefaultBlue
+  - Id: InfoButtonPink
+    AddressKey: InfoButtonPink
+  - Id: ButtonBlue
+    AddressKey: ButtonBlue
+  - Id: ButtonGo_Orange
+    AddressKey: ButtonGo_Orange
+  - Id: SettingsButtonPink
+    AddressKey: SettingsButtonPink
+  - Id: MainBackgroundBlue
+    AddressKey: MainBackgroundBlue
+  - Id: ButtonStatistic_Pink
+    AddressKey: ButtonStatistic_Pink
+  - Id: SettingsButtonBlue
+    AddressKey: SettingsButtonBlue
+  - Id: ButtonPass_Blue
+    AddressKey: ButtonPass_Blue
+  - Id: ButtonHome_Blue
+    AddressKey: ButtonHome_Blue
+  - Id: CellBackgroundFilledPink
+    AddressKey: CellBackgroundFilledPink
+  - Id: Frame_Blue
+    AddressKey: Frame_Blue
+  - Id: ButtonPass_Pink
+    AddressKey: ButtonPass_Pink
+  - Id: SkinButtonBlue
+    AddressKey: SkinButtonBlue
+  - Id: CellSelected
+    AddressKey: CellSelected
+  - Id: ButtonPause_Pink
+    AddressKey: ButtonPause_Pink
   - Id: sfx_i_won
     AddressKey: sfx_i_won
   - Id: sfx_popup_worning
@@ -75,6 +135,8 @@ MonoBehaviour:
     AddressKey: sfx_letter_put_success
   - Id: WinPopup
     AddressKey: WinPopup
+  - Id: NoInternetPopup
+    AddressKey: NoInternetPopup
   - Id: AIGameExitPopup
     AddressKey: AIGameExitPopup
   - Id: MainMenuScreen
@@ -83,8 +145,6 @@ MonoBehaviour:
     AddressKey: LoadingScreen
   - Id: InGameLoadingScreen
     AddressKey: InGameLoadingScreen
-  - Id: SkinsPopup
-    AddressKey: SkinsPopup
   - Id: AdvicePopup
     AddressKey: AdvicePopup
   - Id: AIGameScreen
@@ -93,6 +153,8 @@ MonoBehaviour:
     AddressKey: NoAdsPopup
   - Id: BlockUIScreen
     AddressKey: BlockUIScreen
+  - Id: SkinsPopup
+    AddressKey: SkinsPopup
   - Id: DrawPopup
     AddressKey: DrawPopup
   - Id: ShopPopup
@@ -109,5 +171,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: NoInternetPopup
-    AddressKey: NoInternetPopup

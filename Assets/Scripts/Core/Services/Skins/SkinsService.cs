@@ -1,3 +1,4 @@
+using System;
 using Core.Config;
 using Core.Data;
 using Cysharp.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Core.Services
 {
     public class SkinsService : ISkinsService
     {
+        public event Action<SkinData> OnSkinChanged;
         public SkinData SkinCurrent { get; private set; }
         public SkinsConfig Config => _skinsConfig;
         
@@ -29,6 +31,8 @@ namespace Core.Services
             
             PlayerPrefs.SetInt(PlayerPrefsKey.SkinCurrent, (int)skinType);
             PlayerPrefs.Save();
+            
+            OnSkinChanged?.Invoke(SkinCurrent);
         }
         
     }

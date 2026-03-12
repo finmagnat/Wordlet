@@ -1,5 +1,6 @@
 using System;
 using Core.Config;
+using UnityEngine;
 
 namespace Core.Data
 {
@@ -7,11 +8,53 @@ namespace Core.Data
     public struct SkinData
     {
         public SkinType SkinType;
-        public string GameBackgroundAlias;
-        public string SelectableLetterAlias;
-        public string DragableLetterAlias;
-        public string ListBackgroundAlias;
-        public string BacklightLetterAlias;
-        public string PreviewAlias;
+        public Color ColorPreviewTile; // Цвет тайла в окне выбора скина 
+        
+        [Header("Фоны, панели, рамки, скролы")]
+        public string MainBackgroundAlias; // Главный фон для экранов/попапов
+        public string PlayerPanelBackgroundAlias; // Фон панели игрока
+        public string FrameBackgroundAlias; // Фон рамки панелей/полей
+        public string HandleBackgroundAlias; // Фон ползунка на скролах
+        public string ProgressBackgroundAlias; // Фон прогресбара
+        
+        [Header("Игровое поле")]
+        public string CellBackgroundDefaultAlias; // Фон ячейки поля по умолчанию (темный)
+        public string CellBackgroundFilledAlias; // Фон ячейки поля с установленной буквой (светлый) 
+        public string CellSelectedAlias; // Фон выбранной ячейки поля (оранжевый)
+        public string LettersSelectedAlias; // Фон выделенных букв на поле (желтый)
+        public Color LettersFieldColor; // Цвет букв на поле 
+        
+        [Header("Клавиатура")]
+        public string KeyboardTileAlias; // Фон кнопки на клавиатуре
+        public Color KeyboardLetterColor; // Цвет кнопки на клавиатуре
+        
+        [Header("Кнопки игрового экрана")]
+        public string HomeButtonAlias; // Домой
+        public string PauseButtonAlias; // Пауза 
+        public string CancelButtonAlias; // Отменить
+        public string GoButtonAlias; // Применить
+        public string PassButtonAlias; // Пропустить
+        public string StatisticButtonAlias; // Статистика
+        
+        [Header("Кнопки домашнего экрана и попапов")]
+        public string DefaultButtonAlias;
+        
+        public MainScreenThemeData MainScreenTheme;
+    }
+    
+    [Serializable]
+    public class MainScreenThemeData
+    {
+        public Color SkyColor = Color.white;
+        public Color CloudsFarColor = Color.white;
+        public Color CloudsMidColor = Color.white;
+        public Color CloudsNearColor = Color.white;
+        public Color AtmosphericLightColor = Color.white;
+        
+        [Header("Кнопки меню домашнего экрана")]
+        public string SettingsButtonAlias;
+        public string SkinButtonAlias;
+        public string InfoButtonAlias;
+        public string ShopButtonAlias;
     }
 }

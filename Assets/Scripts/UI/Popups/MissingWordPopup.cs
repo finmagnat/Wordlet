@@ -8,6 +8,7 @@ namespace UI.Popups
     public class MissingWordPopup : MessagePopup
     {
         [SerializeField] protected TextMeshProUGUI _newWordText;
+        [SerializeField] protected Button _yesButton;
         
         private NewWordWindowEventData _eventData;
         
@@ -16,6 +17,13 @@ namespace UI.Popups
             base.Start();
             
             _newWordText.text = "";
+            
+            _yesButton.onClick.AddListener(async () =>
+            {                
+                await HideAsync();
+                Close();
+                _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.SaveAndExit });
+            });
         }
         
         public void SetWindowData(string newWord)

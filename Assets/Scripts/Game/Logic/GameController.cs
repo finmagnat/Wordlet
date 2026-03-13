@@ -8,6 +8,7 @@ using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
+using Core.Services.NewWords;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
@@ -32,6 +33,7 @@ namespace Game.Logic
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        [Inject] private INewWordsService _newWordsService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
@@ -268,13 +270,12 @@ namespace Game.Logic
                     popup.SetWindowData(word);
                     
                     var dataResult = await popup.WaitForResultAsync();
-                    /*
-                    // Функция сохранения новых слов пока отключена по этическим причинам.
+                    
+                    // Функция сохранения новых слов (отправка на модерацию).
                     if(dataResult.Result == PopupResult.SaveAndExit)
-                        SaveWordAndContinueGame(word);
-                    else
-                    */
-                    Cancel();
+                        _newWordsService.SubmitWordAsync(word, _dictionaryService.DictionaryConfig.languageCode).Forget();
+                    
+                    Cancel(); // Сразу в словарь ничего не добавляем.
                 }
                 else
                 {

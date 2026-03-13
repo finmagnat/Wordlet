@@ -16,6 +16,7 @@ namespace Core.DataDictionary
         private string _alphabet;
         private bool _isLoaded;
 
+        public LanguageDictionaryConfig DictionaryConfig => _config;
         public string Alphabet => _alphabet; // Алфавит текущего словаря.
         public IReadOnlyCollection<string> Words => _words;
 

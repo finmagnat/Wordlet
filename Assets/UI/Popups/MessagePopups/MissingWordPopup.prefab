@@ -916,6 +916,7 @@ MonoBehaviour:
   _titleText: {fileID: 8632143087728265054}
   _messageText: {fileID: 6041023900497736153}
   _newWordText: {fileID: 2325287460982896944}
+  _yesButton: {fileID: 1033582430263748554}
 --- !u!1 &6470189469255776355
 GameObject:
   m_ObjectHideFlags: 0

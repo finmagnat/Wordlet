@@ -4,6 +4,7 @@ using Core.Build;
 using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
+using Core.Services.NewWords;
 using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
@@ -57,6 +58,9 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
             Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
+            
+            Container.Bind<INewWordsProvider>().To<PlayFabNewWordsProvider>().AsSingle();
+            Container.Bind<INewWordsService>().To<NewWordsService>().AsSingle();
             
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();

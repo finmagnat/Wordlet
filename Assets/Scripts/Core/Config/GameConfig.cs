@@ -70,5 +70,18 @@ namespace Core.Config
 
         [Tooltip("Кэш Score (секунды), чтобы не спамить PlayFab")]
         public int scoreCacheSeconds = 15;
+        
+        [Header("NEW WORDS MODERATION")]
+        [Tooltip("Максимум отправок новых слов в сутки. 0 = безлимит")]
+        public int newWordsDailyLimit = 5;
+
+        [Tooltip("Кулдаун между отправками новых слов (секунды). 0 = выкл")]
+        public int newWordsCooldownSeconds = 90;
+
+        [Tooltip("Минимальная длина нового слова для отправки")]
+        public int newWordsMinLength = 2;
+
+        [Tooltip("Максимальная длина нового слова для отправки")]
+        public int newWordsMaxLength = 32;
     }
 }

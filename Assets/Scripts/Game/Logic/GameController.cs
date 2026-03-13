@@ -33,7 +33,7 @@ namespace Game.Logic
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
-        [Inject] private INewWordsService _newWordsService;
+        [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
@@ -265,16 +265,14 @@ namespace Game.Logic
                 if (!_dictionaryService.Contains(word))
                 {
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
-                    
-                    var popup = await _ui.ShowPopupAsync<MissingWordPopup>(AssetKey.MissingWordPopup);
-                    popup.SetWindowData(word);
-                    
-                    var dataResult = await popup.WaitForResultAsync();
-                    
-                    // Функция сохранения новых слов (отправка на модерацию).
-                    if(dataResult.Result == PopupResult.SaveAndExit)
-                        _newWordsService.SubmitWordAsync(word, _dictionaryService.DictionaryConfig.languageCode).Forget();
-                    
+
+                    var result = await _missingWordPopupPresenter.ShowAsync(
+                        word,
+                        _dictionaryService.DictionaryConfig.languageCode);
+
+                    // При желании тут можно обрабатывать result.Status:
+                    // Submitted / AlreadyExists / Cancelled / Failed и т.д.
+
                     Cancel(); // Сразу в словарь ничего не добавляем.
                 }
                 else

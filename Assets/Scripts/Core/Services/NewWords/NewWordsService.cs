@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 
@@ -7,10 +6,12 @@ namespace Core.Services.NewWords
     public sealed class NewWordsService : INewWordsService
     {
         private readonly INewWordsProvider _provider;
+        private readonly INewWordsLimitsService _limits;
 
-        public NewWordsService(INewWordsProvider provider)
+        public NewWordsService(INewWordsProvider provider, INewWordsLimitsService limits)
         {
             _provider = provider;
+            _limits = limits;
         }
 
         public UniTask<AddPendingWordResponseDto> SubmitWordAsync(string rawWord, string language)
@@ -27,6 +28,66 @@ namespace Core.Services.NewWords
 
             var normalizedLanguage = NormalizeLanguage(language);
             return _provider.AddWordAsync(normalizedWord, normalizedLanguage);
+        }
+        
+        public async UniTask<SubmitNewWordFlowResult> TrySubmitWordAsync(string rawWord, string language)
+        {
+            if (!TryNormalizeWord(rawWord, out var normalizedWord))
+            {
+                return new SubmitNewWordFlowResult
+                {
+                    Status = SubmitNewWordFlowStatus.Invalid
+                };
+            }
+
+            var availability = _limits.GetAvailability();
+            if (!availability.CanSubmit)
+            {
+                return new SubmitNewWordFlowResult
+                {
+                    Status = availability.DailyLimitReached
+                        ? SubmitNewWordFlowStatus.DailyLimitReached
+                        : SubmitNewWordFlowStatus.Cooldown,
+                    RemainingCooldownSeconds = availability.RemainingCooldownSeconds,
+                    RemainingDailyResetSeconds = availability.RemainingDailyResetSeconds
+                };
+            }
+
+            var normalizedLanguage = NormalizeLanguage(language);
+            var response = await _provider.AddWordAsync(normalizedWord, normalizedLanguage);
+
+            if (!response.success)
+            {
+                return new SubmitNewWordFlowResult
+                {
+                    Status = SubmitNewWordFlowStatus.Failed
+                };
+            }
+
+            if (response.status == "AlreadyExists")
+            {
+                return new SubmitNewWordFlowResult
+                {
+                    Status = SubmitNewWordFlowStatus.AlreadyExists,
+                    NormalizedWord = response.normalizedWord
+                };
+            }
+
+            if (response.status == "Added")
+            {
+                _limits.RegisterSuccessfulSubmit();
+
+                return new SubmitNewWordFlowResult
+                {
+                    Status = SubmitNewWordFlowStatus.Submitted,
+                    NormalizedWord = response.normalizedWord
+                };
+            }
+
+            return new SubmitNewWordFlowResult
+            {
+                Status = SubmitNewWordFlowStatus.Failed
+            };
         }
 
         public UniTask<IReadOnlyList<NewWordEntryDto>> GetPendingWordsAsync(string language)

@@ -144,6 +144,10 @@ namespace Core.Installers
             DontDestroyOnLoad(go);
             Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
             
+            var newWordsGo = new GameObject("SRDebugNewWordsBridge");
+            DontDestroyOnLoad(newWordsGo);
+            Container.InstantiateComponent<DebugTools.SRDebugNewWordsBridge>(newWordsGo);
+            
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();
             loading.SetProgress(0.70f);

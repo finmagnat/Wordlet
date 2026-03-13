@@ -58,6 +58,16 @@ namespace Core.Services.NewWords
                     language = language
                 });
         }
+        
+        public UniTask<ClearPendingWordsResponseDto> ClearWordsAsync(string language)
+        {
+            return ExecuteAsync<ClearPendingWordsResponseDto>(
+                functionName: "ClearPendingWords",
+                functionParameter: new ClearPendingWordsRequest
+                {
+                    language = language
+                });
+        }
 
         private static UniTask<TResponse> ExecuteAsync<TResponse>(string functionName, object functionParameter)
         {
@@ -127,6 +137,12 @@ namespace Core.Services.NewWords
         private sealed class DeletePendingWordRequest
         {
             public string word;
+            public string language;
+        }
+        
+        [Serializable]
+        private sealed class ClearPendingWordsRequest
+        {
             public string language;
         }
     }

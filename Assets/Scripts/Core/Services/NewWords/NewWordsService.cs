@@ -50,6 +50,12 @@ namespace Core.Services.NewWords
             var normalizedLanguage = NormalizeLanguage(language);
             return _provider.DeleteWordAsync(normalizedWord, normalizedLanguage);
         }
+        
+        public UniTask<ClearPendingWordsResponseDto> ClearPendingWordsAsync(string language)
+        {
+            var normalizedLanguage = NormalizeLanguage(language);
+            return _provider.ClearWordsAsync(normalizedLanguage);
+        }
 
         private static bool TryNormalizeWord(string rawWord, out string normalizedWord)
         {

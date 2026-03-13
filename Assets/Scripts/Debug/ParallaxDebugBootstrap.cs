@@ -1,7 +1,7 @@
 using UI.Parallax;
 using UnityEngine;
 
-namespace DebugTools
+namespace Core.DebugTools
 {
     public sealed class ParallaxDebugBootstrap : MonoBehaviour
     {

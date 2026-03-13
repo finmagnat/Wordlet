@@ -38,4 +38,12 @@ namespace Core.Services.NewWords
         public string language;
         public List<NewWordEntryDto> words = new();
     }
+    
+    [Serializable]
+    public sealed class ClearPendingWordsResponseDto
+    {
+        public bool success;
+        public string status;   // Cleared
+        public string language;
+    }
 }

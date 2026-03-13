@@ -8,5 +8,6 @@ namespace Core.Services.NewWords
         UniTask<AddPendingWordResponseDto> AddWordAsync(string normalizedWord, string language);
         UniTask<IReadOnlyList<NewWordEntryDto>> GetWordsAsync(string language);
         UniTask<DeletePendingWordResponseDto> DeleteWordAsync(string normalizedWord, string language);
+        UniTask<ClearPendingWordsResponseDto> ClearWordsAsync(string language);
     }
 }

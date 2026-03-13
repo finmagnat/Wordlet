@@ -12,9 +12,9 @@ namespace Core.DebugTools
     {
         public static SRDebugAdsBridge Instance { get; private set; }
 
-        [Inject] private Core.Services.AdsEntitlementService _entitlement;
-        [Inject] private Core.Services.InterstitialAdsService _interstitialAds;
-        [Inject] private Core.Services.InterstitialPolicyService _policy;
+        [Inject] private AdsEntitlementService _entitlement;
+        [Inject] private InterstitialAdsService _interstitialAds;
+        [Inject] private InterstitialPolicyService _policy;
 
         private void Awake()
         {

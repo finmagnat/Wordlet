@@ -8,6 +8,7 @@ using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
+using Core.Services.NewWords;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
@@ -32,6 +33,7 @@ namespace Game.Logic
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
@@ -263,18 +265,15 @@ namespace Game.Logic
                 if (!_dictionaryService.Contains(word))
                 {
                     _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
-                    
-                    var popup = await _ui.ShowPopupAsync<MissingWordPopup>(AssetKey.MissingWordPopup);
-                    popup.SetWindowData(word);
-                    
-                    var dataResult = await popup.WaitForResultAsync();
-                    /*
-                    // Функция сохранения новых слов пока отключена по этическим причинам.
-                    if(dataResult.Result == PopupResult.SaveAndExit)
-                        SaveWordAndContinueGame(word);
-                    else
-                    */
-                    Cancel();
+
+                    var result = await _missingWordPopupPresenter.ShowAsync(
+                        word,
+                        _dictionaryService.DictionaryConfig.languageCode);
+
+                    // При желании тут можно обрабатывать result.Status:
+                    // Submitted / AlreadyExists / Cancelled / Failed и т.д.
+
+                    Cancel(); // Сразу в словарь ничего не добавляем.
                 }
                 else
                 {

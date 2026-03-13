@@ -18,13 +18,14 @@ MonoBehaviour:
   enableAnalytics: 1
   enableAds: 1
   useDebugLogs: 1
-  playFabTitleId: 
   firebaseRealtimeDbUrl: 
   unityAdsGameIdAndroid: 
   unityAdsTestMode: 1
   version: 1
   defaultBoardSize: 5
   durationGameByDefault: 60
+  durationGameMinimum: 10
+  durationGameMaximum: 120
   gameOpponentByDefault: 1
   maxPassesByDefault: 2
   complexityAiByDefault: 2
@@ -39,3 +40,9 @@ MonoBehaviour:
     WordLength: 5
     MaxPasses: 1
   slowdownDelay: 30
+  leaderboardTopN: 10
+  scoreCacheSeconds: 15
+  newWordsDailyLimit: 5
+  newWordsCooldownSeconds: 90
+  newWordsMinLength: 2
+  newWordsMaxLength: 32

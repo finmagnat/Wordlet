@@ -343,9 +343,12 @@ MonoBehaviour:
   - m_Id: 20674509266108416
     m_Localized: 'There is no such word in the dictionary.
 
+      This word will
+      not be used in the current game.
 
-      Would you like
-      to vote to have it added to the dictionary?'
+
+      Would you like to vote to have it
+      added to the dictionary?'
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272
@@ -438,6 +441,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 43816193575239680
     m_Localized: 'Passes: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44214278755336192
+    m_Localized: A new word can be sent via<br>
     m_Metadata:
       m_Items: []
   references:

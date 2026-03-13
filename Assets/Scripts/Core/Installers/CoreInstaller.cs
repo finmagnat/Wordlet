@@ -4,11 +4,13 @@ using Core.Build;
 using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
+using Core.Services.NewWords;
 using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
 using Inventory;
+using UI.Popups;
 using UI.Screens;
 using UI.UI;
 using UnityEngine;
@@ -57,6 +59,11 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
             Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
+            
+            Container.Bind<INewWordsProvider>().To<PlayFabNewWordsProvider>().AsSingle();
+            Container.Bind<INewWordsService>().To<NewWordsService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<NewWordsLimitsService>().AsSingle().NonLazy();
+            Container.Bind<MissingWordPopupPresenter>().AsSingle();
             
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
@@ -139,6 +146,12 @@ namespace Core.Installers
             var go = new GameObject("SRDebugAdsBridge");
             DontDestroyOnLoad(go);
             Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
+            
+            var newWordsGo = new GameObject("SRDebugNewWordsBridge");
+            DontDestroyOnLoad(newWordsGo);
+            Container.InstantiateComponent<DebugTools.SRDebugNewWordsBridge>(newWordsGo);
+            
+            await Container.Resolve<NewWordsLimitsService>().InitializeAsync();
             
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();

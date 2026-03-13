@@ -2,7 +2,7 @@ using System.ComponentModel;
 using UI.Parallax;
 using UnityEngine;
 
-namespace DebugTools
+namespace Core.DebugTools
 {
     public sealed class ParallaxDebugOptions
     {

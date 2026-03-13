@@ -387,6 +387,10 @@ MonoBehaviour:
     m_Key: TABLE_TEXT_PASSES
     m_Metadata:
       m_Items: []
+  - m_Id: 44214278755336192
+    m_Key: TEXT_LIMIT_NEW_WORD_SENT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

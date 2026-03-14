@@ -451,6 +451,10 @@ MonoBehaviour:
     m_Localized: The word has been sent for moderation.
     m_Metadata:
       m_Items: []
+  - m_Id: 44511748177674240
+    m_Localized: New word
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

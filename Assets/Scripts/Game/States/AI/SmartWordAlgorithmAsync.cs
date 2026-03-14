@@ -6,11 +6,15 @@ using Core.DataDictionary;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
 using UI.Components;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Game.AI
 {
     public sealed class SmartWordAlgorithmAsync : IAIAlgorithmAsync
     {
+        private static readonly Random _rng = new();
+        
         private bool _bCancel;
 
         public void Cancel() => _bCancel = true;
@@ -37,12 +41,23 @@ namespace Game.AI
                 int start = Math.Max(minLen, maxPossibleNow);
                 lengthsToTry = Enumerable.Range(minLen, start - minLen + 1).Reverse();
             }
+            else if (settings.СomplexityAiLevel == ComplexityAI.NORMAL)
+            {
+                // NORMAL: случайная длина между минимальной и максимально возможной
+                int maxLen = Math.Max(minLen, maxPossibleNow);
+                int randomStart = _rng.Next(minLen, maxLen + 1);
+
+                // сначала пробуем randomStart, потом уменьшаем длину
+                lengthsToTry = Enumerable.Range(minLen, randomStart - minLen + 1).Reverse();
+            }
             else
             {
-                // EASY/NORMAL: строго <= WordLength
+                // EASY строго <= WordLength
                 int start = Math.Min(boardMaxLen, Math.Max(minLen, (int)settings.WordLength));
                 lengthsToTry = Enumerable.Range(minLen, start - minLen + 1).Reverse();
             }
+            
+            //Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] lengthsToTry[{lengthsToTry.Count()}] = {string.Join(", ", lengthsToTry.ToArray())}" );
 
             var result = await WordSearchEngineAsync.FindWordAsync(
                 fieldItems: items,
@@ -64,6 +79,7 @@ namespace Game.AI
             wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
             wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
+            Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] Word [{result.Word.Count()}] = {result.Word}" );
             return AIWordResult.Ok(result.Word);
         }
 

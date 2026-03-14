@@ -6,7 +6,7 @@ namespace UI.Popups
 {
     public class AdvicePopup : MessagePopup
     {
-        [Inject] private LocalizationService _locationService;
+        [Inject] private LocalizationService _localization;
         
         protected override void Start()
         {
@@ -18,8 +18,8 @@ namespace UI.Popups
             base.SetWindowData(data);
             
             SetText(
-                _locationService.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
-                _locationService.Get(LocalizationConst.TableUI, "ERROR_MSG_" + _messageBoxData.Error.ToString().ToUpper()));
+                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
+                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_" + _messageBoxData.Error.ToString().ToUpper()));
         }
         
         protected override void Close()

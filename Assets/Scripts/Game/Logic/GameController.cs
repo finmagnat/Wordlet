@@ -270,8 +270,15 @@ namespace Game.Logic
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
 
-                    // При желании тут можно обрабатывать result.Status:
-                    // Submitted / AlreadyExists / Cancelled / Failed и т.д.
+                    if (result.Status == MissingWordPopupFlowStatus.Submitted)
+                    {
+                        var popup = await _ui.ShowPopupAsync<MessagePopup>(AssetKey.AdvicePopup);
+                        popup.SetText(
+                            _localization.Get(LocalizationConst.TableUI, "NEW_WORD_SENT_TITLE"), 
+                            _localization.Get(LocalizationConst.TableUI, "NEW_WORD_SENT_TEXT"));
+
+                        await popup.WaitForResultAsync();
+                    }
 
                     Cancel(); // Сразу в словарь ничего не добавляем.
                 }

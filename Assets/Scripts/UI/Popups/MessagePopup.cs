@@ -47,7 +47,7 @@ namespace UI.Popups
             _messageBoxData = data;
         }
 
-        protected void SetText(string title, string msg)
+        public void SetText(string title, string msg)
         {
             _titleText.text = title;
             _messageText.text = msg;

@@ -69,7 +69,7 @@ namespace UI.Popups
 
             using var timerCts = new System.Threading.CancellationTokenSource();
 
-            _cooldownText = _localization.Get(LocalizationConst.TableUI, "TEXT_LIMIT_NEW_WORD_SENT");
+            _cooldownText = _localization.Get(LocalizationConst.TableUI, "LIMIT_NEW_WORD_SENT_TEXT");
             var timerTask = RunTimerLoopAsync(popup, timerCts.Token);
 
             PopupExitData popupResult;

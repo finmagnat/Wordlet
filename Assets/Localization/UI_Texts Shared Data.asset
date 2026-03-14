@@ -399,6 +399,10 @@ MonoBehaviour:
     m_Key: NEW_WORD_SENT_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 44531216882745344
+    m_Key: BUTTON_PLAY_AGAIN
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

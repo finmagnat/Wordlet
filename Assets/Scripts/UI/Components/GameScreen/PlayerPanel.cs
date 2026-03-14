@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -13,7 +12,6 @@ namespace UI.Components
         public uint Score { get; private set; }
         public uint Pass { get; private set; }
         public string PlayerName => _playerNameText.text;
-        public List<string> Words { get; private set; } = new(); // TODO: перенести в панель статистики
 
         [SerializeField] private TextMeshProUGUI _playerNameText;
         [SerializeField] private TextMeshProUGUI _scoreText;

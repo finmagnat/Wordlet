@@ -34,6 +34,7 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
+        [Inject] protected InterstitialPolicyService _interstitialService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
@@ -52,6 +53,7 @@ namespace Game.Logic
         private int _durationGame;
         private string _firstWord;
         private SaveGameData _saveGameData;
+        private SaveGameData _saveGameDataRepeat;
         private bool _boosterProcessing;
 
         public async UniTask InitializeAsync()
@@ -62,6 +64,7 @@ namespace Game.Logic
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
             EventBus.Subscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Subscribe<GameSkipEvent>(OnGameSkip);
+            EventBus.Subscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Subscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
@@ -88,6 +91,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
             EventBus.Unsubscribe<GameCancelEvent>(OnGameCancel);
             EventBus.Unsubscribe<GameSkipEvent>(OnGameSkip);
+            EventBus.Unsubscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Unsubscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
@@ -105,7 +109,7 @@ namespace Game.Logic
             
             _wordsFieldManager.Destroy();
         }
-        
+
         public SaveGameData GetGameData()
         {
             if (_bLetterPut)
@@ -115,7 +119,7 @@ namespace Game.Logic
             {
                 version = _configService.Game.version,
                 localeCode = _localization.CurrentLocale.Identifier.Code,
-                savedAtUtcTicks = System.DateTime.UtcNow.Ticks,
+                savedAtUtcTicks = DateTime.UtcNow.Ticks,
                 
                 mode = _gameOpponent.ToString(),
                 boardSize = _configService.Game.defaultBoardSize,
@@ -131,8 +135,8 @@ namespace Game.Logic
                 opponentPasses = _gameScreen.PlayerPanelOpponent.Pass,
                 
                 firstWord = _firstWord,
-                playerWords = _gameScreen.PlayerPanelOwner.Words,
-                opponentWords = _gameScreen.PlayerPanelOpponent.Words
+                playerWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.Words,
+                opponentWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.Words
             };
             
             return data;
@@ -219,6 +223,7 @@ namespace Game.Logic
             else
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
 
+            _saveGameDataRepeat = _saveGameData;
             _saveGameData = null;
             _bStart = true;
             
@@ -387,9 +392,6 @@ namespace Game.Logic
             }
             
             _gameScreen.SetTextWord("");
-
-            // TODO: Добавить новое слово в локальный словарь игрока [пока это не делаем]
-            //_dictionaryService.AddWord(word);
             
             _wordsFieldManager.SaveWord(word);
             _wordsFieldManager.Clear();
@@ -406,6 +408,22 @@ namespace Game.Logic
             
             _gameScreen.BoosterPanel.SlowdownStop();
             PassedGame();
+        }
+        
+        private void OnRepeatGame(RepeatGameEvent eventData)
+        {
+            _gameScreen.RepeatGame.SetActive(false);
+            RepeatGame();
+        }
+        
+        private async UniTask RepeatGame()
+        {
+            // Пытаемся показать interstitial и ждём закрытия (если показалась)
+            await _interstitialService.TryShowAndWaitAsync("exit_game");
+
+            _gameScreen.Reset();
+            _saveGameData = _saveGameDataRepeat;
+            EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent });
         }
         
         private void OnTimeExpired(IGameEvent eventData)
@@ -509,7 +527,7 @@ namespace Game.Logic
             _gameScreen.PassButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.GoButton.SetActive(false);
-
+            
             // Определение победителя:
             ResultGame resultGame = ResultGame.DRAW;
             bool bResultDetermined = false;
@@ -578,6 +596,10 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.Pass,
                 _maxPasses
                 );
+            
+            var result = await finishPopup.WaitForResultAsync();
+            
+            _gameScreen.RepeatGame.SetActive(true);
         }
         
         private async UniTaskVoid AIPlayAsync()
@@ -637,7 +659,6 @@ namespace Game.Logic
             await BlockUIAsync(false);
             _boosterProcessing = false;
         }
-
         
         private async UniTask ActivateBoosterLetterAsync()
         {

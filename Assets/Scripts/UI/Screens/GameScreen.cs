@@ -24,6 +24,7 @@ namespace UI.Screens
         [SerializeField] protected Button _pauseButton;
         [SerializeField] protected Button _cancelButton;
         [SerializeField] protected Button _goButton;
+        [SerializeField] protected Button _repeatGame;
         [SerializeField] protected Button _passButton;
         [SerializeField] protected Button _statisticButton;
         
@@ -47,6 +48,7 @@ namespace UI.Screens
         internal GameObject PassButton => _passButton.gameObject;
         internal GameObject CancelButton => _cancelButton.gameObject;
         internal GameObject GoButton => _goButton.gameObject;
+        internal GameObject RepeatGame => _repeatGame.gameObject;
         
         [Inject] protected LocalizationService _localization;
         [Inject] protected SkinsService _skinsService;
@@ -82,6 +84,7 @@ namespace UI.Screens
         }
 
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
+        public void OnPressedRepeatGame() => EventBus.Raise(new RepeatGameEvent());
         
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
         public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
@@ -105,6 +108,7 @@ namespace UI.Screens
             _playerPanelOwner.Reset();
             _playerPanelOpponent.Reset();
             _progressBar.ResetTimer();
+            _repeatGame.gameObject.SetActive(false);
         }
         
         internal List<SelectableLetter> InitWordsField() => _wordsField.InitField();

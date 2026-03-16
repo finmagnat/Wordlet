@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Core.Audio;
 using Core.Config;
+using Core.Generated;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
@@ -45,7 +45,7 @@ namespace UI.Popups
             if (_skinsService.SkinCurrent.SkinType != _newSkin)
             {
                 _skinsService.SaveSkinCurrent(_newSkin);
-                _audioService?.PlaySfxAsync(Sounds.SoundSfx_SkinChanged);
+                _audioService?.PlaySfxAsync(AssetKey.sfx_skin_changed.ToString());
                 //Dictionary<string, string> paramDictionary = new() { { Constants.Type, _newSkin.ToString() } };
                 //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
             }

@@ -1,5 +1,5 @@
-using Core.Audio;
 using Core.Events;
+using Core.Generated;
 using Core.Services;
 using TMPro;
 using UnityEngine;
@@ -194,13 +194,13 @@ namespace UI.Components
             if (_isIlluminated)
             {
                 _mainBackground.sprite = _skin.cellBackgroundFilled;
-                _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterUnblinking);
+                _audioService?.PlaySfxAsync(AssetKey.sfx_letter_unblinking.ToString());
             }
             else
             {
                 ++_blinkCounter;
                 _mainBackground.sprite = _skin.selectedCell;
-                _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterBlinking);
+                _audioService?.PlaySfxAsync(AssetKey.sfx_letter_blinking.ToString());
             }
         }
 

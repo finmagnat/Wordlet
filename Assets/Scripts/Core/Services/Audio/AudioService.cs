@@ -13,12 +13,16 @@ namespace Core.Services
 
         private readonly Dictionary<string, AudioClip> _sfxCache = new();
         private AudioSource _sfxSource;
+        private ConfigService _configService;
 
         private float _sfxVolume = 1f;
+        
+        private bool _isDebugPlayNoAsync = true; // TODO: Опция для настройки звуковой схемы (вместо Addressables используется SoundsConfig)
 
-        public AudioService(AddressablesLoader loader)
+        public AudioService(AddressablesLoader loader, ConfigService configService)
         {
             _loader = loader;
+            _configService = configService;
         }
 
         public UniTask InitializeAsync()
@@ -34,6 +38,11 @@ namespace Core.Services
             _sfxSource.playOnAwake = false;
             _sfxSource.loop = false;
             _sfxSource.volume = _sfxVolume;
+            
+            if (_isDebugPlayNoAsync)
+            {
+                InitDebugCache();
+            }
 
             return UniTask.CompletedTask;
         }
@@ -58,6 +67,12 @@ namespace Core.Services
 
             // 2️⃣ проигрываем (OneShot позволяет накладывать звуки)
             _sfxSource.PlayOneShot(clip, _sfxVolume);
+        }
+        
+        private void InitDebugCache()
+        {
+            foreach (var sound in _configService.Sounds.Sounds)
+                _sfxCache[sound.Key] = sound.Clip;
         }
 
         public void SetSfxVolume(float value)

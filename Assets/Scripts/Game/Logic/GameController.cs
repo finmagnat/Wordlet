@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Threading;
-using Core.Audio;
 using Core.Config;
 using Core.Data;
 using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
-using Core.Services.NewWords;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
@@ -227,7 +225,7 @@ namespace Game.Logic
             _saveGameData = null;
             _bStart = true;
             
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_StartNewGame);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_start_new_game.ToString());
         }
 
         private void OnGamePause(GamePauseChangedEvent eventData)
@@ -250,7 +248,7 @@ namespace Game.Logic
 
             _wordsFieldManager.ShowLetters(!_bPause);
 
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pause);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_pause.ToString());
         }
 
         private async void OnGameGo(IGameEvent eventData)
@@ -269,7 +267,7 @@ namespace Game.Logic
             {                
                 if (!_dictionaryService.Contains(word))
                 {
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupQuestion);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_popup_question.ToString());
 
                     var result = await _missingWordPopupPresenter.ShowAsync(
                         word,
@@ -290,7 +288,7 @@ namespace Game.Logic
                 else
                 {
                     SaveWordAndContinueGame(word);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_IMadeMove);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_i_made_move.ToString());
                     _gameScreen.BoosterPanel.SlowdownStop();
                 }                
             }            
@@ -335,13 +333,13 @@ namespace Game.Logic
             _bLetterPut = true;
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_letter_put_success.ToString());
         }
 
         private void OnLetterPutToWord(LetterPutToWordEvent eventData)
         {
             _gameScreen.AddLetterToWord(eventData.letter);
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterSelected);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_letter_selected.ToString());
         }
 
         private void OnLetterRemoveLastFromWord(LetterRemoveLastFromWordEvent eventData)
@@ -362,7 +360,7 @@ namespace Game.Logic
             var popup = await _ui.ShowPopupAsync<AdvicePopup>(AssetKey.AdvicePopup);
             popup.SetWindowData(messageBoxData);
             
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_PopupWorning);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_popup_worning.ToString());
             
             await popup.WaitForResultAsync();
             
@@ -448,7 +446,7 @@ namespace Game.Logic
             else
                 _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
             
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_Pass);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_pass.ToString());
             
             CheckFinishGame();
         }
@@ -459,7 +457,7 @@ namespace Game.Logic
             _gameScreen.SetTextWord(eventData.word);
             _gameScreen.StartCoroutine(DisplayWordOpponent(eventData));
             
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentMadeMove);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_opponent_made_move.ToString());
         }
 
         private IEnumerator DisplayWordOpponent(OpponentFindWordEvent eventData)
@@ -471,7 +469,7 @@ namespace Game.Logic
         private void OnOpponentFindWordFail(IGameEvent eventData)
         {
             _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentFindWordFail);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_opponent_find_word_fail.ToString());
             CheckFinishGame();
         }
         
@@ -575,15 +573,15 @@ namespace Game.Logic
             {
                 case ResultGame.OWNER_WIN:
                     finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.WinPopup);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_IWon);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_i_won.ToString());
                     break;
                 case ResultGame.OWNER_LOSE:
                     finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.LosePopup);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_OpponentWon);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_opponent_won.ToString());
                     break;
                 default:
                     finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.DrawPopup);
-                    _audioService?.PlaySfxAsync(Sounds.SoundSfx_Draw);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_draw.ToString());
                     break;
             }
             
@@ -682,7 +680,7 @@ namespace Game.Logic
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
             _gameScreen.CancelButton.SetActive(true);
             _gameScreen.GoButton.SetActive(true);
-            _audioService?.PlaySfxAsync(Sounds.SoundSfx_LetterPutSuccess);
+            _audioService?.PlaySfxAsync(AssetKey.sfx_letter_put_success.ToString());
         }
 
         private async UniTask ShowBoosterLetterFailAsync()

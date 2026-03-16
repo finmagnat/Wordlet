@@ -112,9 +112,9 @@ RectTransform:
   - {fileID: 1705721652618287193}
   - {fileID: 8749929666228885708}
   - {fileID: 2113327897861053663}
-  - {fileID: 5686801610595472712}
-  - {fileID: 351990098496095058}
   - {fileID: 7654304149826116150}
+  - {fileID: 351990098496095058}
+  - {fileID: 5686801610595472712}
   - {fileID: 1943418066788563433}
   - {fileID: 9035967108715906580}
   m_Father: {fileID: 4792569287082265733}
@@ -1819,8 +1819,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsPopup, Assembly-CSharp
+      - m_Target: {fileID: 1265940358153872694}
+        m_TargetAssemblyTypeName: UI.Popups.SettingsPopup, Assembly-CSharp
         m_MethodName: OnPrivacyButtonClick
         m_Mode: 1
         m_Arguments:
@@ -2383,8 +2383,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsPopup, Assembly-CSharp
+      - m_Target: {fileID: 1265940358153872694}
+        m_TargetAssemblyTypeName: UI.Popups.SettingsPopup, Assembly-CSharp
         m_MethodName: OnSupportButtonClick
         m_Mode: 1
         m_Arguments:
@@ -5568,8 +5568,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingsPopup, Assembly-CSharp
+      - m_Target: {fileID: 1265940358153872694}
+        m_TargetAssemblyTypeName: UI.Popups.SettingsPopup, Assembly-CSharp
         m_MethodName: OnTermsButtonClick
         m_Mode: 1
         m_Arguments:

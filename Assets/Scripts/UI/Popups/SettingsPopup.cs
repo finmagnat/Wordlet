@@ -4,6 +4,7 @@ using Core.Events;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
+using PlayFab;
 using UI.Parallax;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -25,6 +26,8 @@ namespace UI.Popups
         
         [Inject] private LocalizationService _localization;
         [Inject] private AudioService _audioService;
+        [Inject] private PlayFabAuthService _playFabAuthService;
+        [Inject] private ConfigService _configService;
         
         private readonly Dictionary<string, LanguageButton> _buttons = new ();
         private Locale _newLanguage;
@@ -101,7 +104,7 @@ namespace UI.Popups
             //_analyticsManager.SendEvent(Constants.SettingsTOSEvent);
             OnCloseButtonClick(false);
 
-            //Application.OpenURL(URLConstants.Terms);
+            Application.OpenURL(_configService.Game.Terms);
         }
 
         public void OnPrivacyButtonClick()
@@ -109,7 +112,7 @@ namespace UI.Popups
             //_analyticsManager.SendEvent(Constants.SettingsPPEvent);
             OnCloseButtonClick(false);
 
-            //Application.OpenURL(URLConstants.Privacy);
+            Application.OpenURL(_configService.Game.Privacy);
         }
 
         public void OnSupportButtonClick()
@@ -118,15 +121,13 @@ namespace UI.Popups
 
             OnCloseButtonClick(false);
 
-            /*
             string body = string.Empty;
             if (PlayFabClientAPI.IsClientLoggedIn())
             {
-                body += "Cloud ID: " + Engine.GetService<PlayFabService>().PlayFabId;
+                body += "Cloud ID: " + _playFabAuthService.PlayFabId;
             }
 
-            Application.OpenURL("mailto:" + URLConstants.Support + "?&body=" + MyEscapeURL(body));
-            */
+            Application.OpenURL("mailto:" + _configService.Game.Support + "?&body=" + MyEscapeURL(body));
         }
 
         private string MyEscapeURL(string url)

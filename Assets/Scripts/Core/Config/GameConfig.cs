@@ -6,6 +6,11 @@ namespace Core.Config
     [CreateAssetMenu(menuName = "Wordlet/Config/Game Config", fileName = "GameConfig")]
     public class GameConfig : ScriptableObject
     {
+        [Header("Address")]
+        public string Privacy = "https://finmagnat.github.io/wordlet-privacy/";
+        public string Terms = "https://finmagnat.github.io/wordlet-terms/";
+        public string Support = "semantica.dev@gmail.com";
+        
         [Header("UI")]
         [Tooltip("Базовое разрешение для Canvas Scaler (ландшафт)")]
         public Vector2Int referenceResolution = new Vector2Int(1920, 1080);
@@ -16,7 +21,7 @@ namespace Core.Config
 
         [Header("APPLICATION")]
         public int targetFps = 60;
-
+        
         [Header("SERVICES")]
         public bool enableAnalytics = true;
         public bool enableAds = true;

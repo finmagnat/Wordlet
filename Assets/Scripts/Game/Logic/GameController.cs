@@ -32,7 +32,7 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
-        [Inject] protected InterstitialPolicyService _interstitialService;
+        [Inject] private InterstitialPolicyService _interstitialService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         

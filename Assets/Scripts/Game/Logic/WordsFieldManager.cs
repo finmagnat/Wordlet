@@ -47,7 +47,7 @@ namespace Game.Logic
 
         internal void Cancel()
         {
-            if (!_bModeSelectWord) return;
+            _bModeSelectWord = false;
             _wordsFildData.Cancel();
         }
 

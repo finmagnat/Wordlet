@@ -42,6 +42,10 @@ MonoBehaviour:
     IsRandomWordLength: 1
     MaxPasses: 2
   - "\u0421omplexityAiLevel": 3
+    MaxWordLength: 6
+    IsRandomWordLength: 0
+    MaxPasses: 1
+  - "\u0421omplexityAiLevel": 4
     MaxWordLength: 24
     IsRandomWordLength: 0
     MaxPasses: 1

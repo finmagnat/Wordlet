@@ -10,7 +10,8 @@ namespace Core.Config
     {
         EASY = 1,
         NORMAL,
-        HARD
+        HARD,
+        MASTER
     }
 
     public enum ResultGame

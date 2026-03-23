@@ -96,15 +96,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4427422768922624
-    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_1
+    m_Key: POPUP_LABEL_DIFFICULTY_EASY
     m_Metadata:
       m_Items: []
   - m_Id: 4427486245519360
-    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_2
+    m_Key: POPUP_LABEL_DIFFICULTY_NORMAL
     m_Metadata:
       m_Items: []
   - m_Id: 4427505694507008
-    m_Key: POPUP_LABEL_DIFFICULTY_LEVEL_3
+    m_Key: POPUP_LABEL_DIFFICULTY_HARD
     m_Metadata:
       m_Items: []
   - m_Id: 4427842056716288
@@ -401,6 +401,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 44531216882745344
     m_Key: BUTTON_PLAY_AGAIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47877414565855232
+    m_Key: POPUP_LABEL_DIFFICULTY_MASTER
     m_Metadata:
       m_Items: []
   m_Metadata:

@@ -33,6 +33,7 @@ MonoBehaviour:
     CancelButtonAlias: ButtonCancel_Blue
     GoButtonAlias: ButtonGo_Blue
     PassButtonAlias: ButtonPass_Blue
+    RepeatGameButtonAlias: ButtonGo_Blue
     StatisticButtonAlias: ButtonStatistic_Blue
     DefaultButtonAlias: ButtonBlue
     MainScreenTheme:
@@ -61,9 +62,10 @@ MonoBehaviour:
     KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
     HomeButtonAlias: ButtonHome_Pink
     PauseButtonAlias: ButtonPause_Pink
-    CancelButtonAlias: ButtonCancel_Orange
-    GoButtonAlias: ButtonGo_Orange
+    CancelButtonAlias: ButtonCancel_Pink
+    GoButtonAlias: ButtonGo_Pink
     PassButtonAlias: ButtonPass_Pink
+    RepeatGameButtonAlias: ButtonGo_Pink
     StatisticButtonAlias: ButtonStatistic_Pink
     DefaultButtonAlias: ButtonPink
     MainScreenTheme:

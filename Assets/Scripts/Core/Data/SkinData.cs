@@ -34,6 +34,7 @@ namespace Core.Data
         public string CancelButtonAlias; // Отменить
         public string GoButtonAlias; // Применить
         public string PassButtonAlias; // Пропустить
+        public string RepeatGameButtonAlias; // Играть снова
         public string StatisticButtonAlias; // Статистика
         
         [Header("Кнопки домашнего экрана и попапов")]

@@ -33,20 +33,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1a222750b4752ee45a931149be1ea943
-    m_Address: ButtonCancel_Blue
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Skin
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1de328493ffc4b245b65c94bbb3cfdf1
     m_Address: ButtonHome_Pink
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Skin
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1e0111ed872905b40a786c0c0fab57c1
-    m_Address: ButtonGo_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -75,14 +63,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 42ec4456d10852645bcbfdc193bb25ef
-    m_Address: ButtonCancel_Orange
+  - m_GUID: 4cd55b0ffbabf8244ad89d0a0249950d
+    m_Address: ButtonGo_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ed6b74af4f00214788fe1b92c8c987c
     m_Address: PlayerPanel_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 529cfb5996c121241b771bfb15ff1812
+    m_Address: ButtonCancel_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -129,6 +123,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6943fd67d1b08304fa4795e8a3af384f
+    m_Address: ButtonGo_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6b770700351c17d4285f994f4750631b
     m_Address: Frame_Pink
     m_ReadOnly: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a518780f3588da742a58161463f5252c
-    m_Address: ButtonGo_Orange
+  - m_GUID: a659a50b40ada824e9795e31f87b628f
+    m_Address: ButtonCancel_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

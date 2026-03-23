@@ -174,6 +174,7 @@ namespace UI.Screens
             _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
             _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
             _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);
+            _repeatGame.image.sprite = await _spritesService.GetSpriteAsync(skin.RepeatGameButtonAlias);
             _passButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PassButtonAlias);
             _statisticButton.image.sprite = await _spritesService.GetSpriteAsync(skin.StatisticButtonAlias);
             

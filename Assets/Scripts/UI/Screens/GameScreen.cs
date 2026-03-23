@@ -44,8 +44,8 @@ namespace UI.Screens
         internal StatisticsPanel StatisticsPanel => _statisticsPanel;
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
-        internal GameObject PauseButton => _pauseButton.gameObject;
-        internal GameObject PassButton => _passButton.gameObject;
+        internal Button PauseButton => _pauseButton;
+        internal Button PassButton => _passButton;
         internal GameObject CancelButton => _cancelButton.gameObject;
         internal GameObject GoButton => _goButton.gameObject;
         internal GameObject RepeatGame => _repeatGame.gameObject;

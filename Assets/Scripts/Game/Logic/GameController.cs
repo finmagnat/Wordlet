@@ -154,8 +154,8 @@ namespace Game.Logic
             
             _gameScreen.GoButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
-            _gameScreen.PauseButton.SetActive(true);
-            _gameScreen.PassButton.SetActive(true);
+            _gameScreen.PauseButton.interactable = true;
+            _gameScreen.PassButton.interactable = true;
             
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
@@ -496,15 +496,15 @@ namespace Game.Logic
             if (_bModePlayOwner)
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
-                _gameScreen.PauseButton.SetActive(true);
-                _gameScreen.PassButton.SetActive(true);
+                _gameScreen.PauseButton.interactable = true;
+                _gameScreen.PassButton.interactable = true;
             }
             else
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
                 _wordsFieldManager.SetModeSelect(false);
-                _gameScreen.PauseButton.SetActive(false);
-                _gameScreen.PassButton.SetActive(false);
+                _gameScreen.PauseButton.interactable = false;
+                _gameScreen.PassButton.interactable = false;
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
                 switch (_gameOpponent)
@@ -521,8 +521,8 @@ namespace Game.Logic
             _bStart = false;
             _bPause = false;
             _bLetterPut = false;
-            _gameScreen.PauseButton.SetActive(false);
-            _gameScreen.PassButton.SetActive(false);
+            _gameScreen.PauseButton.interactable = false;
+            _gameScreen.PassButton.interactable = false;
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.GoButton.SetActive(false);
             

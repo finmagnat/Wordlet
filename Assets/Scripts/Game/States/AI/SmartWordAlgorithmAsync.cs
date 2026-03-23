@@ -28,34 +28,19 @@ namespace Game.AI
 
             var items = wordsFieldManager.WordsFieldData.Items;
             int boardMaxLen = items.Count; // 25
-            int minLen = 2;
+            const int MinLength = 2;
 
             int lettersOnBoard = CountLettersOnBoard(items);
             int maxPossibleNow = Math.Min(boardMaxLen, lettersOnBoard + 1);
 
             IEnumerable<int> lengthsToTry;
+            
+            int start = Math.Min(maxPossibleNow, Math.Max(MinLength, (int)settings.MaxWordLength));
 
-            if (settings.СomplexityAiLevel == ComplexityAI.HARD)
-            {
-                // HARD: пытаемся от максимально возможного СЕЙЧАС (не от max в словаре)
-                int start = Math.Max(minLen, maxPossibleNow);
-                lengthsToTry = Enumerable.Range(minLen, start - minLen + 1).Reverse();
-            }
-            else if (settings.СomplexityAiLevel == ComplexityAI.NORMAL)
-            {
-                // NORMAL: случайная длина между минимальной и максимально возможной
-                int maxLen = Math.Max(minLen, maxPossibleNow);
-                int randomStart = _rng.Next(minLen, maxLen + 1);
+            if (settings.IsRandomWordLength)
+                start = _rng.Next(MinLength, start + 1);
 
-                // сначала пробуем randomStart, потом уменьшаем длину
-                lengthsToTry = Enumerable.Range(minLen, randomStart - minLen + 1).Reverse();
-            }
-            else
-            {
-                // EASY строго <= WordLength
-                int start = Math.Min(boardMaxLen, Math.Max(minLen, (int)settings.WordLength));
-                lengthsToTry = Enumerable.Range(minLen, start - minLen + 1).Reverse();
-            }
+            lengthsToTry = Enumerable.Range(MinLength, start - MinLength + 1).Reverse();
             
             //Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] lengthsToTry[{lengthsToTry.Count()}] = {string.Join(", ", lengthsToTry.ToArray())}" );
 

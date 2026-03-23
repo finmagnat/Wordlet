@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2fb111d2ead4b2990366bb16f1afaff, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  Privacy: https://finmagnat.github.io/wordlet-privacy/
+  Terms: https://finmagnat.github.io/wordlet-terms/
+  Support: semantica.dev@gmail.com
   referenceResolution: {x: 1920, y: 1080}
   screenMatch: 0.5
   targetFps: 60
@@ -31,13 +34,16 @@ MonoBehaviour:
   complexityAiByDefault: 2
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
-    WordLength: 3
+    MaxWordLength: 3
+    IsRandomWordLength: 0
     MaxPasses: 3
   - "\u0421omplexityAiLevel": 2
-    WordLength: 4
+    MaxWordLength: 5
+    IsRandomWordLength: 1
     MaxPasses: 2
   - "\u0421omplexityAiLevel": 3
-    WordLength: 5
+    MaxWordLength: 24
+    IsRandomWordLength: 0
     MaxPasses: 1
   slowdownDelay: 30
   leaderboardTopN: 10

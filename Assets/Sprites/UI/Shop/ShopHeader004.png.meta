@@ -142,13 +142,13 @@ TextureImporter:
       name: BestPrice04_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 473
-        height: 85
+        x: 17
+        y: 12
+        width: 767
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 380, y: 0, z: 380, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5bb6cb97e5b976d49bdf0908b8a802de
     internalID: 0
     vertices: []
     indices: 

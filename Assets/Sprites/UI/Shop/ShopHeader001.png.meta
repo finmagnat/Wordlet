@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1678b7affc1014343a89c740a7b3ffe7
+guid: 1a17aa1a1d793b649b0a6d495cecf623
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8712292064805691243
-    second: BestPrice05_0
+      213: 5331672064956558429
+    second: ShopHeader001_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,12 +126,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BestPrice05_0
+      name: ShopHeader001_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 473
-        height: 85
+        width: 800
+        height: 146
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 390, y: 0, z: 390, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5906dc9d688b71780800000000000000
-      internalID: -8712292064805691243
+      spriteID: d5ceb92ae77edf940800000000000000
+      internalID: 5331672064956558429
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1ea683adfecc9ed4f85efd23ac6e320c
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BestPrice05_0: -8712292064805691243
+      ShopHeader001_0: 5331672064956558429
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

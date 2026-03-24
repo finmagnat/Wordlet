@@ -977,9 +977,9 @@ MonoBehaviour:
     m_Left: 20
     m_Right: 20
     m_Top: 40
-    m_Bottom: 50
+    m_Bottom: 60
   m_ChildAlignment: 1
-  m_Spacing: 20
+  m_Spacing: 100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -1243,7 +1243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1080
+      value: -1490
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1312,6 +1312,14 @@ PrefabInstance:
     - target: {fileID: 8480852251332159444, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_fontSize
       value: 65.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882471195550630128, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_text
+      value: "\u041E\u0442\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0440\u0435\u043A\u043B\u0430\u043C\u0443"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882471195550630128, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_fontSize
+      value: 37.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1445,7 +1453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -660
+      value: -890
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1647,7 +1655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -240
+      value: -290
       objectReference: {fileID: 0}
     - target: {fileID: 1751850777612933834, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

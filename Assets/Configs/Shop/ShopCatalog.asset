@@ -16,7 +16,7 @@ MonoBehaviour:
   Offers:
   - Type: 0
     Title: STORE_TITLE_BEST_PRICE
-    SpriteHeader: {fileID: 8385822268567176513, guid: b4658802d10f01b43aedca598096f90b, type: 3}
+    SpriteHeader: {fileID: 5331672064956558429, guid: 1a17aa1a1d793b649b0a6d495cecf623, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
@@ -35,7 +35,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_LETTER
-    SpriteHeader: {fileID: -4613852888227127739, guid: a2e285d007e92c0428f537e40febdc05, type: 3}
+    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
@@ -51,7 +51,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_SLOWDOWN
-    SpriteHeader: {fileID: -4613852888227127739, guid: a2e285d007e92c0428f537e40febdc05, type: 3}
+    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
     Rewards:
     - ItemId: 2
@@ -67,7 +67,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 1
     Title: STORE_TITLE_FREE
-    SpriteHeader: {fileID: -2191240055030767158, guid: 26342e9a6cf1149419f0b84b2f9ec59e, type: 3}
+    SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
@@ -83,7 +83,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 1
     Title: STORE_TITLE_FREE
-    SpriteHeader: {fileID: -2191240055030767158, guid: 26342e9a6cf1149419f0b84b2f9ec59e, type: 3}
+    SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
     Rewards:
     - ItemId: 2
@@ -99,7 +99,7 @@ MonoBehaviour:
     IsNonConsumable: 0
   - Type: 0
     Title: STORE_TITLE_REMOVE_INTERSTITIAL_ADS
-    SpriteHeader: {fileID: 8606923226320510315, guid: 2cdcc9de071790945824867a8253af48, type: 3}
+    SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
     Description: 
     Rewards:
     - ItemId: 0

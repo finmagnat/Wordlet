@@ -66,6 +66,7 @@ namespace Core.Generated
         NoInternetPopup,
         AIGameExitPopup,
         MainMenuScreen,
+        PurchaseConfirmationPopup,
         LoadingScreen,
         InGameLoadingScreen,
         AdvicePopup,

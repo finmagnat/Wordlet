@@ -407,6 +407,18 @@ MonoBehaviour:
     m_Key: POPUP_LABEL_DIFFICULTY_MASTER
     m_Metadata:
       m_Items: []
+  - m_Id: 48258521874448384
+    m_Key: POPUP_REWARD_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48258944186335232
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48258966193848320
+    m_Key: POPUP_REWARD_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

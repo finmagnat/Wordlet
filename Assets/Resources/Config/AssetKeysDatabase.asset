@@ -141,6 +141,8 @@ MonoBehaviour:
     AddressKey: AIGameExitPopup
   - Id: MainMenuScreen
     AddressKey: MainMenuScreen
+  - Id: PurchaseConfirmationPopup
+    AddressKey: PurchaseConfirmationPopup
   - Id: LoadingScreen
     AddressKey: LoadingScreen
   - Id: InGameLoadingScreen

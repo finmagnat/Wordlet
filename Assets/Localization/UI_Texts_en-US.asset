@@ -463,6 +463,14 @@ MonoBehaviour:
     m_Localized: Master
     m_Metadata:
       m_Items: []
+  - m_Id: 48258521874448384
+    m_Localized: CONGRATULATIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48258966193848320
+    m_Localized: Your reward
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

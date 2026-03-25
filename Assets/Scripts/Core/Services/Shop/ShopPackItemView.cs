@@ -23,13 +23,6 @@ namespace Core.Services.Shop
         [SerializeField] private Button _buyButton;
         [SerializeField] private TextMeshProUGUI _ctaText;
 
-        [Header("Reward pop (+1)")]
-        [SerializeField] private CanvasGroup _popGroup;
-        [SerializeField] private RectTransform _popRoot;
-        [SerializeField] private TextMeshProUGUI _popText;
-        [SerializeField] private float _popMoveY = 40f;
-        [SerializeField] private float _popDuration = 0.6f;
-
         private ShopOfferDto _dto;
         private Action<ShopOfferDto> _onClick;
 
@@ -74,8 +67,6 @@ namespace Core.Services.Shop
             _buyButton.onClick.RemoveAllListeners();
             _buyButton.onClick.AddListener(OnButtonClick);
 
-            PreparePop();
-
             ApplyInitialState();
 
             // Rewarded wiring
@@ -99,18 +90,6 @@ namespace Core.Services.Shop
 
                 SyncRewardedState();
             }
-        }
-
-        private void PreparePop()
-        {
-            if (_popGroup == null || _popRoot == null || _popText == null)
-                return;
-
-            _popSeq?.Kill();
-            _popGroup.alpha = 0f;
-            _popGroup.blocksRaycasts = false;
-            _popRoot.anchoredPosition = Vector2.zero;
-            _popRoot.localScale = Vector3.one;
         }
 
         private void ApplyInitialState()
@@ -247,7 +226,6 @@ namespace Core.Services.Shop
             if (_dto.Type != ShopOfferTypeDto.RewardedAd) return;
             if (_dto.RewardType != type) return;
 
-            PlayPop(amount);
             SyncRewardedState(); // сразу обновим (появится cooldown)
         }
 
@@ -282,31 +260,6 @@ namespace Core.Services.Shop
             int m = seconds / 60;
             int s = seconds % 60;
             return $"{m:00}:{s:00}";
-        }
-
-        private void PlayPop(int amount)
-        {
-            if (_popGroup == null || _popRoot == null || _popText == null)
-                return;
-
-            _popSeq?.Kill();
-            _popText.text = $"+{amount}";
-
-            _popGroup.alpha = 1f;
-            _popRoot.anchoredPosition = Vector2.zero;
-            _popRoot.localScale = Vector3.one * 0.85f;
-
-            _popSeq = DOTween.Sequence()
-                .SetUpdate(true)
-                .Append(_popRoot.DOScale(1.15f, _popDuration * 0.35f).SetEase(Ease.OutBack))
-                .Append(_popRoot.DOScale(1.0f,  _popDuration * 0.25f).SetEase(Ease.OutQuad))
-                .Join(_popRoot.DOAnchorPosY(_popMoveY, _popDuration).SetEase(Ease.OutQuad))
-                .Join(_popGroup.DOFade(0f, _popDuration).SetEase(Ease.InQuad))
-                .OnComplete(() =>
-                {
-                    if (_popGroup != null) _popGroup.alpha = 0f;
-                    if (_popRoot != null) _popRoot.anchoredPosition = Vector2.zero;
-                });
         }
 
         private void Unsubscribe()

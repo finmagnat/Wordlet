@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e8b2b77eb141ce42ac2d55dd62d5d9d
+    m_Address: PurchaseConfirmationPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5bc95e0a605bc64458d3071ce773b253
     m_Address: LoadingScreen
     m_ReadOnly: 0

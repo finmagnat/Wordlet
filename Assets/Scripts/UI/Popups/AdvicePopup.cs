@@ -1,10 +1,11 @@
 using Core.Data;
 using Core.Services;
+using Cysharp.Threading.Tasks;
 using Zenject;
 
 namespace UI.Popups
 {
-    public class AdvicePopup : MessagePopup
+    public class AdvicePopup : MessagePopup<MessageBoxData>
     {
         [Inject] private LocalizationService _localization;
         
@@ -12,6 +13,12 @@ namespace UI.Popups
         {
             base.Start();
             SetText("", "");
+        }
+        
+        public override UniTask PrepareAsync(MessageBoxData data)
+        {
+            SetWindowData(data);
+            return UniTask.CompletedTask;
         }
         
         public override void SetWindowData(MessageBoxData data) {

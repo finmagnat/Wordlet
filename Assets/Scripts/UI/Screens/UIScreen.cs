@@ -1,3 +1,4 @@
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -16,5 +17,10 @@ namespace UI.Screens
             gameObject.SetActive(false);
             return UniTask.CompletedTask;
         }
+    }
+
+    public abstract class UIScreen<TPayload> : UIScreen, IUIElement<TPayload>
+    {
+        public abstract UniTask PrepareAsync(TPayload payload);
     }
 }

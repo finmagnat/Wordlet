@@ -40,29 +40,22 @@ namespace Core.UI
 
         public async UniTask<T> ShowScreenAsync<T>(AssetKey assetKey) where T : UIScreen
         {
-            var strAssetKey = assetKey.ToString();
-            // Already loaded?
-            if (_loadedScreens.TryGetValue(strAssetKey, out var existing))
-            {
-                existing.gameObject.SetActive(true);
-                await existing.ShowAsync();
-                return existing as T;
-            }
-
-            // Load prefab
-            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
-            if (prefab == null)
-            {
-                Debug.LogError($"❌ Failed to load screen prefab: {strAssetKey}");
+            var screen = await GetOrLoadScreenAsync<T>(assetKey);
+            if (screen == null)
                 return null;
-            }
 
-            var instance = Instantiate(prefab, _screensRoot);
-            _container.InjectGameObject(instance);
+            await screen.ShowAsync();
+            return screen;
+        }
 
-            var screen = instance.GetComponent<T>();
-            _loadedScreens[strAssetKey] = screen;
+        public async UniTask<T> ShowScreenAsync<T, TPayload>(AssetKey assetKey, TPayload payload)
+            where T : UIScreen<TPayload>
+        {
+            var screen = await GetOrLoadScreenAsync<T>(assetKey);
+            if (screen == null)
+                return null;
 
+            await screen.PrepareAsync(payload);
             await screen.ShowAsync();
             return screen;
         }
@@ -74,16 +67,46 @@ namespace Core.UI
                 await screen.HideAsync();
                 return screen as T;
             }
+
             return null;
         }
-        
+
         public async UniTask HideAllScreensAsync()
         {
             foreach (var pair in _loadedScreens)
             {
-                if (pair.Value != null)
+                if (pair.Value != null && pair.Value.gameObject.activeSelf)
                     await pair.Value.HideAsync();
             }
+        }
+
+        private async UniTask<T> GetOrLoadScreenAsync<T>(AssetKey assetKey) where T : UIScreen
+        {
+            var strAssetKey = assetKey.ToString();
+
+            if (_loadedScreens.TryGetValue(strAssetKey, out var existing))
+                return existing as T;
+
+            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
+            if (prefab == null)
+            {
+                Debug.LogError($"❌ Failed to load screen prefab: {strAssetKey}");
+                return null;
+            }
+
+            var instance = Instantiate(prefab, _screensRoot);
+            _container.InjectGameObject(instance);
+
+            var screen = instance.GetComponent<T>();
+            if (screen == null)
+            {
+                Debug.LogError($"❌ Screen component {typeof(T).Name} not found on prefab: {strAssetKey}");
+                Destroy(instance);
+                return null;
+            }
+
+            _loadedScreens[strAssetKey] = screen;
+            return screen;
         }
 
         // ---------------------------------------------------------
@@ -92,28 +115,22 @@ namespace Core.UI
 
         public async UniTask<T> ShowPopupAsync<T>(AssetKey assetKey) where T : UIPopup
         {
-            var strAssetKey = assetKey.ToString();
-            
-            if (_loadedPopups.TryGetValue(strAssetKey, out var existing))
-            {
-                existing.gameObject.SetActive(true);
-                await existing.ShowAsync();
-                return existing as T;
-            }
-
-            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
-            if (prefab == null)
-            {
-                Debug.LogError($"❌ Failed to load popup prefab: {assetKey}");
+            var popup = await GetOrLoadPopupAsync<T>(assetKey);
+            if (popup == null)
                 return null;
-            }
 
-            var instance = Instantiate(prefab, _popupsRoot);
-            _container.InjectGameObject(instance);
+            await popup.ShowAsync();
+            return popup;
+        }
 
-            var popup = instance.GetComponent<T>();
-            _loadedPopups[strAssetKey] = popup;
+        public async UniTask<T> ShowPopupAsync<T, TPayload>(AssetKey assetKey, TPayload payload)
+            where T : UIPopup<TPayload>
+        {
+            var popup = await GetOrLoadPopupAsync<T>(assetKey);
+            if (popup == null)
+                return null;
 
+            await popup.PrepareAsync(payload);
             await popup.ShowAsync();
             return popup;
         }
@@ -129,15 +146,43 @@ namespace Core.UI
                 }
             }
         }
-        
+
         public async UniTask HideAllPopupsAsync()
         {
             foreach (var pair in _loadedPopups)
             {
-                if (pair.Value != null)
+                if (pair.Value != null && pair.Value.gameObject.activeSelf)
                     await pair.Value.HideAsync();
             }
         }
 
+        private async UniTask<T> GetOrLoadPopupAsync<T>(AssetKey assetKey) where T : UIPopup
+        {
+            var strAssetKey = assetKey.ToString();
+
+            if (_loadedPopups.TryGetValue(strAssetKey, out var existing))
+                return existing as T;
+
+            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
+            if (prefab == null)
+            {
+                Debug.LogError($"❌ Failed to load popup prefab: {strAssetKey}");
+                return null;
+            }
+
+            var instance = Instantiate(prefab, _popupsRoot);
+            _container.InjectGameObject(instance);
+
+            var popup = instance.GetComponent<T>();
+            if (popup == null)
+            {
+                Debug.LogError($"❌ Popup component {typeof(T).Name} not found on prefab: {strAssetKey}");
+                Destroy(instance);
+                return null;
+            }
+
+            _loadedPopups[strAssetKey] = popup;
+            return popup;
+        }
     }
 }

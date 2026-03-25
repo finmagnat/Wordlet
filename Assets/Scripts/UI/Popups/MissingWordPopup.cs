@@ -1,13 +1,14 @@
 using System;
 using Core.Data;
 using Core.Services.NewWords;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Popups
 {
-    public class MissingWordPopup : MessagePopup
+    public class MissingWordPopup : MessagePopup<MessageBoxData>
     {
         [SerializeField] protected TextMeshProUGUI _newWordText;
         [SerializeField] protected TextMeshProUGUI _cooldownText;
@@ -29,6 +30,12 @@ namespace UI.Popups
                 Close();
                 _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.SaveAndExit });
             });
+        }
+        
+        public override UniTask PrepareAsync(MessageBoxData data)
+        {
+            SetWindowData(data);
+            return UniTask.CompletedTask;
         }
         
         public void SetWindowData(string newWord)

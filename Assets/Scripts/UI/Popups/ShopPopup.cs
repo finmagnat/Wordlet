@@ -17,11 +17,11 @@ namespace UI.Popups
         [Inject] private IUIManager _ui;
         
         [Header("UI Elements")]
-        [SerializeField] protected Button _exitButton;
+        [SerializeField] private Button _exitButton;
         [SerializeField] private ShopPackItemView _itemPrefab;
-        [SerializeField] protected Transform _contentRoot;
+        [SerializeField] private Transform _contentRoot;
         
-        protected UniTaskCompletionSource<PopupExitData> _completionSource;
+        private UniTaskCompletionSource<PopupExitData> _completionSource;
         
         private bool _isInitialized;
         
@@ -77,6 +77,13 @@ namespace UI.Popups
                 await RebuildCatalogAsync();
                 
                 await _ui.ShowPopupAsync<NoAdsPopup>(AssetKey.NoAdsPopup);
+                
+                HideAsync();
+            }
+            else
+            {
+                var popup = await _ui.ShowPopupAsync<PurchaseConfirmationPopup>(AssetKey.PurchaseConfirmationPopup);
+                popup.SetWindowData(offer);
                 
                 HideAsync();
             }

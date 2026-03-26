@@ -17,4 +17,9 @@ namespace UI.Screens
             return UniTask.CompletedTask;
         }
     }
+
+    public abstract class UIScreen<TPayload> : UIScreen
+    {
+        public abstract UniTask PrepareAsync(TPayload payload);
+    }
 }

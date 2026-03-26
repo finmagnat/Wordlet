@@ -38,7 +38,7 @@ namespace Game.Logic
         
         private WordsFieldManager _wordsFieldManager = new ();
         private AIGameController _ai = new ();
-        private GameScreen _gameScreen;
+        private GameScreenBase _gameScreen;
         private GameOpponent _gameOpponent;
         
         private bool _bStart; // Игра стартовала
@@ -269,20 +269,10 @@ namespace Game.Logic
                 {
                     _audioService?.PlaySfxAsync(AssetKey.sfx_popup_question.ToString());
 
-                    var result = await _missingWordPopupPresenter.ShowAsync(
+                    await _missingWordPopupPresenter.ShowAsync(
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
-
-                    if (result.Status == MissingWordPopupFlowStatus.Submitted)
-                    {
-                        var popup = await _ui.ShowPopupAsync<MessagePopup>(AssetKey.AdvicePopup);
-                        popup.SetText(
-                            _localization.Get(LocalizationConst.TableUI, "NEW_WORD_SENT_TITLE"), 
-                            _localization.Get(LocalizationConst.TableUI, "NEW_WORD_SENT_TEXT"));
-
-                        await popup.WaitForResultAsync();
-                    }
-
+                    
                     Cancel(); // Сразу в словарь ничего не добавляем.
                 }
                 else
@@ -357,8 +347,7 @@ namespace Game.Logic
                 Error = eventData.GameError
             };
             
-            var popup = await _ui.ShowPopupAsync<AdvicePopup>(AssetKey.AdvicePopup);
-            popup.SetWindowData(messageBoxData);
+            var popup = await _ui.ShowPopupAsync<AdvicePopup, MessageBoxData>(AssetKey.AdvicePopup, messageBoxData);
             
             _audioService?.PlaySfxAsync(AssetKey.sfx_popup_worning.ToString());
             
@@ -558,34 +547,13 @@ namespace Game.Logic
             ShowFinishGamePopup(resultGame);
         }
         
-        protected async void ShowFinishGamePopup(ResultGame resultGame)
+        protected async UniTaskVoid ShowFinishGamePopup(ResultGame resultGame)
         {
-            // TEST
-            //resultGame = ResultGame.DRAW;
-            //*******************************
-
             _profile.AddScoreAsync((int)_gameScreen.PlayerPanelOwner.Score);
 
             await _ui.HideAllPopupsAsync();
-                
-            FinishGamePopup finishPopup;
-            switch (resultGame)
-            {
-                case ResultGame.OWNER_WIN:
-                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.WinPopup);
-                    _audioService?.PlaySfxAsync(AssetKey.sfx_i_won.ToString());
-                    break;
-                case ResultGame.OWNER_LOSE:
-                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.LosePopup);
-                    _audioService?.PlaySfxAsync(AssetKey.sfx_opponent_won.ToString());
-                    break;
-                default:
-                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup>(AssetKey.DrawPopup);
-                    _audioService?.PlaySfxAsync(AssetKey.sfx_draw.ToString());
-                    break;
-            }
-            
-            finishPopup.statsTable.SetData(
+
+            var data = new FinishGamePopupData(
                 _gameScreen.PlayerPanelOwner.PlayerName,
                 _gameScreen.PlayerPanelOpponent.PlayerName,
                 _gameScreen.PlayerPanelOwner.Score,
@@ -593,10 +561,29 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOwner.Pass,
                 _gameScreen.PlayerPanelOpponent.Pass,
                 _maxPasses
-                );
-            
-            var result = await finishPopup.WaitForResultAsync();
-            
+            );
+
+            FinishGamePopup finishPopup;
+            switch (resultGame)
+            {
+                case ResultGame.OWNER_WIN:
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup, FinishGamePopupData>(AssetKey.WinPopup, data);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_i_won.ToString());
+                    break;
+
+                case ResultGame.OWNER_LOSE:
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup, FinishGamePopupData>(AssetKey.LosePopup, data);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_opponent_won.ToString());
+                    break;
+
+                default:
+                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup, FinishGamePopupData>(AssetKey.DrawPopup, data);
+                    _audioService?.PlaySfxAsync(AssetKey.sfx_draw.ToString());
+                    break;
+            }
+
+            await finishPopup.WaitForResultAsync();
+
             _gameScreen.RepeatGame.SetActive(true);
         }
         

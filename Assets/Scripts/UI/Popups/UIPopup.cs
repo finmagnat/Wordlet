@@ -1,4 +1,5 @@
 using System;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace UI.Popups
             gameObject.SetActive(false);
         }
 
-        private void Initialize()
+        protected void Initialize()
         {
             if (_initialized) return;
 
@@ -39,10 +40,21 @@ namespace UI.Popups
             if (_rect == null)
                 _rect = GetComponent<RectTransform>();
 
-            _canvasGroup.alpha = 0f;
-            _rect.localScale = Vector3.one * 0.95f;
+            SetHiddenStateImmediate();
 
             _initialized = true;
+        }
+
+        protected virtual void SetHiddenStateImmediate()
+        {
+            _canvasGroup.alpha = 0f;
+            _rect.localScale = Vector3.one * 0.95f;
+        }
+
+        protected virtual void SetShownStateImmediate()
+        {
+            _canvasGroup.alpha = 1f;
+            _rect.localScale = Vector3.one;
         }
 
         public virtual async UniTask ShowAsync()
@@ -51,6 +63,9 @@ namespace UI.Popups
 
             OnShowStarted?.Invoke();
             gameObject.SetActive(true);
+
+            // На случай повторного открытия после скрытия
+            SetHiddenStateImmediate();
 
             var seq = DOTween.Sequence();
             seq.Join(_canvasGroup.DOFade(1f, _fadeDuration));
@@ -77,5 +92,10 @@ namespace UI.Popups
             gameObject.SetActive(false);
             OnHideCompleted?.Invoke();
         }
+    }
+
+    public abstract class UIPopup<TPayload> : UIPopup, IUIElement<TPayload>
+    {
+        public abstract UniTask PrepareAsync(TPayload payload);
     }
 }

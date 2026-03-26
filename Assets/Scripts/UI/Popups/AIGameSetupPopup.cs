@@ -11,10 +11,8 @@ using Zenject;
 
 namespace UI.Popups
 {
-    public class AIGameSetupPopup : UIPopup
+    public class AIGameSetupPopup : PopupBase<GameSetupData>
     {
-        private const int STEP_TIME = 5;
-        
         [Header("UI Elements")]
         [SerializeField] private ToggleGroup _toggleGroup;
         [SerializeField] private Button _startButton;
@@ -32,7 +30,7 @@ namespace UI.Popups
         
         private UniTaskCompletionSource<GameSetupData> _completionSource;
 
-        private void Start()
+        private void Awake()
         {
             _toggles = _toggleGroup.GetComponentsInChildren<Toggle>();
             
@@ -65,16 +63,8 @@ namespace UI.Popups
         {
             EventBus.Unsubscribe<GotoShopEvent>(OnGotoShopEvent);
         }
-
-        private async void OnGotoShopEvent(GotoShopEvent objEvent)
-        {
-            await HideAsync();
-            _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.GotoShop });
-        }
-
-        public UniTask<GameSetupData> WaitForResultAsync() => _completionSource.Task;
         
-        public override async UniTask ShowAsync()
+        public override UniTask PrepareAsync(GameSetupData data)
         {
             _completionSource = new UniTaskCompletionSource<GameSetupData>();
             
@@ -82,8 +72,6 @@ namespace UI.Popups
             
             // Сложность игры
             _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(PlayerPrefsKey.ComplexityAI, (int)_gameConfig.complexityAiByDefault);
-            
-            await base.ShowAsync();
             
             foreach (var toggle in _toggles)
             {
@@ -98,8 +86,18 @@ namespace UI.Popups
             ChangeTimeText();
             
             _boosterPanel.Refresh();
+            
+            return UniTask.CompletedTask;
         }
 
+        private async void OnGotoShopEvent(GotoShopEvent objEvent)
+        {
+            await HideAsync();
+            _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.GotoShop });
+        }
+
+        public UniTask<GameSetupData> WaitForResultAsync() => _completionSource.Task;
+        
         public void OnDurationGameSlider()
         {
             _durationGame = Mathf.RoundToInt(_durationGameSlider.value);
@@ -113,30 +111,10 @@ namespace UI.Popups
             //Debug.Log($"OnDurationGameSlider: {_durationGameSlider.value} = {_durationGame}");
         }
         
-        /*public void OnIncrTimeButton()
-        {
-            if (_durationGame + STEP_TIME <= _gameConfig.durationGameMaximum)
-            {
-                _durationGame += STEP_TIME;
-                ChangeTimeText();
-            }
-        }
-
-        public void OnDecrTimeButton()
-        {
-            if (_durationGame - STEP_TIME >= _gameConfig.durationGameMinimum)
-            {
-                _durationGame -= STEP_TIME;
-                ChangeTimeText();
-            }            
-        }*/
-
         public void OnSelectComplexityAI(int value)
         {
             _complexityAI = (ComplexityAI)value;
         }
-        
-        //private void ChangeTimeText() => _timeText.text = _durationGame.ToString();
         
         private void ChangeTimeText()
         {

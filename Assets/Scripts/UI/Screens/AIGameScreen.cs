@@ -8,23 +8,28 @@ using UnityEngine;
 
 namespace UI.Screens
 {
-    // Экран игры с ИИ.
-    public class AIGameScreen : GameScreen
+    public class AIGameScreen : GameScreenNoPayload
     {
-        public override UniTask ShowAsync()
+        protected override UniTask PrepareScreenAsync()
         {
-            base.ShowAsync();
-            
-            EventBus.Raise(new GameScreenStartEvent{ Screen = this, Opponent = GameOpponent.AI});
-            
             return UniTask.CompletedTask;
         }
-        
+
+        public override async UniTask ShowAsync()
+        {
+            await base.ShowAsync();
+
+            EventBus.Raise(new GameScreenStartEvent
+            {
+                Screen = this,
+                Opponent = GameOpponent.AI
+            });
+        }
+
         protected override async void OnGoToHome(GoToHomeEvent eventData)
         {
-            if (_isProcessing) // Игра не завершена
+            if (_isProcessing)
             {
-                // Попап с предложением "Сохранить и выйти" или "Выйти без сохранения".
                 var popup = await _ui.ShowPopupAsync<AIGameExitPopup>(AssetKey.AIGameExitPopup);
                 var data = await popup.WaitForResultAsync();
 
@@ -34,9 +39,9 @@ namespace UI.Screens
                     Debug.Log("Игрок вернулся в игру");
             }
             else
+            {
                 await GoToHome();
+            }
         }
-
-
     }
 }

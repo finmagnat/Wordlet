@@ -447,14 +447,6 @@ MonoBehaviour:
     m_Localized: A new word can be sent via<br>
     m_Metadata:
       m_Items: []
-  - m_Id: 44509451867537408
-    m_Localized: The word has been sent for moderation.
-    m_Metadata:
-      m_Items: []
-  - m_Id: 44511748177674240
-    m_Localized: New word
-    m_Metadata:
-      m_Items: []
   - m_Id: 44531216882745344
     m_Localized: Play again
     m_Metadata:

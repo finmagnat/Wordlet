@@ -6,7 +6,7 @@ using Zenject;
 
 namespace UI.Popups
 {
-    public class NoInternetPopup : MessagePopup, INoInternetPopup
+    public class NoInternetPopup : MessagePopup<MessageBoxData>, INoInternetPopup
     {
         [Inject] private LocalizationService _localization;
         
@@ -20,6 +20,12 @@ namespace UI.Popups
 
             // Крестик/закрытие скрываем навсегда
             _closeButton.gameObject.SetActive(false);
+        }
+        
+        public override UniTask PrepareAsync(MessageBoxData data)
+        {
+            SetWindowData(data);
+            return UniTask.CompletedTask;
         }
         
         public void ShowBlocking(Action onCheckClicked)

@@ -391,14 +391,6 @@ MonoBehaviour:
     m_Key: LIMIT_NEW_WORD_SENT_TEXT
     m_Metadata:
       m_Items: []
-  - m_Id: 44509451867537408
-    m_Key: NEW_WORD_SENT_TEXT
-    m_Metadata:
-      m_Items: []
-  - m_Id: 44511748177674240
-    m_Key: NEW_WORD_SENT_TITLE
-    m_Metadata:
-      m_Items: []
   - m_Id: 44531216882745344
     m_Key: BUTTON_PLAY_AGAIN
     m_Metadata:

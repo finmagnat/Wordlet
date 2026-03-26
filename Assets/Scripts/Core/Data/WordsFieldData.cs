@@ -216,7 +216,7 @@ namespace Core.Data
         /// </summary>
         internal void Cancel()
         {            
-            _setItem.SetLetter("");
+            _setItem?.SetLetter("");
             Clear();
         }
 

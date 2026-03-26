@@ -20,7 +20,6 @@ namespace UI.Screens
         [SerializeField] private Button _infoButton;
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
-        //[SerializeField] protected Image _mainBackground;
         
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
@@ -42,7 +41,7 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
-                var popup = await _ui.ShowPopupAsync<AIGameSetupPopup>(AssetKey.AIGameSetupPopup);
+                var popup = await _ui.ShowPopupAsync<AIGameSetupPopup, GameSetupData>(AssetKey.AIGameSetupPopup, new GameSetupData());
                 var data = await popup.WaitForResultAsync();
 
                 if (data.Result == PopupResult.Play)

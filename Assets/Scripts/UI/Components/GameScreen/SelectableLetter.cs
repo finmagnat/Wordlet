@@ -53,6 +53,7 @@ namespace UI.Components
                     {
                         ModeBlinkClear();
                         HighlightCell();
+                        EventBus.Raise(new ModeBlinkEndEvent());
                     }
                 }
             }

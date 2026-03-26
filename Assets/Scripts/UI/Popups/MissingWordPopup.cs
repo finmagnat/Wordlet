@@ -1,6 +1,4 @@
-using System;
 using Core.Data;
-using Core.Services.NewWords;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -8,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.Popups
 {
-    public class MissingWordPopup : MessagePopup<MessageBoxData>
+    public class MissingWordPopup : MessagePopup<NewWordWindowEventData>
     {
         [SerializeField] protected TextMeshProUGUI _newWordText;
         [SerializeField] protected TextMeshProUGUI _cooldownText;
@@ -20,7 +18,6 @@ namespace UI.Popups
         {
             base.Start();
             
-            _newWordText.text = "";
             _cooldownText.text = "";
             _cooldownText.gameObject.SetActive(false);
             
@@ -32,15 +29,10 @@ namespace UI.Popups
             });
         }
         
-        public override UniTask PrepareAsync(MessageBoxData data)
+        public override UniTask PrepareAsync(NewWordWindowEventData data)
         {
-            SetWindowData(data);
+            _newWordText.text = data.newWord;
             return UniTask.CompletedTask;
-        }
-        
-        public void SetWindowData(string newWord)
-        {
-            _newWordText.text = newWord;
         }
         
         public void SetSubmitState(bool canSubmit, string message)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Core.Data;
 using Core.Services;
 using Cysharp.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace UI.Popups
         
         private UniTaskCompletionSource<LoadSavedGameData> _completionSource;
 
-        private void Start()
+        private void Awake()
         {
             _startButton.onClick.AddListener(async () =>
             {
@@ -61,9 +60,9 @@ namespace UI.Popups
             _completionSource = new UniTaskCompletionSource<LoadSavedGameData>();
          
             _gameData = await _saveService.LoadAsync();
-            await base.ShowAsync();
-            
             ChangeText();
+            
+            await base.ShowAsync();
         }
 
         private void ChangeText()

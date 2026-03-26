@@ -64,8 +64,8 @@ namespace UI.Popups
 
         public async UniTask<MissingWordPopupFlowResult> ShowAsync(string word, string language)
         {
-            var popup = await _ui.ShowPopupAsync<MissingWordPopup>(AssetKey.MissingWordPopup);
-            popup.SetWindowData(word);
+            var popup = await _ui.ShowPopupAsync<MissingWordPopup, NewWordWindowEventData>(AssetKey.MissingWordPopup, 
+                new NewWordWindowEventData{ newWord = word });
 
             using var timerCts = new System.Threading.CancellationTokenSource();
 

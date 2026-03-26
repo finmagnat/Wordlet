@@ -9,12 +9,6 @@ namespace UI.Popups
     {
         [Inject] private LocalizationService _localization;
         
-        protected override void Start()
-        {
-            base.Start();
-            SetText("", "");
-        }
-        
         public override UniTask PrepareAsync(MessageBoxData data)
         {
             SetWindowData(data);
@@ -26,7 +20,7 @@ namespace UI.Popups
             
             SetText(
                 _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
-                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_" + _messageBoxData.Error.ToString().ToUpper()));
+                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_" + data.Error.ToString().ToUpper()));
         }
         
         protected override void Close()

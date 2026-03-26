@@ -347,8 +347,7 @@ namespace Game.Logic
                 Error = eventData.GameError
             };
             
-            var popup = await _ui.ShowPopupAsync<AdvicePopup>(AssetKey.AdvicePopup);
-            popup.SetWindowData(messageBoxData);
+            var popup = await _ui.ShowPopupAsync<AdvicePopup, MessageBoxData>(AssetKey.AdvicePopup, messageBoxData);
             
             _audioService?.PlaySfxAsync(AssetKey.sfx_popup_worning.ToString());
             

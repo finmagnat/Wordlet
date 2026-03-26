@@ -1,4 +1,3 @@
-using Core.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ namespace UI.Screens
         }
     }
 
-    public abstract class UIScreen<TPayload> : UIScreen, IUIElement<TPayload>
+    public abstract class UIScreen<TPayload> : UIScreen
     {
         public abstract UniTask PrepareAsync(TPayload payload);
     }

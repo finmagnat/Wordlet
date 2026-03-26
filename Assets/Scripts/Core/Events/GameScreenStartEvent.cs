@@ -5,7 +5,7 @@ namespace Core.Events
 {
     public class GameScreenStartEvent : IGameEvent
     {
-        public GameScreen Screen;
+        public GameScreenBase Screen;
         public GameOpponent Opponent;
     }
 }

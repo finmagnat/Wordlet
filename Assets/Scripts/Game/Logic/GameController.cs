@@ -38,7 +38,7 @@ namespace Game.Logic
         
         private WordsFieldManager _wordsFieldManager = new ();
         private AIGameController _ai = new ();
-        private GameScreen _gameScreen;
+        private GameScreenBase _gameScreen;
         private GameOpponent _gameOpponent;
         
         private bool _bStart; // Игра стартовала

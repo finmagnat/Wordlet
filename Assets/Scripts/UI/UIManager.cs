@@ -44,6 +44,9 @@ namespace Core.UI
             if (screen == null)
                 return null;
 
+            if (screen is IUIScreenPreparable preparableScreen)
+                await preparableScreen.PrepareAsync();
+
             await screen.ShowAsync();
             return screen;
         }

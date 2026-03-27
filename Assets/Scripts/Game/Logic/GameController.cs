@@ -70,6 +70,7 @@ namespace Game.Logic
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
             EventBus.Subscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
             EventBus.Subscribe<PlayerErrorEvent>(OnErrorPlayer);
+            EventBus.Subscribe<ModeBlinkEndEvent>(OnModeBlinkEnd); 
 
             EventBus.Subscribe<TimeExpiredEvent>(OnTimeExpired);
 
@@ -97,6 +98,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
             EventBus.Unsubscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
             EventBus.Unsubscribe<PlayerErrorEvent>(OnErrorPlayer);
+            EventBus.Unsubscribe<ModeBlinkEndEvent>(OnModeBlinkEnd); 
 
             EventBus.Unsubscribe<TimeExpiredEvent>(OnTimeExpired);
 
@@ -356,12 +358,21 @@ namespace Game.Logic
             switch(eventData.GameError)
             {
                 case GameError.SET_LETTER_NO_SELECTED:
+                    BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
+                    _gameScreen.CancelButton.SetActive(false);
+                    _gameScreen.GoButton.SetActive(false);
                     _wordsFieldManager.BlinkNoSelectedLetter();
                     break;
                 case GameError.WORD_ALREADY_BEEN:
                     Cancel();
                     break;
             }
+        }
+
+        private void OnModeBlinkEnd(ModeBlinkEndEvent eventData)
+        {
+            Cancel();
+            BlockUIAsync(false);
         }
         
         private void SaveWordAndContinueGame(string word)
@@ -484,6 +495,7 @@ namespace Game.Logic
             _gameScreen.TimerBar.StartTimer();
             if (_bModePlayOwner)
             {
+                BlockUIAsync(false);
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
                 _gameScreen.PauseButton.interactable = true;
                 _gameScreen.PassButton.interactable = true;
@@ -658,7 +670,6 @@ namespace Game.Logic
                 await ShowBoosterLetterFailAsync();
         }
 
-
         private void ShowBoosterLetterSuccess(string resWord)
         {
             _gameScreen.SetTextWord(resWord);
@@ -681,13 +692,13 @@ namespace Game.Logic
             _gameScreen.BoosterPanel.Refresh();
         }
 
-        private async UniTask BlockUIAsync(bool isBlocked)
+        private async UniTask BlockUIAsync(bool isBlocked, BlockUIScreenMode mode = BlockUIScreenMode.Default)
         {
             await _blockUiLock.WaitAsync();
             try
             {
                 if (isBlocked)
-                    await _ui.ShowScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
+                    await _ui.ShowBlockUIScreenAsync(AssetKey.BlockUIScreen, mode);
                 else
                     await _ui.HideScreenAsync<BlockUIScreen>(AssetKey.BlockUIScreen);
             }

@@ -16,5 +16,6 @@ namespace Core.UI
         UniTask<T> ShowPopupAsync<T, TPayload>(AssetKey assetKey, TPayload payload) where T : UIPopup<TPayload>;
         UniTask HidePopupAsync<T>() where T : UIPopup;
         UniTask HideAllPopupsAsync();
+        UniTask<BlockUIScreen> ShowBlockUIScreenAsync(AssetKey assetKey, BlockUIScreenMode mode);
     }
 }

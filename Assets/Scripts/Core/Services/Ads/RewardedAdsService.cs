@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Events;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Api;
 using UnityEngine;
@@ -16,36 +17,20 @@ namespace Core.Services
         [Inject] private IConfigService _configs;
         private AdsConfig Ads => _configs.Ads;
 
-        private bool _rewardGrantedThisAd;
-
         public event Action<RewardType> OnRewardEarned;
         public event Action<RewardType, bool> OnAvailabilityChanged;
         public event Action<RewardType, bool> OnShowingChanged;
         public event Action<RewardType> OnClosed;
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
 #if UNITY_ANDROID || UNITY_IOS
-            await InitializeMobileAdsAsync();
-
             EnsureLoaded(RewardType.Letter);
             EnsureLoaded(RewardType.Slowdown);
 #else
-            Debug.Log("[Ads] Skipping MobileAds init on this platform.");
+            Debug.Log("[Ads] Skipping rewarded init on this platform.");
 #endif
-        }
-
-        private static UniTask InitializeMobileAdsAsync()
-        {
-            var tcs = new UniTaskCompletionSource();
-
-            MobileAds.Initialize(_ =>
-            {
-                Debug.Log("[Ads] MobileAds initialized.");
-                tcs.TrySetResult();
-            });
-
-            return tcs.Task;
+            return UniTask.CompletedTask;
         }
 
         public bool IsReady(RewardType type)
@@ -56,8 +41,11 @@ namespace Core.Services
 
         public void EnsureLoaded(RewardType type)
         {
-            if (type == RewardType.None) return;
-            if (_loading.Contains(type)) return;
+            if (type == RewardType.None)
+                return;
+
+            if (_loading.Contains(type))
+                return;
 
             if (IsReady(type))
             {
@@ -70,7 +58,8 @@ namespace Core.Services
 
         public void ShowFor(RewardType rewardType)
         {
-            if (rewardType == RewardType.None) return;
+            if (rewardType == RewardType.None)
+                return;
 
             if (!IsReady(rewardType))
             {
@@ -86,7 +75,8 @@ namespace Core.Services
             if (!_ads.TryGetValue(rewardType, out var ad) || ad == null)
                 return;
 
-            _rewardGrantedThisAd = false;
+            bool rewardGranted = false;
+            var expectedRewardType = rewardType;
 
             _showing.Add(rewardType);
             OnShowingChanged?.Invoke(rewardType, true);
@@ -94,17 +84,32 @@ namespace Core.Services
 
             Debug.Log($"[Ads] Showing rewarded for: {rewardType}");
 
-            // Важно: используем локальную переменную expected, чтобы не словить “гонки”
-            var expected = rewardType;
+            EventBus.Raise(new AdsOverlayAcquireEvent());
 
-            ad.Show(reward =>
+            try
             {
-                if (_rewardGrantedThisAd) return;
-                _rewardGrantedThisAd = true;
+                ad.Show(reward =>
+                {
+                    if (rewardGranted)
+                        return;
 
-                Debug.Log($"[Ads] Reward earned. expected={expected}, adRewardType={reward?.Type}, adRewardAmount={reward?.Amount}");
-                OnRewardEarned?.Invoke(expected);
-            });
+                    rewardGranted = true;
+
+                    Debug.Log($"[Ads] Reward earned. expected={expectedRewardType}, adRewardType={reward?.Type}, adRewardAmount={reward?.Amount}");
+                    OnRewardEarned?.Invoke(expectedRewardType);
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[Ads] Failed to show rewarded for {rewardType}: {ex}");
+
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+
+                if (_showing.Remove(rewardType))
+                    OnShowingChanged?.Invoke(rewardType, false);
+
+                EnsureLoaded(rewardType);
+            }
         }
 
         private void LoadRewarded(RewardType type)
@@ -112,7 +117,7 @@ namespace Core.Services
             var adUnitId = Ads.GetRewardedId(type);
             if (string.IsNullOrEmpty(adUnitId))
             {
-                Debug.LogError($"[Ads] Missing ad unit id for {type} in AdsConfig");
+                Debug.LogError($"[Ads] Missing ad unit id for {type} in AdsConfig.");
                 return;
             }
 
@@ -152,21 +157,25 @@ namespace Core.Services
             {
                 Debug.Log($"[Ads] Rewarded closed for {type}. Reloading...");
 
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+
                 if (_showing.Remove(type))
                     OnShowingChanged?.Invoke(type, false);
 
                 OnClosed?.Invoke(type);
-                
                 EnsureLoaded(type);
             };
 
-            ad.OnAdFullScreenContentFailed += err =>
+            ad.OnAdFullScreenContentFailed += error =>
             {
-                Debug.LogWarning($"[Ads] Fullscreen failed for {type}: {err}");
+                Debug.LogWarning($"[Ads] Rewarded fullscreen failed for {type}: {error}");
+
+                EventBus.Raise(new AdsOverlayReleaseEvent());
 
                 if (_showing.Remove(type))
                     OnShowingChanged?.Invoke(type, false);
 
+                OnClosed?.Invoke(type);
                 EnsureLoaded(type);
             };
         }

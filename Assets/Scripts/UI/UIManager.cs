@@ -82,6 +82,11 @@ namespace Core.UI
                     await pair.Value.HideAsync();
             }
         }
+        
+        public UniTask<BlockUIScreen> ShowBlockUIScreenAsync(AssetKey assetKey, BlockUIScreenMode mode)
+        {
+            return ShowScreenAsync<BlockUIScreen, BlockUIScreenMode>(assetKey, mode);
+        }
 
         private async UniTask<T> GetOrLoadScreenAsync<T>(AssetKey assetKey) where T : UIScreen
         {

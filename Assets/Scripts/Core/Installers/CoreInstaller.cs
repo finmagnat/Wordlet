@@ -73,6 +73,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedLimitsService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<AdsBootstrapService>().AsSingle();
             
             Container.Bind<AdsEntitlementService>().AsSingle();
             Container.Bind<InterstitialAdsService>().AsSingle();

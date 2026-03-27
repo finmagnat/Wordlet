@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using Game.Logic;
 using UI.Components;
 
 namespace Game.AI
@@ -31,18 +29,13 @@ namespace Game.AI
 
         public static async UniTask<SearchResult> FindWordAsync(
             List<SelectableLetter> fieldItems,
-            WordsFieldManager wordsFieldManager,
             Func<int, IReadOnlyList<string>> getWordsOfLength,
             IEnumerable<int> lengthsToTryDesc,
             Func<bool> bCancelFunc,
             Func<string, bool> wordAlreadyUsed,
             int yieldEveryWordChecks = 250)
         {
-            var insertCells = new List<int>(fieldItems.Count);
-            for (int i = 0; i < fieldItems.Count; i++)
-                if (wordsFieldManager.TrySetLetter(i))
-                    insertCells.Add(i);
-
+            var insertCells = CollectInsertCandidates(fieldItems);
             if (insertCells.Count == 0)
                 return SearchResult.Fail();
 
@@ -59,13 +52,15 @@ namespace Game.AI
                     if (bCancelFunc())
                         return SearchResult.Fail();
 
-                    // ✅ периодически отдаём кадр, чтобы таймер не фризил
                     if (++checkedWords % yieldEveryWordChecks == 0)
                         await UniTask.Yield();
 
                     var word = raw.Trim().ToUpperInvariant();
-                    if (word.Length != len) continue;
-                    if (wordAlreadyUsed(word)) continue;
+                    if (word.Length != len)
+                        continue;
+
+                    if (wordAlreadyUsed(word))
+                        continue;
 
                     for (int mid = 0; mid < word.Length; mid++)
                     {
@@ -89,6 +84,36 @@ namespace Game.AI
             }
 
             return SearchResult.Fail();
+        }
+
+        private static List<int> CollectInsertCandidates(IReadOnlyList<SelectableLetter> fieldItems)
+        {
+            var result = new List<int>(fieldItems.Count);
+
+            for (int i = 0; i < fieldItems.Count; i++)
+            {
+                if (!fieldItems[i].Empty())
+                    continue;
+
+                if (HasNonEmptyNeighbor(i, fieldItems))
+                    result.Add(i);
+            }
+
+            return result;
+        }
+
+        private static bool HasNonEmptyNeighbor(int index, IReadOnlyList<SelectableLetter> fieldItems)
+        {
+            foreach (int n in GetNeighbors(index, fieldItems.Count))
+            {
+                if (!IsSameRowIfHorizontal(index, n))
+                    continue;
+
+                if (!fieldItems[n].Empty())
+                    return true;
+            }
+
+            return false;
         }
 
         private static bool BuildPart(
@@ -126,10 +151,14 @@ namespace Game.AI
                 if (used.Contains(n))
                     continue;
 
+                if (fieldItems[n].Empty())
+                    continue;
+
                 if (fieldItems[n].GetChar() != target)
                     continue;
 
                 used.Add(n);
+
                 if (Dfs(fieldItems, used, n, word, nextWordIndex + direction, direction))
                     return true;
 

@@ -23,26 +23,21 @@ namespace Core.Services
         public bool IsReady => _ad != null && _ad.CanShowAd();
         public bool IsShowing => _showing;
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
 #if UNITY_ANDROID || UNITY_IOS
-            await InitializeMobileAdsAsync();
             EnsureLoaded();
 #else
             Debug.Log("[Ads] Skipping interstitial init on this platform.");
 #endif
-        }
-
-        private static UniTask InitializeMobileAdsAsync()
-        {
-            var tcs = new UniTaskCompletionSource();
-            MobileAds.Initialize(_ => tcs.TrySetResult());
-            return tcs.Task;
+            return UniTask.CompletedTask;
         }
 
         public void EnsureLoaded()
         {
-            if (_loading) return;
+            if (_loading)
+                return;
+
             if (IsReady)
             {
                 OnAvailabilityChanged?.Invoke(true);
@@ -54,56 +49,74 @@ namespace Core.Services
 
         public void Show()
         {
-            if (!IsReady || _showing) 
+            if (!IsReady || _showing)
                 return;
 
             _showing = true;
             OnShowingChanged?.Invoke(true);
             OnAvailabilityChanged?.Invoke(false);
 
-            EventBus.Raise(new ShowAdsEvent(true));
-            _ad.Show();
+            EventBus.Raise(new AdsOverlayAcquireEvent());
+
+            try
+            {
+                _ad.Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[Ads] Failed to show interstitial: {ex}");
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+
+                _showing = false;
+                OnShowingChanged?.Invoke(false);
+                EnsureLoaded();
+            }
         }
 
-        public async UniTask<bool> ShowAndWaitAsync()
+        public async UniTask<AdShowResult> ShowAndWaitAsync(float timeoutSeconds = 30f)
         {
-            if (!IsReady || IsShowing)
-                return false;
+            if (!IsReady || _showing)
+                return AdShowResult.NotReady;
 
-            var tcs = new UniTaskCompletionSource();
+            var tcs = new UniTaskCompletionSource<AdShowResult>();
 
             void OnClosedHandler()
             {
-                EventBus.Raise(new ShowAdsEvent(false));
-                
                 OnClosed -= OnClosedHandler;
-                tcs.TrySetResult();
+                tcs.TrySetResult(AdShowResult.Completed);
             }
 
             OnClosed += OnClosedHandler;
 
             Show();
 
-            // Safety: чтобы не зависнуть навечно, если что-то пошло не так
-            // (обычно не нужно, но лучше пусть будет)
-            var completed = await UniTask.WhenAny(tcs.Task, UniTask.Delay(TimeSpan.FromSeconds(30), DelayType.UnscaledDeltaTime));
+            var whenAnyResult = await UniTask.WhenAny(
+                tcs.Task,
+                UniTask.Delay(TimeSpan.FromSeconds(timeoutSeconds), DelayType.UnscaledDeltaTime));
 
-            // если таймаут — отписываемся
-            if (completed != 0)
+            if (whenAnyResult.hasResultLeft)
             {
-                OnClosed -= OnClosedHandler;
-                return true; // реклама была показана (мы ее начали), но не дождались close — считаем как "показали"
+                return whenAnyResult.result;
             }
 
-            return true; // показали и дождались закрытия
+            OnClosed -= OnClosedHandler;
+
+            if (_showing)
+            {
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+                _showing = false;
+                OnShowingChanged?.Invoke(false);
+            }
+
+            return AdShowResult.Timeout;
         }
 
         private void Load()
         {
-            var adUnitId = Ads.InterstitialAd; // 👈 добавим в AdsConfig
+            var adUnitId = Ads.InterstitialAd;
             if (string.IsNullOrWhiteSpace(adUnitId))
             {
-                Debug.LogError("[Ads] InterstitialMain is empty in AdsConfig");
+                Debug.LogError("[Ads] Interstitial ad unit id is empty in AdsConfig.");
                 return;
             }
 
@@ -130,7 +143,7 @@ namespace Core.Services
                 _ad = ad;
                 Hook(ad);
 
-                Debug.Log("[Ads] Interstitial loaded");
+                Debug.Log("[Ads] Interstitial loaded.");
                 OnAvailabilityChanged?.Invoke(true);
             });
         }
@@ -139,9 +152,10 @@ namespace Core.Services
         {
             ad.OnAdFullScreenContentClosed += () =>
             {
-                Debug.Log($"[Ads] OnAdFullScreenContentClosed");
-                EventBus.Raise(new ShowAdsEvent(false));
-                
+                Debug.Log("[Ads] Interstitial closed.");
+
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+
                 _showing = false;
                 OnShowingChanged?.Invoke(false);
                 OnClosed?.Invoke();
@@ -149,13 +163,15 @@ namespace Core.Services
                 EnsureLoaded();
             };
 
-            ad.OnAdFullScreenContentFailed += err =>
+            ad.OnAdFullScreenContentFailed += error =>
             {
-                Debug.Log($"[Ads] OnAdFullScreenContentFailed...");
-                EventBus.Raise(new ShowAdsEvent(false));
-                
+                Debug.LogWarning($"[Ads] Interstitial fullscreen failed: {error}");
+
+                EventBus.Raise(new AdsOverlayReleaseEvent());
+
                 _showing = false;
                 OnShowingChanged?.Invoke(false);
+                OnClosed?.Invoke();
 
                 EnsureLoaded();
             };

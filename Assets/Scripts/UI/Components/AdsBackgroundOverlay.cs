@@ -1,42 +1,47 @@
 using Core.Events;
 using UnityEngine;
 
-namespace Core.UI.Components
+public class AdsBackgroundOverlay : MonoBehaviour
 {
-    [RequireComponent(typeof(CanvasGroup))]
-    public class AdsBackgroundOverlay : MonoBehaviour
+    [SerializeField] private CanvasGroup _overlay;
+
+    private int _locks;
+
+    private void Awake()
     {
-        [SerializeField] private CanvasGroup _overlay;
+        if (_overlay == null)
+            _overlay = GetComponent<CanvasGroup>();
+    }
 
-        private void Awake()
-        {
-            EventBus.Subscribe<ShowAdsEvent>(OnShowAdsEvent);
-            Hide();
-        }
-        
-        private void OnDestroy()
-        {
-            EventBus.Unsubscribe<ShowAdsEvent>(OnShowAdsEvent);
-        }
+    private void OnEnable()
+    {
+        EventBus.Subscribe<AdsOverlayAcquireEvent>(OnAcquire);
+        EventBus.Subscribe<AdsOverlayReleaseEvent>(OnRelease);
+    }
 
-        private void OnShowAdsEvent(ShowAdsEvent adsEvent)
-        {
-            if(adsEvent.IsShow)
-                Show();
-            else
-                Hide();
-        }
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe<AdsOverlayAcquireEvent>(OnAcquire);
+        EventBus.Unsubscribe<AdsOverlayReleaseEvent>(OnRelease);
+    }
 
-        public void Show()
-        {
-            _overlay.alpha = 1f;
-            _overlay.blocksRaycasts = true;
-        }
+    private void OnAcquire(AdsOverlayAcquireEvent _)
+    {
+        _locks++;
+        UpdateState();
+    }
 
-        public void Hide()
-        {
-            _overlay.alpha = 0f;
-            _overlay.blocksRaycasts = false;
-        }
+    private void OnRelease(AdsOverlayReleaseEvent _)
+    {
+        _locks = Mathf.Max(0, _locks - 1);
+        UpdateState();
+    }
+
+    private void UpdateState()
+    {
+        bool visible = _locks > 0;
+
+        _overlay.alpha = visible ? 1f : 0f;
+        _overlay.blocksRaycasts = visible;
     }
 }

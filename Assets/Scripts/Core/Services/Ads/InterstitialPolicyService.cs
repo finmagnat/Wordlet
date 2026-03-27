@@ -59,7 +59,9 @@ namespace Core.Services
             _lastShownTime = Time.realtimeSinceStartup;
 
             // показать и дождаться закрытия
-            return await _ads.ShowAndWaitAsync();
+            AdShowResult result = await _ads.ShowAndWaitAsync();
+
+            return result == AdShowResult.Completed;
         }
     }
 }

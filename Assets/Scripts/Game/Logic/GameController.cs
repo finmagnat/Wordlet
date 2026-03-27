@@ -359,6 +359,8 @@ namespace Game.Logic
             {
                 case GameError.SET_LETTER_NO_SELECTED:
                     BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
+                    _gameScreen.CancelButton.SetActive(false);
+                    _gameScreen.GoButton.SetActive(false);
                     _wordsFieldManager.BlinkNoSelectedLetter();
                     break;
                 case GameError.WORD_ALREADY_BEEN:
@@ -493,6 +495,7 @@ namespace Game.Logic
             _gameScreen.TimerBar.StartTimer();
             if (_bModePlayOwner)
             {
+                BlockUIAsync(false);
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
                 _gameScreen.PauseButton.interactable = true;
                 _gameScreen.PassButton.interactable = true;

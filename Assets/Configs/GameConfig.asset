@@ -31,6 +31,7 @@ MonoBehaviour:
   durationGameMaximum: 120
   gameOpponentByDefault: 1
   maxPassesByDefault: 2
+  pauseCooldownSeconds: 1
   complexityAiByDefault: 2
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
@@ -50,6 +51,7 @@ MonoBehaviour:
     IsRandomWordLength: 0
     MaxPasses: 1
   slowdownDelay: 30
+  autoApplyDelay: 2
   leaderboardTopN: 10
   scoreCacheSeconds: 15
   newWordsDailyLimit: 5

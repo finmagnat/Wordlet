@@ -34,6 +34,7 @@ namespace Core.Config
         public string unityAdsGameIdAndroid;
         public bool unityAdsTestMode = true;
 
+        
         [Header("GAMEPLAY")]
         [Tooltip("Версия игровой механики (влияет на пользовательскиие сейвы)")]
         public int version = 1;
@@ -55,6 +56,10 @@ namespace Core.Config
         [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
         public uint maxPassesByDefault = 2;
         
+        [Tooltip("Кулдаун между переключением паузы (секунды). 0 = выкл")]
+        public int pauseCooldownSeconds = 1;
+        
+        
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
@@ -65,11 +70,13 @@ namespace Core.Config
         public ComplexityAISettings GetComplexityAIItem(ComplexityAI сomplexityAI) =>
             _сomplexityAIList.Find(item => item.СomplexityAiLevel == сomplexityAI);
         
+        
         [Header("БУСТЕРЫ")]
         [Tooltip("Время замедления игрового таймера (секунды)")]
         public int slowdownDelay;
         [Tooltip("Время перед переходом хода, после найденного бустером слова (секунды)")]
         public float autoApplyDelay = 2;
+        
         
         [Header("LEADERBOARD")]
         [Tooltip("Сколько строк показывать в Top-N")]
@@ -77,6 +84,7 @@ namespace Core.Config
 
         [Tooltip("Кэш Score (секунды), чтобы не спамить PlayFab")]
         public int scoreCacheSeconds = 15;
+        
         
         [Header("NEW WORDS MODERATION")]
         [Tooltip("Максимум отправок новых слов в сутки. 0 = безлимит")]
@@ -90,5 +98,6 @@ namespace Core.Config
 
         [Tooltip("Максимальная длина нового слова для отправки")]
         public int newWordsMaxLength = 32;
+        
     }
 }

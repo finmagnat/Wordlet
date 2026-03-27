@@ -53,6 +53,7 @@ namespace Game.Logic
         private SaveGameData _saveGameData;
         private SaveGameData _saveGameDataRepeat;
         private bool _boosterProcessing;
+        private bool _pauseCooldown;
 
         public async UniTask InitializeAsync()
         {
@@ -234,7 +235,9 @@ namespace Game.Logic
         {
             if (!_bStart || !_bModePlayOwner || _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
                 return;
-
+            
+            PauseCooldownAsync();
+            
             _bPause = eventData.IsPaused;
 
             if (_bPause)
@@ -251,6 +254,13 @@ namespace Game.Logic
             _wordsFieldManager.ShowLetters(!_bPause);
 
             _audioService?.PlaySfxAsync(AssetKey.sfx_pause.ToString());
+        }
+
+        private async void PauseCooldownAsync()
+        {
+            _gameScreen.PauseButton.interactable = false;
+            await UniTask.WaitForSeconds(_configService.Game.pauseCooldownSeconds);
+            _gameScreen.PauseButton.interactable = true;
         }
 
         private async void OnGameGo(IGameEvent eventData)

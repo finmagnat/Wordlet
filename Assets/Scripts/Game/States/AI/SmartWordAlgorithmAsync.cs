@@ -14,7 +14,7 @@ namespace Game.AI
     public sealed class SmartWordAlgorithmAsync : IAIAlgorithmAsync
     {
         private static readonly Random _rng = new();
-        
+
         private bool _bCancel;
 
         public void Cancel() => _bCancel = true;
@@ -27,26 +27,21 @@ namespace Game.AI
             _bCancel = false;
 
             var items = wordsFieldManager.WordsFieldData.Items;
-            int boardMaxLen = items.Count; // 25
+            int boardMaxLen = items.Count;
             const int MinLength = 2;
 
             int lettersOnBoard = CountLettersOnBoard(items);
             int maxPossibleNow = Math.Min(boardMaxLen, lettersOnBoard + 1);
 
-            IEnumerable<int> lengthsToTry;
-            
             int start = Math.Min(maxPossibleNow, Math.Max(MinLength, (int)settings.MaxWordLength));
 
             if (settings.IsRandomWordLength)
                 start = _rng.Next(MinLength, start + 1);
 
-            lengthsToTry = Enumerable.Range(MinLength, start - MinLength + 1).Reverse();
-            
-            //Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] lengthsToTry[{lengthsToTry.Count()}] = {string.Join(", ", lengthsToTry.ToArray())}" );
+            IEnumerable<int> lengthsToTry = Enumerable.Range(MinLength, start - MinLength + 1).Reverse();
 
             var result = await WordSearchEngineAsync.FindWordAsync(
                 fieldItems: items,
-                wordsFieldManager: wordsFieldManager,
                 getWordsOfLength: dictionaryService.GetWordsOfLength,
                 lengthsToTryDesc: lengthsToTry,
                 bCancelFunc: () => _bCancel,
@@ -56,15 +51,16 @@ namespace Game.AI
             if (!result.Success)
                 return AIWordResult.Fail();
 
-            // Применяем ход (мы всё ещё на main thread, потому что UniTask.Yield)
+            // Меняем реальное поле только после успешного поиска
             items[result.InsertIndex].SetLetter(result.InsertChar.ToString());
+
             foreach (int idx in result.PathIndexes)
                 items[idx].Highlight();
-                
+
             wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
             wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
-            Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] Word [{result.Word.Count()}] = {result.Word}" );
+            Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] Word [{result.Word.Length}] = {result.Word}");
             return AIWordResult.Ok(result.Word);
         }
 
@@ -72,8 +68,11 @@ namespace Game.AI
         {
             int c = 0;
             for (int i = 0; i < items.Count; i++)
+            {
                 if (!items[i].Empty())
                     c++;
+            }
+
             return c;
         }
     }

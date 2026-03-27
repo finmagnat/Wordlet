@@ -139,6 +139,9 @@ namespace Core.Services
         {
             ad.OnAdFullScreenContentClosed += () =>
             {
+                Debug.Log($"[Ads] OnAdFullScreenContentClosed");
+                EventBus.Raise(new ShowAdsEvent(false));
+                
                 _showing = false;
                 OnShowingChanged?.Invoke(false);
                 OnClosed?.Invoke();
@@ -148,6 +151,9 @@ namespace Core.Services
 
             ad.OnAdFullScreenContentFailed += err =>
             {
+                Debug.Log($"[Ads] OnAdFullScreenContentFailed...");
+                EventBus.Raise(new ShowAdsEvent(false));
+                
                 _showing = false;
                 OnShowingChanged?.Invoke(false);
 

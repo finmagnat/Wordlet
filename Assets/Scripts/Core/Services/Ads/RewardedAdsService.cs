@@ -121,8 +121,7 @@ namespace Core.Services
 
             _loading.Add(type);
             OnAvailabilityChanged?.Invoke(type, false);
-            EventBus.Raise(new ShowAdsEvent(false));
-
+            
             if (_ads.TryGetValue(type, out var oldAd) && oldAd != null)
                 oldAd.Destroy();
 
@@ -155,6 +154,7 @@ namespace Core.Services
             ad.OnAdFullScreenContentClosed += () =>
             {
                 Debug.Log($"[Ads] Rewarded closed for {type}. Reloading...");
+                EventBus.Raise(new ShowAdsEvent(false));
 
                 if (_showing.Remove(type))
                     OnShowingChanged?.Invoke(type, false);
@@ -167,6 +167,7 @@ namespace Core.Services
             ad.OnAdFullScreenContentFailed += err =>
             {
                 Debug.LogWarning($"[Ads] Fullscreen failed for {type}: {err}");
+                EventBus.Raise(new ShowAdsEvent(false));
 
                 if (_showing.Remove(type))
                     OnShowingChanged?.Invoke(type, false);

@@ -411,6 +411,22 @@ MonoBehaviour:
     m_Key: POPUP_REWARD_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 49314910059249664
+    m_Key: New Entry 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49314920435957760
+    m_Key: POPUP_SKIP_TURN_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49315119388573696
+    m_Key: POPUP_SKIP_TURN_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49315230399217664
+    m_Key: POPUP_SKIP_TURN_LABEL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

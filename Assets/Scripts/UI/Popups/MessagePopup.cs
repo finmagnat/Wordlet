@@ -43,17 +43,17 @@ namespace UI.Popups
             }
         }
 
-        private void OnExitClicked()
+        protected virtual void OnExitClicked()
         {
             HandleButtonClick(PopupResult.Exit).Forget();
         }
 
-        private void OnCloseClicked()
+        protected virtual void OnCloseClicked()
         {
             HandleButtonClick(PopupResult.Close).Forget();
         }
 
-        private async UniTaskVoid HandleButtonClick(PopupResult result)
+        protected virtual async UniTaskVoid HandleButtonClick(PopupResult result)
         {
             await HideAsync();
             Close();

@@ -11,5 +11,6 @@ namespace Core.Data
         SaveAndExit,
         RemoveAndExit,
         GotoShop,
+        Confirm,
     }
 }

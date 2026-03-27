@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: f9a99e912e24fa24cb87d45a165a2035
   m_SerializeEntries:
+  - m_GUID: 0ae6901ed5ad6cf46affe2ba6a209792
+    m_Address: ConfirmPassPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0f2025cd1c2f44542a80b7f287097482
     m_Address: WinPopup
     m_ReadOnly: 0

@@ -463,6 +463,18 @@ MonoBehaviour:
     m_Localized: Your reward
     m_Metadata:
       m_Items: []
+  - m_Id: 49314920435957760
+    m_Localized: Skip Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49315119388573696
+    m_Localized: Want to skip a turn?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49315230399217664
+    m_Localized: Don't show again
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -404,6 +404,23 @@ namespace Game.Logic
         {
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
+
+            TryConfirmPass().Forget();
+        }
+
+        private async UniTask TryConfirmPass()
+        {
+            if (PlayerPrefs.GetInt(PlayerPrefsKey.ConfirmPassDontShowAgainKey, 0) == 0)
+            {
+                var popup = await _ui.ShowPopupAsync<ConfirmPassPopup, MessageBoxData>(AssetKey.ConfirmPassPopup, null);
+            
+                _audioService?.PlaySfxAsync(AssetKey.sfx_popup_question.ToString());
+            
+                var exitData = await popup.WaitForResultAsync();
+            
+                if(exitData.Result == PopupResult.Exit)
+                    return;
+            }
             
             _gameScreen.BoosterPanel.SlowdownStop();
             PassedGame();
@@ -427,7 +444,7 @@ namespace Game.Logic
         
         private void OnTimeExpired(IGameEvent eventData)
         {
-            _ai.AbortSearch();
+            _ai.AbortSearch(); // Для подстраховки (при использовании бустера таймер останавливается)
             
             _gameScreen.StatisticsPanel.HideAsync().Forget();
             _gameScreen.KeyboardPanel.HideAsync().Forget();

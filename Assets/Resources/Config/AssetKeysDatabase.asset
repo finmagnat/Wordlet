@@ -173,3 +173,5 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
+  - Id: ConfirmPassPopup
+    AddressKey: ConfirmPassPopup

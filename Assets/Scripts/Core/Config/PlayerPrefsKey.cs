@@ -9,5 +9,6 @@ namespace Core.Config
         public const string LocaleCurrent = "LocaleCurrent";
         public static string MasterVolume = "MasterVolume";
         public static string GyroKey = "settings.parallax.gyro";
+        public static string ConfirmPassDontShowAgainKey = "ConfirmPassDontShowAgain";
     }
 }

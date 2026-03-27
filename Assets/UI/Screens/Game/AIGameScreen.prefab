@@ -843,6 +843,8 @@ MonoBehaviour:
   _counterText: {fileID: 5875171121847148454}
   _useEmpty: 0
   _emptyGO: {fileID: 0}
+  _isAutoDisable: 1
+  _button: {fileID: 8062108772314899341}
 --- !u!1 &811507285888938867
 GameObject:
   m_ObjectHideFlags: 0
@@ -3817,6 +3819,8 @@ MonoBehaviour:
   _counterText: {fileID: 2342811627318880153}
   _useEmpty: 0
   _emptyGO: {fileID: 0}
+  _isAutoDisable: 1
+  _button: {fileID: 6791739785453805850}
   _overlayRadial: {fileID: 8505625866823130037}
   _cooldownCounterText: {fileID: 384570681566986065}
   _hideWhenFinished: 1
@@ -4441,8 +4445,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3606777345125138756}
-  - component: {fileID: 477262855574425321}
   - component: {fileID: 7963649431465419437}
+  - component: {fileID: 477262855574425321}
   m_Layer: 5
   m_Name: BoosterPanel
   m_TagString: Untagged
@@ -4471,20 +4475,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &477262855574425321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8075971840731905025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbe08d8e15754feaae72d9ea40198c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterPanel
-  boosterLetter: {fileID: 2225375689865973519}
-  boosterSlowdown: {fileID: 3165426903449849189}
 --- !u!114 &7963649431465419437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4511,6 +4501,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &477262855574425321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075971840731905025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe08d8e15754feaae72d9ea40198c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterPanel
+  boosterLetter: {fileID: 2225375689865973519}
+  boosterSlowdown: {fileID: 3165426903449849189}
 --- !u!1 &8201738996378773544
 GameObject:
   m_ObjectHideFlags: 0

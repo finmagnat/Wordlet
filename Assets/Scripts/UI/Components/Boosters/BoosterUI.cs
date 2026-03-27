@@ -1,6 +1,7 @@
 using Inventory;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Components
 {
@@ -12,6 +13,8 @@ namespace UI.Components
         [SerializeField] protected TextMeshProUGUI _counterText;
         [SerializeField] protected bool _useEmpty;
         [SerializeField] protected GameObject _emptyGO;
+        [SerializeField] protected bool _isAutoDisable;
+        [SerializeField] protected Button _button;
         
         protected BoosterType _boosterType;
         protected int _count;
@@ -24,6 +27,9 @@ namespace UI.Components
             _counterText.text = IsEmpty ? "0" : _count.ToString();
             if(_useEmpty)
                 _emptyGO.SetActive(IsEmpty);
+
+            if (_isAutoDisable)
+                _button.interactable = count > 0 ? true : false;
         }
 
         public virtual void ActivateBooster()

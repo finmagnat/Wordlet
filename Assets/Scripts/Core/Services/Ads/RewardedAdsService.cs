@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Events;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Api;
 using UnityEngine;
@@ -96,7 +97,9 @@ namespace Core.Services
 
             // Важно: используем локальную переменную expected, чтобы не словить “гонки”
             var expected = rewardType;
-
+            
+            EventBus.Raise(new ShowAdsEvent(true));
+            
             ad.Show(reward =>
             {
                 if (_rewardGrantedThisAd) return;
@@ -118,6 +121,7 @@ namespace Core.Services
 
             _loading.Add(type);
             OnAvailabilityChanged?.Invoke(type, false);
+            EventBus.Raise(new ShowAdsEvent(false));
 
             if (_ads.TryGetValue(type, out var oldAd) && oldAd != null)
                 oldAd.Destroy();

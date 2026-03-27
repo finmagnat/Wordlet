@@ -1,4 +1,5 @@
 using System;
+using Core.Events;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Api;
 using UnityEngine;
@@ -60,6 +61,7 @@ namespace Core.Services
             OnShowingChanged?.Invoke(true);
             OnAvailabilityChanged?.Invoke(false);
 
+            EventBus.Raise(new ShowAdsEvent(true));
             _ad.Show();
         }
 
@@ -72,6 +74,8 @@ namespace Core.Services
 
             void OnClosedHandler()
             {
+                EventBus.Raise(new ShowAdsEvent(false));
+                
                 OnClosed -= OnClosedHandler;
                 tcs.TrySetResult();
             }

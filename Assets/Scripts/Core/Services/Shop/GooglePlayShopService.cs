@@ -122,7 +122,7 @@ namespace Core.Services.Shop
                     return await PurchaseAsync(offer.ProductId);
 
                 case ShopOfferTypeDto.RewardedAd:
-                    // Показ рекламы; выдача награды у тебя делается RewardedBoosterGrantService по OnRewardEarned
+                    // Показ рекламы; выдача награды делается RewardedBoosterGrantService по OnRewardEarned
                     Debug.Log($"[ShopService] Execute rewarded: rewardType={offer.RewardType}");
                     _ads.ShowFor(offer.RewardType);
                     return PurchaseResult.Ok();

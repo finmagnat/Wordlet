@@ -68,6 +68,8 @@ namespace Core.Config
         [Header("БУСТЕРЫ")]
         [Tooltip("Время замедления игрового таймера (секунды)")]
         public int slowdownDelay;
+        [Tooltip("Время перед переходом хода, после найденного бустером слова (секунды)")]
+        public float autoApplyDelay = 2;
         
         [Header("LEADERBOARD")]
         [Tooltip("Сколько строк показывать в Top-N")]

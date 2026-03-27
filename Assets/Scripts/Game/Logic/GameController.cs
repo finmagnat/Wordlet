@@ -280,8 +280,6 @@ namespace Game.Logic
                 else
                 {
                     SaveWordAndContinueGame(word);
-                    _audioService?.PlaySfxAsync(AssetKey.sfx_i_made_move.ToString());
-                    _gameScreen.BoosterPanel.SlowdownStop();
                 }                
             }            
         }
@@ -377,6 +375,9 @@ namespace Game.Logic
         
         private void SaveWordAndContinueGame(string word)
         {
+            _gameScreen.BoosterPanel.SlowdownStop();
+            _audioService?.PlaySfxAsync(AssetKey.sfx_i_made_move.ToString());
+            
             _gameScreen.TimerBar.ResetTimer();
             if (_bModePlayOwner)
             {
@@ -659,15 +660,26 @@ namespace Game.Logic
         
         private async UniTask ActivateBoosterLetterAsync()
         {
+            _gameScreen.TimerBar.StopTimer();
+            
             Cancel(); // "очистить мусор"
 
             var boosterSettings = _configService.Game.GetComplexityAIItem(ComplexityAI.HARD);
             var res = await _ai.FindWordAsync(boosterSettings);
 
             if (res.Success)
+            {
                 ShowBoosterLetterSuccess(res.Word);
+                
+                await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
+                
+                SaveWordAndContinueGame(res.Word);
+            }
             else
+            {
                 await ShowBoosterLetterFailAsync();
+                _gameScreen.TimerBar.StartTimer();
+            }
         }
 
         private void ShowBoosterLetterSuccess(string resWord)
@@ -676,8 +688,9 @@ namespace Game.Logic
             _wordsFieldManager.SetModeSelect(true);
             _bLetterPut = true;
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_SUCCESS");
-            _gameScreen.CancelButton.SetActive(true);
-            _gameScreen.GoButton.SetActive(true);
+            
+            BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
+            
             _audioService?.PlaySfxAsync(AssetKey.sfx_letter_put_success.ToString());
         }
 

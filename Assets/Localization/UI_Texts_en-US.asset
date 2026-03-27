@@ -352,7 +352,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272
-    m_Localized: The Wordlet found a word. Click "Aplly".
+    m_Localized: The Wordlet found a word!
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728

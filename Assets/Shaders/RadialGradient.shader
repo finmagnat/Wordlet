@@ -2,6 +2,7 @@ Shader "Custom/RadialGradientURP"
 {
     Properties
     {
+        _MainTex ("Texture", 2D) = "white" {}
         _Center ("Center (UV)", Vector) = (0.5, 0.5, 0, 0)
         _ColorInner ("Inner Color", Color) = (1,1,1,1)
         _ColorOuter ("Outer Color", Color) = (0,0,0,1)

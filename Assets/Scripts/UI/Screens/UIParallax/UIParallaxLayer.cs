@@ -8,8 +8,9 @@ namespace UI.Parallax
         [SerializeField] private RectTransform _target;
 
         [Header("Parallax")]
-        [SerializeField] private Vector2 _movement = new(20f, 12f);
-        [SerializeField] private float _smoothTime = 0.2f;
+        [SerializeField] private Vector2 _movement = new(30f, 24f);
+        [SerializeField] private float _followSpeed = 10f;
+        [SerializeField] private bool _captureInitialPositionOnEnable = false;
 
         [Header("Idle Float")]
         [SerializeField] private bool _useIdleFloat = true;
@@ -17,29 +18,43 @@ namespace UI.Parallax
         [SerializeField] private Vector2 _idleFrequency = new(0.12f, 0.08f);
 
         private Vector2 _initialAnchoredPosition;
-        private Vector2 _velocity;
-        private Vector2 _parallaxOffset;
+        private Vector2 _currentOffset;
+        private Vector2 _targetOffset;
+        private bool _initialized;
 
         private void Awake()
         {
-            if (_target == null)
-                _target = transform as RectTransform;
+            EnsureTarget();
+            CaptureInitialPosition();
+        }
 
-            if (_target == null)
-            {
-                Debug.LogError($"[{nameof(UIParallaxLayer)}] RectTransform is missing on {name}", this);
-                enabled = false;
-                return;
-            }
+        private void OnEnable()
+        {
+            EnsureTarget();
 
-            _initialAnchoredPosition = _target.anchoredPosition;
+            if (_captureInitialPositionOnEnable)
+                CaptureInitialPosition();
+
+            _currentOffset = Vector2.zero;
+            _targetOffset = Vector2.zero;
+
+            if (_target != null)
+                _target.anchoredPosition = _initialAnchoredPosition;
+        }
+
+        public void SetOffset(Vector2 offset, bool instant = false)
+        {
+            _targetOffset = new Vector2(
+                offset.x * _movement.x,
+                offset.y * _movement.y);
+
+            if (instant)
+                _currentOffset = _targetOffset;
         }
 
         public void SetNormalizedOffset(Vector2 normalizedOffset)
         {
-            _parallaxOffset = new Vector2(
-                normalizedOffset.x * _movement.x,
-                normalizedOffset.y * _movement.y);
+            SetOffset(normalizedOffset, false);
         }
 
         public void ResetLayer()
@@ -47,15 +62,27 @@ namespace UI.Parallax
             if (_target == null)
                 return;
 
+            _currentOffset = Vector2.zero;
+            _targetOffset = Vector2.zero;
             _target.anchoredPosition = _initialAnchoredPosition;
-            _velocity = Vector2.zero;
-            _parallaxOffset = Vector2.zero;
+        }
+
+        public void CaptureInitialPosition()
+        {
+            if (_target == null)
+                return;
+
+            _initialAnchoredPosition = _target.anchoredPosition;
+            _initialized = true;
         }
 
         private void LateUpdate()
         {
-            if (_target == null)
+            if (_target == null || !_initialized)
                 return;
+
+            float t = 1f - Mathf.Exp(-_followSpeed * Time.unscaledDeltaTime);
+            _currentOffset = Vector2.Lerp(_currentOffset, _targetOffset, t);
 
             Vector2 idleOffset = Vector2.zero;
 
@@ -66,13 +93,19 @@ namespace UI.Parallax
                 idleOffset = new Vector2(x, y);
             }
 
-            Vector2 targetPosition = _initialAnchoredPosition + _parallaxOffset + idleOffset;
+            _target.anchoredPosition = _initialAnchoredPosition + _currentOffset + idleOffset;
+        }
 
-            _target.anchoredPosition = Vector2.SmoothDamp(
-                _target.anchoredPosition,
-                targetPosition,
-                ref _velocity,
-                _smoothTime);
+        private void EnsureTarget()
+        {
+            if (_target == null)
+                _target = transform as RectTransform;
+
+            if (_target == null)
+            {
+                Debug.LogError($"[{nameof(UIParallaxLayer)}] RectTransform is missing on {name}", this);
+                enabled = false;
+            }
         }
     }
 }

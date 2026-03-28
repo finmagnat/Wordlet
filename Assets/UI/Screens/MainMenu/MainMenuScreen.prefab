@@ -1314,7 +1314,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 8562536604701849584}
   _movement: {x: 2, y: 1}
-  _smoothTime: 0.35
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 0
   _idleAmplitude: {x: 6, y: 4}
   _idleFrequency: {x: 0.12, y: 0.08}
@@ -1386,7 +1387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 4251639460708424031}
   _movement: {x: 4, y: 2}
-  _smoothTime: 0.25
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 2, y: 2}
   _idleFrequency: {x: 0.15, y: 0.12}
@@ -1480,7 +1482,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 5028157464940326527}
   _movement: {x: 8, y: 4}
-  _smoothTime: 0.3
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 2, y: 1.5}
   _idleFrequency: {x: 0.08, y: 0.05}
@@ -1678,7 +1681,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 5659900335301169879}
   _movement: {x: 22, y: 12}
-  _smoothTime: 0.18
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 6, y: 3.5}
   _idleFrequency: {x: 0.12, y: 0.08}
@@ -2357,7 +2361,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 7413720974282560296}
   _movement: {x: 14, y: 8}
-  _smoothTime: 0.24
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 4, y: 2.5}
   _idleFrequency: {x: 0.1, y: 0.07}
@@ -2723,7 +2728,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 22470451997022671}
   _movement: {x: 8, y: 4}
-  _smoothTime: 0.2
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 2, y: 1.5}
   _idleFrequency: {x: 0.08, y: 0.05}
@@ -2937,7 +2943,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Parallax.UIParallaxLayer
   _target: {fileID: 6600202634031102832}
   _movement: {x: 20, y: 12}
-  _smoothTime: 0.2
+  _followSpeed: 10
+  _captureInitialPositionOnEnable: 0
   _useIdleFloat: 1
   _idleAmplitude: {x: 6, y: 4}
   _idleFrequency: {x: 0.12, y: 0.08}
@@ -4095,13 +4102,20 @@ MonoBehaviour:
   _mode: 1
   _invertX: 0
   _invertY: 0
+  _maxOffset: {x: 2.5, y: 2.5}
   _autoMotionAmplitude: {x: 0.35, y: 0.2}
   _autoMotionFrequency: {x: 0.05, y: 0.08}
-  _touchStrength: 1
+  _touchStrengthX: 1.5
+  _touchStrengthY: 2.25
+  _simulateGyroInEditor: 1
+  _editorMouseStrengthX: 1.5
+  _editorMouseStrengthY: 5
+  _editorGyroStrengthX: 0.75
+  _editorGyroStrengthY: 5
   _gyroStrengthX: 8
-  _gyroStrengthY: 8
-  _gyroSmoothing: 4
-  _gyroMultiplier: 3
+  _gyroStrengthY: 10
+  _gyroSmoothing: 6
+  _gyroMultiplier: 1.5
 --- !u!114 &8954045247379009217
 MonoBehaviour:
   m_ObjectHideFlags: 0

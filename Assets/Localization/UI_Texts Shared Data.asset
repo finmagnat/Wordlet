@@ -427,6 +427,10 @@ MonoBehaviour:
     m_Key: POPUP_SKIP_TURN_LABEL
     m_Metadata:
       m_Items: []
+  - m_Id: 49641347035316224
+    m_Key: POPUP_LABEL_BOOSTERS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

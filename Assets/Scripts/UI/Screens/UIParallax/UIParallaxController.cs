@@ -15,35 +15,108 @@ namespace UI.Parallax
         [SerializeField] private bool _invertX;
         [SerializeField] private bool _invertY;
 
+        [Header("Final Offset Clamp")]
+        [SerializeField] private Vector2 _maxOffset = new(2.5f, 2.5f);
+
         [Header("Auto Motion")]
         [SerializeField] private Vector2 _autoMotionAmplitude = new(0.35f, 0.20f);
         [SerializeField] private Vector2 _autoMotionFrequency = new(0.05f, 0.08f);
 
         [Header("Touch")]
-        [SerializeField] private float _touchStrength = 1f;
+        [SerializeField] private float _touchStrengthX = 1.5f;
+        [SerializeField] private float _touchStrengthY = 2.25f;
+
+        [Header("Editor Preview")]
+        [SerializeField] private bool _simulateGyroInEditor = true;
+        [SerializeField] private float _editorMouseStrengthX = 1.5f;
+        [SerializeField] private float _editorMouseStrengthY = 2.25f;
+        [SerializeField] private float _editorGyroStrengthX = 0.75f;
+        [SerializeField] private float _editorGyroStrengthY = 1.10f;
 
         [Header("Gyro")]
-        [SerializeField] private int _gyroStrengthX = 8;
-        [SerializeField] private int _gyroStrengthY = 8;
-        [SerializeField] private int _gyroSmoothing = 4;
-        [SerializeField] private float _gyroMultiplier = 3f;
+        [SerializeField] private float _gyroStrengthX = 8f;
+        [SerializeField] private float _gyroStrengthY = 10f;
+        [SerializeField] private float _gyroSmoothing = 6f;
+        [SerializeField] private float _gyroMultiplier = 1.5f;
 
-        public int GyroStrengthX
+        private Vector2 _gyroSmoothed;
+
+        public UIParallaxMode Mode
+        {
+            get => _mode;
+            set => _mode = value;
+        }
+
+        public float TouchStrengthX
+        {
+            get => _touchStrengthX;
+            set => _touchStrengthX = Mathf.Max(0f, value);
+        }
+
+        public float TouchStrengthY
+        {
+            get => _touchStrengthY;
+            set => _touchStrengthY = Mathf.Max(0f, value);
+        }
+
+        public bool SimulateGyroInEditor
+        {
+            get => _simulateGyroInEditor;
+            set => _simulateGyroInEditor = value;
+        }
+
+        public float EditorMouseStrengthX
+        {
+            get => _editorMouseStrengthX;
+            set => _editorMouseStrengthX = Mathf.Max(0f, value);
+        }
+
+        public float EditorMouseStrengthY
+        {
+            get => _editorMouseStrengthY;
+            set => _editorMouseStrengthY = Mathf.Max(0f, value);
+        }
+
+        public float EditorGyroStrengthX
+        {
+            get => _editorGyroStrengthX;
+            set => _editorGyroStrengthX = Mathf.Max(0f, value);
+        }
+
+        public float EditorGyroStrengthY
+        {
+            get => _editorGyroStrengthY;
+            set => _editorGyroStrengthY = Mathf.Max(0f, value);
+        }
+
+        public float GyroStrengthX
         {
             get => _gyroStrengthX;
-            set => _gyroStrengthX = Mathf.Max(0, value);
+            set => _gyroStrengthX = Mathf.Max(0f, value);
         }
 
-        public int GyroStrengthY
+        public float GyroStrengthY
         {
             get => _gyroStrengthY;
-            set => _gyroStrengthY = Mathf.Max(0, value);
+            set => _gyroStrengthY = Mathf.Max(0f, value);
         }
 
-        public int GyroSmoothing
+        public float GyroSmoothing
         {
             get => _gyroSmoothing;
-            set => _gyroSmoothing = Mathf.Max(1, value);
+            set => _gyroSmoothing = Mathf.Max(0.01f, value);
+        }
+
+        public float GyroMultiplier
+        {
+            get => _gyroMultiplier;
+            set => _gyroMultiplier = Mathf.Max(0f, value);
+        }
+
+        public Vector2 MaxOffset
+        {
+            get => _maxOffset;
+            set => _maxOffset = new Vector2(Mathf.Max(0f, value.x), Mathf.Max(0f, value.y));
         }
 
         public Vector2 AutoMotionAmplitude
@@ -72,14 +145,7 @@ namespace UI.Parallax
 
         public Vector2 DebugRawAcceleration => Input.acceleration;
         public Vector2 DebugGyroSmoothed => _gyroSmoothed;
-
-        private Vector2 _gyroSmoothed;
-
-        public UIParallaxMode Mode
-        {
-            get => _mode;
-            set => _mode = value;
-        }
+        public Vector2 DebugFinalOffset { get; private set; }
 
         private void Awake()
         {
@@ -96,16 +162,19 @@ namespace UI.Parallax
 
         private void OnEnable()
         {
-            ApplyOffset(Vector2.zero);
+            _gyroSmoothed = Vector2.zero;
+            DebugFinalOffset = Vector2.zero;
+            ApplyOffset(Vector2.zero, true);
         }
 
         private void Update()
         {
-            Vector2 normalizedOffset = GetNormalizedOffset();
-            ApplyOffset(normalizedOffset);
+            Vector2 offset = GetFinalOffset();
+            DebugFinalOffset = offset;
+            ApplyOffset(offset, false);
         }
 
-        private Vector2 GetNormalizedOffset()
+        private Vector2 GetFinalOffset()
         {
 #if UNITY_EDITOR || UNITY_STANDALONE
             return GetEditorOffset();
@@ -116,9 +185,16 @@ namespace UI.Parallax
 
         private Vector2 GetEditorOffset()
         {
-            Vector2 result = GetMouseOffset();
+            Vector2 result = GetMouseOffset(_editorMouseStrengthX, _editorMouseStrengthY);
+
+            if (_simulateGyroInEditor && _mode == UIParallaxMode.TouchAndGyro)
+            {
+                Vector2 simulatedGyro = GetMouseOffset(_editorGyroStrengthX, _editorGyroStrengthY);
+                result += simulatedGyro;
+            }
+
             result += GetAutoMotionOffset();
-            return Vector2.ClampMagnitude(result, 1f);
+            return ClampPerAxis(ApplyInvert(result));
         }
 
         private Vector2 GetMobileOffset()
@@ -129,11 +205,10 @@ namespace UI.Parallax
                 result += GetGyroOffset();
 
             result += GetAutoMotionOffset();
-
-            return Vector2.ClampMagnitude(result, 1f);
+            return ClampPerAxis(ApplyInvert(result));
         }
 
-        private Vector2 GetMouseOffset()
+        private Vector2 GetMouseOffset(float strengthX, float strengthY)
         {
             Vector2 screenCenter = new(Screen.width * 0.5f, Screen.height * 0.5f);
 
@@ -142,12 +217,9 @@ namespace UI.Parallax
 
             Vector2 delta = (Vector2)Input.mousePosition - screenCenter;
 
-            Vector2 normalized = new(
-                Mathf.Clamp(delta.x / screenCenter.x, -1f, 1f),
-                Mathf.Clamp(delta.y / screenCenter.y, -1f, 1f));
-
-            normalized *= _touchStrength;
-            return ApplyInvert(Vector2.ClampMagnitude(normalized, 1f));
+            return new Vector2(
+                (delta.x / screenCenter.x) * strengthX,
+                (delta.y / screenCenter.y) * strengthY);
         }
 
         private Vector2 GetTouchOffsetOrZero()
@@ -164,13 +236,9 @@ namespace UI.Parallax
 
             Vector2 delta = touch.position - screenCenter;
 
-            Vector2 normalized = new(
-                Mathf.Clamp(delta.x / screenCenter.x, -1f, 1f),
-                Mathf.Clamp(delta.y / screenCenter.y, -1f, 1f));
-
-            normalized *= _touchStrength;
-
-            return ApplyInvert(Vector2.ClampMagnitude(normalized, 1f));
+            return new Vector2(
+                (delta.x / screenCenter.x) * _touchStrengthX,
+                (delta.y / screenCenter.y) * _touchStrengthY);
         }
 
         private Vector2 GetGyroOffset()
@@ -184,21 +252,16 @@ namespace UI.Parallax
             _gyroSmoothed = Vector2.Lerp(
                 _gyroSmoothed,
                 raw,
-                Time.unscaledDeltaTime * Mathf.Max(0.01f, _gyroSmoothing));
+                Time.unscaledDeltaTime * _gyroSmoothing);
 
-            Vector2 result = ApplyInvert(_gyroSmoothed);
-            result *= _gyroMultiplier;
-
-            return Vector2.ClampMagnitude(result, 1f);
+            return _gyroSmoothed * _gyroMultiplier;
         }
 
         private Vector2 GetAutoMotionOffset()
         {
-            Vector2 autoOffset = new(
+            return new Vector2(
                 Mathf.Sin(Time.unscaledTime * Mathf.PI * 2f * _autoMotionFrequency.x) * _autoMotionAmplitude.x,
                 Mathf.Cos(Time.unscaledTime * Mathf.PI * 2f * _autoMotionFrequency.y) * _autoMotionAmplitude.y);
-
-            return ApplyInvert(autoOffset);
         }
 
         private Vector2 ApplyInvert(Vector2 value)
@@ -212,7 +275,14 @@ namespace UI.Parallax
             return value;
         }
 
-        private void ApplyOffset(Vector2 normalizedOffset)
+        private Vector2 ClampPerAxis(Vector2 value)
+        {
+            return new Vector2(
+                Mathf.Clamp(value.x, -_maxOffset.x, _maxOffset.x),
+                Mathf.Clamp(value.y, -_maxOffset.y, _maxOffset.y));
+        }
+
+        private void ApplyOffset(Vector2 offset, bool instant)
         {
             if (_layers == null)
                 return;
@@ -220,7 +290,19 @@ namespace UI.Parallax
             for (int i = 0; i < _layers.Length; i++)
             {
                 if (_layers[i] != null)
-                    _layers[i].SetNormalizedOffset(normalizedOffset);
+                    _layers[i].SetOffset(offset, instant);
+            }
+        }
+
+        public void ResetLayersToCurrentPosition()
+        {
+            if (_layers == null)
+                return;
+
+            for (int i = 0; i < _layers.Length; i++)
+            {
+                if (_layers[i] != null)
+                    _layers[i].ResetLayer();
             }
         }
 

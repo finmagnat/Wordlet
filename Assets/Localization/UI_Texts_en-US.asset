@@ -475,6 +475,10 @@ MonoBehaviour:
     m_Localized: Don't show again
     m_Metadata:
       m_Items: []
+  - m_Id: 49641347035316224
+    m_Localized: Boosters
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

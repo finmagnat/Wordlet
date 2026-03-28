@@ -25,9 +25,31 @@ namespace Core.DebugTools
         }
 
         [Category("Parallax")]
-        public int GyroStrengthX
+        public float TouchStrengthX
         {
-            get => _parallaxController != null ? _parallaxController.GyroStrengthX : 0;
+            get => _parallaxController != null ? _parallaxController.TouchStrengthX : 0f;
+            set
+            {
+                if (_parallaxController != null)
+                    _parallaxController.TouchStrengthX = value;
+            }
+        }
+
+        [Category("Parallax")]
+        public float TouchStrengthY
+        {
+            get => _parallaxController != null ? _parallaxController.TouchStrengthY : 0f;
+            set
+            {
+                if (_parallaxController != null)
+                    _parallaxController.TouchStrengthY = value;
+            }
+        }
+
+        [Category("Parallax")]
+        public float GyroStrengthX
+        {
+            get => _parallaxController != null ? _parallaxController.GyroStrengthX : 0f;
             set
             {
                 if (_parallaxController != null)
@@ -36,9 +58,9 @@ namespace Core.DebugTools
         }
 
         [Category("Parallax")]
-        public int GyroStrengthY
+        public float GyroStrengthY
         {
-            get => _parallaxController != null ? _parallaxController.GyroStrengthY : 0;
+            get => _parallaxController != null ? _parallaxController.GyroStrengthY : 0f;
             set
             {
                 if (_parallaxController != null)
@@ -47,13 +69,35 @@ namespace Core.DebugTools
         }
 
         [Category("Parallax")]
-        public int GyroSmoothing
+        public float GyroSmoothing
         {
-            get => _parallaxController != null ? _parallaxController.GyroSmoothing : 0;
+            get => _parallaxController != null ? _parallaxController.GyroSmoothing : 0f;
             set
             {
                 if (_parallaxController != null)
                     _parallaxController.GyroSmoothing = value;
+            }
+        }
+
+        [Category("Parallax")]
+        public float GyroMultiplier
+        {
+            get => _parallaxController != null ? _parallaxController.GyroMultiplier : 0f;
+            set
+            {
+                if (_parallaxController != null)
+                    _parallaxController.GyroMultiplier = value;
+            }
+        }
+
+        [Category("Parallax")]
+        public bool SimulateGyroInEditor
+        {
+            get => _parallaxController != null && _parallaxController.SimulateGyroInEditor;
+            set
+            {
+                if (_parallaxController != null)
+                    _parallaxController.SimulateGyroInEditor = value;
             }
         }
 
@@ -101,11 +145,25 @@ namespace Core.DebugTools
             }
         }
 
+        [Category("Parallax Debug")]
+        public string FinalOffset
+        {
+            get
+            {
+                if (_parallaxController == null) return "N/A";
+                Vector2 a = _parallaxController.DebugFinalOffset;
+                return $"x={a.x:F3}, y={a.y:F3}";
+            }
+        }
+
         [Category("Parallax Actions")]
         public void SetTouchPreset()
         {
             if (_parallaxController == null) return;
+
             _parallaxController.Mode = UIParallaxMode.Touch;
+            _parallaxController.TouchStrengthX = 1.5f;
+            _parallaxController.TouchStrengthY = 2.25f;
         }
 
         [Category("Parallax Actions")]
@@ -114,9 +172,18 @@ namespace Core.DebugTools
             if (_parallaxController == null) return;
 
             _parallaxController.Mode = UIParallaxMode.TouchAndGyro;
-            _parallaxController.GyroStrengthX = 8;
-            _parallaxController.GyroStrengthY = 8;
-            _parallaxController.GyroSmoothing = 4;
+            _parallaxController.TouchStrengthX = 1.5f;
+            _parallaxController.TouchStrengthY = 2.25f;
+            _parallaxController.GyroStrengthX = 8f;
+            _parallaxController.GyroStrengthY = 10f;
+            _parallaxController.GyroSmoothing = 6f;
+            _parallaxController.GyroMultiplier = 1.5f;
+        }
+
+        [Category("Parallax Actions")]
+        public void ResetLayers()
+        {
+            _parallaxController?.ResetLayersToCurrentPosition();
         }
     }
 }

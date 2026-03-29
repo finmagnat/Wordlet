@@ -62,6 +62,8 @@ namespace Core.Generated
         sfx_popup_question,
         sfx_letter_selected,
         sfx_letter_put_success,
+        sfx_button_click,
+        ConfirmPassPopup,
         WinPopup,
         NoInternetPopup,
         AIGameExitPopup,
@@ -82,6 +84,5 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        ConfirmPassPopup,
     }
 }

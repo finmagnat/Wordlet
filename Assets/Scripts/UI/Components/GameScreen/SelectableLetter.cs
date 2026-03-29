@@ -1,3 +1,4 @@
+using Core.Config;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
@@ -195,13 +196,13 @@ namespace UI.Components
             if (_isIlluminated)
             {
                 _mainBackground.sprite = _skin.cellBackgroundFilled;
-                _audioService?.PlaySfxAsync(AssetKey.sfx_letter_unblinking.ToString());
+                _audioService?.PlaySfxAsync(SoundsConfig.LetterUnblinking);
             }
             else
             {
                 ++_blinkCounter;
                 _mainBackground.sprite = _skin.selectedCell;
-                _audioService?.PlaySfxAsync(AssetKey.sfx_letter_blinking.ToString());
+                _audioService?.PlaySfxAsync(SoundsConfig.LetterBlinking);
             }
         }
 

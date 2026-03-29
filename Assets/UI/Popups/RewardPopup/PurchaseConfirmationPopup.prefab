@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5177110523371478035}
   - component: {fileID: 1688941740878156800}
   - component: {fileID: 2185012241161707539}
+  - component: {fileID: 226089641590004777}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -133,6 +134,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &226089641590004777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029473534207226732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &1525540886139725483
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,6 +985,7 @@ GameObject:
   - component: {fileID: 2608240612889498404}
   - component: {fileID: 978225558595901462}
   - component: {fileID: 4971403538658942245}
+  - component: {fileID: 2900621350649300701}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1091,6 +1106,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2900621350649300701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524344340821210704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &6204864532673501953
 GameObject:
   m_ObjectHideFlags: 0

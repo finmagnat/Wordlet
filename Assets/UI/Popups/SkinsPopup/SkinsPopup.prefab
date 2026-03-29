@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4248085165408796650}
   - component: {fileID: 3455548095698269437}
   - component: {fileID: 6298279850170821198}
+  - component: {fileID: 554550691980183899}
   m_Layer: 5
   m_Name: ApplyButton
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &554550691980183899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196883803950918540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &2069035489086887993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,6 +1309,7 @@ GameObject:
   - component: {fileID: 5799070844519536040}
   - component: {fileID: 8412625002697181102}
   - component: {fileID: 3543737012935828881}
+  - component: {fileID: 5741847231439726144}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1403,3 +1418,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5741847231439726144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130444198880009772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60

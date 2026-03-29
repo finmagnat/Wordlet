@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a254f59d088a447496fbf238e641c966, type: 3}
   m_Name: SoundsConfig
   m_EditorClassIdentifier: Assembly-CSharp::Core.Config.SoundsConfig
-  _1: "\u041F\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u043E\u043A\u043B\u0438\u043F
+  _: "\u041F\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u043E\u043A\u043B\u0438\u043F
     \u0432 \u043F\u043E\u043B\u0435 Clip. \u0417\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C
     \u043F\u043B\u0435\u0439\u043C\u043E\u0434 \u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C
     \u0437\u0432\u0443\u043A \u0432 \u0438\u0433\u0440\u0435. \u041F\u043E\u0441\u043B\u0435
@@ -23,11 +23,11 @@ MonoBehaviour:
   _sounds:
   - Key: sfx_start_new_game
     Description: "\u0421\u0442\u0430\u0440\u0442 \u0438\u0433\u0440\u044B"
-    Clip: {fileID: 8300000, guid: 9bffa52c537e3e64292e9a9649919005, type: 3}
+    Clip: {fileID: 8300000, guid: 326e60cb82567b24f96c0b220aa1f08e, type: 3}
   - Key: sfx_letter_put_success
     Description: "\u0411\u0443\u043A\u0432\u0430 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"
-    Clip: {fileID: 8300000, guid: fd218ff936ac8ad4196abffc64e531e3, type: 3}
+    Clip: {fileID: 8300000, guid: 638428e88c3dda54381053feab50a071, type: 3}
   - Key: sfx_letter_selected
     Description: "\u0411\u0443\u043A\u0432\u0430 \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"
@@ -43,39 +43,39 @@ MonoBehaviour:
   - Key: sfx_i_made_move
     Description: "\u0418\u0433\u0440\u043E\u043A \u0441\u0434\u0435\u043B\u0430\u043B
       \u0445\u043E\u0434"
-    Clip: {fileID: 8300000, guid: 2b465d3ab646e9e4cbd517881d21702a, type: 3}
+    Clip: {fileID: 8300000, guid: 638428e88c3dda54381053feab50a071, type: 3}
   - Key: sfx_opponent_made_move
     Description: "\u041E\u043F\u043F\u043E\u043D\u0435\u043D\u0442 \u0441\u0434\u0435\u043B\u0430\u043B
       \u0445\u043E\u0434"
-    Clip: {fileID: 8300000, guid: 6b742407b93aef64dbb0715b77a1c9a1, type: 3}
+    Clip: {fileID: 8300000, guid: fd4a94ed2671c8b4ea61ea38617ecaa5, type: 3}
   - Key: sfx_opponent_won
     Description: "\u0412\u044B\u0438\u0433\u0440\u0430\u043B \u043E\u043F\u043F\u043E\u043D\u0435\u043D\u0442"
-    Clip: {fileID: 8300000, guid: b32a09fda3401b14db292f30d32f2ccb, type: 3}
+    Clip: {fileID: 8300000, guid: 6dda6b3d41d00874084750a92a39bfa5, type: 3}
   - Key: sfx_popup_question
     Description: "\u041F\u043E\u043F\u0430\u043F \u0441 \u0432\u043E\u043F\u0440\u043E\u0441\u043E\u043C"
-    Clip: {fileID: 8300000, guid: f437bbc8bab55aa46b71eea840857f7e, type: 3}
+    Clip: {fileID: 8300000, guid: fe291c33f82e69f4b8ddb3acec1d154a, type: 3}
   - Key: sfx_popup_worning
     Description: "\u041E\u0442\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435
       \u043F\u043E\u043F\u0430\u043F\u0430 '\u0421\u043E\u0432\u0435\u0442'"
-    Clip: {fileID: 8300000, guid: 1a19bfcb70975d744a1ab0d7d65d9a52, type: 3}
+    Clip: {fileID: 8300000, guid: fe291c33f82e69f4b8ddb3acec1d154a, type: 3}
   - Key: sfx_opponent_find_word_fail
     Description: "\u041E\u043F\u043F\u043E\u043D\u0435\u043D\u0442 \u043D\u0435 \u043D\u0430\u0448\u0435\u043B
       \u0431\u0443\u043A\u0432\u0443 \u0438 \u0432\u0440\u0435\u043C\u044F \u0432\u044B\u0448\u043B\u043E
       (\u043F\u0440\u043E\u043F\u0443\u0441\u043A \u0445\u043E\u0434\u0430)"
-    Clip: {fileID: 8300000, guid: 4ec98a4fa3df8ef4181cdcc442ea5252, type: 3}
+    Clip: {fileID: 8300000, guid: fe291c33f82e69f4b8ddb3acec1d154a, type: 3}
   - Key: sfx_pause
     Description: " \u041F\u0430\u0443\u0437\u0430 (\u043A\u0432\u043B/\u0432\u044B\u043A\u043B)"
-    Clip: {fileID: 8300000, guid: 7a6dd654deed0d348ba8122c040bdcb6, type: 3}
+    Clip: {fileID: 8300000, guid: 638428e88c3dda54381053feab50a071, type: 3}
   - Key: sfx_pass
     Description: "\u0418\u0433\u0440\u043E\u043A \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u043B
       \u0445\u043E\u0434"
-    Clip: {fileID: 8300000, guid: bc8f1613676744744b1c64533559daf6, type: 3}
+    Clip: {fileID: 8300000, guid: dcd51ffe18b01d64aa01324f239c026f, type: 3}
   - Key: sfx_draw
     Description: "\u041D\u0438\u0447\u044C\u044F"
-    Clip: {fileID: 8300000, guid: 748cb897c513e6145ae26420ab5352f1, type: 3}
+    Clip: {fileID: 8300000, guid: f4f1beeb9e497714b9769e7148d1e5bc, type: 3}
   - Key: sfx_i_won
     Description: "\u0412\u044B\u0438\u0433\u0440\u0430\u043B \u0438\u0433\u0440\u043E\u043A"
-    Clip: {fileID: 8300000, guid: 0aa6761b18d72dc4fabe232481f71897, type: 3}
+    Clip: {fileID: 8300000, guid: 6dda6b3d41d00874084750a92a39bfa5, type: 3}
   - Key: sfx_skin_changed
     Description: "\u0421\u043A\u0438\u043D \u0438\u0437\u043C\u0435\u043D\u0438\u043B\u0441\u044F"
-    Clip: {fileID: 8300000, guid: 6dcad925d328fd04dbc06b11911918aa, type: 3}
+    Clip: {fileID: 8300000, guid: dcd51ffe18b01d64aa01324f239c026f, type: 3}

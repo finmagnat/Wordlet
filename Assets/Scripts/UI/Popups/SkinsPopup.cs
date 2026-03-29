@@ -46,7 +46,7 @@ namespace UI.Popups
             if (_skinsService.SkinCurrent.SkinType != _newSkin)
             {
                 _skinsService.SaveSkinCurrent(_newSkin);
-                _audioService?.PlaySfxAsync(AssetKey.sfx_skin_changed.ToString());
+                _audioService?.PlaySfxAsync(SoundsConfig.SkinChanged);
                 //Dictionary<string, string> paramDictionary = new() { { Constants.Type, _newSkin.ToString() } };
                 //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
             }

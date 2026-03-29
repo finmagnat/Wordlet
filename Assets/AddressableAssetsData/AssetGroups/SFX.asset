@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22380813ac0ba0e4db7508649d46820e
+    m_Address: sfx_booster_slowdown_launch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 22e2840f6f626ef468f6c7ceebc011d1
     m_Address: sfx_rezo_shape
     m_ReadOnly: 0
@@ -75,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bfdc399884531643a278637261c81ca
+    m_Address: sfx_booster_found_word
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 834652473ee1ece47a363bc9e94bdf38
     m_Address: sfx_jungl15
     m_ReadOnly: 0
@@ -107,6 +119,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cae765fcee0d5d343b2feaebbbee85b7
     m_Address: sfx_start_new_game
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9708b31b1bd7f345ab08e33dff0e3ed
+    m_Address: sfx_booster_not_found_word
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

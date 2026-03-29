@@ -117,10 +117,14 @@ MonoBehaviour:
     AddressKey: sfx_draw
   - Id: sfx_pause
     AddressKey: sfx_pause
+  - Id: sfx_booster_found_word
+    AddressKey: sfx_booster_found_word
   - Id: sfx_jungl15
     AddressKey: sfx_jungl15
   - Id: sfx_letter_blinking
     AddressKey: sfx_letter_blinking
+  - Id: sfx_button_click
+    AddressKey: sfx_button_click
   - Id: sfx_opponent_won
     AddressKey: sfx_opponent_won
   - Id: sfx_pass
@@ -133,8 +137,10 @@ MonoBehaviour:
     AddressKey: sfx_letter_selected
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
-  - Id: sfx_button_click
-    AddressKey: sfx_button_click
+  - Id: sfx_booster_not_found_word
+    AddressKey: sfx_booster_not_found_word
+  - Id: sfx_booster_slowdown_launch
+    AddressKey: sfx_booster_slowdown_launch
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup

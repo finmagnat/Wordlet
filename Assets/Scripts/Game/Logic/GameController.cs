@@ -719,12 +719,13 @@ namespace Game.Logic
             
             BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
             
-            _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
         }
 
         private async UniTask ShowBoosterLetterFailAsync()
         {
             _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterNotFoundWord);
 
             // серверный возврат
             await _inventorySync.GrantBoosterAsync(BoosterType.Letter, 1);
@@ -756,6 +757,7 @@ namespace Game.Logic
             
             _gameScreen.TimerBar.StopTimer();
             _gameScreen.BoosterPanel.SlowdownStart();
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
             
             await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);
             

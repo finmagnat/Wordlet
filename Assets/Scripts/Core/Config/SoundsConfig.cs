@@ -25,6 +25,9 @@ namespace Core.Config
         public static string IWon => AssetKey.sfx_i_won.ToString();
         public static string SkinChanged => AssetKey.sfx_skin_changed.ToString();
         public static string ButtonClick => AssetKey.sfx_button_click.ToString();
+        public static string BoosterFoundWord => AssetKey.sfx_booster_found_word.ToString();
+        public static string BoosterNotFoundWord => AssetKey.sfx_booster_not_found_word.ToString();
+        public static string BoosterSlowdownLaunch => AssetKey.sfx_booster_slowdown_launch.ToString();
        
         
         [TextArea]
@@ -51,6 +54,9 @@ namespace Core.Config
             new SoundData{ Key = IWon, Description = "Выиграл игрок" },
             new SoundData{ Key = SkinChanged, Description = "Скин изменился" },
             new SoundData{ Key = ButtonClick, Description = "Клик по кнопке" },
+            new SoundData{ Key = BoosterFoundWord, Description = "Бустер 'Буковка' нашел слово" },
+            new SoundData{ Key = BoosterNotFoundWord, Description = "Бустер 'Буковка' не нашел слово" },
+            new SoundData{ Key = BoosterSlowdownLaunch, Description = "Запуск бустера 'Замедление'" },
         };
 
         

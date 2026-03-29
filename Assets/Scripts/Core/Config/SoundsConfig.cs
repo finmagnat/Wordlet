@@ -31,6 +31,7 @@ namespace Core.Config
             new SoundData{ Key = AssetKey.sfx_draw.ToString(), Description = "Ничья" },
             new SoundData{ Key = AssetKey.sfx_i_won.ToString(), Description = "Выиграл игрок" },
             new SoundData{ Key = AssetKey.sfx_skin_changed.ToString(), Description = "Скин изменился" },
+            new SoundData{ Key = AssetKey.sfx_button_click.ToString(), Description = "Клик по кнопке" },
         };
     }
     

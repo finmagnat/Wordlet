@@ -325,6 +325,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
             
+            _audioService?.PlaySfxAsync(AssetKey.sfx_button_click.ToString());
             _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
         

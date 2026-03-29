@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 3184606271429573311}
   - component: {fileID: 1369192508305927432}
   - component: {fileID: 5313690142284854033}
+  - component: {fileID: 8405958934560548032}
   m_Layer: 5
   m_Name: SkinButton
   m_TagString: Untagged
@@ -217,6 +218,19 @@ MonoBehaviour:
   anActiveColor: {r: 1, g: 1, b: 1, a: 1}
   button: {fileID: 1369192508305927432}
   _skinType: 1
+--- !u!114 &8405958934560548032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8215302906832628294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &8639027761751871417
 GameObject:
   m_ObjectHideFlags: 0

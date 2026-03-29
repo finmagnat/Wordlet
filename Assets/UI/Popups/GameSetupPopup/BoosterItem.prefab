@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5426219534993665813}
   - component: {fileID: 7472126660181135010}
   - component: {fileID: 3504477900878312640}
+  - component: {fileID: 333428716564033824}
   m_Layer: 5
   m_Name: BoosterItem
   m_TagString: Untagged
@@ -227,6 +228,21 @@ MonoBehaviour:
   _counterText: {fileID: 7140039522571800933}
   _useEmpty: 1
   _emptyGO: {fileID: 2869394293796158886}
+  _isAutoDisable: 0
+  _button: {fileID: 0}
+--- !u!114 &333428716564033824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708022725743987599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &6724598228236776574
 GameObject:
   m_ObjectHideFlags: 0

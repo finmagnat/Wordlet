@@ -28,6 +28,7 @@ namespace UI.Popups
         [Inject] private AudioService _audioService;
         [Inject] private PlayFabAuthService _playFabAuthService;
         [Inject] private ConfigService _configService;
+        [Inject] private DiContainer _container;
         
         private readonly Dictionary<string, LanguageButton> _buttons = new ();
         private Locale _newLanguage;
@@ -45,7 +46,7 @@ namespace UI.Popups
                 var locales = _localization.GetAvailableLocales();
                 foreach (var locale in locales)
                 {
-                    LanguageButton languageButton = Instantiate(_languageButtonPrefab, _content.transform, false);
+                    LanguageButton languageButton = _container.InstantiatePrefabForComponent<LanguageButton>(_languageButtonPrefab, _content.transform);
                     languageButton.language = locale.Identifier.Code;
                     languageButton.SetText(locale.LocaleName);
                     languageButton.button.onClick.AddListener(() =>

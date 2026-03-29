@@ -917,6 +917,7 @@ GameObject:
   - component: {fileID: 7962267321120205464}
   - component: {fileID: 7864922132713946020}
   - component: {fileID: 7014033344183888498}
+  - component: {fileID: 7970975293765591974}
   m_Layer: 5
   m_Name: GyroParallax
   m_TagString: Untagged
@@ -1066,6 +1067,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7970975293765591974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967923537440094219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &1003115048739642750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,6 +1760,7 @@ GameObject:
   - component: {fileID: 721868715325375001}
   - component: {fileID: 1272044439649699960}
   - component: {fileID: 955002232248384963}
+  - component: {fileID: 3644224159910168162}
   m_Layer: 5
   m_Name: Privacy
   m_TagString: Untagged
@@ -1895,6 +1910,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &3644224159910168162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372714634826611653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &2497716121283343144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,6 +2338,7 @@ GameObject:
   - component: {fileID: 1340858752546245391}
   - component: {fileID: 8241968739836522344}
   - component: {fileID: 7241578346357590224}
+  - component: {fileID: 1649476020039445915}
   m_Layer: 5
   m_Name: Support
   m_TagString: Untagged
@@ -2459,6 +2488,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1649476020039445915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547413259031459621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &4080663069726379283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,6 +2651,7 @@ GameObject:
   - component: {fileID: 6770638238409425469}
   - component: {fileID: 5114462920236255717}
   - component: {fileID: 4381528645447988267}
+  - component: {fileID: 223521005886593481}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -2749,6 +2792,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &223521005886593481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101179366276133656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &4167433008657680004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,6 +3456,7 @@ GameObject:
   - component: {fileID: 4893558051121079988}
   - component: {fileID: 7137707866463256492}
   - component: {fileID: 5450656591853905420}
+  - component: {fileID: 7301683505047818000}
   m_Layer: 5
   m_Name: Sounds
   m_TagString: Untagged
@@ -3549,6 +3606,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7301683505047818000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074248426304681451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &5146765230449088426
 GameObject:
   m_ObjectHideFlags: 0
@@ -5495,6 +5565,7 @@ GameObject:
   - component: {fileID: 3576933014971547913}
   - component: {fileID: 7618593826560580345}
   - component: {fileID: 5701954655815245352}
+  - component: {fileID: 147291008013958953}
   m_Layer: 5
   m_Name: Terms
   m_TagString: Untagged
@@ -5644,6 +5715,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &147291008013958953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8541869145731147757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
+  _sfxAssetKey: 60
 --- !u!1 &8647952568541656998
 GameObject:
   m_ObjectHideFlags: 0

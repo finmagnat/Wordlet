@@ -133,6 +133,10 @@ MonoBehaviour:
     AddressKey: sfx_letter_selected
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_button_click
+    AddressKey: sfx_button_click
+  - Id: ConfirmPassPopup
+    AddressKey: ConfirmPassPopup
   - Id: WinPopup
     AddressKey: WinPopup
   - Id: NoInternetPopup
@@ -173,5 +177,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: ConfirmPassPopup
-    AddressKey: ConfirmPassPopup

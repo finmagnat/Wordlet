@@ -20,6 +20,7 @@ namespace UI.Popups
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private AudioService _audioService;
+        [Inject] private DiContainer _container;
         
         private readonly List<SkinButton> _buttons = new();
 
@@ -59,7 +60,7 @@ namespace UI.Popups
                 foreach (var skinItem in _skinsService.Config.Skins)
                 {
                     var spritePreview = await _spritesService.GetSpriteAsync(skinItem.MainBackgroundAlias);
-                    SkinButton skinButton = Instantiate(_buttonPrefab, _scrollListContent, false);
+                    SkinButton skinButton = _container.InstantiatePrefabForComponent<SkinButton>(_buttonPrefab, _scrollListContent);
                     skinButton.SetSkinData(spritePreview, skinItem.SkinType);
                     skinButton.button.onClick.AddListener(() =>
                     {

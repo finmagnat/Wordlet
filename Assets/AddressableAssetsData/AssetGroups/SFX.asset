@@ -87,6 +87,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3e787ff120b17c49b897e4fb09a1a75
+    m_Address: sfx_button_click
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b32a09fda3401b14db292f30d32f2ccb
     m_Address: sfx_opponent_won
     m_ReadOnly: 0

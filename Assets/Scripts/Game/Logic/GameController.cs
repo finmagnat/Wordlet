@@ -289,6 +289,7 @@ namespace Game.Logic
                 }
                 else
                 {
+                    _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
                     SaveWordAndContinueGame(word);
                 }                
             }            
@@ -387,7 +388,6 @@ namespace Game.Logic
         private void SaveWordAndContinueGame(string word)
         {
             _gameScreen.BoosterPanel.SlowdownStop();
-            _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
             
             _gameScreen.TimerBar.ResetTimer();
             if (_bModePlayOwner)

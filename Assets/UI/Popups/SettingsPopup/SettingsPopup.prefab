@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &1003115048739642750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,7 +1922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &2497716121283343144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,7 +2500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &4080663069726379283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,7 +2804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &4167433008657680004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,7 +3618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &5146765230449088426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4174,6 +4174,7 @@ MonoBehaviour:
   _fadeDuration: 0.25
   _scaleDuration: 0.3
   _scalePunch: 0.05
+  _scaleTransform: {fileID: 2609407132173731237}
   _soundOn: {fileID: 1071248044553621095}
   _giroParallaxOn: {fileID: 6033511436827949862}
   _languageButtonPrefab: {fileID: 187657238106854228, guid: c012bbe8ddd160849a72303db5a7aeaa, type: 3}
@@ -5727,7 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &8647952568541656998
 GameObject:
   m_ObjectHideFlags: 0

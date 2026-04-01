@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &6204864532673501953
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +666,7 @@ MonoBehaviour:
   _fadeDuration: 0.25
   _scaleDuration: 0.3
   _scalePunch: 0.05
+  _scaleTransform: {fileID: 1392025333454561838}
   _saveAndExitButton: {fileID: 2588957990152335401}
   _exitButton: {fileID: 698267247290849715}
   _closeButton: {fileID: 3543737012935828881}
@@ -883,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &7969346783443461199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &8782815123868420118
 GameObject:
   m_ObjectHideFlags: 0

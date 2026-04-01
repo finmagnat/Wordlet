@@ -21,6 +21,7 @@ namespace UI.Popups
         [SerializeField] private float _fadeDuration = 0.25f;
         [SerializeField] private float _scaleDuration = 0.3f;
         [SerializeField] private float _scalePunch = 0.05f;
+        [SerializeField] private RectTransform _scaleTransform;
 
         private bool _initialized;
 
@@ -37,7 +38,9 @@ namespace UI.Popups
             if (_canvasGroup == null)
                 _canvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
 
-            if (_rect == null)
+            if (_scaleTransform != null)
+                _rect = _scaleTransform;
+            else if (_rect == null)
                 _rect = GetComponent<RectTransform>();
 
             SetHiddenStateImmediate();
@@ -48,7 +51,7 @@ namespace UI.Popups
         protected virtual void SetHiddenStateImmediate()
         {
             _canvasGroup.alpha = 0f;
-            _rect.localScale = Vector3.one * 0.95f;
+            _rect.localScale = Vector3.one * 0.8f;
         }
 
         protected virtual void SetShownStateImmediate()
@@ -64,13 +67,11 @@ namespace UI.Popups
             OnShowStarted?.Invoke();
             gameObject.SetActive(true);
 
-            // На случай повторного открытия после скрытия
             SetHiddenStateImmediate();
 
             var seq = DOTween.Sequence();
             seq.Join(_canvasGroup.DOFade(1f, _fadeDuration));
-            seq.Join(_rect.DOScale(1f + _scalePunch, _scaleDuration * 0.5f).SetEase(Ease.OutBack));
-            seq.Append(_rect.DOScale(1f, _scaleDuration * 0.5f));
+            seq.Join(_rect.DOScale(1f, _scaleDuration).SetEase(Ease.OutBack));
 
             await seq.AsyncWaitForCompletion();
 

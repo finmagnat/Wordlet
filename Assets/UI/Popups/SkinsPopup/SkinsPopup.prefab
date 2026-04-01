@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &2069035489086887993
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +979,7 @@ MonoBehaviour:
   _fadeDuration: 0.25
   _scaleDuration: 0.3
   _scalePunch: 0.05
+  _scaleTransform: {fileID: 7460133471320985866}
   _buttonPrefab: {fileID: 5313690142284854033, guid: 23cf4bab3af1faf41b16c99820cc345d, type: 3}
   _scrollListContent: {fileID: 4687579492425599830}
   _closeButton: {fileID: 3543737012935828881}
@@ -1430,4 +1431,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click

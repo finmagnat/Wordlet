@@ -305,7 +305,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4440299480439611626}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4663984
+  m_Size: 0.39034206
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -768,6 +768,7 @@ MonoBehaviour:
   _fadeDuration: 0.25
   _scaleDuration: 0.3
   _scalePunch: 0.05
+  _scaleTransform: {fileID: 6428064081518703258}
   _exitButton: {fileID: 3543737012935828881}
 --- !u!1 &6531961703379879549
 GameObject:
@@ -1055,7 +1056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxAssetKey: 60
+  _sfxKey: sfx_button_click
 --- !u!1 &8679521599835366978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,7 +1237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1077
+      value: 873
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1272,7 +1273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 558.5
+      value: 456.5
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1451,7 +1452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1077
+      value: 873
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1487,7 +1488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 558.5
+      value: 456.5
       objectReference: {fileID: 0}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_AnchoredPosition.y

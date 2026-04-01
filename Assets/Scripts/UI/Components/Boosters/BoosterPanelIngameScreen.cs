@@ -9,20 +9,22 @@ namespace UI.Components
         public void OnUseLetter()
         {
             //Debug.Log("Буковка КЛИК");
-            if (!boosterLetter.IsActive && !boosterLetter.IsEmpty)
-            {
-                Debug.Log("Использовать Буковку");
-                EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Letter });
-            }
+            UseBoosterHandler(boosterLetter);
         }
 
         public void OnUseSlowdown()
         {
             //Debug.Log("Замедлялка КЛИК");
-            if (!boosterSlowdown.IsActive && !boosterSlowdown.IsEmpty)
+            UseBoosterHandler(boosterSlowdown);
+        }
+        
+        private void UseBoosterHandler(BoosterUI boosterUI)
+        {
+            //Debug.Log("Замедлялка КЛИК");
+            if (!boosterUI.IsActive)
             {
-                Debug.Log("Использовать Замедлялку");
-                EventBus.Raise(new UseBoosterEvent{ boosterType = BoosterType.Slowdown });
+                Debug.Log($"Использовать {boosterUI.Type}, IsEmpty = {boosterUI.IsEmpty}");
+                EventBus.Raise(new UseBoosterEvent{ boosterType = boosterUI.Type, isEmpty = boosterUI.IsEmpty});
             }
         }
         

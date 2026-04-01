@@ -1,4 +1,4 @@
-using Core.Generated;
+using Core.Config;
 using Core.Services;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +9,7 @@ namespace Core.UI.Components
     [RequireComponent(typeof(Button))]
     public class SoundButton : MonoBehaviour
     {
-        [SerializeField] private AssetKey _sfxAssetKey = AssetKey.sfx_button_click;
+        [SerializeField] private string _sfxKey = SoundsConfig.ButtonClick;
         
         [Inject] private AudioService _audioService;
         
@@ -20,7 +20,7 @@ namespace Core.UI.Components
             _button = GetComponent<Button>();
             _button.onClick.AddListener(() =>
             {
-                _audioService?.PlaySfxAsync(_sfxAssetKey.ToString());
+                _audioService?.PlaySfxAsync(_sfxKey);
             });
         }
     }

@@ -162,6 +162,8 @@ namespace Game.Logic
             _gameScreen.PauseButton.interactable = true;
             _gameScreen.PassButton.interactable = true;
             
+            _bPause = false;
+            
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
             switch (_gameOpponent)

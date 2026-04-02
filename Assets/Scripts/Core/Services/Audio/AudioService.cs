@@ -64,7 +64,7 @@ namespace Core.Services
 
                 _sfxCache[addressKey] = clip;
             }
-
+            //Debug.Log($"🔊 Audio clip start: {addressKey}");
             // 2️⃣ проигрываем (OneShot позволяет накладывать звуки)
             _sfxSource.PlayOneShot(clip, _sfxVolume);
         }

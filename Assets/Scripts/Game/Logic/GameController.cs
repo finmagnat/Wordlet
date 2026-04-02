@@ -79,6 +79,7 @@ namespace Game.Logic
             EventBus.Subscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
             
             EventBus.Subscribe<UseBoosterEvent>(OnActivateBooster);
+            EventBus.Subscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
             
             _wordsFieldManager.Initialize();
         }
@@ -107,6 +108,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<OpponentFindWordFailEvent>(OnOpponentFindWordFail);
             
             EventBus.Unsubscribe<UseBoosterEvent>(OnActivateBooster);
+            EventBus.Unsubscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
             
             _wordsFieldManager.Destroy();
         }
@@ -159,6 +161,8 @@ namespace Game.Logic
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.PauseButton.interactable = true;
             _gameScreen.PassButton.interactable = true;
+            
+            _bPause = false;
             
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
@@ -289,6 +293,7 @@ namespace Game.Logic
                 }
                 else
                 {
+                    _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
                     SaveWordAndContinueGame(word);
                 }                
             }            
@@ -387,7 +392,6 @@ namespace Game.Logic
         private void SaveWordAndContinueGame(string word)
         {
             _gameScreen.BoosterPanel.SlowdownStop();
-            _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
             
             _gameScreen.TimerBar.ResetTimer();
             if (_bModePlayOwner)
@@ -638,12 +642,21 @@ namespace Game.Logic
                 EventBus.Raise(new OpponentFindWordFailEvent());
         }
         
+        private void OnPurchaseSuccessEvent(PurchaseSuccessEvent eventData)
+        {
+            if(_gameScreen)
+                _gameScreen.BoosterPanel.Refresh();
+        }
+        
         private async void OnActivateBooster(UseBoosterEvent eventData)
         {
-            if (_boosterProcessing)
+            if (eventData.isEmpty)
+            {
+                _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup).Forget();
                 return;
-
-            if (!_bStart || _bPause || !_bModePlayOwner)
+            }
+            
+            if (!_bStart || _bPause || !_bModePlayOwner || _boosterProcessing)
                 return;
 
             // не даём прожать активный бустер

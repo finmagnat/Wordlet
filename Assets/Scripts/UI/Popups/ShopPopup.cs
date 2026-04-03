@@ -82,8 +82,9 @@ namespace UI.Popups
             }
             else
             {
-                EventBus.Raise(new PurchaseSuccessEvent(offer));
                 await _ui.ShowPopupAsync<PurchaseConfirmationPopup, ShopOfferDto>(AssetKey.PurchaseConfirmationPopup, offer);
+                Debug.Log($"[ShopPopup][OnOfferClicked] PurchaseSuccessEvent, ProductId = {offer.ProductId}");
+                EventBus.Raise(new PurchaseSuccessEvent(offer));
                 
                 HideAsync();
             }

@@ -356,7 +356,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728
-    m_Localized: Wordlet couldn't find the word. The booster has been returned.
+    m_Localized: 'Wordlet couldn''t find the word.
+
+      The booster has been returned.'
     m_Metadata:
       m_Items: []
   - m_Id: 24306362871070720

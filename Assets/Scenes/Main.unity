@@ -606,6 +606,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5641792047213697909, guid: 2ad1a53f26a48804b9cd628ed4b6d0e5, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9059911499713480064, guid: 2ad1a53f26a48804b9cd628ed4b6d0e5, type: 3}
       propertyPath: m_Name
       value: UIRoot

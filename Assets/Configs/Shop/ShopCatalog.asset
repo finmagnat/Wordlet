@@ -33,38 +33,6 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
-    Title: STORE_TITLE_LETTER
-    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
-    Description: 
-    Rewards:
-    - ItemId: 1
-      Amount: 10
-      SpriteIcon: {fileID: 555895916406473244, guid: afd4b8c352876db428dafadca7ca9116, type: 3}
-    ProductId: wordlet_pack_hint_10
-    DebugPriceText: 9.99
-    DebugAvailable: 1
-    RewardType: 0
-    DailyLimit: 0
-    CooldownSeconds: 0
-    DisableInterstitialAds: 0
-    IsNonConsumable: 0
-  - Type: 0
-    Title: STORE_TITLE_SLOWDOWN
-    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
-    Description: 
-    Rewards:
-    - ItemId: 2
-      Amount: 10
-      SpriteIcon: {fileID: 1792576677913618156, guid: 79fe58751968bc8488d55ed5ae3ad3fe, type: 3}
-    ProductId: wordlet_pack_slowtime_10
-    DebugPriceText: 9.99
-    DebugAvailable: 1
-    RewardType: 0
-    DailyLimit: 0
-    CooldownSeconds: 0
-    DisableInterstitialAds: 0
-    IsNonConsumable: 0
   - Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
@@ -95,6 +63,38 @@ MonoBehaviour:
     RewardType: 2
     DailyLimit: 3
     CooldownSeconds: 45
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
+  - Type: 0
+    Title: STORE_TITLE_LETTER
+    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
+    Description: 
+    Rewards:
+    - ItemId: 1
+      Amount: 10
+      SpriteIcon: {fileID: 555895916406473244, guid: afd4b8c352876db428dafadca7ca9116, type: 3}
+    ProductId: wordlet_pack_hint_10
+    DebugPriceText: 9.99
+    DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
+  - Type: 0
+    Title: STORE_TITLE_SLOWDOWN
+    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
+    Description: 
+    Rewards:
+    - ItemId: 2
+      Amount: 10
+      SpriteIcon: {fileID: 1792576677913618156, guid: 79fe58751968bc8488d55ed5ae3ad3fe, type: 3}
+    ProductId: wordlet_pack_slowtime_10
+    DebugPriceText: 9.99
+    DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
   - Type: 0

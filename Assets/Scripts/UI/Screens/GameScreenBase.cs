@@ -103,6 +103,13 @@ namespace UI.Screens
             _playerPanelOpponent.Reset();
             _progressBar.ResetTimer();
             _repeatGame.gameObject.SetActive(false);
+
+            if (_isPaused)
+            {
+                _isPaused = false;
+                _pauseButtonAnimator.SetPaused(_isPaused);
+                _pauseService.SetUserPause(_isPaused);
+            }
         }
 
         internal virtual List<SelectableLetter> InitWordsField() => _wordsField.InitField();

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI.Popups
 {
-    public class PurchaseConfirmationPopup : UIPopup
+    public class PurchaseConfirmationPopup : UIPopup<ShopOfferDto>
     {
         [Header("UI Elements")]
         [SerializeField] private ShopItemView _itemPrefab;
@@ -14,16 +14,12 @@ namespace UI.Popups
         protected UniTaskCompletionSource<PopupExitData> _completionSource;
         
         private bool _isInitialized;
-
-        private void Start()
-        {
-            Clear();
-        }
         
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
         
-        public virtual void SetWindowData(ShopOfferDto offer) {
+        public override UniTask PrepareAsync(ShopOfferDto offer) {
             Bind(offer);
+            return UniTask.CompletedTask;
         }
         
         public void OnClose()
@@ -33,6 +29,7 @@ namespace UI.Popups
         
         private void Bind(ShopOfferDto dto)
         {
+            Clear();
             foreach (var item in dto.Rewards)
             {
                 var view = Instantiate(_itemPrefab, _contentRoot);

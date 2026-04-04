@@ -90,7 +90,6 @@ namespace Core.Services.Shop
                     return await PurchaseAsync(offer.ProductId);
 
                 case ShopOfferTypeDto.RewardedAd:
-                    // тут позже воткнём лимиты/cooldown
                     _ads.ShowFor(offer.RewardType);
                     return PurchaseResult.Ok();
 

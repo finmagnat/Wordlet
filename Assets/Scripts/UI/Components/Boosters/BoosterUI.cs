@@ -7,6 +7,7 @@ namespace UI.Components
 {
     public abstract class BoosterUI : MonoBehaviour
     {
+        public BoosterType Type => _boosterType;
         public bool IsActive { get; protected set; }
         public bool IsEmpty => _count <= 0;
         
@@ -29,7 +30,7 @@ namespace UI.Components
                 _emptyGO.SetActive(IsEmpty);
 
             if (_isAutoDisable)
-                _button.interactable = count > 0 ? true : false;
+                _button.interactable = count > 0;
         }
 
         public virtual void ActivateBooster()

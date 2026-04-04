@@ -1,5 +1,6 @@
 using Core.Config;
 using Core.Data;
+using Core.Events;
 using Core.Generated;
 using Core.Services.Shop;
 using Core.UI;
@@ -50,8 +51,7 @@ namespace UI.Popups
         
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
         
-        public virtual void SetWindowData(MessageBoxData data) {
-        }
+        public virtual void SetWindowData(MessageBoxData data) { }
         
         private async UniTask InitializeAsync()
         {
@@ -82,8 +82,9 @@ namespace UI.Popups
             }
             else
             {
-                var popup = await _ui.ShowPopupAsync<PurchaseConfirmationPopup>(AssetKey.PurchaseConfirmationPopup);
-                popup.SetWindowData(offer);
+                await _ui.ShowPopupAsync<PurchaseConfirmationPopup, ShopOfferDto>(AssetKey.PurchaseConfirmationPopup, offer);
+                Debug.Log($"[ShopPopup][OnOfferClicked] PurchaseSuccessEvent, ProductId = {offer.ProductId}");
+                EventBus.Raise(new PurchaseSuccessEvent(offer));
                 
                 HideAsync();
             }

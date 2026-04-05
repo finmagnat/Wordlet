@@ -185,7 +185,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6208603676049408
-    m_Localized: Try again! Success comes with experience ;)
+    m_Localized: 'Try again!
+
+      Success comes with experience ;)'
     m_Metadata:
       m_Items: []
   - m_Id: 6208766385684480
@@ -193,7 +195,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6208915790987264
-    m_Localized: Almost there! That's half a step to victory! Let's do it again!
+    m_Localized: 'Almost there!
+
+      That''s half a step to victory! Let''s do
+      it again!'
     m_Metadata:
       m_Items: []
   - m_Id: 6209112730337280
@@ -365,7 +370,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 37313886545133568
-    m_Localized: 'There is no internet connection.
+    m_Localized: 'There''s no internet connection.
 
 
       Try to restore it on your
@@ -445,7 +450,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49315119388573696
-    m_Localized: Want to skip a turn?
+    m_Localized: Do you want to skip a turn?
     m_Metadata:
       m_Items: []
   - m_Id: 49315230399217664

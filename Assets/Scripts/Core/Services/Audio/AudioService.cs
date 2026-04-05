@@ -17,7 +17,7 @@ namespace Core.Services
 
         private float _sfxVolume = 1f;
         
-        private bool _isDebugPlayNoAsync = true; // TODO: Опция для настройки звуковой схемы (вместо Addressables используется SoundsConfig)
+        private bool _isDebugPlayNoAsync = true; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
 
         public AudioService(AddressablesLoader loader, ConfigService configService)
         {

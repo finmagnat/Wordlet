@@ -23,72 +23,50 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 502774775808
-    m_Localized: '* A random word from the built-in dictionary is placed in the center
-      line of the board.
-
-      * The player must drag one letter from the alphabet
-      and place it in an empty cell on the board next to other letters to form a
-      new word.
-
-      * Then, they must sequentially select letters on the board
-      to form the word and click the "Move" button.
-
-      * Words cannot be repeated
-      during a single game.
-
-      * A word cannot contain the same letter on the
-      board twice.
-
-      * A word can be read in any direction except diagonally.
-
-      *
-      One point is awarded for each letter in the word.
-
-      * The player must
-      make a move within the allotted time.
-
-      * If a player fails to make a
-      move, they are awarded a pass.
-
-      * If a player''s number of passes reaches
-      the maximum, they are awarded a loss and the game ends (the number of points
-      scored is not counted).
-
-      * The game is also considered complete when
-      all the board cells are filled with letters. * The player with the most points
-      wins.
-
-      * If the players have the same number of points, the game is declared
-      a draw.'
+    m_Localized: "  <size=150%><voffset=20><sprite name=\"book\"></voffset></size><size=130%><color=#FF9A00><b>How
+      to play</b></color></size>\r\n<line-height=100%>\r\n1. There is already a word
+      in the center of the board.\r\nYour goal is to <b>add one letter</b> and form
+      a new word.\r\n\r\n2. Make a move:\r\n\u2022 select an empty cell next to existing
+      letters  \r\n\u2022 choose a letter  \r\n\u2022 form a word <i>(including the
+      new letter)</i>  \r\n\u2022 press <b>\u201CApply\u201D</b>\r\n</line-height>\r\n<line-height=100%>\r\n 
+      <size=150%><voffset=20><sprite name=\"gear\"></voffset></size><size=130%><color=#FF9A00><b>Rules</b></color></size>\r\n\r\n\u2022
+      Words cannot be repeated within a round  \r\n\u2022 Words can be formed <b>horizontally
+      or vertically</b>  \r\n  <size=85%><color=#AAAAAA>(no diagonals)</color></size> 
+      \r\n\u2022 The same cell cannot be used twice  \r\n\u2022 <b>1 letter = 1 point</b>\r\n\u2022
+      Time for a move is limited\r\n</line-height>\r\n<line-height=100%>\r\n  <size=150%><voffset=20><sprite
+      name=\"time\"></voffset></size><size=130%><color=#FF9A00><b>Out of time</b></color></size>\r\n\r\n\u2022
+      The move is skipped  \r\n\u2022 Reaching the maximum number of skips results
+      in <b>defeat</b> \r\n</line-height>\r\n<line-height=100%>\r\n  <size=150%><voffset=20><sprite
+      name=\"finish\"></voffset></size><size=130%><color=#FF9A00><b>End of the round</b></color></size>\r\n\r\n\u2022
+      The round ends when the board is full  \r\n\u2022 The player with the most
+      points wins  \r\n\u2022 If scores are equal \u2014 <b>draw</b>\r\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 20447734677504
-    m_Localized: Questions and Answers
+    m_Localized: ' <size=150%><voffset=20><sprite name="question"></voffset></size>
+      Questions and Answers'
     m_Metadata:
       m_Items: []
   - m_Id: 20937088319488
-    m_Localized: "<b>How do I remove the highlighted letters on the board?</b>\r\n
-      - Click the \"Clear\" button. This does not remove the letter from the board.\r\n\r\n<b>How
-      do I remove a letter from the board?</b>\r\n - Click the \"Cancel\" button.
-      This not only removes the letter from the board but also removes the highlight
-      (if the letters were highlighted).\r\n\r\n<b>How do I pause the game?</b>\r\n
-      - Click the \"Pause\" button. This stops the turn timer and hides the letters
-      on the board for the duration of the pause.\r\n - To resume the game, click
-      the \"Pause\" button again.\r\n\r\n<b>How do I exit a game if it's not finished
-      yet?</b>\r\n - Click the \"Home\" button.\r\n - If you're playing with AI,
-      a window will appear asking if you want to save the current game.\r\n --  If
-      the game has been saved, you can load it later and continue playing from the
-      saved point.\r\n\r\n<b>How do I use the \"Bukovka\" booster?</b>\r\n - Click
-      the booster icon on the panel, if available. When activated, AI algorithms
-      are used to search for a word (the longest possible), place a letter on the
-      board, and highlight that word on the board.\r\n - If the AI \u200B\u200Bfails
-      to find the word, the booster will be returned to the player's inventory.\r\n\r\n<b>How
-      do I use the Slowdown booster?</b>\r\n - Click the booster icon on the panel
-      if one is available.\r\n - When activated, it pauses the timer for a certain
-      period (e.g., 30 seconds), giving the player additional time to make a move.\r\n\r\n<b>How
-      do I purchase boosters?</b>\r\n - Boosters are always available for purchase
-      in the in-game store for real money.\r\n - Boosters can also be obtained by
-      watching ads."
+    m_Localized: "<line-height=100%>\r\n<b>How can I remove a placed letter or clear
+      the selection?</b>  \r\n\u2014 Press the <b>\u201CCancel\u201D</b> button.\r\n\r\n<b>How
+      do I pause the game?</b>  \r\n\u2014 Press the <b>\u201CPause\u201D</b> button.
+      The timer will stop, and the letters on the board will be temporarily hidden. 
+      \r\n\u2014 To continue the game, press <b>\u201CPause\u201D</b> again.\r\n\r\n<b>How
+      do I exit an unfinished game?</b>  \r\n\u2014 Press the <b>\u201CHome\u201D</b>
+      button.  \r\n\u2014 In AI mode, a window will appear offering to save the game. 
+      \r\n\u2014 You can later load the saved game and continue from where you left
+      off.\r\n\r\n  <size=150%><voffset=20><sprite name=\"letter\"></voffset></size><b>How
+      can I use the \u201CLetter\u201D booster?</b> \r\n\u2014 Tap the booster icon
+      if it is available.  \r\n\u2014 The booster will automatically find a word
+      <i>(the longest possible)</i>, place a letter on the board, and highlight that
+      word.  \r\n\u2014 If no word is found, the booster will be returned to your
+      inventory.\r\n\r\n  <size=150%><voffset=20><sprite name=\"slowdown\"></voffset></size><b>How
+      can I use the \u201CSlowdown\u201D booster?</b>  \r\n\u2014 Tap the booster
+      icon if it is available.  \r\n\u2014 The booster will pause the timer for some
+      time <i>(for example, 30 seconds)</i>, giving you more time to make a move.\r\n\r\n<b>How
+      can I get boosters?</b>  \r\n\u2014 Boosters can be purchased in the in-game
+      store for real money.  \r\n\u2014 They can also be obtained by watching ads.\r\n</line-height>"
     m_Metadata:
       m_Items: []
   references:

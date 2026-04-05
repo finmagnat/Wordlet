@@ -5588,8 +5588,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607515687923226642, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       propertyPath: m_Name

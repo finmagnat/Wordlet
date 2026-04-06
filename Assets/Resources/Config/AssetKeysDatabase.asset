@@ -35,12 +35,12 @@ MonoBehaviour:
     AddressKey: ProgressBkg_Blue
   - Id: ProgressBkg_Pink
     AddressKey: ProgressBkg_Pink
-  - Id: ButtonGo_Blue
-    AddressKey: ButtonGo_Blue
-  - Id: PlayerPanel_Pink
-    AddressKey: PlayerPanel_Pink
   - Id: ButtonCancel_Blue
     AddressKey: ButtonCancel_Blue
+  - Id: PlayerPanel_Pink
+    AddressKey: PlayerPanel_Pink
+  - Id: ButtonGo_Blue
+    AddressKey: ButtonGo_Blue
   - Id: CellBackgroundDefaultPink
     AddressKey: CellBackgroundDefaultPink
   - Id: ShopButtonBlue
@@ -55,8 +55,8 @@ MonoBehaviour:
     AddressKey: Handle_Pink
   - Id: ButtonStatistic_Blue
     AddressKey: ButtonStatistic_Blue
-  - Id: ButtonGo_Pink
-    AddressKey: ButtonGo_Pink
+  - Id: ButtonCancel_Pink
+    AddressKey: ButtonCancel_Pink
   - Id: Frame_Pink
     AddressKey: Frame_Pink
   - Id: SkinButtonPink
@@ -71,8 +71,8 @@ MonoBehaviour:
     AddressKey: InfoButtonPink
   - Id: ButtonBlue
     AddressKey: ButtonBlue
-  - Id: ButtonCancel_Pink
-    AddressKey: ButtonCancel_Pink
+  - Id: ButtonGo_Pink
+    AddressKey: ButtonGo_Pink
   - Id: SettingsButtonPink
     AddressKey: SettingsButtonPink
   - Id: MainBackgroundBlue
@@ -101,6 +101,8 @@ MonoBehaviour:
     AddressKey: sfx_i_won
   - Id: sfx_popup_worning
     AddressKey: sfx_popup_worning
+  - Id: sfx_booster_slowdown_launch
+    AddressKey: sfx_booster_slowdown_launch
   - Id: sfx_rezo_shape
     AddressKey: sfx_rezo_shape
   - Id: sfx_i_made_move
@@ -131,16 +133,14 @@ MonoBehaviour:
     AddressKey: sfx_pass
   - Id: sfx_start_new_game
     AddressKey: sfx_start_new_game
+  - Id: sfx_booster_not_found_word
+    AddressKey: sfx_booster_not_found_word
   - Id: sfx_popup_question
     AddressKey: sfx_popup_question
   - Id: sfx_letter_selected
     AddressKey: sfx_letter_selected
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
-  - Id: sfx_booster_not_found_word
-    AddressKey: sfx_booster_not_found_word
-  - Id: sfx_booster_slowdown_launch
-    AddressKey: sfx_booster_slowdown_launch
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup

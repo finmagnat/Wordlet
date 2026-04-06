@@ -64,7 +64,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4cd55b0ffbabf8244ad89d0a0249950d
-    m_Address: ButtonGo_Blue
+    m_Address: ButtonCancel_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -76,7 +76,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 529cfb5996c121241b771bfb15ff1812
-    m_Address: ButtonCancel_Blue
+    m_Address: ButtonGo_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -124,7 +124,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6943fd67d1b08304fa4795e8a3af384f
-    m_Address: ButtonGo_Pink
+    m_Address: ButtonCancel_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -172,7 +172,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a659a50b40ada824e9795e31f87b628f
-    m_Address: ButtonCancel_Pink
+    m_Address: ButtonGo_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

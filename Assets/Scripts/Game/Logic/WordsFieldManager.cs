@@ -13,6 +13,7 @@ namespace Game.Logic
         private WordsFieldData _wordsFildData = new ();
         
         private bool _bModeSelectWord;
+        private bool _isPause;
 
         public void Initialize()
         {
@@ -20,6 +21,7 @@ namespace Game.Logic
             EventBus.Subscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
             EventBus.Subscribe<LetterBacktrackEvent>(OnLetterBacktrack);
+            EventBus.Subscribe<GamePauseChangedEvent>(OnGamePause);
         }
 
         public void Destroy()
@@ -28,6 +30,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<LetterSelectEvent>(OnLetterSelected);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
             EventBus.Unsubscribe<LetterBacktrackEvent>(OnLetterBacktrack);
+            EventBus.Unsubscribe<GamePauseChangedEvent>(OnGamePause);
         }
 
         internal void SetWordsFieldData(List<SelectableLetter> items)
@@ -84,6 +87,7 @@ namespace Game.Logic
 
         internal void Reset()
         {
+            _isPause = false;
             _bModeSelectWord = false;
             _wordsFildData.Reset();
         }
@@ -110,14 +114,28 @@ namespace Game.Logic
         
         /// <summary>
         /// Проверяет можно ли выбрать данную пустую ячейку, чтобы позже установить в нее букву.
+        /// Если выделенная ячейка повторно нажата, то выделение отменяется.
+        /// Если выделена еще одна (другая) ячейка, то выделение переносится на последнюю из них.
         /// </summary>
         /// <param name="eventData"></param>
         internal void TryCellSelect(CellSelectEvent eventData)
         {
             //Debug.Log("[CaneSelectCell] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
-
+            if (_bModeSelectWord) return;
+            
+            if (_wordsFildData.SelectedItem != null && 
+                _wordsFildData.SelectedItem.Index == eventData.letter.Index) // Эта ячейка уже была выделена
+            {
+                _wordsFildData.CellSelectCancel();
+                EventBus.Raise(new CellSelectCancelEvent());
+                return;
+            }
+            
             if(_wordsFildData.TrySetLetter(eventData.letter.Index))
             {
+                if (_wordsFildData.SelectedItem != null) // Другая ячейка уже была выделена
+                    _wordsFildData.CellSelectCancel();
+                
                 _wordsFildData.SetSelectedCell(eventData.letter);
                 eventData.letter.HighlightCell();
                 EventBus.Raise(new CellSelectSuccessEvent());
@@ -135,7 +153,7 @@ namespace Game.Logic
 
         private void OnLetterSelected(LetterSelectEvent eventData)
         {
-            if (!_bModeSelectWord) return;
+            if (!_bModeSelectWord || _isPause) return;
 
             //Debug.Log("[LetterSelectEventData] Index: " + data.item.Index + ", Letter: " + data.item.GetLetter());
 
@@ -160,6 +178,11 @@ namespace Game.Logic
                 removedItem.UnHighlight();
                 EventBus.Raise(new LetterRemoveLastFromWordEvent());
             }
+        }
+
+        private void OnGamePause(GamePauseChangedEvent eventData)
+        {
+            _isPause = eventData.IsPaused;
         }
     }
 }

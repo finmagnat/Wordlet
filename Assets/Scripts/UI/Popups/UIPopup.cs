@@ -12,6 +12,7 @@ namespace UI.Popups
         protected CanvasGroup _canvasGroup;
         protected RectTransform _rect;
 
+        public bool IsVisible { get; protected set; }
         public event Action OnShowStarted;
         public event Action OnShowCompleted;
         public event Action OnHideStarted;
@@ -75,6 +76,7 @@ namespace UI.Popups
 
             await seq.AsyncWaitForCompletion();
 
+            IsVisible = true;
             OnShowCompleted?.Invoke();
         }
 
@@ -91,6 +93,7 @@ namespace UI.Popups
             await seq.AsyncWaitForCompletion();
 
             gameObject.SetActive(false);
+            IsVisible = false;
             OnHideCompleted?.Invoke();
         }
     }

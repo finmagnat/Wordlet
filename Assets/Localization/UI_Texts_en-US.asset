@@ -410,7 +410,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 40198905135513600
-    m_Localized: Select a letter to place it in the highlighted cell on the field.
+    m_Localized: Choose a letter
     m_Metadata:
       m_Items: []
   - m_Id: 42393487151611904

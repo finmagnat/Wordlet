@@ -66,6 +66,7 @@ namespace Game.Logic
             EventBus.Subscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
+            EventBus.Subscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Subscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -95,6 +96,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
+            EventBus.Unsubscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Unsubscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -193,6 +195,8 @@ namespace Game.Logic
             _wordsFieldManager.SetWordsFieldData(wordsFieldItems);
                 
             _gameScreen.InitAlphabetField();
+            if(_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.HideAsync().Forget();
             
             if(_saveGameData != null)
             {
@@ -227,7 +231,7 @@ namespace Game.Logic
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
             else
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
-
+            
             _saveGameDataRepeat = _saveGameData;
             _saveGameData = null;
             _bStart = true;
@@ -248,11 +252,15 @@ namespace Game.Logic
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_PAUSE");
                 _gameScreen.TimerBar.StopTimer();
+                if(_gameScreen.KeyboardPanel.IsVisible)
+                    _gameScreen.KeyboardPanel.HideAsync().Forget();
             }
             else
             {
                 _gameScreen.TimerBar.StartTimer();
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+                if(_wordsFieldManager.WordsFieldData.SelectedItem != null)
+                    _gameScreen.KeyboardPanel.ShowAsync().Forget();
             }
 
             _wordsFieldManager.ShowLetters(!_bPause);
@@ -324,14 +332,26 @@ namespace Game.Logic
 
             _wordsFieldManager.TryCellSelect(eventData);
         }
+        
+        internal void OnCellSelectCancel(CellSelectCancelEvent eventData)
+        {
+            //Debug.Log("[CaneSelectCell] Position: " + data.position + ", Letter: " + data.letter);
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
 
-        private void OnCellSelectSuccess(IGameEvent eventData)
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
+            _gameScreen.KeyboardPanel.HideAsync().Forget();
+        }
+
+        private void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
         {
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
             
-            _audioService?.PlaySfxAsync(AssetKey.sfx_button_click.ToString());
-            _gameScreen.KeyboardPanel.ShowAsync().Forget();
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
+            
+            if(!_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
         
         private void OnLetterPutSuccess(IGameEvent eventData)

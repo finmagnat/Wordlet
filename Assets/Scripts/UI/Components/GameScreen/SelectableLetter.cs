@@ -163,19 +163,16 @@ namespace UI.Components
         internal void ShowLetter(bool value)
         {
             ModeBlinkClear();
-            if (!Empty())
+            if (value)
             {
-                if (value)
-                {
-                    _letterText.text = _letter;
-                    SetHighlightState(_highlightState);
-                }
-                else
-                {
-                    _letterText.text = "";
-                    _mainBackground.sprite = _skin.cellBackgroundDefault;
-                }
-            }            
+                _letterText.text = _letter;
+                SetHighlightState(_highlightState);
+            }
+            else
+            {
+                _letterText.text = "";
+                _mainBackground.sprite = _skin.cellBackgroundDefault;
+            }
         }
         
         private void SetHighlightState(HighlightState state)

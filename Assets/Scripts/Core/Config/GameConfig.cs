@@ -99,5 +99,7 @@ namespace Core.Config
         [Tooltip("Максимальная длина нового слова для отправки")]
         public int newWordsMaxLength = 32;
 
+        [Tooltip("Минимальное время отображения загрузочного экрана с баннерами (миллисекунды)")]
+        public int minLoadingScreenDurationMs = 2000;
     }
 }

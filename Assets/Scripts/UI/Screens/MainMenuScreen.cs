@@ -24,10 +24,11 @@ namespace UI.Screens
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
         [Inject] private ISaveService _saveService;
-        [Inject] protected SkinsService _skinsService;
-        [Inject] protected ISpriteService _spritesService;
+        [Inject] private SkinsService _skinsService;
+        [Inject] private ISpriteService _spritesService;
         [Inject] private GameController _gameController;
         [Inject] private LocalizationService _localization;
+        [Inject] private ConfigService _configService;
 
         private bool _isProcessing;
 
@@ -49,14 +50,25 @@ namespace UI.Screens
                     Debug.Log($"🎮 Начинаем игру: Difficulty={data.Difficulty}, Time={data.TurnTime}s");
 
                     // Показ *правильного* in-game loading
-                    await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
+                    await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
 
+                    // Засекаем время после фактического показа экрана загрузки с баннерами
+                    float startTime = Time.realtimeSinceStartup;
+                    
                     // Скрываем главное меню
                     await _ui.HideAllScreensAsync();
 
                     // Переход на экран игры с ИИ
                     await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
 
+                    // Сколько уже показывался лоадинг
+                    int elapsedMs = Mathf.RoundToInt((Time.realtimeSinceStartup - startTime) * 1000f);
+                    int remainingMs = Mathf.Max(0, _configService.Game.minLoadingScreenDurationMs - elapsedMs);
+
+                    // Если экран загрузился слишком быстро — добиваем остаток
+                    if (remainingMs > 0)
+                        await UniTask.Delay(remainingMs, DelayType.UnscaledDeltaTime);
+                    
                     // Убираем лоадинг
                     await _loadingUI.HideLoadingAsync();
                 }

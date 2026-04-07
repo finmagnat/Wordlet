@@ -98,6 +98,6 @@ namespace Core.Config
 
         [Tooltip("Максимальная длина нового слова для отправки")]
         public int newWordsMaxLength = 32;
-        
+
     }
 }

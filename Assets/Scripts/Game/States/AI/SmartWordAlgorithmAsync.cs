@@ -33,10 +33,10 @@ namespace Game.AI
             int lettersOnBoard = CountLettersOnBoard(items);
             int maxPossibleNow = Math.Min(boardMaxLen, lettersOnBoard + 1);
 
-            int start = Math.Min(maxPossibleNow, Math.Max(MinLength, (int)settings.MaxWordLength));
+            int start = Math.Min(maxPossibleNow, Math.Max(MinLength, settings.WordLength.Max));
 
             if (settings.IsRandomWordLength)
-                start = _rng.Next(MinLength, start + 1);
+                start = _rng.Next(settings.WordLength.Min, start + 1);
 
             IEnumerable<int> lengthsToTry = Enumerable.Range(MinLength, start - MinLength + 1).Reverse();
 
@@ -60,7 +60,7 @@ namespace Game.AI
             wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
             wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
-            Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] Word [{result.Word.Length}] = {result.Word}");
+            Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] start = {start}, Word [{result.Word.Length}] = {result.Word}");
             return AIWordResult.Ok(result.Word);
         }
 

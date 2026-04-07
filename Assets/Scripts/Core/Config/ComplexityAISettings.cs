@@ -7,11 +7,21 @@ namespace Core.Config
     {
         [Tooltip("Уровень сложности игры с ИИ")]
         public ComplexityAI СomplexityAiLevel;
-        [Tooltip("Приоритетное количество символов в слове для данного уровня сложности")]
-        public uint MaxWordLength;
-        [Tooltip("Случайное количество символов в слове для данного уровня сложности (между минимальным и максимальным)")]
-        public bool IsRandomWordLength;
+        
         [Tooltip("Максимально допустимое количество пропусков")]
         public uint MaxPasses;
+        
+        [Tooltip("Случайное количество символов в слове для данного уровня сложности (между минимальным и максимальным)")]
+        public bool IsRandomWordLength;
+        
+        [Tooltip("Приоритетное количество символов в слове для данного уровня сложности: Max")]
+        public RangeInteger WordLength;
+    }
+
+    [System.Serializable]
+    public struct RangeInteger
+    {
+        public int Min;
+        public int Max;
     }
 }

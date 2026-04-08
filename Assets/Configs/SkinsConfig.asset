@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 2
+  SkinByDefault: 1
   _skins:
   - SkinType: 1
     ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}

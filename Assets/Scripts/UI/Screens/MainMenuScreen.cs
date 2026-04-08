@@ -49,31 +49,6 @@ namespace UI.Screens
                 if (data.Result == PopupResult.Play)
                 {
                     Debug.Log($"🎮 Начинаем игру: Difficulty={data.Difficulty}, Time={data.TurnTime}s");
-/*
-                    // Показ *правильного* in-game loading
-                    await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
-
-                    // Засекаем время после фактического показа экрана загрузки с баннерами
-                    float startTime = Time.realtimeSinceStartup;
-                    
-                    // Скрываем главное меню
-                    await _ui.HideAllScreensAsync();
-
-                    // Переход на экран игры с ИИ
-                    await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
-
-                    // Сколько уже показывался лоадинг
-                    int elapsedMs = Mathf.RoundToInt((Time.realtimeSinceStartup - startTime) * 1000f);
-                    int remainingMs = Mathf.Max(0, _configService.Game.minLoadingScreenDurationMs - elapsedMs);
-
-                    // Если экран загрузился слишком быстро — добиваем остаток
-                    if (remainingMs > 0)
-                        await UniTask.Delay(remainingMs, DelayType.UnscaledDeltaTime);
-                    
-                    // Убираем лоадинг
-                    await _loadingUI.HideLoadingAsync();
-                    
-                    EventBus.Raise(new GameScreenReadyEvent());*/
                     await StartGame();
                 }
                 else if (data.Result == PopupResult.GotoShop)
@@ -101,35 +76,6 @@ namespace UI.Screens
                 if (data.Result == PopupResult.Play)
                 {
                     Debug.Log($"🎮 Продолжаем сохраненную игру");
-/*
-                    // Показ *правильного* in-game loading
-                    await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
-                    
-                    // Засекаем время после фактического показа экрана загрузки с баннерами
-                    float startTime = Time.realtimeSinceStartup;
-                    
-                    SaveGameData gameData = await _saveService.LoadAsync();
-                    _gameController.SetGameData(gameData);
-
-                    // Скрываем главное меню
-                    await _ui.HideAllScreensAsync();
-
-                    // Переход на экран игры с ИИ
-                    await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
-
-                    // Сколько уже показывался лоадинг
-                    int elapsedMs = Mathf.RoundToInt((Time.realtimeSinceStartup - startTime) * 1000f);
-                    int remainingMs = Mathf.Max(0, _configService.Game.minLoadingScreenDurationMs - elapsedMs);
-
-                    // Если экран загрузился слишком быстро — добиваем остаток
-                    if (remainingMs > 0)
-                        await UniTask.Delay(remainingMs, DelayType.UnscaledDeltaTime);
-                    
-                    // Убираем лоадинг
-                    await _loadingUI.HideLoadingAsync();
-                    
-                    EventBus.Raise(new GameScreenReadyEvent());*/
-                    
                     await StartGame(true);
                 }
                 else if (data.Result == PopupResult.RemoveAndExit)

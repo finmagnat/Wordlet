@@ -12,7 +12,12 @@ namespace Core.UI
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float _fadeDuration = 0.3f;
         [SerializeField] private GameObject[] _banners;
-
+#if UNITY_EDITOR
+        [Header("DEBUG")]
+        [SerializeField] private bool _isDebug;
+        [SerializeField] private int _indexAlways = 0;
+#endif
+        
         private bool _isVisible;
 
         private void Awake()
@@ -30,6 +35,9 @@ namespace Core.UI
             if (_isVisible) return;
             
             int index = Random.Range(0, _banners.Length);
+#if UNITY_EDITOR
+            if(_isDebug) index = _indexAlways;
+#endif
             for (int i = 0; i < _banners.Length; ++i)
             {
                 if (i == index)
@@ -44,7 +52,7 @@ namespace Core.UI
             var tween = _canvasGroup.DOFade(1f, _fadeDuration);
             await UniTask.WaitUntil(() => !tween.IsPlaying());
             
-            Debug.Log($"[InGameLoadingScreen] ShowAsync");
+            Debug.Log($"[InGameLoadingScreen] ShowAsync: {index}");
             // TEST-Simulate
             //await UniTask.WaitForSeconds(3.0f);
         }

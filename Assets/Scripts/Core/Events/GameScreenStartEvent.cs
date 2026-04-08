@@ -7,5 +7,6 @@ namespace Core.Events
     {
         public GameScreenBase Screen;
         public GameOpponent Opponent;
+        public bool AutoStart;
     }
 }

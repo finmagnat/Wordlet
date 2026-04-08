@@ -1,4 +1,5 @@
 using Core.Data;
+using Core.Events;
 using Core.Generated;
 using Core.Services;
 using Core.UI;
@@ -48,7 +49,7 @@ namespace UI.Screens
                 if (data.Result == PopupResult.Play)
                 {
                     Debug.Log($"🎮 Начинаем игру: Difficulty={data.Difficulty}, Time={data.TurnTime}s");
-
+/*
                     // Показ *правильного* in-game loading
                     await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
 
@@ -71,6 +72,9 @@ namespace UI.Screens
                     
                     // Убираем лоадинг
                     await _loadingUI.HideLoadingAsync();
+                    
+                    EventBus.Raise(new GameScreenReadyEvent());*/
+                    await StartGame();
                 }
                 else if (data.Result == PopupResult.GotoShop)
                 {
@@ -97,9 +101,12 @@ namespace UI.Screens
                 if (data.Result == PopupResult.Play)
                 {
                     Debug.Log($"🎮 Продолжаем сохраненную игру");
-
+/*
                     // Показ *правильного* in-game loading
-                    await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
+                    await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
+                    
+                    // Засекаем время после фактического показа экрана загрузки с баннерами
+                    float startTime = Time.realtimeSinceStartup;
                     
                     SaveGameData gameData = await _saveService.LoadAsync();
                     _gameController.SetGameData(gameData);
@@ -110,8 +117,20 @@ namespace UI.Screens
                     // Переход на экран игры с ИИ
                     await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
 
+                    // Сколько уже показывался лоадинг
+                    int elapsedMs = Mathf.RoundToInt((Time.realtimeSinceStartup - startTime) * 1000f);
+                    int remainingMs = Mathf.Max(0, _configService.Game.minLoadingScreenDurationMs - elapsedMs);
+
+                    // Если экран загрузился слишком быстро — добиваем остаток
+                    if (remainingMs > 0)
+                        await UniTask.Delay(remainingMs, DelayType.UnscaledDeltaTime);
+                    
                     // Убираем лоадинг
                     await _loadingUI.HideLoadingAsync();
+                    
+                    EventBus.Raise(new GameScreenReadyEvent());*/
+                    
+                    await StartGame(true);
                 }
                 else if (data.Result == PopupResult.RemoveAndExit)
                 {
@@ -170,6 +189,40 @@ namespace UI.Screens
             });
             
             UpdateSkin();
+        }
+
+        private async UniTask StartGame(bool isLoadSavedGame = false)
+        {
+            // Показ *правильного* in-game loading
+            await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
+
+            // Засекаем время после фактического показа экрана загрузки с баннерами
+            float startTime = Time.realtimeSinceStartup;
+
+            if (isLoadSavedGame)
+            {
+                SaveGameData gameData = await _saveService.LoadAsync();
+                _gameController.SetGameData(gameData);
+            }
+
+            // Скрываем главное меню
+            await _ui.HideAllScreensAsync();
+
+            // Переход на экран игры с ИИ
+            await _ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
+
+            // Сколько уже показывался лоадинг
+            int elapsedMs = Mathf.RoundToInt((Time.realtimeSinceStartup - startTime) * 1000f);
+            int remainingMs = Mathf.Max(0, _configService.Game.minLoadingScreenDurationMs - elapsedMs);
+
+            // Если экран загрузился слишком быстро — добиваем остаток
+            if (remainingMs > 0)
+                await UniTask.Delay(remainingMs, DelayType.UnscaledDeltaTime);
+                    
+            // Убираем лоадинг
+            await _loadingUI.HideLoadingAsync();
+                    
+            EventBus.Raise(new GameScreenReadyEvent());
         }
 
         private void OnDestroy()

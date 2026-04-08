@@ -66,3 +66,4 @@ MonoBehaviour:
   newWordsCooldownSeconds: 90
   newWordsMinLength: 2
   newWordsMaxLength: 32
+  minLoadingScreenDurationMs: 3000

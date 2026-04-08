@@ -461,6 +461,22 @@ MonoBehaviour:
     m_Localized: Boosters
     m_Metadata:
       m_Items: []
+  - m_Id: 53604724950581248
+    m_Localized: 'Fight
+
+      the AI!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53605726692982784
+    m_Localized: Hint!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53606436797038592
+    m_Localized: 'Stop
+
+      time!'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

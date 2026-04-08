@@ -431,6 +431,18 @@ MonoBehaviour:
     m_Key: POPUP_LABEL_BOOSTERS
     m_Metadata:
       m_Items: []
+  - m_Id: 53604724950581248
+    m_Key: LOADING_SCREEN_VS_AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53605726692982784
+    m_Key: LOADING_SCREEN_LETTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53606436797038592
+    m_Key: LOADING_SCREEN_SLOWDOWN
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

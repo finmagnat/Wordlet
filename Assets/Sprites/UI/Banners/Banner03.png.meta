@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f1e323595ab90da4cb270c539b626020
+guid: b39b58e331db4ec4db05247345cd5e0a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8034498820249247495
-    second: Banner03_04_0
+      213: 2461293514080834728
+    second: Banner03_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Banner03_04_0
+      name: Banner03_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1280
-        height: 1921
+        width: 1088
+        height: 1951
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f0afbe34e9bf7090800000000000000
-      internalID: -8034498820249247495
+      spriteID: 8a4d2ca1965482220800000000000000
+      internalID: 2461293514080834728
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Banner03_04_0: -8034498820249247495
+      Banner03_0: 2461293514080834728
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

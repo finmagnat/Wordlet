@@ -57,7 +57,8 @@ namespace Game.Logic
 
         public async UniTask InitializeAsync()
         {
-            EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
+            EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStart);
+            EventBus.Subscribe<GameScreenReadyEvent>(OnGameScreenReady);
             
             EventBus.Subscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
@@ -87,7 +88,8 @@ namespace Game.Logic
         
         public void Dispose()
         {
-            EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
+            EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStart);
+            EventBus.Unsubscribe<GameScreenReadyEvent>(OnGameScreenReady);
             
             EventBus.Unsubscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
@@ -152,7 +154,7 @@ namespace Game.Logic
             _saveGameData = data;
         }
         
-        private void OnGameScreenStartEvent(GameScreenStartEvent eventData)
+        private void OnGameScreenStart(GameScreenStartEvent eventData)
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
@@ -211,7 +213,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
 
                 _durationGame = _saveGameData.maxSeconds;
-                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+                _gameScreen.TimerBar.SetTargetValue(_durationGame);
                 _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
             }
             else
@@ -224,7 +226,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
                 
                 _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame);
-                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+                _gameScreen.TimerBar.SetTargetValue(_durationGame);
             }
 
             if (_bModePlayOwner)
@@ -236,7 +238,17 @@ namespace Game.Logic
             _saveGameData = null;
             _bStart = true;
             
-            _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            if(eventData.AutoStart)
+                OnGameScreenReady(null);
+        }
+
+        private void OnGameScreenReady(GameScreenReadyEvent eventData)
+        {
+            if (_bStart)
+            {
+                _gameScreen.TimerBar.StartTimer();
+                _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            }
         }
 
         private void OnGamePause(GamePauseChangedEvent eventData)
@@ -474,7 +486,7 @@ namespace Game.Logic
 
             _gameScreen.Reset();
             _saveGameData = _saveGameDataRepeat;
-            EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent });
+            EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent, AutoStart = true});
         }
         
         private void OnTimeExpired(IGameEvent eventData)

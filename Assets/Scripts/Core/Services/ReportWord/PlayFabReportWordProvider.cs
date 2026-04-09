@@ -22,7 +22,7 @@ namespace Core.Services.ReportWord
                 throw new Exception("PlayFab is not logged in.");
             
             return ExecuteAsync<AddPendingWordResponseDto>(
-                functionName: "AddPendingWord",
+                functionName: "AddReportWord",
                 functionParameter: new AddPendingWordRequest
                 {
                     word = normalizedWord,
@@ -36,7 +36,7 @@ namespace Core.Services.ReportWord
                 throw new Exception("PlayFab is not logged in.");
             
             var response = await ExecuteAsync<GetPendingWordsResponseDto>(
-                functionName: "GetPendingWords",
+                functionName: "GetReportWords",
                 functionParameter: new GetPendingWordsRequest
                 {
                     language = language
@@ -51,7 +51,7 @@ namespace Core.Services.ReportWord
                 throw new Exception("PlayFab is not logged in.");
             
             return ExecuteAsync<DeletePendingWordResponseDto>(
-                functionName: "DeletePendingWord",
+                functionName: "DeleteReportWord",
                 functionParameter: new DeletePendingWordRequest
                 {
                     word = normalizedWord,
@@ -62,7 +62,7 @@ namespace Core.Services.ReportWord
         public UniTask<ClearPendingWordsResponseDto> ClearWordsAsync(string language)
         {
             return ExecuteAsync<ClearPendingWordsResponseDto>(
-                functionName: "ClearPendingWords",
+                functionName: "ClearReportWords",
                 functionParameter: new ClearPendingWordsRequest
                 {
                     language = language

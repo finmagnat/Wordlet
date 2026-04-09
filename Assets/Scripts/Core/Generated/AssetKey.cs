@@ -72,6 +72,7 @@ namespace Core.Generated
         AIGameExitPopup,
         MainMenuScreen,
         PurchaseConfirmationPopup,
+        BannerLoadingScreen,
         LoadingScreen,
         InGameLoadingScreen,
         AdvicePopup,
@@ -87,6 +88,6 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        BannerLoadingScreen,
+        ShowWordInfoPopup,
     }
 }

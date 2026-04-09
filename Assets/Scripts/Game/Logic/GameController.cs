@@ -32,6 +32,7 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
+        [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
         [Inject] private InterstitialPolicyService _interstitialService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
@@ -82,6 +83,7 @@ namespace Game.Logic
             
             EventBus.Subscribe<UseBoosterEvent>(OnActivateBooster);
             EventBus.Subscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
+            EventBus.Subscribe<ShowWordInfoEvent>(OnShowWordInfoEvent);
             
             _wordsFieldManager.Initialize();
         }
@@ -113,6 +115,7 @@ namespace Game.Logic
             
             EventBus.Unsubscribe<UseBoosterEvent>(OnActivateBooster);
             EventBus.Unsubscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
+            EventBus.Unsubscribe<ShowWordInfoEvent>(OnShowWordInfoEvent);
             
             _wordsFieldManager.Destroy();
         }
@@ -678,6 +681,13 @@ namespace Game.Logic
         {
             if(_gameScreen)
                 _gameScreen.BoosterPanel.Refresh();
+        }
+        
+        private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
+        {
+            await _wordInfoPresenter.ShowAsync(
+                eventData.word,
+                _dictionaryService.DictionaryConfig.languageCode);
         }
         
         private async void OnActivateBooster(UseBoosterEvent eventData)

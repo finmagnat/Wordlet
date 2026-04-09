@@ -62,8 +62,8 @@ namespace UI.Popups
 
         public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language)
         {
-            var popup = await _ui.ShowPopupAsync<MissingWordPopup, NewWordWindowEventData>(AssetKey.MissingWordPopup, 
-                new NewWordWindowEventData{ newWord = word });
+            var popup = await _ui.ShowPopupAsync<ShowWordInfoPopup, ShowWordInfoWindowEventData>(AssetKey.ShowWordInfoPopup, 
+                new ShowWordInfoWindowEventData{ word = word });
 
             using var timerCts = new System.Threading.CancellationTokenSource();
 
@@ -120,7 +120,7 @@ namespace UI.Popups
             };
         }
 
-        private async UniTask RunTimerLoopAsync(MissingWordPopup popup, System.Threading.CancellationToken ct)
+        private async UniTask RunTimerLoopAsync(ShowWordInfoPopup popup, System.Threading.CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)
             {

@@ -2,6 +2,6 @@ namespace Core.Data
 {
     public class ShowWordInfoWindowEventData
     {
-        public string newWord;
+        public string word;
     }
 }

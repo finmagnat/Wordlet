@@ -27,31 +27,31 @@ namespace Core.DebugTools
                 Instance = null;
         }
 
-        [ContextMenu("Dump Pending Words")]
-        public void DumpPendingWords()
+        [ContextMenu("Dump Report Words")]
+        public void DumpReportWords()
         {
-            DumpPendingWordsAsync().Forget();
+            DumpReportWordsAsync().Forget();
         }
 
-        [ContextMenu("Dump Pending Words To Clipboard")]
-        public void DumpPendingWordsToClipboard()
+        [ContextMenu("Dump Report Words To Clipboard")]
+        public void DumpReportWordsToClipboard()
         {
-            DumpPendingWordsToClipboardAsync().Forget();
+            DumpReportWordsToClipboardAsync().Forget();
         }
 
-        [ContextMenu("Add Pending Word")]
-        public void AddPendingWord()
+        [ContextMenu("Add Report Word")]
+        public void AddReportWord()
         {
-            AddPendingWordAsync().Forget();
+            AddReportWordAsync().Forget();
         }
 
-        [ContextMenu("Clear All Pending Words")]
-        public void ClearAllPendingWords()
+        [ContextMenu("Clear All Report Words")]
+        public void ClearAllReportWords()
         {
-            ClearAllPendingWordsAsync().Forget();
+            ClearAllReportWordsAsync().Forget();
         }
 
-        private async UniTaskVoid DumpPendingWordsAsync()
+        private async UniTaskVoid DumpReportWordsAsync()
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Core.DebugTools
             }
         }
 
-        private async UniTaskVoid DumpPendingWordsToClipboardAsync()
+        private async UniTaskVoid DumpReportWordsToClipboardAsync()
         {
             try
             {
@@ -102,7 +102,7 @@ namespace Core.DebugTools
             }
         }
 
-        private async UniTaskVoid AddPendingWordAsync()
+        private async UniTaskVoid AddReportWordAsync()
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Core.DebugTools
             }
         }
 
-        private async UniTaskVoid ClearAllPendingWordsAsync()
+        private async UniTaskVoid ClearAllReportWordsAsync()
         {
             try
             {
@@ -136,7 +136,7 @@ namespace Core.DebugTools
             }
             catch (Exception e)
             {
-                Debug.LogError($"[ReportWord] ClearAllPendingWordsAsync failed: {e}");
+                Debug.LogError($"[ReportWord] ClearAllReportWordsAsync failed: {e}");
             }
         }
 

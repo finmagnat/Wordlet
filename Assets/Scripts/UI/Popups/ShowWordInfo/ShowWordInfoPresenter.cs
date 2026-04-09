@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 
 namespace UI.Popups
 {
-    public enum MissingWordPopupFlowStatus
+    public enum ShowWordInfoPopupFlowStatus
     {
         Cancelled,
         Submitted,
@@ -19,15 +19,15 @@ namespace UI.Popups
         Failed
     }
 
-    public readonly struct MissingWordPopupFlowResult
+    public readonly struct ShowWordInfoPopupFlowResult
     {
-        public readonly MissingWordPopupFlowStatus Status;
+        public readonly ShowWordInfoPopupFlowStatus Status;
         public readonly string NormalizedWord;
         public readonly int RemainingCooldownSeconds;
         public readonly int RemainingDailyResetSeconds;
 
-        public MissingWordPopupFlowResult(
-            MissingWordPopupFlowStatus status,
+        public ShowWordInfoPopupFlowResult(
+            ShowWordInfoPopupFlowStatus status,
             string normalizedWord = null,
             int remainingCooldownSeconds = 0,
             int remainingDailyResetSeconds = 0)
@@ -39,7 +39,7 @@ namespace UI.Popups
         }
     }
 
-    public sealed class MissingWordPopupPresenter
+    public sealed class ShowWordInfoPresenter
     {
         private readonly IUIManager _ui;
         private readonly INewWordsService _newWordsService;
@@ -48,7 +48,7 @@ namespace UI.Popups
         
         private string _cooldownText;
         
-        public MissingWordPopupPresenter(
+        public ShowWordInfoPresenter(
             IUIManager ui,
             INewWordsService newWordsService,
             INewWordsLimitsService newWordsLimitsService,
@@ -60,7 +60,7 @@ namespace UI.Popups
             _localization = localization;
         }
 
-        public async UniTask<MissingWordPopupFlowResult> ShowAsync(string word, string language)
+        public async UniTask<ShowWordInfoPopupFlowResult> ShowAsync(string word, string language)
         {
             var popup = await _ui.ShowPopupAsync<MissingWordPopup, NewWordWindowEventData>(AssetKey.MissingWordPopup, 
                 new NewWordWindowEventData{ newWord = word });
@@ -90,33 +90,33 @@ namespace UI.Popups
 
             if (popupResult.Result != PopupResult.SaveAndExit)
             {
-                return new MissingWordPopupFlowResult(MissingWordPopupFlowStatus.Cancelled);
+                return new ShowWordInfoPopupFlowResult(ShowWordInfoPopupFlowStatus.Cancelled);
             }
 
             var submitResult = await _newWordsService.TrySubmitWordAsync(word, language);
 
             return submitResult.Status switch
             {
-                SubmitNewWordFlowStatus.Submitted => new MissingWordPopupFlowResult(
-                    MissingWordPopupFlowStatus.Submitted,
+                SubmitNewWordFlowStatus.Submitted => new ShowWordInfoPopupFlowResult(
+                    ShowWordInfoPopupFlowStatus.Submitted,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.AlreadyExists => new MissingWordPopupFlowResult(
-                    MissingWordPopupFlowStatus.AlreadyExists,
+                SubmitNewWordFlowStatus.AlreadyExists => new ShowWordInfoPopupFlowResult(
+                    ShowWordInfoPopupFlowStatus.AlreadyExists,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.Cooldown => new MissingWordPopupFlowResult(
-                    MissingWordPopupFlowStatus.Cooldown,
+                SubmitNewWordFlowStatus.Cooldown => new ShowWordInfoPopupFlowResult(
+                    ShowWordInfoPopupFlowStatus.Cooldown,
                     remainingCooldownSeconds: submitResult.RemainingCooldownSeconds),
 
-                SubmitNewWordFlowStatus.DailyLimitReached => new MissingWordPopupFlowResult(
-                    MissingWordPopupFlowStatus.DailyLimitReached,
+                SubmitNewWordFlowStatus.DailyLimitReached => new ShowWordInfoPopupFlowResult(
+                    ShowWordInfoPopupFlowStatus.DailyLimitReached,
                     remainingDailyResetSeconds: submitResult.RemainingDailyResetSeconds),
 
-                SubmitNewWordFlowStatus.Invalid => new MissingWordPopupFlowResult(
-                    MissingWordPopupFlowStatus.Invalid),
+                SubmitNewWordFlowStatus.Invalid => new ShowWordInfoPopupFlowResult(
+                    ShowWordInfoPopupFlowStatus.Invalid),
 
-                _ => new MissingWordPopupFlowResult(MissingWordPopupFlowStatus.Failed)
+                _ => new ShowWordInfoPopupFlowResult(ShowWordInfoPopupFlowStatus.Failed)
             };
         }
 

@@ -1,19 +1,19 @@
 using System;
 using System.Linq;
 using Core.Services.NewWords;
+using Core.Services.ReportWord;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 namespace Core.DebugTools
 {
-
-    public sealed class SRDebugNewWordsBridge : MonoBehaviour
+    public sealed class SRDebugReportWordBridge : MonoBehaviour
     {
-        [Inject] private INewWordsService _newWordsService;
+        [Inject] private IReportWordService _reportWordService;
 
-        public static SRDebugNewWordsBridge Instance { get; private set; }
-        
+        public static SRDebugReportWordBridge Instance { get; private set; }
+
         public string WordToAdd { get; set; } = string.Empty;
 
         private void Awake()
@@ -56,20 +56,20 @@ namespace Core.DebugTools
             try
             {
                 var language = DebugLanguageCode.Get();
-                var words = await _newWordsService.GetPendingWordsAsync(language);
+                var words = await _reportWordService.GetPendingWordsAsync(language);
 
                 if (words == null || words.Count == 0)
                 {
-                    Debug.Log($"[NewWords] pending_words_{language}: EMPTY");
+                    Debug.Log($"[ReportWord] pending_words_{language}: EMPTY");
                     return;
                 }
 
                 var joined = string.Join(", ", words.Select(x => x.word));
-                Debug.Log($"[NewWords] pending_words_{language} ({words.Count}): {joined}");
+                Debug.Log($"[ReportWord] pending_words_{language} ({words.Count}): {joined}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[NewWords] DumpPendingWordsAsync failed: {e}");
+                Debug.LogError($"[ReportWord] DumpPendingWordsAsync failed: {e}");
             }
         }
 
@@ -78,12 +78,12 @@ namespace Core.DebugTools
             try
             {
                 var language = DebugLanguageCode.Get();
-                var words = await _newWordsService.GetPendingWordsAsync(language);
+                var words = await _reportWordService.GetPendingWordsAsync(language);
 
                 if (words == null || words.Count == 0)
                 {
                     GUIUtility.systemCopyBuffer = string.Empty;
-                    Debug.Log($"[NewWords] Clipboard cleared. pending_words_{language} is EMPTY.");
+                    Debug.Log($"[ReportWord] Clipboard cleared. pending_words_{language} is EMPTY.");
                     return;
                 }
 
@@ -94,11 +94,11 @@ namespace Core.DebugTools
 
                 GUIUtility.systemCopyBuffer = text;
 
-                Debug.Log($"[NewWords] Copied {words.Count} words to clipboard for '{language}'.");
+                Debug.Log($"[ReportWord] Copied {words.Count} words to clipboard for '{language}'.");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[NewWords] DumpPendingWordsToClipboardAsync failed: {e}");
+                Debug.LogError($"[ReportWord] DumpPendingWordsToClipboardAsync failed: {e}");
             }
         }
 
@@ -111,17 +111,17 @@ namespace Core.DebugTools
 
                 if (string.IsNullOrWhiteSpace(rawWord))
                 {
-                    Debug.LogWarning("[NewWords] WordToAdd is empty.");
+                    Debug.LogWarning("[ReportWord] WordToAdd is empty.");
                     return;
                 }
 
-                var result = await _newWordsService.SubmitWordAsync(rawWord, language);
+                var result = await _reportWordService.SubmitWordAsync(rawWord, language);
 
-                Debug.Log($"[NewWords] Add result: status={result.status}, word={result.normalizedWord}, language={language}");
+                Debug.Log($"[ReportWord] Add result: status={result.status}, word={result.normalizedWord}, language={language}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[NewWords] AddPendingWordAsync failed: {e}");
+                Debug.LogError($"[ReportWord] AddPendingWordAsync failed: {e}");
             }
         }
 
@@ -130,16 +130,15 @@ namespace Core.DebugTools
             try
             {
                 var language = DebugLanguageCode.Get();
-                var result = await _newWordsService.ClearPendingWordsAsync(language);
+                var result = await _reportWordService.ClearPendingWordsAsync(language);
 
-                Debug.Log($"[NewWords] Clear all result: status={result.status}, language={result.language}");
+                Debug.Log($"[ReportWord] Clear all result: status={result.status}, language={result.language}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[NewWords] ClearAllPendingWordsAsync failed: {e}");
+                Debug.LogError($"[ReportWord] ClearAllPendingWordsAsync failed: {e}");
             }
         }
 
-        
     }
 }

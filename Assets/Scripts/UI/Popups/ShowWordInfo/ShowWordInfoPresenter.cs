@@ -2,13 +2,13 @@ using System;
 using Core.Data;
 using Core.Generated;
 using Core.Services;
-using Core.Services.NewWords;
+using Core.Services.ReportWord;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 
 namespace UI.Popups
 {
-    public enum ShowWordInfoPopupFlowStatus
+    public enum ReportWordFlowStatus
     {
         Cancelled,
         Submitted,
@@ -19,15 +19,15 @@ namespace UI.Popups
         Failed
     }
 
-    public readonly struct ShowWordInfoPopupFlowResult
+    public readonly struct ReportWordPopupFlowResult
     {
-        public readonly ShowWordInfoPopupFlowStatus Status;
+        public readonly ReportWordFlowStatus Status;
         public readonly string NormalizedWord;
         public readonly int RemainingCooldownSeconds;
         public readonly int RemainingDailyResetSeconds;
 
-        public ShowWordInfoPopupFlowResult(
-            ShowWordInfoPopupFlowStatus status,
+        public ReportWordPopupFlowResult(
+            ReportWordFlowStatus status,
             string normalizedWord = null,
             int remainingCooldownSeconds = 0,
             int remainingDailyResetSeconds = 0)
@@ -42,16 +42,16 @@ namespace UI.Popups
     public sealed class ShowWordInfoPresenter
     {
         private readonly IUIManager _ui;
-        private readonly INewWordsService _newWordsService;
-        private readonly INewWordsLimitsService _newWordsLimitsService;
+        private readonly IReportWordService _newWordsService;
+        private readonly IReportWordLimitsService _newWordsLimitsService;
         private readonly LocalizationService _localization;
         
         private string _cooldownText;
         
         public ShowWordInfoPresenter(
             IUIManager ui,
-            INewWordsService newWordsService,
-            INewWordsLimitsService newWordsLimitsService,
+            IReportWordService newWordsService,
+            IReportWordLimitsService newWordsLimitsService,
             LocalizationService localization)
         {
             _ui = ui;
@@ -60,7 +60,7 @@ namespace UI.Popups
             _localization = localization;
         }
 
-        public async UniTask<ShowWordInfoPopupFlowResult> ShowAsync(string word, string language)
+        public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language)
         {
             var popup = await _ui.ShowPopupAsync<MissingWordPopup, NewWordWindowEventData>(AssetKey.MissingWordPopup, 
                 new NewWordWindowEventData{ newWord = word });
@@ -90,33 +90,33 @@ namespace UI.Popups
 
             if (popupResult.Result != PopupResult.SaveAndExit)
             {
-                return new ShowWordInfoPopupFlowResult(ShowWordInfoPopupFlowStatus.Cancelled);
+                return new ReportWordPopupFlowResult(ReportWordFlowStatus.Cancelled);
             }
 
             var submitResult = await _newWordsService.TrySubmitWordAsync(word, language);
 
             return submitResult.Status switch
             {
-                SubmitNewWordFlowStatus.Submitted => new ShowWordInfoPopupFlowResult(
-                    ShowWordInfoPopupFlowStatus.Submitted,
+                SubmitReportWordFlowStatus.Submitted => new ReportWordPopupFlowResult(
+                    ReportWordFlowStatus.Submitted,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.AlreadyExists => new ShowWordInfoPopupFlowResult(
-                    ShowWordInfoPopupFlowStatus.AlreadyExists,
+                SubmitReportWordFlowStatus.AlreadyExists => new ReportWordPopupFlowResult(
+                    ReportWordFlowStatus.AlreadyExists,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.Cooldown => new ShowWordInfoPopupFlowResult(
-                    ShowWordInfoPopupFlowStatus.Cooldown,
+                SubmitReportWordFlowStatus.Cooldown => new ReportWordPopupFlowResult(
+                    ReportWordFlowStatus.Cooldown,
                     remainingCooldownSeconds: submitResult.RemainingCooldownSeconds),
 
-                SubmitNewWordFlowStatus.DailyLimitReached => new ShowWordInfoPopupFlowResult(
-                    ShowWordInfoPopupFlowStatus.DailyLimitReached,
+                SubmitReportWordFlowStatus.DailyLimitReached => new ReportWordPopupFlowResult(
+                    ReportWordFlowStatus.DailyLimitReached,
                     remainingDailyResetSeconds: submitResult.RemainingDailyResetSeconds),
 
-                SubmitNewWordFlowStatus.Invalid => new ShowWordInfoPopupFlowResult(
-                    ShowWordInfoPopupFlowStatus.Invalid),
+                SubmitReportWordFlowStatus.Invalid => new ReportWordPopupFlowResult(
+                    ReportWordFlowStatus.Invalid),
 
-                _ => new ShowWordInfoPopupFlowResult(ShowWordInfoPopupFlowStatus.Failed)
+                _ => new ReportWordPopupFlowResult(ReportWordFlowStatus.Failed)
             };
         }
 

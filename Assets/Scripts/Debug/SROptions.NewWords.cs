@@ -5,15 +5,15 @@ public partial class SROptions
 {
     [Category("Dev/New Words")]
     [DisplayName("Language"), Sort(1)]
-    public DebugNewWordsLanguage NewWordsLanguage
+    public DebugLanguage Language
     {
         get => SRDebugNewWordsBridge.Instance != null
-            ? SRDebugNewWordsBridge.Instance.SelectedLanguage
-            : DebugNewWordsLanguage.Ru;
+            ? DebugLanguageCode.SelectedLanguage
+            : DebugLanguage.Ru;
         set
         {
             if (SRDebugNewWordsBridge.Instance == null) return;
-            SRDebugNewWordsBridge.Instance.SelectedLanguage = value;
+            DebugLanguageCode.SelectedLanguage = value;
         }
     }
 

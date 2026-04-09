@@ -6,22 +6,26 @@ namespace Core.Config
     [CreateAssetMenu(menuName = "Wordlet/Config/Game Config", fileName = "GameConfig")]
     public class GameConfig : ScriptableObject
     {
+        //---------------------------------
         [Header("Address")]
         public string Privacy = "https://finmagnat.github.io/wordlet-privacy/";
         public string Terms = "https://finmagnat.github.io/wordlet-terms/";
         public string Support = "semantica.dev@gmail.com";
         
+        //---------------------------------
         [Header("UI")]
         [Tooltip("Базовое разрешение для Canvas Scaler (ландшафт)")]
-        public Vector2Int referenceResolution = new Vector2Int(1920, 1080);
+        public Vector2Int referenceResolution = new Vector2Int(1080, 1920);
 
         [Range(0f, 1f)]
         [Tooltip("Матчинг ширины/высоты для Canvas Scaler (0=по ширине, 1=по высоте)")]
         public float screenMatch = 0.5f;
 
+        //---------------------------------
         [Header("APPLICATION")]
         public int targetFps = 60;
         
+        //---------------------------------
         [Header("SERVICES")]
         public bool enableAnalytics = true;
         public bool enableAds = true;
@@ -34,7 +38,7 @@ namespace Core.Config
         public string unityAdsGameIdAndroid;
         public bool unityAdsTestMode = true;
 
-        
+        //---------------------------------
         [Header("GAMEPLAY")]
         [Tooltip("Версия игровой механики (влияет на пользовательскиие сейвы)")]
         public int version = 1;
@@ -59,7 +63,7 @@ namespace Core.Config
         [Tooltip("Кулдаун между переключением паузы (секунды). 0 = выкл")]
         public int pauseCooldownSeconds = 1;
         
-        
+        //---------------------------------
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
@@ -70,14 +74,14 @@ namespace Core.Config
         public ComplexityAISettings GetComplexityAIItem(ComplexityAI сomplexityAI) =>
             _сomplexityAIList.Find(item => item.СomplexityAiLevel == сomplexityAI);
         
-        
+        //---------------------------------
         [Header("БУСТЕРЫ")]
         [Tooltip("Время замедления игрового таймера (секунды)")]
         public int slowdownDelay;
         [Tooltip("Время перед переходом хода, после найденного бустером слова (секунды)")]
         public float autoApplyDelay = 2;
         
-        
+        //---------------------------------
         [Header("LEADERBOARD")]
         [Tooltip("Сколько строк показывать в Top-N")]
         public int leaderboardTopN = 10;
@@ -85,20 +89,29 @@ namespace Core.Config
         [Tooltip("Кэш Score (секунды), чтобы не спамить PlayFab")]
         public int scoreCacheSeconds = 15;
         
-        
+        //---------------------------------
         [Header("NEW WORDS MODERATION")]
         [Tooltip("Максимум отправок новых слов в сутки. 0 = безлимит")]
         public int newWordsDailyLimit = 5;
 
         [Tooltip("Кулдаун между отправками новых слов (секунды). 0 = выкл")]
         public int newWordsCooldownSeconds = 90;
-
+        
         [Tooltip("Минимальная длина нового слова для отправки")]
         public int newWordsMinLength = 2;
 
         [Tooltip("Максимальная длина нового слова для отправки")]
         public int newWordsMaxLength = 32;
+        
+        //---------------------------------
+        [Header("REPORT WORDS MODERATION")]
+        [Tooltip("Максимум отправок жалоб на слова в сутки. 0 = безлимит")]
+        public int reportWordsDailyLimit = 5;
 
+        [Tooltip("Кулдаун между отправками жалоб на слова (секунды). 0 = выкл")]
+        public int reportWordsCooldownSeconds = 90;
+
+        //---------------------------------
         [Tooltip("Минимальное время отображения загрузочного экрана с баннерами (миллисекунды)")]
         public int minLoadingScreenDurationMs = 2000;
     }

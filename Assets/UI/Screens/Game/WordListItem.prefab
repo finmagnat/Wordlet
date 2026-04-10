@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c7e316d8db48e2a21ee0c999199e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.WordListItem
-  wordText: {fileID: 721814710800370769}
+  _wordText: {fileID: 721814710800370769}
 --- !u!1 &3064780059424890559
 GameObject:
   m_ObjectHideFlags: 0

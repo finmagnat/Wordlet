@@ -11,7 +11,7 @@ public partial class SROptions
         set => DebugLanguageCode.SelectedLanguage = value;
     }
 
-    //------------ [Category("Dev/Report & New Words")]
+    //------------ [Category("Dev/New Words")]
     [Category("Dev/New Words")]
     [DisplayName("Word To Add"), Sort(2)]
     public string NewWordToAdd
@@ -47,7 +47,7 @@ public partial class SROptions
         SRDebugNewWordsBridge.Instance?.ClearAllPendingWords();
     }
     
-    //------------ [Category("Dev/New Words")]
+    //------------ [Category("Dev/Report Words")]
     [Category("Dev/Report Words")]
     [DisplayName("Word To Add"), Sort(6)]
     public string ReportWordToAdd
@@ -61,6 +61,7 @@ public partial class SROptions
             SRDebugReportWordBridge.Instance.WordToAdd = value;
         }
     }
+    // TODO: Добавить опцию "Причина жадобы"
 
     [Category("Dev/Report Words")]
     [DisplayName("Add Report Word"), Sort(7)]

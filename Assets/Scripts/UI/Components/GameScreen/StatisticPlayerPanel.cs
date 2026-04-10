@@ -71,7 +71,7 @@ namespace UI.Components
         private void CreateWordItem(string word)
         {
             WordListItem wordListItem = Instantiate(_wordListItemPrefab, _listContent);
-            wordListItem.wordText.text = $"{word.Length} {word}";
+            wordListItem.Initialize(word);
             Words.Add(word);
         }
     }

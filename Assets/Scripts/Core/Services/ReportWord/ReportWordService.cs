@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Services.ReportWords;
 using Cysharp.Threading.Tasks;
 
 namespace Core.Services.ReportWord
@@ -14,7 +15,7 @@ namespace Core.Services.ReportWord
             _limits = limits;
         }
 
-        public UniTask<AddPendingWordResponseDto> SubmitWordAsync(string rawWord, string language)
+        public UniTask<AddPendingWordResponseDto> SubmitWordAsync(string rawWord, ReportReason reason, string language)
         {
             if (!TryNormalizeWord(rawWord, out var normalizedWord))
             {
@@ -27,10 +28,11 @@ namespace Core.Services.ReportWord
             }
 
             var normalizedLanguage = NormalizeLanguage(language);
-            return _provider.AddWordAsync(normalizedWord, normalizedLanguage);
+            var normalizedReason = ReportReasonExtensions.ToId(reason);
+            return _provider.AddWordAsync(normalizedWord, normalizedReason, normalizedLanguage);
         }
         
-        public async UniTask<SubmitReportWordFlowResult> TrySubmitWordAsync(string rawWord, string language)
+        public async UniTask<SubmitReportWordFlowResult> TrySubmitWordAsync(string rawWord, ReportReason reason, string language)
         {
             if (!TryNormalizeWord(rawWord, out var normalizedWord))
             {
@@ -54,7 +56,8 @@ namespace Core.Services.ReportWord
             }
 
             var normalizedLanguage = NormalizeLanguage(language);
-            var response = await _provider.AddWordAsync(normalizedWord, normalizedLanguage);
+            var normalizedReason = ReportReasonExtensions.ToId(reason);
+            var response = await _provider.AddWordAsync(normalizedWord, normalizedReason, normalizedLanguage);
 
             if (!response.success)
             {

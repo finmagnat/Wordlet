@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 71056481b8c1c6e48908e633a25dcb4e
+guid: 14b882dff174d0a4d8406e221752b441
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8920579547870331714
-    second: LetterDropBlue-256_0
+      213: -4749438714014045640
+    second: CapsuleOrange_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LetterDropBlue-256_0
+      name: CapsuleOrange_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 247
+        width: 260
+        height: 208
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 94, y: 116, z: 110, w: 92}
+      border: {x: 120, y: 98, z: 126, w: 98}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ebcf29a1a2cb33480800000000000000
-      internalID: -8920579547870331714
+      spriteID: 83a64b837aa961eb0800000000000000
+      internalID: -4749438714014045640
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: dd1f6a48d56de2e48be2ff8e95d20dfc
+    spriteID: 2a2592956b031034281485c5c0142975
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LetterDropBlue-256_0: -8920579547870331714
+      CapsuleOrange_0: -4749438714014045640
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -6,8 +6,16 @@ namespace Core.UI.Components
 {
     public class WordListItem : MonoBehaviour
     {
-        public TextMeshProUGUI wordText;
+        [SerializeField] private TextMeshProUGUI _wordText;
         
-        public void OnPressed() => EventBus.Raise(new ShowWordInfoEvent());
+        private string _word;
+
+        public void Initialize(string word)
+        {
+            _word = word;
+            _wordText.text = $"{_word.Length} {_word}";
+        }
+        
+        public void OnPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _word});
     }
 }

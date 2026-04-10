@@ -41,16 +41,13 @@ namespace UI.Popups
                 _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.SaveAndExit });
             });
             
-            _sendButton.interactable = false;
-            
             _reasonDropdown.onValueChanged.AddListener(OnDropdownChanged);
         }
         
         private void OnDropdownChanged(int index)
         {
             Debug.Log($"Выбран пункт: {index}");
-            
-            _sendButton.interactable = index == 0 ? false : true;
+            _sendButton.interactable = GetSelectedReason() != ReportReason.None;
         }
 
         private void OnDestroy()
@@ -71,6 +68,8 @@ namespace UI.Popups
             _reasonDropdown.value = 0;
             _reasonDropdown.RefreshShownValue();
             
+            _sendButton.interactable = false;
+            
             // _infoText.text = ""; // TODO: получить значение слова для текущей локализации из базы данных и отобразить. 
             return UniTask.CompletedTask;
         }
@@ -85,8 +84,6 @@ namespace UI.Popups
         
         public void SetSubmitState(bool canSubmit, string message)
         {
-            _sendButton.interactable = canSubmit;
-
             if (_cooldownText == null)
                 return;
 
@@ -97,7 +94,7 @@ namespace UI.Popups
                 _cooldownText.text = message;
         }
         
-        private ReportReason GetSelectedReason()
+        public ReportReason GetSelectedReason()
         {
             int index = _reasonDropdown.value;
 

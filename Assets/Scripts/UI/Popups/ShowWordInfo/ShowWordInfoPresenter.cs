@@ -42,21 +42,21 @@ namespace UI.Popups
     public sealed class ShowWordInfoPresenter
     {
         private readonly IUIManager _ui;
-        private readonly IReportWordService _newWordsService;
-        private readonly IReportWordLimitsService _newWordsLimitsService;
+        private readonly IReportWordService _reportService;
+        private readonly IReportWordLimitsService _limitsService;
         private readonly LocalizationService _localization;
         
         private string _cooldownText;
         
         public ShowWordInfoPresenter(
             IUIManager ui,
-            IReportWordService newWordsService,
-            IReportWordLimitsService newWordsLimitsService,
+            IReportWordService reportService,
+            IReportWordLimitsService limitsService,
             LocalizationService localization)
         {
             _ui = ui;
-            _newWordsService = newWordsService;
-            _newWordsLimitsService = newWordsLimitsService;
+            _reportService = reportService;
+            _limitsService = limitsService;
             _localization = localization;
         }
 
@@ -67,7 +67,7 @@ namespace UI.Popups
 
             using var timerCts = new System.Threading.CancellationTokenSource();
 
-            _cooldownText = _localization.Get(LocalizationConst.TableUI, "LIMIT_NEW_WORD_SENT_TEXT");
+            _cooldownText = _localization.Get(LocalizationConst.TableUI, "LIMIT_REPORT_WORD_SENT_TEXT");
             var timerTask = RunTimerLoopAsync(popup, timerCts.Token);
 
             PopupExitData popupResult;
@@ -93,7 +93,7 @@ namespace UI.Popups
                 return new ReportWordPopupFlowResult(ReportWordFlowStatus.Cancelled);
             }
 
-            var submitResult = await _newWordsService.TrySubmitWordAsync(word, language);
+            var submitResult = await _reportService.TrySubmitWordAsync(word, popup.GetSelectedReason(), language);
 
             return submitResult.Status switch
             {
@@ -124,7 +124,7 @@ namespace UI.Popups
         {
             while (!ct.IsCancellationRequested)
             {
-                var availability = _newWordsLimitsService.GetAvailability();
+                var availability = _limitsService.GetAvailability();
 
                 string message = null;
 

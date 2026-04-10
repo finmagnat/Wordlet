@@ -16,7 +16,7 @@ namespace Core.Services.ReportWord
             _playFabAuth = playFabAuth;
         }
         
-        public UniTask<AddPendingWordResponseDto> AddWordAsync(string normalizedWord, string language)
+        public UniTask<AddPendingWordResponseDto> AddWordAsync(string normalizedWord, string normalizedReason, string language)
         {
             if (!_playFabAuth.IsLoggedIn)
                 throw new Exception("PlayFab is not logged in.");
@@ -26,6 +26,7 @@ namespace Core.Services.ReportWord
                 functionParameter: new AddPendingWordRequest
                 {
                     word = normalizedWord,
+                    reason = normalizedReason,
                     language = language
                 });
         }
@@ -124,6 +125,7 @@ namespace Core.Services.ReportWord
         private sealed class AddPendingWordRequest
         {
             public string word;
+            public string reason;
             public string language;
         }
 

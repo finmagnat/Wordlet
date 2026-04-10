@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Core.Services.NewWords;
 using Core.Services.ReportWord;
+using Core.Services.ReportWords;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -15,6 +16,7 @@ namespace Core.DebugTools
         public static SRDebugReportWordBridge Instance { get; private set; }
 
         public string WordToAdd { get; set; } = string.Empty;
+        public ReportReason Reason { get; set; } = ReportReason.None;
 
         private void Awake()
         {
@@ -108,6 +110,7 @@ namespace Core.DebugTools
             {
                 var language = DebugLanguageCode.Get();
                 var rawWord = WordToAdd;
+                var reason = Reason;
 
                 if (string.IsNullOrWhiteSpace(rawWord))
                 {
@@ -115,7 +118,7 @@ namespace Core.DebugTools
                     return;
                 }
 
-                var result = await _reportWordService.SubmitWordAsync(rawWord, language);
+                var result = await _reportWordService.SubmitWordAsync(rawWord, reason, language);
 
                 Debug.Log($"[ReportWord] Add result: status={result.status}, word={result.normalizedWord}, language={language}");
             }

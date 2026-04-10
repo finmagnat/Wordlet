@@ -487,6 +487,10 @@ MonoBehaviour:
     m_Key: REPORT_WORD_REASON_LABEL
     m_Metadata:
       m_Items: []
+  - m_Id: 54294947510501376
+    m_Key: LIMIT_REPORT_WORD_SENT_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

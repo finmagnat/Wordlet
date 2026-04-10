@@ -514,11 +514,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 54020561603805184
-    m_Localized: Report a word
+    m_Localized: Submit
     m_Metadata:
       m_Items: []
   - m_Id: 54021613652688896
-    m_Localized: Reason for complaint
+    m_Localized: Report a word
     m_Metadata:
       m_Items: []
   - m_Id: 54294947510501376

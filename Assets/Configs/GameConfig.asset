@@ -32,6 +32,7 @@ MonoBehaviour:
   gameOpponentByDefault: 1
   maxPassesByDefault: 2
   pauseCooldownSeconds: 1
+  delayAIPlaySeconds: 3
   complexityAiByDefault: 2
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1

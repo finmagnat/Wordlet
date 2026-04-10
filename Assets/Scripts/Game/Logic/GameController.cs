@@ -669,6 +669,8 @@ namespace Game.Logic
         
         private async UniTaskVoid AIPlayAsync()
         {
+            await UniTask.WaitForSeconds(_configService.Game.delayAIPlaySeconds);
+            
             var res = await _ai.FindWordAsync(_complexityAISettings);
 
             if (res.Success)

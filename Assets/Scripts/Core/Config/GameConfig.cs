@@ -63,6 +63,9 @@ namespace Core.Config
         [Tooltip("Кулдаун между переключением паузы (секунды). 0 = выкл")]
         public int pauseCooldownSeconds = 1;
         
+        [Tooltip("Задержка перед ходом ИИ (секунды). 0 = выкл")]
+        public int delayAIPlaySeconds = 1;
+        
         //---------------------------------
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]

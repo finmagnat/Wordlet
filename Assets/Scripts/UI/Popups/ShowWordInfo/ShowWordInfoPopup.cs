@@ -84,9 +84,11 @@ namespace UI.Popups
         
         public void SetSubmitState(bool canSubmit, string message)
         {
+            _reasonDropdown.interactable = canSubmit;
+            
             if (_cooldownText == null)
                 return;
-
+            
             bool showMessage = !string.IsNullOrWhiteSpace(message);
             _cooldownText.gameObject.SetActive(showMessage);
 

@@ -141,6 +141,8 @@ MonoBehaviour:
     AddressKey: sfx_letter_selected
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_popup_reward
+    AddressKey: sfx_popup_reward
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup
@@ -161,6 +163,8 @@ MonoBehaviour:
     AddressKey: InGameLoadingScreen
   - Id: AdvicePopup
     AddressKey: AdvicePopup
+  - Id: ShowWordInfoPopup
+    AddressKey: ShowWordInfoPopup
   - Id: AIGameScreen
     AddressKey: AIGameScreen
   - Id: NoAdsPopup
@@ -185,5 +189,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: ShowWordInfoPopup
-    AddressKey: ShowWordInfoPopup

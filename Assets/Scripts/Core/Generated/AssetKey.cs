@@ -66,6 +66,7 @@ namespace Core.Generated
         sfx_popup_question,
         sfx_letter_selected,
         sfx_letter_put_success,
+        sfx_popup_reward,
         ConfirmPassPopup,
         WinPopup,
         NoInternetPopup,
@@ -76,6 +77,7 @@ namespace Core.Generated
         LoadingScreen,
         InGameLoadingScreen,
         AdvicePopup,
+        ShowWordInfoPopup,
         AIGameScreen,
         NoAdsPopup,
         BlockUIScreen,
@@ -88,6 +90,5 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        ShowWordInfoPopup,
     }
 }

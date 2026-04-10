@@ -1,7 +1,10 @@
+using Core.Config;
 using Core.Data;
+using Core.Services;
 using Core.Services.Shop;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Popups
 {
@@ -10,6 +13,8 @@ namespace UI.Popups
         [Header("UI Elements")]
         [SerializeField] private ShopItemView _itemPrefab;
         [SerializeField] private Transform _contentRoot;
+        
+        [Inject] private AudioService _audioService;
         
         protected UniTaskCompletionSource<PopupExitData> _completionSource;
         
@@ -20,6 +25,12 @@ namespace UI.Popups
         public override UniTask PrepareAsync(ShopOfferDto offer) {
             Bind(offer);
             return UniTask.CompletedTask;
+        }
+
+        public override async UniTask ShowAsync()
+        {
+            await base.ShowAsync();
+            _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
         }
         
         public void OnClose()

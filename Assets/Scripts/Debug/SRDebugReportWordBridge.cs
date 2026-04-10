@@ -88,11 +88,10 @@ namespace Core.DebugTools
                     Debug.Log($"[ReportWord] Clipboard cleared. pending_words_{language} is EMPTY.");
                     return;
                 }
-
+                
                 var text = string.Join("\n", words
                     .Where(x => x != null && !string.IsNullOrWhiteSpace(x.word))
-                    .Select(x => x.word)
-                    .OrderBy(x => x));
+                    .Select(x => $"{x.word}\t{x.reason}"));
 
                 GUIUtility.systemCopyBuffer = text;
 

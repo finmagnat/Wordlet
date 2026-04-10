@@ -7,6 +7,7 @@ namespace Core.Services.ReportWord
     public sealed class ReportWordEntryDto
     {
         public string word;
+        public string reason;
     }
 
     [Serializable]

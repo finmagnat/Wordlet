@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Core.DebugTools;
+using Core.Services.ReportWords;
 
 public partial class SROptions
 {
@@ -61,24 +62,37 @@ public partial class SROptions
             SRDebugReportWordBridge.Instance.WordToAdd = value;
         }
     }
-    // TODO: Добавить опцию "Причина жадобы"
-
+    
     [Category("Dev/Report Words")]
-    [DisplayName("Add Report Word"), Sort(7)]
+    [DisplayName("Report Reason"), Sort(7)]
+    public ReportReason ReportReason
+    {
+        get => SRDebugReportWordBridge.Instance != null
+            ? SRDebugReportWordBridge.Instance.Reason
+            : ReportReason.None;
+        set
+        {
+            if (SRDebugReportWordBridge.Instance == null) return;
+            SRDebugReportWordBridge.Instance.Reason = value;
+        }
+    }
+    
+    [Category("Dev/Report Words")]
+    [DisplayName("Add Report Word"), Sort(8)]
     public void AddReportWord()
     {
         SRDebugReportWordBridge.Instance?.AddReportWord();
     }
 
     [Category("Dev/Report Words")]
-    [DisplayName("Get Report Words To Clipboard"), Sort(8)]
+    [DisplayName("Get Report Words To Clipboard"), Sort(9)]
     public void GetReportWordsToClipboard()
     {
         SRDebugReportWordBridge.Instance?.DumpReportWordsToClipboard();
     }
 
     [Category("Dev/Report Words")]
-    [DisplayName("Clear Report Words"), Sort(9)]
+    [DisplayName("Clear Report Words"), Sort(10)]
     public void ClearReportWords()
     {
         SRDebugReportWordBridge.Instance?.ClearAllReportWords();

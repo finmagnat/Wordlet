@@ -5,6 +5,7 @@ using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.NewWords;
+using Core.Services.ReportWord;
 using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
@@ -64,6 +65,11 @@ namespace Core.Installers
             Container.Bind<INewWordsService>().To<NewWordsService>().AsSingle();
             Container.BindInterfacesAndSelfTo<NewWordsLimitsService>().AsSingle().NonLazy();
             Container.Bind<MissingWordPopupPresenter>().AsSingle();
+            
+            Container.Bind<IReportWordProvider>().To<PlayFabReportWordProvider>().AsSingle();
+            Container.Bind<IReportWordService>().To<ReportWordService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ReportWordLimitsService>().AsSingle().NonLazy();
+            Container.Bind<ShowWordInfoPresenter>().AsSingle();
             
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
@@ -153,6 +159,14 @@ namespace Core.Installers
             Container.InstantiateComponent<DebugTools.SRDebugNewWordsBridge>(newWordsGo);
             
             await Container.Resolve<NewWordsLimitsService>().InitializeAsync();
+            
+            
+            var reportWordsGo = new GameObject("SRDebugReportWordBridge");
+            DontDestroyOnLoad(reportWordsGo);
+            Container.InstantiateComponent<DebugTools.SRDebugReportWordBridge>(reportWordsGo);
+            
+            await Container.Resolve<ReportWordLimitsService>().InitializeAsync();
+            
             
             await Container.Resolve<RewardedBoosterGrantService>().InitializeAsync();
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();

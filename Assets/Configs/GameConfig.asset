@@ -15,7 +15,7 @@ MonoBehaviour:
   Privacy: https://finmagnat.github.io/wordlet-privacy/
   Terms: https://finmagnat.github.io/wordlet-terms/
   Support: semantica.dev@gmail.com
-  referenceResolution: {x: 1920, y: 1080}
+  referenceResolution: {x: 1080, y: 1920}
   screenMatch: 0.5
   targetFps: 60
   enableAnalytics: 1
@@ -35,21 +35,29 @@ MonoBehaviour:
   complexityAiByDefault: 2
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
-    MaxWordLength: 3
-    IsRandomWordLength: 0
     MaxPasses: 3
+    IsRandomWordLength: 0
+    WordLength:
+      Min: 0
+      Max: 3
   - "\u0421omplexityAiLevel": 2
-    MaxWordLength: 5
-    IsRandomWordLength: 1
     MaxPasses: 2
+    IsRandomWordLength: 1
+    WordLength:
+      Min: 2
+      Max: 5
   - "\u0421omplexityAiLevel": 3
-    MaxWordLength: 6
-    IsRandomWordLength: 0
     MaxPasses: 1
+    IsRandomWordLength: 1
+    WordLength:
+      Min: 3
+      Max: 6
   - "\u0421omplexityAiLevel": 4
-    MaxWordLength: 24
-    IsRandomWordLength: 0
     MaxPasses: 1
+    IsRandomWordLength: 0
+    WordLength:
+      Min: 2
+      Max: 24
   slowdownDelay: 30
   autoApplyDelay: 2
   leaderboardTopN: 10
@@ -58,3 +66,6 @@ MonoBehaviour:
   newWordsCooldownSeconds: 90
   newWordsMinLength: 2
   newWordsMaxLength: 32
+  reportWordsDailyLimit: 5
+  reportWordsCooldownSeconds: 90
+  minLoadingScreenDurationMs: 3000

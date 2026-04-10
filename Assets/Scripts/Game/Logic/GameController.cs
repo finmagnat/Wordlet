@@ -32,6 +32,7 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
+        [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
         [Inject] private InterstitialPolicyService _interstitialService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
@@ -57,7 +58,8 @@ namespace Game.Logic
 
         public async UniTask InitializeAsync()
         {
-            EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
+            EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStart);
+            EventBus.Subscribe<GameScreenReadyEvent>(OnGameScreenReady);
             
             EventBus.Subscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Subscribe<GameGoEvent>(OnGameGo);
@@ -66,6 +68,7 @@ namespace Game.Logic
             EventBus.Subscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
+            EventBus.Subscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Subscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -80,13 +83,15 @@ namespace Game.Logic
             
             EventBus.Subscribe<UseBoosterEvent>(OnActivateBooster);
             EventBus.Subscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
+            EventBus.Subscribe<ShowWordInfoEvent>(OnShowWordInfoEvent);
             
             _wordsFieldManager.Initialize();
         }
         
         public void Dispose()
         {
-            EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStartEvent);
+            EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStart);
+            EventBus.Unsubscribe<GameScreenReadyEvent>(OnGameScreenReady);
             
             EventBus.Unsubscribe<GamePauseChangedEvent>(OnGamePause);
             EventBus.Unsubscribe<GameGoEvent>(OnGameGo);
@@ -95,6 +100,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<RepeatGameEvent>(OnRepeatGame);
 
             EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
+            EventBus.Unsubscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Unsubscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
@@ -109,6 +115,7 @@ namespace Game.Logic
             
             EventBus.Unsubscribe<UseBoosterEvent>(OnActivateBooster);
             EventBus.Unsubscribe<PurchaseSuccessEvent>(OnPurchaseSuccessEvent);
+            EventBus.Unsubscribe<ShowWordInfoEvent>(OnShowWordInfoEvent);
             
             _wordsFieldManager.Destroy();
         }
@@ -150,7 +157,7 @@ namespace Game.Logic
             _saveGameData = data;
         }
         
-        private void OnGameScreenStartEvent(GameScreenStartEvent eventData)
+        private void OnGameScreenStart(GameScreenStartEvent eventData)
         {   
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
@@ -193,6 +200,8 @@ namespace Game.Logic
             _wordsFieldManager.SetWordsFieldData(wordsFieldItems);
                 
             _gameScreen.InitAlphabetField();
+            if(_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.HideAsync().Forget();
             
             if(_saveGameData != null)
             {
@@ -207,7 +216,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
 
                 _durationGame = _saveGameData.maxSeconds;
-                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+                _gameScreen.TimerBar.SetTargetValue(_durationGame);
                 _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
             }
             else
@@ -220,19 +229,29 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
                 
                 _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame);
-                _gameScreen.TimerBar.SetTargetValue(_durationGame, true);
+                _gameScreen.TimerBar.SetTargetValue(_durationGame);
             }
 
             if (_bModePlayOwner)
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
             else
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
-
+            
             _saveGameDataRepeat = _saveGameData;
             _saveGameData = null;
             _bStart = true;
             
-            _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            if(eventData.AutoStart)
+                OnGameScreenReady(null);
+        }
+
+        private void OnGameScreenReady(GameScreenReadyEvent eventData)
+        {
+            if (_bStart)
+            {
+                _gameScreen.TimerBar.StartTimer();
+                _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            }
         }
 
         private void OnGamePause(GamePauseChangedEvent eventData)
@@ -248,11 +267,15 @@ namespace Game.Logic
             {
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_PAUSE");
                 _gameScreen.TimerBar.StopTimer();
+                if(_gameScreen.KeyboardPanel.IsVisible)
+                    _gameScreen.KeyboardPanel.HideAsync().Forget();
             }
             else
             {
                 _gameScreen.TimerBar.StartTimer();
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+                if(_wordsFieldManager.WordsFieldData.SelectedItem != null)
+                    _gameScreen.KeyboardPanel.ShowAsync().Forget();
             }
 
             _wordsFieldManager.ShowLetters(!_bPause);
@@ -324,14 +347,26 @@ namespace Game.Logic
 
             _wordsFieldManager.TryCellSelect(eventData);
         }
+        
+        internal void OnCellSelectCancel(CellSelectCancelEvent eventData)
+        {
+            //Debug.Log("[CaneSelectCell] Position: " + data.position + ", Letter: " + data.letter);
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
 
-        private void OnCellSelectSuccess(IGameEvent eventData)
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
+            _gameScreen.KeyboardPanel.HideAsync().Forget();
+        }
+
+        private void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
         {
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
             
-            _audioService?.PlaySfxAsync(AssetKey.sfx_button_click.ToString());
-            _gameScreen.KeyboardPanel.ShowAsync().Forget();
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
+            
+            if(!_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
         
         private void OnLetterPutSuccess(IGameEvent eventData)
@@ -454,7 +489,7 @@ namespace Game.Logic
 
             _gameScreen.Reset();
             _saveGameData = _saveGameDataRepeat;
-            EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent });
+            EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent, AutoStart = true});
         }
         
         private void OnTimeExpired(IGameEvent eventData)
@@ -646,6 +681,13 @@ namespace Game.Logic
         {
             if(_gameScreen)
                 _gameScreen.BoosterPanel.Refresh();
+        }
+        
+        private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
+        {
+            await _wordInfoPresenter.ShowAsync(
+                eventData.word,
+                _dictionaryService.DictionaryConfig.languageCode);
         }
         
         private async void OnActivateBooster(UseBoosterEvent eventData)

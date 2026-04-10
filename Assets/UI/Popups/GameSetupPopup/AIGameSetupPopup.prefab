@@ -1587,7 +1587,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 960}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
@@ -2368,6 +2368,10 @@ PrefabInstance:
       value: 4427486245519360
       objectReference: {fileID: 0}
     - target: {fileID: 5701077074323029786, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701077074323029786, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 4821967212031355282}
@@ -2381,7 +2385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7268231190862508269, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_text
-      value: "\u041D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u043E"
+      value: "\u0421\u0440\u0435\u0434\u043D\u0435"
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_Pivot.x
@@ -2409,7 +2413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2490,6 +2494,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 9033333531447910631}
     m_Modifications:
     - target: {fileID: 5701077074323029786, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701077074323029786, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 4821967212031355282}
@@ -2527,7 +2535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2588,6 +2596,10 @@ PrefabInstance:
     - target: {fileID: 8571149021444482730, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: _sfxAssetKey
       value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820047503540822854, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
+      propertyPath: m_Maskable
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2887,7 +2899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3013,7 +3025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8252283140567399848, guid: 06e865be2fb858c4bb63cfab81c24744, type: 3}
       propertyPath: m_SizeDelta.y

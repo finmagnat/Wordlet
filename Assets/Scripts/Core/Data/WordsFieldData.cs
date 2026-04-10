@@ -10,6 +10,8 @@ namespace Core.Data
         public const int AMOUNT_LETTERS = 25;
         private const int BOARD_WIDTH = 5;
 
+        public SelectableLetter SelectedItem => _selectedItem;
+        
         public List<SelectableLetter> Items => _items;
 
         private List<SelectableLetter> _items; // Список всех элементов на поле.
@@ -163,6 +165,15 @@ namespace Core.Data
         internal void SetSelectedCell(SelectableLetter item)
         {
             _selectedItem = item;
+        }
+        
+        internal void CellSelectCancel()
+        {
+            if (_selectedItem != null)
+            {
+                _selectedItem.UnHighlight();
+                _selectedItem = null;
+            }
         }
 
         internal bool SetLetterToSelectedCell(string letter)

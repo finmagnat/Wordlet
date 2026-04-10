@@ -103,7 +103,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4427486245519360
-    m_Localized: Normal
+    m_Localized: Average
     m_Metadata:
       m_Items: []
   - m_Id: 4427505694507008
@@ -185,7 +185,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6208603676049408
-    m_Localized: Try again! Success comes with experience ;)
+    m_Localized: 'Try again!
+
+      Success comes with experience ;)'
     m_Metadata:
       m_Items: []
   - m_Id: 6208766385684480
@@ -193,7 +195,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6208915790987264
-    m_Localized: Almost there! That's half a step to victory! Let's do it again!
+    m_Localized: 'Almost there!
+
+      That''s half a step to victory! Let''s do
+      it again!'
     m_Metadata:
       m_Items: []
   - m_Id: 6209112730337280
@@ -276,40 +281,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18899516425388032
-    m_Localized: 'Game Mechanics Version: {0}
-
-      Save Date/Time: {1}
-
-      Location:
-      {2}
-
-      Game Mode: {3}
-
-      Difficulty Level: {4}
-
-      Player Turn:
-      {5}
-
-      Turn Time: {6} sec.
-
-      Current Turn Time: {7} sec.
-
-      Score:
-      {8}
-
-      Skip Points: {9}
-
-      Opponent Score: {10}
-
-      Opponent Skip
-      Points: {11}
-
-      Original Word: {12}
-
-      Player Words: {13}
-
-      Opponent
-      Words: {14}'
+    m_Localized: "<line-height=105%>\r\n<color=#FF9A00><b>General Information</b></color>\r\n\r\nMechanics
+      version: <b>{0}</b>  \r\nSaved on: <b>{1}</b>  \r\nLocalization: <b>{2}</b> 
+      \r\n\r\n<color=#FF9A00><b>Game Mode</b></color>\r\n\r\nMode: <b>{3}</b>  \r\nDifficulty:
+      <b>{4}</b>  \r\n\r\n<color=#FF9A00><b>Turn</b></color>\r\n\r\nPlayer\u2019s
+      turn: <b>{5}</b>  \r\nTurn time: <b>{6}</b> sec.  \r\nTime left: <b>{7}</b>
+      sec.  \r\n\r\n<color=#FF9A00><b>Score</b></color>\r\n\r\nYou: <b>{8}</b>  
+      (skips: {9})  \r\nOpponent: <b>{10}</b>   (skips: {11})  \r\n\r\n<color=#FF9A00><b>Words</b></color>\r\n\r\nInitial
+      word: <b>{12}</b>  \r\n\r\nYour words:  \r\n<size=90%>{13}</size>  \r\n\r\nOpponent\u2019s
+      words:  \r\n<size=90%>{14}</size>\r\n\r\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 18909657128386560
@@ -390,7 +370,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 37313886545133568
-    m_Localized: 'There is no internet connection.
+    m_Localized: 'There''s no internet connection.
 
 
       Try to restore it on your
@@ -430,7 +410,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 40198905135513600
-    m_Localized: Select a letter to place it in the highlighted cell on the field.
+    m_Localized: Choose a letter
     m_Metadata:
       m_Items: []
   - m_Id: 42393487151611904
@@ -470,7 +450,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49315119388573696
-    m_Localized: Want to skip a turn?
+    m_Localized: Do you want to skip a turn?
     m_Metadata:
       m_Items: []
   - m_Id: 49315230399217664
@@ -479,6 +459,70 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 49641347035316224
     m_Localized: Boosters
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53604724950581248
+    m_Localized: 'Fight
+
+      the AI!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53605726692982784
+    m_Localized: Hint!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53606436797038592
+    m_Localized: 'Stop
+
+      time!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010322137530368
+    m_Localized: Information about the word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010507370577920
+    m_Localized: Word does not exist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010609304748032
+    m_Localized: Typo or error
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010702930001920
+    m_Localized: Incorrect word form
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010779241168896
+    m_Localized: Proper noun (name or title)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010869355790336
+    m_Localized: Rare or outdated word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010961278156800
+    m_Localized: Offensive or inappropriate word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011043205496832
+    m_Localized: Other
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011673135431680
+    m_Localized: Choose a reason
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54020561603805184
+    m_Localized: Submit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54021613652688896
+    m_Localized: Report a word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54294947510501376
+    m_Localized: The next word can be sent via<br>
     m_Metadata:
       m_Items: []
   references:

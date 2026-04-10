@@ -7,20 +7,13 @@ using Zenject;
 
 namespace Core.DebugTools
 {
-    public enum DebugNewWordsLanguage
-    {
-        Ru,
-        En,
-        Uk
-    }
 
     public sealed class SRDebugNewWordsBridge : MonoBehaviour
     {
         [Inject] private INewWordsService _newWordsService;
 
         public static SRDebugNewWordsBridge Instance { get; private set; }
-
-        public DebugNewWordsLanguage SelectedLanguage { get; set; } = DebugNewWordsLanguage.Ru;
+        
         public string WordToAdd { get; set; } = string.Empty;
 
         private void Awake()
@@ -62,7 +55,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = GetLanguageCode();
+                var language = DebugLanguageCode.Get();
                 var words = await _newWordsService.GetPendingWordsAsync(language);
 
                 if (words == null || words.Count == 0)
@@ -84,7 +77,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = GetLanguageCode();
+                var language = DebugLanguageCode.Get();
                 var words = await _newWordsService.GetPendingWordsAsync(language);
 
                 if (words == null || words.Count == 0)
@@ -113,7 +106,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = GetLanguageCode();
+                var language = DebugLanguageCode.Get();
                 var rawWord = WordToAdd;
 
                 if (string.IsNullOrWhiteSpace(rawWord))
@@ -136,7 +129,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = GetLanguageCode();
+                var language = DebugLanguageCode.Get();
                 var result = await _newWordsService.ClearPendingWordsAsync(language);
 
                 Debug.Log($"[NewWords] Clear all result: status={result.status}, language={result.language}");
@@ -147,15 +140,6 @@ namespace Core.DebugTools
             }
         }
 
-        public string GetLanguageCode()
-        {
-            return SelectedLanguage switch
-            {
-                DebugNewWordsLanguage.Ru => "ru",
-                DebugNewWordsLanguage.En => "en",
-                DebugNewWordsLanguage.Uk => "uk",
-                _ => "ru"
-            };
-        }
+        
     }
 }

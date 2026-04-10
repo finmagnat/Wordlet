@@ -5,8 +5,6 @@ using Core.Services;
 using Core.Services.NewWords;
 using Core.UI;
 using Cysharp.Threading.Tasks;
-using UI.Popups;
-using Zenject;
 
 namespace UI.Popups
 {

@@ -477,6 +477,54 @@ MonoBehaviour:
       time!'
     m_Metadata:
       m_Items: []
+  - m_Id: 54010322137530368
+    m_Localized: Information about the word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010507370577920
+    m_Localized: Word does not exist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010609304748032
+    m_Localized: Typo or error
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010702930001920
+    m_Localized: Incorrect word form
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010779241168896
+    m_Localized: Proper noun (name or title)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010869355790336
+    m_Localized: Rare or outdated word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010961278156800
+    m_Localized: Offensive or inappropriate word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011043205496832
+    m_Localized: Other
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011673135431680
+    m_Localized: Choose a reason
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54020561603805184
+    m_Localized: Submit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54021613652688896
+    m_Localized: Report a word
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54294947510501376
+    m_Localized: The next word can be sent via<br>
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

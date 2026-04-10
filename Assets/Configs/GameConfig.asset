@@ -15,7 +15,7 @@ MonoBehaviour:
   Privacy: https://finmagnat.github.io/wordlet-privacy/
   Terms: https://finmagnat.github.io/wordlet-terms/
   Support: semantica.dev@gmail.com
-  referenceResolution: {x: 1920, y: 1080}
+  referenceResolution: {x: 1080, y: 1920}
   screenMatch: 0.5
   targetFps: 60
   enableAnalytics: 1
@@ -66,4 +66,6 @@ MonoBehaviour:
   newWordsCooldownSeconds: 90
   newWordsMinLength: 2
   newWordsMaxLength: 32
+  reportWordsDailyLimit: 5
+  reportWordsCooldownSeconds: 90
   minLoadingScreenDurationMs: 3000

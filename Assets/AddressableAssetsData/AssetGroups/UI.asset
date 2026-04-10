@@ -75,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 781201dd29e33e24ebb07b23140780e7
+    m_Address: ShowWordInfoPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 797a65c132a972b4abc0a926a017acc3
     m_Address: AIGameScreen
     m_ReadOnly: 0

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Services;
+using Core.UI.Components;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace UI.Components
         [Tooltip("Ссылка на контейнер для списка слов")]
         [SerializeField] private Transform _listContent;
         [Tooltip("Ссылка на префаб с элементом текстового поля")]
-        [SerializeField] private GameObject _wordListItemPrefab;
+        [SerializeField] private WordListItem _wordListItemPrefab;
         [SerializeField] private Image _mainBackground;
         [SerializeField] private Image _handleBackground;
         
@@ -31,11 +32,7 @@ namespace UI.Components
         {
             if (_wordListItemPrefab && _listContent)
             {
-                GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
-                
-                TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
-                itemWord.text = $"{value.Length} {value}";
-                Words.Add(value);
+                CreateWordItem(value);
                 
                 await UniTask.Yield();
                 
@@ -48,13 +45,7 @@ namespace UI.Components
             if (_wordListItemPrefab && _listContent)
             {
                 foreach (var value in words)
-                {
-                    GameObject wordListItem = Instantiate(_wordListItemPrefab, _listContent);
-
-                    TextMeshProUGUI itemWord = wordListItem.GetComponent<TextMeshProUGUI>();
-                    itemWord.text = $"{value.Length} {value}";
-                    Words.Add(value);
-                }
+                    CreateWordItem(value);
 
                 await UniTask.Yield();
                 
@@ -66,12 +57,8 @@ namespace UI.Components
         {
             Words.Clear();
             if (_listContent)
-            {
                 foreach (Transform child in _listContent.transform)
-                {
                     Destroy(child.gameObject);
-                }
-            }
         }
         
         public async UniTask UpdateSkin()
@@ -79,6 +66,13 @@ namespace UI.Components
             var skin = _skinsService.SkinCurrent;
             _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.FrameBackgroundAlias);
             _handleBackground.sprite = await _spritesService.GetSpriteAsync(skin.HandleBackgroundAlias);
+        }
+
+        private void CreateWordItem(string word)
+        {
+            WordListItem wordListItem = Instantiate(_wordListItemPrefab, _listContent);
+            wordListItem.Initialize(word);
+            Words.Add(word);
         }
     }
 }

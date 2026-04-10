@@ -443,6 +443,54 @@ MonoBehaviour:
     m_Key: LOADING_SCREEN_SLOWDOWN
     m_Metadata:
       m_Items: []
+  - m_Id: 54010322137530368
+    m_Key: POPUP_WORD_INFO_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010507370577920
+    m_Key: REPORT_WORD_NOT_A_WORD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010609304748032
+    m_Key: REPORT_WORD_TYPO_OR_ERROR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010702930001920
+    m_Key: REPORT_WORD_INCORRECT_FORM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010779241168896
+    m_Key: REPORT_WORD_PROPER_NOUN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010869355790336
+    m_Key: REPORT_WORD_RARE_OR_OUTDATED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54010961278156800
+    m_Key: REPORT_WORD_OFFENSIVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011043205496832
+    m_Key: REPORT_WORD_OTHER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54011673135431680
+    m_Key: REPORT_WORD_SELECT_OPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54020561603805184
+    m_Key: REPORT_WORD_BUTTON_SEND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54021613652688896
+    m_Key: REPORT_WORD_REASON_LABEL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54294947510501376
+    m_Key: LIMIT_REPORT_WORD_SENT_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

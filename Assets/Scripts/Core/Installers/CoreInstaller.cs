@@ -102,15 +102,15 @@ namespace Core.Installers
             loading.SetProgress(0.05f);
 
             // 2) Инициализация сервисов с прогрессом
-            await Container.Resolve<ConfigService>().InitializeAsync();
+            await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.10f);
-
+            
             await Container.Resolve<GameLogger>().InitializeAsync();
             loading.SetProgress(0.15f);
             
-            await Container.Resolve<LocalizationService>().InitializeAsync();
+            await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.20f);
-            
+
             await internetService.InitializeAsync();
             if (!await internetService.CheckNowAsync())
             {

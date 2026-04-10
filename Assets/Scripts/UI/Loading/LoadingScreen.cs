@@ -1,13 +1,14 @@
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using TMPro;
-using UI.Screens;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.UI
 {
-    public class LoadingScreen : UIScreen
+    public class LoadingScreen : BannerLoadingScreen
     {
+        [Header("Progress Elements")]
         [SerializeField] private Slider _progressBar;
         [SerializeField] private TextMeshProUGUI _percentText;
 
@@ -21,7 +22,7 @@ namespace UI.UI
         {
             gameObject.SetActive(true);
             SetProgress(0f);
-            return UniTask.CompletedTask;
+            return base.ShowAsync();
         }
     }
 }

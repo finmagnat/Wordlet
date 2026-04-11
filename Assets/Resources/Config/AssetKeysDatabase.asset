@@ -157,8 +157,6 @@ MonoBehaviour:
     AddressKey: PurchaseConfirmationPopup
   - Id: BannerLoadingScreen
     AddressKey: BannerLoadingScreen
-  - Id: LoadingScreen
-    AddressKey: LoadingScreen
   - Id: InGameLoadingScreen
     AddressKey: InGameLoadingScreen
   - Id: AdvicePopup

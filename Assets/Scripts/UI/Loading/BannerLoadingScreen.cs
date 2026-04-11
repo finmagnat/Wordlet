@@ -9,18 +9,18 @@ namespace Core.UI
     public class BannerLoadingScreen : UIScreen
     {
         [Header("UI Elements")]
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private float _fadeDuration = 0.3f;
-        [SerializeField] private GameObject[] _banners;
+        [SerializeField] protected CanvasGroup _canvasGroup;
+        [SerializeField] protected float _fadeDuration = 0.3f;
+        [SerializeField] protected GameObject[] _banners;
 #if UNITY_EDITOR
         [Header("DEBUG")]
-        [SerializeField] private bool _isDebug;
-        [SerializeField] private int _indexAlways = 0;
+        [SerializeField] protected bool _isDebug;
+        [SerializeField] protected int _indexAlways = 0;
 #endif
         
-        private bool _isVisible;
+        protected bool _isVisible;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (_canvasGroup == null)
                 _canvasGroup = GetComponent<CanvasGroup>();

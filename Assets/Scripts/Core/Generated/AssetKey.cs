@@ -74,7 +74,6 @@ namespace Core.Generated
         MainMenuScreen,
         PurchaseConfirmationPopup,
         BannerLoadingScreen,
-        LoadingScreen,
         InGameLoadingScreen,
         AdvicePopup,
         ShowWordInfoPopup,

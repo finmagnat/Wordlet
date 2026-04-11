@@ -790,7 +790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 871979374947821032}
   - component: {fileID: 5032742693890654003}
-  - component: {fileID: -1933815177210543259}
   - component: {fileID: 8408762169792592218}
   m_Layer: 0
   m_Name: LoadingScreen
@@ -833,14 +832,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!222 &-1933815177210543259
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6220109460825396736}
-  m_CullTransparentMesh: 1
 --- !u!114 &8408762169792592218
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -57,12 +57,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5bc95e0a605bc64458d3071ce773b253
-    m_Address: LoadingScreen
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 623a273d5fe60e04e8e7e94b12b95ff8
     m_Address: InGameLoadingScreen
     m_ReadOnly: 0

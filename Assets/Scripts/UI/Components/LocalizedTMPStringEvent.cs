@@ -1,7 +1,8 @@
+using Core.Services;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
+using Zenject;
 
 namespace Core.UI.Components
 {
@@ -11,22 +12,32 @@ namespace Core.UI.Components
     {
         [SerializeField] private LocalizedString localizedString;
 
+        [Inject] private LocalizationService _localization;
+        
         private TMP_Text _text;
         private bool _isSubscribed;
 
-        private void Awake()
+        private void Start()
         {
             _text = GetComponent<TMP_Text>();
-            Refresh();
+            if (LocalizationService.IsInitialized)
+            {
+                Initialise();
+            }
+            else
+            {
+                LocalizationService.OnInitialized += Initialise;
+            }
         }
 
-        private void OnEnable()
+        private void Initialise()
         {
+            LocalizationService.OnInitialized -= Initialise;
             Subscribe();
             Refresh();
         }
-
-        private void OnDisable()
+        
+        private void OnDestroy()
         {
             Unsubscribe();
         }
@@ -36,7 +47,7 @@ namespace Core.UI.Components
             if (_isSubscribed) return;
 
             localizedString.StringChanged += UpdateText;
-            LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
+            _localization.OnLocaleChanged += OnLocaleChanged;
 
             _isSubscribed = true;
         }
@@ -46,7 +57,7 @@ namespace Core.UI.Components
             if (!_isSubscribed) return;
 
             localizedString.StringChanged -= UpdateText;
-            LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
+            _localization.OnLocaleChanged -= OnLocaleChanged;
 
             _isSubscribed = false;
         }

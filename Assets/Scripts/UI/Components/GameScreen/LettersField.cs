@@ -10,6 +10,7 @@ namespace UI.Components
     public class LettersField : MonoBehaviour
     {
         [SerializeField] private KeyboardLetter _keyboardLetterPrefab;
+        [SerializeField] private AdaptiveKeyboardGrid _adaptiveKeyboardGrid;
 
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spriteService;
@@ -46,6 +47,8 @@ namespace UI.Components
                     _items.Add(keyboardLetter);
                 }
             }
+            
+            _adaptiveKeyboardGrid.RefreshLayout(alphabet.Length);
 
             SetSkin();
         }

@@ -30,10 +30,13 @@ namespace Core.Services
     /// </summary>
     public class LocalizationService : ILocalizationService
     {
+        public static bool IsInitialized = false;
+        
         private readonly Dictionary<string, string> _cache = new();
 
         public Locale CurrentLocale => LocalizationSettings.SelectedLocale;
 
+        public static event Action OnInitialized;
         public event Action<Locale> OnLocaleChanged;
 
         // ---------------------------------------------------------
@@ -85,9 +88,15 @@ namespace Core.Services
             PlayerPrefs.Save();
 
             _cache.Clear();
-            OnLocaleChanged?.Invoke(locale);
-
             Debug.Log($"🌐 Locale changed to: {locale.Identifier.Code}");
+            
+            if (!IsInitialized)
+            {
+                IsInitialized = true;
+                OnInitialized?.Invoke();
+            }
+
+            OnLocaleChanged?.Invoke(locale);
         }
 
         // ---------------------------------------------------------

@@ -491,6 +491,10 @@ MonoBehaviour:
     m_Key: LIMIT_REPORT_WORD_SENT_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 54358709823225856
+    m_Key: LOADING_SCREEN_USE_BOOSTERS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

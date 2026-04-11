@@ -135,14 +135,14 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_booster_not_found_word
     AddressKey: sfx_booster_not_found_word
+  - Id: sfx_popup_reward
+    AddressKey: sfx_popup_reward
   - Id: sfx_popup_question
     AddressKey: sfx_popup_question
   - Id: sfx_letter_selected
     AddressKey: sfx_letter_selected
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
-  - Id: sfx_popup_reward
-    AddressKey: sfx_popup_reward
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup
@@ -157,8 +157,6 @@ MonoBehaviour:
     AddressKey: PurchaseConfirmationPopup
   - Id: BannerLoadingScreen
     AddressKey: BannerLoadingScreen
-  - Id: LoadingScreen
-    AddressKey: LoadingScreen
   - Id: InGameLoadingScreen
     AddressKey: InGameLoadingScreen
   - Id: AdvicePopup

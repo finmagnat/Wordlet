@@ -64,7 +64,7 @@ namespace Core.Config
         public int pauseCooldownSeconds = 1;
         
         [Tooltip("Задержка перед ходом ИИ (секунды). 0 = выкл")]
-        public int delayAIPlaySeconds = 1;
+        public float delayAIPlaySeconds = 1.0f;
         
         //---------------------------------
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]

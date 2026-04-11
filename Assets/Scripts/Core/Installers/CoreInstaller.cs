@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Core.Build;
 using Core.DataDictionary;
@@ -94,21 +93,22 @@ namespace Core.Installers
 
         private async UniTaskVoid InitializeAsync()
         {
-            var ui = Container.Resolve<IUIManager>();
-            var internetService = Container.Resolve<IInternetConnectionService>();
-
+            loading.SetProgress(0.0f);
+            
+            await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.05f);
 
-            await Container.Resolve<LocalizationService>().InitializeAsync();
+            await Container.Resolve<GameLogger>().InitializeAsync();
             loading.SetProgress(0.10f);
 
-            await Container.Resolve<GameLogger>().InitializeAsync();
+            await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.15f);
 
-            await Container.Resolve<ConfigService>().InitializeAsync();
-            loading.SetProgress(0.20f);
-
+            var ui = Container.Resolve<IUIManager>();
+            var internetService = Container.Resolve<IInternetConnectionService>();
             await internetService.InitializeAsync();
+            loading.SetProgress(0.20f);
+            
             if (!await internetService.CheckNowAsync())
             {
                 // апку запустили без интернета...

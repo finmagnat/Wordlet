@@ -9,6 +9,7 @@ namespace UI.UI
     {
         [Header("Progress Elements")]
         [SerializeField] private Slider _progressBar;
+        [SerializeField] private TextMeshProUGUI _loadingText;
         [SerializeField] private TextMeshProUGUI _percentText;
 
         protected override void Awake()
@@ -19,6 +20,7 @@ namespace UI.UI
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
             _isVisible = true;
+            _loadingText.text = "";
         }
         
         public void SetProgress(float value01)

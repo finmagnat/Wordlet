@@ -1,4 +1,4 @@
-namespace Core.Services.ReportWords
+namespace Core.Services.ReportWord
 {
     public enum ReportReason
     {

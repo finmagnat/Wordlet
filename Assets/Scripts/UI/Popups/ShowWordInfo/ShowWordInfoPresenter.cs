@@ -2,6 +2,7 @@ using System;
 using Core.Data;
 using Core.Generated;
 using Core.Services;
+using Core.Services.Common;
 using Core.Services.ReportWord;
 using Core.UI;
 using Cysharp.Threading.Tasks;
@@ -97,23 +98,23 @@ namespace UI.Popups
 
             return submitResult.Status switch
             {
-                SubmitReportWordFlowStatus.Submitted => new ReportWordPopupFlowResult(
+                WordSubmissionFlowStatus.Submitted => new ReportWordPopupFlowResult(
                     ReportWordFlowStatus.Submitted,
                     submitResult.NormalizedWord),
 
-                SubmitReportWordFlowStatus.AlreadyExists => new ReportWordPopupFlowResult(
+                WordSubmissionFlowStatus.AlreadyExists => new ReportWordPopupFlowResult(
                     ReportWordFlowStatus.AlreadyExists,
                     submitResult.NormalizedWord),
 
-                SubmitReportWordFlowStatus.Cooldown => new ReportWordPopupFlowResult(
+                WordSubmissionFlowStatus.Cooldown => new ReportWordPopupFlowResult(
                     ReportWordFlowStatus.Cooldown,
                     remainingCooldownSeconds: submitResult.RemainingCooldownSeconds),
 
-                SubmitReportWordFlowStatus.DailyLimitReached => new ReportWordPopupFlowResult(
+                WordSubmissionFlowStatus.DailyLimitReached => new ReportWordPopupFlowResult(
                     ReportWordFlowStatus.DailyLimitReached,
                     remainingDailyResetSeconds: submitResult.RemainingDailyResetSeconds),
 
-                SubmitReportWordFlowStatus.Invalid => new ReportWordPopupFlowResult(
+                WordSubmissionFlowStatus.Invalid => new ReportWordPopupFlowResult(
                     ReportWordFlowStatus.Invalid),
 
                 _ => new ReportWordPopupFlowResult(ReportWordFlowStatus.Failed)

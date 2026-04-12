@@ -1,15 +1,13 @@
 using System;
-using System.Linq;
-using Core.Services.NewWords;
+using System.Collections.Generic;
 using Core.Services.ReportWord;
-using Core.Services.ReportWords;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
 namespace Core.DebugTools
 {
-    public sealed class SRDebugReportWordBridge : MonoBehaviour
+    public sealed class SRDebugReportWordBridge : SRDebugWordsBridgeBase<ReportWordEntryDto>
     {
         [Inject] private IReportWordService _reportWordService;
 
@@ -17,6 +15,8 @@ namespace Core.DebugTools
 
         public string WordToAdd { get; set; } = string.Empty;
         public ReportReason Reason { get; set; } = ReportReason.None;
+
+        protected override string LogPrefix => "[ReportWord]";
 
         private void Awake()
         {
@@ -32,13 +32,13 @@ namespace Core.DebugTools
         [ContextMenu("Dump Report Words")]
         public void DumpReportWords()
         {
-            DumpReportWordsAsync().Forget();
+            DumpWordsAsyncInternal().Forget();
         }
 
         [ContextMenu("Dump Report Words To Clipboard")]
         public void DumpReportWordsToClipboard()
         {
-            DumpReportWordsToClipboardAsync().Forget();
+            DumpWordsToClipboardAsyncInternal().Forget();
         }
 
         [ContextMenu("Add Report Word")]
@@ -50,57 +50,27 @@ namespace Core.DebugTools
         [ContextMenu("Clear All Report Words")]
         public void ClearAllReportWords()
         {
-            ClearAllReportWordsAsync().Forget();
+            ClearAllWordsAsyncInternal().Forget();
         }
 
-        private async UniTaskVoid DumpReportWordsAsync()
+        protected override UniTask<IReadOnlyList<ReportWordEntryDto>> GetWordsAsync(string language)
         {
-            try
-            {
-                var language = DebugLanguageCode.Get();
-                var words = await _reportWordService.GetPendingWordsAsync(language);
-
-                if (words == null || words.Count == 0)
-                {
-                    Debug.Log($"[ReportWord] pending_words_{language}: EMPTY");
-                    return;
-                }
-
-                var joined = string.Join(", ", words.Select(x => x.word));
-                Debug.Log($"[ReportWord] pending_words_{language} ({words.Count}): {joined}");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[ReportWord] DumpPendingWordsAsync failed: {e}");
-            }
+            return _reportWordService.GetPendingWordsAsync(language);
         }
 
-        private async UniTaskVoid DumpReportWordsToClipboardAsync()
+        protected override async UniTask ClearWordsAsync(string language)
         {
-            try
-            {
-                var language = DebugLanguageCode.Get();
-                var words = await _reportWordService.GetPendingWordsAsync(language);
+            await _reportWordService.ClearPendingWordsAsync(language);
+        }
 
-                if (words == null || words.Count == 0)
-                {
-                    GUIUtility.systemCopyBuffer = string.Empty;
-                    Debug.Log($"[ReportWord] Clipboard cleared. pending_words_{language} is EMPTY.");
-                    return;
-                }
-                
-                var text = string.Join("\n", words
-                    .Where(x => x != null && !string.IsNullOrWhiteSpace(x.word))
-                    .Select(x => $"{x.word}\t{x.reason}"));
+        protected override string GetWord(ReportWordEntryDto entry)
+        {
+            return entry?.word;
+        }
 
-                GUIUtility.systemCopyBuffer = text;
-
-                Debug.Log($"[ReportWord] Copied {words.Count} words to clipboard for '{language}'.");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[ReportWord] DumpPendingWordsToClipboardAsync failed: {e}");
-            }
+        protected override string FormatClipboardLine(ReportWordEntryDto entry)
+        {
+            return $"{entry.word}\t{entry.reason}";
         }
 
         private async UniTaskVoid AddReportWordAsync()
@@ -123,24 +93,8 @@ namespace Core.DebugTools
             }
             catch (Exception e)
             {
-                Debug.LogError($"[ReportWord] AddPendingWordAsync failed: {e}");
+                Debug.LogError($"[ReportWord] AddReportWordAsync failed: {e}");
             }
         }
-
-        private async UniTaskVoid ClearAllReportWordsAsync()
-        {
-            try
-            {
-                var language = DebugLanguageCode.Get();
-                var result = await _reportWordService.ClearPendingWordsAsync(language);
-
-                Debug.Log($"[ReportWord] Clear all result: status={result.status}, language={result.language}");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[ReportWord] ClearAllReportWordsAsync failed: {e}");
-            }
-        }
-
     }
 }

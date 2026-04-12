@@ -1,4 +1,5 @@
 using System;
+using Core.Services.Common;
 
 namespace Core.Services.ReportWord
 {
@@ -6,7 +7,7 @@ namespace Core.Services.ReportWord
     {
         event Action OnStateChanged;
 
-        ReportWordSubmitAvailability GetAvailability();
+        WordSubmitAvailability GetAvailability();
         void RegisterSuccessfulSubmit();
     }
 }

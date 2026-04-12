@@ -1,4 +1,5 @@
 using System;
+using Core.Services.Common;
 
 namespace Core.Services.NewWords
 {
@@ -6,7 +7,7 @@ namespace Core.Services.NewWords
     {
         event Action OnStateChanged;
 
-        NewWordsSubmitAvailability GetAvailability();
+        WordSubmitAvailability GetAvailability();
         void RegisterSuccessfulSubmit();
     }
 }

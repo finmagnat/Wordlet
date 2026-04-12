@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Core.Services.ReportWords
+namespace Core.Services.ReportWord
 {
     public static class ReportReasonExtensions
     {

@@ -1,13 +1,13 @@
-namespace Core.Services.ReportWord
+namespace Core.Services.Common
 {
-    public readonly struct ReportWordSubmitAvailability
+    public readonly struct WordSubmitAvailability
     {
         public readonly bool CanSubmit;
         public readonly bool DailyLimitReached;
         public readonly int RemainingCooldownSeconds;
         public readonly int RemainingDailyResetSeconds;
 
-        public ReportWordSubmitAvailability(
+        public WordSubmitAvailability(
             bool canSubmit,
             bool dailyLimitReached,
             int remainingCooldownSeconds,

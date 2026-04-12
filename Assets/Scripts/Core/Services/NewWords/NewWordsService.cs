@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Services.Common;
 using Cysharp.Threading.Tasks;
 
 namespace Core.Services.NewWords
@@ -16,7 +17,7 @@ namespace Core.Services.NewWords
 
         public UniTask<AddPendingWordResponseDto> SubmitWordAsync(string rawWord, string language)
         {
-            if (!TryNormalizeWord(rawWord, out var normalizedWord))
+            if (!WordSubmissionUtils.TryNormalizeWord(rawWord, out var normalizedWord))
             {
                 return UniTask.FromResult(new AddPendingWordResponseDto
                 {
@@ -26,49 +27,49 @@ namespace Core.Services.NewWords
                 });
             }
 
-            var normalizedLanguage = NormalizeLanguage(language);
+            var normalizedLanguage = WordSubmissionUtils.NormalizeLanguage(language);
             return _provider.AddWordAsync(normalizedWord, normalizedLanguage);
         }
-        
-        public async UniTask<SubmitNewWordFlowResult> TrySubmitWordAsync(string rawWord, string language)
+
+        public async UniTask<WordSubmissionFlowResult> TrySubmitWordAsync(string rawWord, string language)
         {
-            if (!TryNormalizeWord(rawWord, out var normalizedWord))
+            if (!WordSubmissionUtils.TryNormalizeWord(rawWord, out var normalizedWord))
             {
-                return new SubmitNewWordFlowResult
+                return new WordSubmissionFlowResult
                 {
-                    Status = SubmitNewWordFlowStatus.Invalid
+                    Status = WordSubmissionFlowStatus.Invalid
                 };
             }
 
             var availability = _limits.GetAvailability();
             if (!availability.CanSubmit)
             {
-                return new SubmitNewWordFlowResult
+                return new WordSubmissionFlowResult
                 {
                     Status = availability.DailyLimitReached
-                        ? SubmitNewWordFlowStatus.DailyLimitReached
-                        : SubmitNewWordFlowStatus.Cooldown,
+                        ? WordSubmissionFlowStatus.DailyLimitReached
+                        : WordSubmissionFlowStatus.Cooldown,
                     RemainingCooldownSeconds = availability.RemainingCooldownSeconds,
                     RemainingDailyResetSeconds = availability.RemainingDailyResetSeconds
                 };
             }
 
-            var normalizedLanguage = NormalizeLanguage(language);
+            var normalizedLanguage = WordSubmissionUtils.NormalizeLanguage(language);
             var response = await _provider.AddWordAsync(normalizedWord, normalizedLanguage);
 
             if (!response.success)
             {
-                return new SubmitNewWordFlowResult
+                return new WordSubmissionFlowResult
                 {
-                    Status = SubmitNewWordFlowStatus.Failed
+                    Status = WordSubmissionFlowStatus.Failed
                 };
             }
 
             if (response.status == "AlreadyExists")
             {
-                return new SubmitNewWordFlowResult
+                return new WordSubmissionFlowResult
                 {
-                    Status = SubmitNewWordFlowStatus.AlreadyExists,
+                    Status = WordSubmissionFlowStatus.AlreadyExists,
                     NormalizedWord = response.normalizedWord
                 };
             }
@@ -77,28 +78,28 @@ namespace Core.Services.NewWords
             {
                 _limits.RegisterSuccessfulSubmit();
 
-                return new SubmitNewWordFlowResult
+                return new WordSubmissionFlowResult
                 {
-                    Status = SubmitNewWordFlowStatus.Submitted,
+                    Status = WordSubmissionFlowStatus.Submitted,
                     NormalizedWord = response.normalizedWord
                 };
             }
 
-            return new SubmitNewWordFlowResult
+            return new WordSubmissionFlowResult
             {
-                Status = SubmitNewWordFlowStatus.Failed
+                Status = WordSubmissionFlowStatus.Failed
             };
         }
 
         public UniTask<IReadOnlyList<NewWordEntryDto>> GetPendingWordsAsync(string language)
         {
-            var normalizedLanguage = NormalizeLanguage(language);
+            var normalizedLanguage = WordSubmissionUtils.NormalizeLanguage(language);
             return _provider.GetWordsAsync(normalizedLanguage);
         }
 
         public UniTask<DeletePendingWordResponseDto> RemoveWordAsync(string rawWord, string language)
         {
-            if (!TryNormalizeWord(rawWord, out var normalizedWord))
+            if (!WordSubmissionUtils.TryNormalizeWord(rawWord, out var normalizedWord))
             {
                 return UniTask.FromResult(new DeletePendingWordResponseDto
                 {
@@ -108,41 +109,14 @@ namespace Core.Services.NewWords
                 });
             }
 
-            var normalizedLanguage = NormalizeLanguage(language);
+            var normalizedLanguage = WordSubmissionUtils.NormalizeLanguage(language);
             return _provider.DeleteWordAsync(normalizedWord, normalizedLanguage);
         }
-        
+
         public UniTask<ClearPendingWordsResponseDto> ClearPendingWordsAsync(string language)
         {
-            var normalizedLanguage = NormalizeLanguage(language);
+            var normalizedLanguage = WordSubmissionUtils.NormalizeLanguage(language);
             return _provider.ClearWordsAsync(normalizedLanguage);
-        }
-
-        private static bool TryNormalizeWord(string rawWord, out string normalizedWord)
-        {
-            normalizedWord = null;
-
-            if (string.IsNullOrWhiteSpace(rawWord))
-                return false;
-
-            var value = rawWord.Trim().ToUpperInvariant();
-
-            // Для MVP: без пробелов внутри, длина в разумных пределах.
-            if (value.Length < 2 || value.Length > 32)
-                return false;
-
-            if (value.Contains(" "))
-                return false;
-
-            normalizedWord = value;
-            return true;
-        }
-
-        private static string NormalizeLanguage(string language)
-        {
-            return string.IsNullOrWhiteSpace(language)
-                ? "ru"
-                : language.Trim().ToLowerInvariant();
         }
     }
 }

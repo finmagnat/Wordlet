@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Core.Services.ReportWords;
 using Cysharp.Threading.Tasks;
 
 namespace Core.Services.ReportWord

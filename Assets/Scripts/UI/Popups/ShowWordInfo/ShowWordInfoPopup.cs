@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Core.Data;
 using Core.Services;
-using Core.Services.ReportWords;
+using Core.Services.ReportWord;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;

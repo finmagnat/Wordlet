@@ -2,6 +2,7 @@ using System;
 using Core.Data;
 using Core.Generated;
 using Core.Services;
+using Core.Services.Common;
 using Core.Services.NewWords;
 using Core.UI;
 using Cysharp.Threading.Tasks;
@@ -97,23 +98,23 @@ namespace UI.Popups
 
             return submitResult.Status switch
             {
-                SubmitNewWordFlowStatus.Submitted => new MissingWordPopupFlowResult(
+                WordSubmissionFlowStatus.Submitted => new MissingWordPopupFlowResult(
                     MissingWordPopupFlowStatus.Submitted,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.AlreadyExists => new MissingWordPopupFlowResult(
+                WordSubmissionFlowStatus.AlreadyExists => new MissingWordPopupFlowResult(
                     MissingWordPopupFlowStatus.AlreadyExists,
                     submitResult.NormalizedWord),
 
-                SubmitNewWordFlowStatus.Cooldown => new MissingWordPopupFlowResult(
+                WordSubmissionFlowStatus.Cooldown => new MissingWordPopupFlowResult(
                     MissingWordPopupFlowStatus.Cooldown,
                     remainingCooldownSeconds: submitResult.RemainingCooldownSeconds),
 
-                SubmitNewWordFlowStatus.DailyLimitReached => new MissingWordPopupFlowResult(
+                WordSubmissionFlowStatus.DailyLimitReached => new MissingWordPopupFlowResult(
                     MissingWordPopupFlowStatus.DailyLimitReached,
                     remainingDailyResetSeconds: submitResult.RemainingDailyResetSeconds),
 
-                SubmitNewWordFlowStatus.Invalid => new MissingWordPopupFlowResult(
+                WordSubmissionFlowStatus.Invalid => new MissingWordPopupFlowResult(
                     MissingWordPopupFlowStatus.Invalid),
 
                 _ => new MissingWordPopupFlowResult(MissingWordPopupFlowStatus.Failed)

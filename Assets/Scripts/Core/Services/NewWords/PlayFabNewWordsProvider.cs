@@ -1,26 +1,20 @@
 using System;
 using System.Collections.Generic;
+using Core.Services.Common;
 using Cysharp.Threading.Tasks;
-using PlayFab;
-using PlayFab.ClientModels;
-using UnityEngine;
 
 namespace Core.Services.NewWords
 {
-    public sealed class PlayFabNewWordsProvider : INewWordsProvider
+    public sealed class PlayFabNewWordsProvider : PlayFabCloudScriptProviderBase, INewWordsProvider
     {
-        private readonly IPlayFabAuthFacade _playFabAuth;
-
-        public PlayFabNewWordsProvider(IPlayFabAuthFacade playFabAuth)
+        public PlayFabNewWordsProvider(IPlayFabAuthFacade playFabAuth) : base(playFabAuth)
         {
-            _playFabAuth = playFabAuth;
         }
-        
+
         public UniTask<AddPendingWordResponseDto> AddWordAsync(string normalizedWord, string language)
         {
-            if (!_playFabAuth.IsLoggedIn)
-                throw new Exception("PlayFab is not logged in.");
-            
+            EnsureLoggedIn();
+
             return ExecuteAsync<AddPendingWordResponseDto>(
                 functionName: "AddPendingWord",
                 functionParameter: new AddPendingWordRequest
@@ -32,9 +26,8 @@ namespace Core.Services.NewWords
 
         public async UniTask<IReadOnlyList<NewWordEntryDto>> GetWordsAsync(string language)
         {
-            if (!_playFabAuth.IsLoggedIn)
-                throw new Exception("PlayFab is not logged in.");
-            
+            EnsureLoggedIn();
+
             var response = await ExecuteAsync<GetPendingWordsResponseDto>(
                 functionName: "GetPendingWords",
                 functionParameter: new GetPendingWordsRequest
@@ -47,9 +40,8 @@ namespace Core.Services.NewWords
 
         public UniTask<DeletePendingWordResponseDto> DeleteWordAsync(string normalizedWord, string language)
         {
-            if (!_playFabAuth.IsLoggedIn)
-                throw new Exception("PlayFab is not logged in.");
-            
+            EnsureLoggedIn();
+
             return ExecuteAsync<DeletePendingWordResponseDto>(
                 functionName: "DeletePendingWord",
                 functionParameter: new DeletePendingWordRequest
@@ -58,66 +50,17 @@ namespace Core.Services.NewWords
                     language = language
                 });
         }
-        
+
         public UniTask<ClearPendingWordsResponseDto> ClearWordsAsync(string language)
         {
+            EnsureLoggedIn();
+
             return ExecuteAsync<ClearPendingWordsResponseDto>(
                 functionName: "ClearPendingWords",
                 functionParameter: new ClearPendingWordsRequest
                 {
                     language = language
                 });
-        }
-
-        private static UniTask<TResponse> ExecuteAsync<TResponse>(string functionName, object functionParameter)
-        {
-            var tcs = new UniTaskCompletionSource<TResponse>();
-
-            var request = new ExecuteCloudScriptRequest
-            {
-                FunctionName = functionName,
-                FunctionParameter = functionParameter,
-                GeneratePlayStreamEvent = true
-            };
-
-            PlayFabClientAPI.ExecuteCloudScript(
-                request,
-                result =>
-                {
-                    try
-                    {
-                        if (result.Error != null)
-                        {
-                            tcs.TrySetException(new Exception($"CloudScript error: {result.Error.Message}"));
-                            return;
-                        }
-
-                        if (result.FunctionResult is not string json || string.IsNullOrWhiteSpace(json))
-                        {
-                            tcs.TrySetException(new Exception(
-                                $"CloudScript '{functionName}' returned empty or non-string result."));
-                            return;
-                        }
-
-                        var response = JsonUtility.FromJson<TResponse>(json);
-                        if (response == null)
-                        {
-                            tcs.TrySetException(new Exception(
-                                $"CloudScript '{functionName}' returned invalid JSON: {json}"));
-                            return;
-                        }
-
-                        tcs.TrySetResult(response);
-                    }
-                    catch (Exception e)
-                    {
-                        tcs.TrySetException(e);
-                    }
-                },
-                error => tcs.TrySetException(new Exception(error.GenerateErrorReport()))
-            );
-
-            return tcs.Task;
         }
 
         [Serializable]
@@ -139,7 +82,7 @@ namespace Core.Services.NewWords
             public string word;
             public string language;
         }
-        
+
         [Serializable]
         private sealed class ClearPendingWordsRequest
         {

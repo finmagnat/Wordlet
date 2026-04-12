@@ -1,8 +1,8 @@
-namespace Core.Services.NewWords
+namespace Core.Services.Common
 {
-    public sealed class SubmitNewWordFlowResult
+    public sealed class WordSubmissionFlowResult
     {
-        public SubmitNewWordFlowStatus Status;
+        public WordSubmissionFlowStatus Status;
         public string NormalizedWord;
         public int RemainingCooldownSeconds;
         public int RemainingDailyResetSeconds;

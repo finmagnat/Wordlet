@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using Core.DebugTools;
-using Core.Services.ReportWords;
+using Core.Services.ReportWord;
 
 public partial class SROptions
 {

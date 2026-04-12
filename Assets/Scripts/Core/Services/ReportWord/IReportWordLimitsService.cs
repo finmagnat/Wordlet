@@ -9,5 +9,6 @@ namespace Core.Services.ReportWord
 
         WordSubmitAvailability GetAvailability();
         void RegisterSuccessfulSubmit();
+        void ResetLimits(bool disableLimits = false);
     }
 }

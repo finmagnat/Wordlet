@@ -7,8 +7,8 @@ namespace Core.Services.NewWords
     {
         [Inject] private IConfigService _configs;
 
-        protected override int DailyLimit => _configs.Game.newWordsDailyLimit;
-        protected override int CooldownSeconds => _configs.Game.newWordsCooldownSeconds;
+        protected override int DailyLimit => !disableLimits ? _configs.Game.newWordsDailyLimit : 0;
+        protected override int CooldownSeconds => !disableLimits ? _configs.Game.newWordsCooldownSeconds : 0;
         protected override string DailyCountKeyPrefix => "new_words_daily";
         protected override string LastSubmitTsKey => "new_words_last_submit_ts";
     }

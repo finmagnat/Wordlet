@@ -10,6 +10,7 @@ namespace Core.DebugTools
     public sealed class SRDebugReportWordBridge : SRDebugWordsBridgeBase<ReportWordEntryDto>
     {
         [Inject] private IReportWordService _reportWordService;
+        [Inject] private IReportWordLimitsService _reportWordLimitsService;
 
         public static SRDebugReportWordBridge Instance { get; private set; }
 
@@ -51,6 +52,20 @@ namespace Core.DebugTools
         public void ClearAllReportWords()
         {
             ClearAllWordsAsyncInternal().Forget();
+        }
+
+        [ContextMenu("Reset Report Word Limits")]
+        public void ResetReportWordLimits(bool disableLimits = false)
+        {
+            try
+            {
+                _reportWordLimitsService.ResetLimits(disableLimits);
+                Debug.Log("[ReportWord] Limits reset.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[ReportWord] ResetReportWordLimits failed: {e}");
+            }
         }
 
         protected override UniTask<IReadOnlyList<ReportWordEntryDto>> GetWordsAsync(string language)

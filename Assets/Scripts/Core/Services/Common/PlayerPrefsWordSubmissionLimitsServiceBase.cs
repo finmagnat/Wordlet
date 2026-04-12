@@ -14,6 +14,8 @@ namespace Core.Services.Common
         protected abstract string DailyCountKeyPrefix { get; }
         protected abstract string LastSubmitTsKey { get; }
 
+        protected bool disableLimits;
+        
         public UniTask InitializeAsync() => UniTask.CompletedTask;
 
         public WordSubmitAvailability GetAvailability()
@@ -62,6 +64,17 @@ namespace Core.Services.Common
 
             if (CooldownSeconds > 0)
                 SetLastSubmitTs(NowUnix());
+
+            OnStateChanged?.Invoke();
+        }
+
+        public void ResetLimits(bool disableLimits = false)
+        {
+            PlayerPrefs.DeleteKey(GetDailyCountKey());
+            PlayerPrefs.DeleteKey(LastSubmitTsKey);
+            PlayerPrefs.Save();
+            
+            this.disableLimits = disableLimits;
 
             OnStateChanged?.Invoke();
         }

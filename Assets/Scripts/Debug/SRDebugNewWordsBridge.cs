@@ -10,6 +10,7 @@ namespace Core.DebugTools
     public sealed class SRDebugNewWordsBridge : SRDebugWordsBridgeBase<NewWordEntryDto>
     {
         [Inject] private INewWordsService _newWordsService;
+        [Inject] private INewWordsLimitsService _newWordsLimitsService;
 
         public static SRDebugNewWordsBridge Instance { get; private set; }
 
@@ -51,6 +52,20 @@ namespace Core.DebugTools
         public void ClearAllPendingWords()
         {
             ClearAllWordsAsyncInternal().Forget();
+        }
+
+        [ContextMenu("Reset New Words Limits")]
+        public void ResetNewWordsLimits(bool disableLimits = false)
+        {
+            try
+            {
+                _newWordsLimitsService.ResetLimits(disableLimits);
+                Debug.Log("[NewWords] Limits reset.");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[NewWords] ResetNewWordsLimits failed: {e}");
+            }
         }
 
         protected override UniTask<IReadOnlyList<NewWordEntryDto>> GetWordsAsync(string language)

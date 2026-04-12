@@ -8,6 +8,7 @@ namespace UI.Components
     {
         [SerializeField] private RectTransform buttonRect;
         [SerializeField] private Graphic optionalGlow; // например Image-подсветка (можно null)
+        [SerializeField] private bool isLevitation; // Включение анимации левитации
 
         private Vector3 _baseScale;
         private Vector2 _basePos;
@@ -43,10 +44,11 @@ namespace UI.Components
             // 1) дыхание
             _seq.Append(buttonRect.DOScale(_baseScale * 1.05f, 0.9f).SetEase(Ease.InOutSine));
             _seq.Append(buttonRect.DOScale(_baseScale, 0.9f).SetEase(Ease.InOutSine));
-
+            
             // 2) левитация параллельно (Join)
-            _seq.Join(
-                buttonRect.DOAnchorPosY(_basePos.y + 6f, 1.2f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo));
+            if (isLevitation)
+                _seq.Join(
+                    buttonRect.DOAnchorPosY(_basePos.y + 6f, 1.2f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo));
 
             // 3) подсветка (опционально)
             if (optionalGlow)
@@ -79,7 +81,9 @@ namespace UI.Components
 
             // вернуть базу
             buttonRect.localScale = _baseScale;
-            buttonRect.anchoredPosition = _basePos;
+            
+            if (isLevitation)
+                buttonRect.anchoredPosition = _basePos;
 
             if (optionalGlow)
             {

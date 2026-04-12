@@ -1,3 +1,4 @@
+using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -23,6 +24,8 @@ namespace UI.Components
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
         
+        private string _startWord;
+        
         private void Start()
         {
             _closeButton.onClick.AddListener(async () =>
@@ -31,7 +34,9 @@ namespace UI.Components
             });
         }
         
-        internal void SetStartWord(string value) => _startWordText.text = value;
+        internal void SetStartWord(string value) => _startWordText.text = _startWord = value;
+        
+        public void OnStartWordPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _startWord});
         
         internal async UniTask UpdateSkin()
         {

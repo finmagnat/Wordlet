@@ -18,6 +18,7 @@ namespace Core.UI
         [SerializeField] private TMP_Text _loadingText;
         [SerializeField] private float _fadeDuration = 0.3f;
         [SerializeField] private float _spinSpeed = 180f;
+        [SerializeField] private float _delayBeforeHide = 1.0f;
 
         [Inject] private LocalizationService _localization;
         
@@ -59,6 +60,8 @@ namespace Core.UI
         {
             if (!_isVisible) return;
 
+            await UniTask.WaitForSeconds(_delayBeforeHide);
+            
             _isVisible = false;
             _canvasGroup.blocksRaycasts = false;
 

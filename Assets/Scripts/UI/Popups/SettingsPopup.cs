@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Core.Config;
 using Core.Events;
 using Core.Services;
-using Core.UI.Components;
 using Cysharp.Threading.Tasks;
 using PlayFab;
+using TMPro;
 using UI.Parallax;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -17,11 +18,10 @@ namespace UI.Popups
     public class SettingsPopup : UIPopup
     {
         [Header("UI Elements")]
+        [SerializeField] private GameObject _languageBar;
+        [SerializeField] private TMP_Dropdown _landDropdown;
         [SerializeField] private GameObject _soundOn;
         [SerializeField] private GameObject _giroParallaxOn;
-        [SerializeField] private LanguageButton _languageButtonPrefab;
-        [SerializeField] private GameObject _content;
-        [SerializeField] private GameObject _languageBar;
         [SerializeField] private Button _closeButton;
         
         [Inject] private LocalizationService _localization;
@@ -30,42 +30,53 @@ namespace UI.Popups
         [Inject] private ConfigService _configService;
         [Inject] private DiContainer _container;
         
-        private readonly Dictionary<string, LanguageButton> _buttons = new ();
         private Locale _newLanguage;
         private Locale _oldLanguage;
         private bool _gyroEnabled;
-        
+        private List<Locale> _locales;
 
         public override async UniTask ShowAsync()
         {
             if (!_languageBar.activeSelf) return;
 
             _oldLanguage = _localization.CurrentLocale;
-            if (_buttons == null || _buttons.Count == 0)
-            {
-                var locales = _localization.GetAvailableLocales();
-                foreach (var locale in locales)
-                {
-                    LanguageButton languageButton = _container.InstantiatePrefabForComponent<LanguageButton>(_languageButtonPrefab, _content.transform);
-                    languageButton.language = locale.Identifier.Code;
-                    languageButton.SetText(locale.LocaleName);
-                    languageButton.button.onClick.AddListener(() =>
-                    {
-                        SelectLanguage(locale);
-                        //Dictionary<string, string> paramDictionary = new() { { Constants.Type, s.lang } };
-                        //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
-                    });
 
-                    _buttons[locale.Identifier.Code] = languageButton;
+            if (_locales == null)
+            {
+                _locales = _localization.GetAvailableLocales();
+                var options = new List<TMP_Dropdown.OptionData>(_locales.Count);
+                int curIndex = 0, i = 0;
+                foreach (var locale in _locales)
+                {
+                    options.Add(new TMP_Dropdown.OptionData(locale.LocaleName));
+                    if (locale.LocaleName == _oldLanguage.LocaleName)
+                        curIndex = i;
+                    i++;
                 }
+
+                _landDropdown.ClearOptions();
+                _landDropdown.AddOptions(options);
+                _landDropdown.value = curIndex;
+                _landDropdown.RefreshShownValue();
+                _landDropdown.onValueChanged.AddListener(OnDropdownChanged);
             }
-            
-            SelectLanguage(_oldLanguage);
+
             UpdateSoundView();
             
             await base.ShowAsync();
         }
 
+        private void OnDestroy()
+        {
+            _landDropdown.onValueChanged.RemoveAllListeners();
+        }
+
+        private void OnDropdownChanged(int index)
+        {
+            Debug.Log($"Выбран пункт: {index}");
+            SelectLanguage(_locales[index]);
+        }
+        
         private void Start()
         {
             _closeButton.onClick.AddListener(async () =>
@@ -89,9 +100,6 @@ namespace UI.Popups
         private void SelectLanguage(Locale locale)
         {
             _newLanguage = locale;
-
-            foreach (string buttonsKey in _buttons.Keys)
-                _buttons[buttonsKey].SetActiveStatus(buttonsKey == locale.Identifier.Code);
 
             if (_localization.CurrentLocale == _newLanguage) return;
 

@@ -830,14 +830,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Balda
+  metroPackageName: Wordlet
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Balda
+  metroApplicationDescription: Wordlet
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0

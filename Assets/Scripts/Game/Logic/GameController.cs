@@ -34,6 +34,7 @@ namespace Game.Logic
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
         [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
         [Inject] private InterstitialPolicyService _interstitialService;
+        [Inject] private ISaveService _saveService;
         
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
         
@@ -52,7 +53,7 @@ namespace Game.Logic
         private int _durationGame;
         private string _firstWord;
         private SaveGameData _saveGameData;
-        private SaveGameData _saveGameDataRepeat;
+        private bool _isSavedGame;
         private bool _boosterProcessing;
         private bool _pauseCooldown;
 
@@ -218,6 +219,7 @@ namespace Game.Logic
                 _durationGame = _saveGameData.maxSeconds;
                 _gameScreen.TimerBar.SetTargetValue(_durationGame);
                 _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
+                _isSavedGame = true;
             }
             else
             {
@@ -237,7 +239,6 @@ namespace Game.Logic
             else
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
             
-            _saveGameDataRepeat = _saveGameData;
             _saveGameData = null;
             _bStart = true;
             
@@ -486,9 +487,9 @@ namespace Game.Logic
         {
             // Пытаемся показать interstitial и ждём закрытия (если показалась)
             await _interstitialService.TryShowAndWaitAsync("exit_game");
-
+            
             _gameScreen.Reset();
-            _saveGameData = _saveGameDataRepeat;
+            
             EventBus.Raise(new GameScreenStartEvent{ Screen = _gameScreen, Opponent = _gameOpponent, AutoStart = true});
         }
         
@@ -623,6 +624,12 @@ namespace Game.Logic
             EventBus.Raise(new GameEndEvent());
             
             _gameScreen.BoosterPanel.SlowdownStop();
+            
+            if (_isSavedGame)
+            {
+                _saveService.ClearAsync().Forget();
+                _isSavedGame = false;
+            }
             
             ShowFinishGamePopup(resultGame);
         }

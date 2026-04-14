@@ -103,7 +103,7 @@ namespace UI.Screens
             _playerPanelOpponent.Reset();
             _progressBar.ResetTimer();
             _repeatGame.gameObject.SetActive(false);
-
+            
             if (_isPaused)
             {
                 _isPaused = false;
@@ -138,7 +138,7 @@ namespace UI.Screens
         {
             await _interstitialService.TryShowAndWaitAsync("exit_game");
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
-
+            
             if (isSaveGame)
                 await _saveService.SaveAsync();
 
@@ -146,6 +146,9 @@ namespace UI.Screens
 
             await _ui.HideAllScreensAsync();
             await _ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
+            
+            _isProcessing = false;
+            
             await _loadingUI.HideLoadingAsync();
         }
 
@@ -153,7 +156,6 @@ namespace UI.Screens
         {
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
-            _isProcessing = false;
         }
 
         protected async UniTask UpdateSkinAsync()

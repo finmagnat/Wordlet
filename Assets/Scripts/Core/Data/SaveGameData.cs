@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 namespace Core.Data
 {
@@ -17,7 +16,7 @@ namespace Core.Data
         public int levelComplexityAI;      // уровень сложности
         public bool playerTurn;            // ход игрока
         public int maxSeconds;             // время хода
-        [FormerlySerializedAs("currentTurnTime")] [FormerlySerializedAs("turnSecondsLeft")] public float currentSeconds;      // текущее время хода
+        public int currentSeconds;         // текущее время хода
         
         public uint playerScore;            // счет игрока
         public uint playerPasses;           // пропуски игрока

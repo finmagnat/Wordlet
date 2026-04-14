@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using Core.Config;
 using Core.Data;
 using Core.Services;
+using Core.Services.ReportWord;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -74,10 +76,10 @@ namespace UI.Popups
                     TicksToLocalString(_gameData.savedAtUtcTicks),
                     _gameData.localeCode,
                     _gameData.mode,
-                    _gameData.levelComplexityAI,
+                    _localization.Get(LocalizationConst.TableUI, ComplexityToLocaleKey(_gameData.levelComplexityAI)),
                     BoolToWord(_gameData.playerTurn),
-                    _gameData.maxSeconds,
-                    _gameData.currentSeconds,
+                    GetFormatMMSS(_gameData.maxSeconds),
+                    GetFormatMMSS(_gameData.maxSeconds - _gameData.currentSeconds),
                     _gameData.playerScore,
                     _gameData.playerPasses,
                     _gameData.opponentScore,
@@ -106,6 +108,26 @@ namespace UI.Popups
             return new DateTime(ticks, DateTimeKind.Utc)
                 .ToLocalTime()
                 .ToString("dd.MM.yyyy HH:mm:ss");
+        }
+        
+        private string GetFormatMMSS(int seconds)
+        {
+            if (seconds < 0) seconds = 0;
+            int m = seconds / 60;
+            int s = seconds % 60;
+            return $"{m:0}:{s:00}";
+        }
+        
+        private string ComplexityToLocaleKey(int complexityAI)
+        {
+            return (ComplexityAI)complexityAI switch
+            {
+                ComplexityAI.EASY => "POPUP_LABEL_DIFFICULTY_EASY",
+                ComplexityAI.NORMAL => "POPUP_LABEL_DIFFICULTY_NORMAL",
+                ComplexityAI.HARD => "POPUP_LABEL_DIFFICULTY_HARD",
+                ComplexityAI.MASTER => "POPUP_LABEL_DIFFICULTY_MASTER",
+                _ => "none"
+            };
         }
         
         private string BoolToWord(bool value)

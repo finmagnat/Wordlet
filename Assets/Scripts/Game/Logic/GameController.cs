@@ -138,7 +138,7 @@ namespace Game.Logic
                 levelComplexityAI = (int)_complexityAI,
                 playerTurn = _bModePlayOwner,
                 maxSeconds = _durationGame,
-                currentSeconds = _gameScreen.TimerBar.GetCurrentValue(),
+                currentSeconds = (int)_gameScreen.TimerBar.GetCurrentValue(),
                 
                 playerScore = _gameScreen.PlayerPanelOwner.Score,
                 opponentScore = _gameScreen.PlayerPanelOpponent.Score,

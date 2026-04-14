@@ -34,6 +34,13 @@ MonoBehaviour:
   pauseCooldownSeconds: 1
   delayAIPlaySeconds: 0.5
   complexityAiByDefault: 2
+  boosterLetterAiSettings:
+    "\u0421omplexityAiLevel": 4
+    MaxPasses: 0
+    IsRandomWordLength: 0
+    WordLength:
+      Min: 8
+      Max: 24
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
     MaxPasses: 3
@@ -57,7 +64,7 @@ MonoBehaviour:
     MaxPasses: 1
     IsRandomWordLength: 0
     WordLength:
-      Min: 2
+      Min: 8
       Max: 24
   slowdownDelay: 30
   autoApplyDelay: 2

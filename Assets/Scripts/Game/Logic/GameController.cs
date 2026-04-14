@@ -749,8 +749,7 @@ namespace Game.Logic
             
             Cancel(); // "очистить мусор"
 
-            var boosterSettings = _configService.Game.GetComplexityAIItem(ComplexityAI.HARD);
-            var res = await _ai.FindWordAsync(boosterSettings);
+            var res = await _ai.FindWordAsync(_configService.Game.boosterLetterAiSettings);
 
             if (res.Success)
             {

@@ -71,6 +71,9 @@ namespace Core.Config
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
         
+        [Tooltip("Настройки алгоритма поиска слов для бустера")]
+        public ComplexityAISettings boosterLetterAiSettings;
+        
         [Space(10), Tooltip("Уровни сложности игры с ИИ")]
         public List<ComplexityAISettings> _сomplexityAIList;
         

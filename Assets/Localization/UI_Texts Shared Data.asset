@@ -499,6 +499,10 @@ MonoBehaviour:
     m_Key: STORE_TITLE_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 56120294698795008
+    m_Key: POPUP_HINT_ERASER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

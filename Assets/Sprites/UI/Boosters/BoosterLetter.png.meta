@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 04c8340c76291804bba9fb61bd833a6c
+guid: e6099a093ace1c247857c73a2ad38c72
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5433366584278011080
-    second: WordletCapsule-256_0
+      213: 6511328444101842867
+    second: BoosterLetter_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WordletCapsule-256_0
+      name: BoosterLetter_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 2
-        width: 256
-        height: 254
+        width: 366
+        height: 351
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8cc4e560f12376b40800000000000000
-      internalID: 5433366584278011080
+      spriteID: 3b7569ea8b2ec5a50800000000000000
+      internalID: 6511328444101842867
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      WordletCapsule-256_0: 5433366584278011080
+      BoosterLetter_0: 6511328444101842867
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

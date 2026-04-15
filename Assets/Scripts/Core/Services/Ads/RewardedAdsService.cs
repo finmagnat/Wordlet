@@ -27,6 +27,7 @@ namespace Core.Services
 #if UNITY_ANDROID || UNITY_IOS
             EnsureLoaded(RewardType.Letter);
             EnsureLoaded(RewardType.Slowdown);
+            EnsureLoaded(RewardType.Eraser);
 #else
             Debug.Log("[Ads] Skipping rewarded init on this platform.");
 #endif

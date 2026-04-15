@@ -5,5 +5,6 @@ namespace Core.Services
         None = 0,
         Letter,
         Slowdown,
+        Eraser, 
     }
 }

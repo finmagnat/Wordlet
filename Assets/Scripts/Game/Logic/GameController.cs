@@ -724,6 +724,13 @@ namespace Game.Logic
             // - вернуть true/false
             bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
             
+            /*/ TODO: TEST--------------------------------------------------
+            if (eventData.boosterType == BoosterType.Eraser)
+            {
+                ok = true;
+            }
+            // TODO: TEST--------------------------------------------------*/
+            
             // 2) обновляем UI бустеров после серверного результата
             _gameScreen.BoosterPanel.Refresh();
 
@@ -743,11 +750,25 @@ namespace Game.Logic
 
                 case BoosterType.Slowdown:
                     ActivateBoosterSlowdownAsync();       // можно оставить async void, он не критичен
+                    break; 
+                
+                case BoosterType.Eraser:
+                    ActivateBoosterEraserAsync();
                     break;
             }
 
             await BlockUIAsync(false);
             _boosterProcessing = false;
+        }
+
+        private async UniTask ActivateBoosterEraserAsync()
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            
+            await _gameScreen.EraserOverlay.ShowAsync();
         }
         
         private async UniTask ActivateBoosterLetterAsync()

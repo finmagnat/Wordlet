@@ -1277,6 +1277,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8480852251332159444, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_fontSize
       value: 65.6
@@ -1487,6 +1511,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8480852251332159444, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_fontSize
       value: 65.6
@@ -1690,6 +1738,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5115242546537944225, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799186019756686426, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

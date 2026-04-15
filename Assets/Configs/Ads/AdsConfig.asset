@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.Services.AdsConfig
   RewardedLetter: ca-app-pub-8216303467519012/4101298318
   RewardedSlowdown: ca-app-pub-8216303467519012/5358539665
+  RewardedEraser: ca-app-pub-8216303467519012/5951671611
   InterstitialAd: ca-app-pub-8216303467519012/8664733002
   UseTestIds: 0

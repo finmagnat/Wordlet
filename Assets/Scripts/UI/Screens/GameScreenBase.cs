@@ -36,12 +36,14 @@ namespace UI.Screens
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
         [SerializeField] protected StatisticsPanel _statisticsPanel;
         [SerializeField] protected KeyboardPanel _keyboardPanel;
+        [SerializeField] protected FocusHoleOverlay _eraserOverlay;
 
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
         internal StatisticsPanel StatisticsPanel => _statisticsPanel;
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
+        internal FocusHoleOverlay EraserOverlay => _eraserOverlay;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
         internal Button PauseButton => _pauseButton;
         internal Button PassButton => _passButton;

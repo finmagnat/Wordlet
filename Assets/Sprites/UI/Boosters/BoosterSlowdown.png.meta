@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 79fe58751968bc8488d55ed5ae3ad3fe
+guid: 6c1ef6c4e84015049a957c6c49895482
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1792576677913618156
-    second: Slowdown-383_0
+      213: 4367881216958779277
+    second: BoosterSlowdown_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slowdown-383_0
+      name: BoosterSlowdown_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 383
-        height: 368
+        x: 3
+        y: 1
+        width: 367
+        height: 352
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ce6e0b7bdf280e810800000000000000
-      internalID: 1792576677913618156
+      spriteID: d8fcde523d4dd9c30800000000000000
+      internalID: 4367881216958779277
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Slowdown-383_0: 1792576677913618156
+      BoosterSlowdown_0: 4367881216958779277
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

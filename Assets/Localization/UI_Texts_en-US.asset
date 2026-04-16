@@ -538,6 +538,10 @@ MonoBehaviour:
     m_Localized: Click a letter to erase it
     m_Metadata:
       m_Items: []
+  - m_Id: 56188700009578496
+    m_Localized: You can only erase one letter per move
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

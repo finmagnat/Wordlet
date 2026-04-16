@@ -26,10 +26,12 @@ namespace UI.Components
         
         private List<SelectableLetter> _items = new (WordsFieldData.AMOUNT_LETTERS);
         private bool _isInitialized;
+        private bool _bModeEraser;
         
         public List<SelectableLetter> InitField()
         {
             _isDragging = false;
+            _bModeEraser = false;
             _dragPath.Clear();
             _dragVisited.Clear();
             
@@ -61,7 +63,7 @@ namespace UI.Components
 
         public void BeginDragSelection(SelectableLetter start)
         {
-            if (start == null || start.Empty())
+            if (_bModeEraser || start == null || start.Empty())
                 return;
 
             _isDragging = true;
@@ -117,6 +119,11 @@ namespace UI.Components
             skinData.letterTextColor = skin.LettersFieldColor;
             _items.ForEach(item => item.SetSkin(skinData));
         }
+        
+        internal void SetModeEraser(bool value)
+        {
+            _bModeEraser = value;
+        }
 
         private void AddToPathAndNotifySelect(SelectableLetter letter)
         {
@@ -127,6 +134,7 @@ namespace UI.Components
 
             // всё остальное (валидность по игровым правилам, Highlight, добавление буквы в слово)
             // делает WordsFieldManager через существующий LetterSelectEvent
+            //Debug.Log("[WordsField][OnPressed] [Letter Select Event] Index: " + letter.Index + ", Letter: " + letter.GetLetter());
             EventBus.Raise(new LetterSelectEvent { letter = letter });
         }
 

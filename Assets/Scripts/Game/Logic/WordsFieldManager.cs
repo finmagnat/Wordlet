@@ -3,6 +3,7 @@ using Core.Config;
 using Core.Data;
 using Core.Events;
 using UI.Components;
+using UnityEngine;
 
 namespace Game.Logic
 {
@@ -14,6 +15,7 @@ namespace Game.Logic
         
         private bool _bModeSelectWord;
         private bool _isPause;
+        private bool _bModeEraser;
 
         public void Initialize()
         {
@@ -89,6 +91,7 @@ namespace Game.Logic
         {
             _isPause = false;
             _bModeSelectWord = false;
+            _bModeEraser = false;
             _wordsFildData.Reset();
         }
         
@@ -120,13 +123,13 @@ namespace Game.Logic
         /// <param name="eventData"></param>
         internal void TryCellSelect(CellSelectEvent eventData)
         {
-            //Debug.Log("[CaneSelectCell] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
-            if (_bModeSelectWord) return;
+            if (_bModeSelectWord || _bModeEraser) return;
             
             if (_wordsFildData.SelectedItem != null && 
                 _wordsFildData.SelectedItem.Index == eventData.letter.Index) // Эта ячейка уже была выделена
             {
                 _wordsFildData.CellSelectCancel();
+                //Debug.Log("[WordsFieldManager][TryCellSelect] [CellSelect Cancel Event] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
                 EventBus.Raise(new CellSelectCancelEvent());
                 return;
             }
@@ -138,10 +141,16 @@ namespace Game.Logic
                 
                 _wordsFildData.SetSelectedCell(eventData.letter);
                 eventData.letter.HighlightCell();
+                //Debug.Log("[WordsFieldManager][TryCellSelect] [CellSelect Success Event] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
                 EventBus.Raise(new CellSelectSuccessEvent());
             }
         }
         
+        internal void SetModeEraser(bool bModeEraser)
+        {
+            _bModeEraser = bModeEraser;
+        }
+
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
         {
             if(_wordsFildData.SetLetterToSelectedCell(eventData.letter))
@@ -153,22 +162,32 @@ namespace Game.Logic
 
         private void OnLetterSelected(LetterSelectEvent eventData)
         {
-            if (!_bModeSelectWord || _isPause) return;
-
-            //Debug.Log("[LetterSelectEventData] Index: " + data.item.Index + ", Letter: " + data.item.GetLetter());
-
-            if (_wordsFildData.CheckSelectLetter(eventData.letter))
+            if (_isPause) 
+                return;
+            
+            if (_bModeEraser && !eventData.letter.Empty())
+            {
+                eventData.letter.SetLetter("");
+                _wordsFildData.SetSelectedCell(eventData.letter);
+                eventData.letter.HighlightCell();
+                //Debug.Log("[WordsFieldManager][OnLetterSelected] [CellSelect Success Event] Index: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
+                EventBus.Raise(new CellSelectSuccessEvent { letter = eventData.letter });
+                return;
+            }
+            
+            if (_bModeSelectWord && _wordsFildData.CheckSelectLetter(eventData.letter))
             {
                 eventData.letter.Highlight();
+                //Debug.Log("[WordsFieldManager][OnLetterSelected] [Letter Put To Word Event] Index: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
                 EventBus.Raise(new LetterPutToWordEvent { letter = eventData.letter.GetLetter() });                
             }
         }
-        
+
         private void OnGameEnd(GameEndEvent eventData)
         {
             SetModeSelect(false);
         }
-        
+
         private void OnLetterBacktrack(LetterBacktrackEvent eventData)
         {
             if (!_bModeSelectWord) return;

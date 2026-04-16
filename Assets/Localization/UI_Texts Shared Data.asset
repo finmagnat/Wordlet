@@ -503,6 +503,10 @@ MonoBehaviour:
     m_Key: POPUP_HINT_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 56188700009578496
+    m_Key: POPUP_CLOUD_HINT_ERASER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

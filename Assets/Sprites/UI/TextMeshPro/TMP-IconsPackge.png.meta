@@ -23,6 +23,12 @@ TextureImporter:
   - first:
       213: -1434259609053306990
     second: TMP-IconsPackge_6
+  - first:
+      213: -3766586387527474658
+    second: TMP-IconsPackge_7
+  - first:
+      213: 4089807839224065556
+    second: TMP-IconsPackge_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -118,12 +124,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -144,12 +150,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -157,13 +163,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: question
+      name: magnifier
       rect:
         serializedVersion: 2
         x: 0
-        y: 459
-        width: 370
-        height: 345
+        y: 913
+        width: 355
+        height: 346
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,13 +185,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: book
+      name: question
       rect:
         serializedVersion: 2
-        x: 430
-        y: 482
-        width: 428
-        height: 311
+        x: 455
+        y: 914
+        width: 371
+        height: 345
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,13 +207,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gear
+      name: book
       rect:
         serializedVersion: 2
-        x: 1011
-        y: 467
-        width: 391
-        height: 363
+        x: 899
+        y: 931
+        width: 427
+        height: 311
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,13 +229,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: letter
+      name: time
       rect:
         serializedVersion: 2
-        x: 1519
-        y: 500
+        x: 6
+        y: 425
         width: 342
-        height: 328
+        height: 408
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,13 +251,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: time
+      name: finish
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 342
-        height: 407
+        x: 443
+        y: 436
+        width: 395
+        height: 385
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -267,13 +273,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: finish
+      name: gear
       rect:
         serializedVersion: 2
-        x: 1009
-        y: 10
-        width: 395
-        height: 385
+        x: 918
+        y: 447
+        width: 391
+        height: 364
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -289,13 +295,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slowdown
+      name: eraser
       rect:
         serializedVersion: 2
-        x: 1519
-        y: 16
-        width: 342
-        height: 328
+        x: 2
+        y: 0
+        width: 350
+        height: 334
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,11 +316,55 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: letter
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 2
+        width: 342
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e126a9303a56abbc0800000000000000
+      internalID: -3766586387527474658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: slowdown
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 2
+        width: 343
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41eee80af8ae1c830800000000000000
+      internalID: 4089807839224065556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d15f66178fc9ff7478074b79c72c66e1
+    spriteID: 1f5c5d3212106fe46b79c2c0bc9febda
     internalID: 0
     vertices: []
     indices: 
@@ -324,13 +374,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      book: 3789460877503523107
-      finish: -6047551232761366684
-      gear: 1266159015998010006
-      letter: 5932524499996336505
-      question: 8190908487205143286
-      slowdown: -1434259609053306990
-      time: 7685756496879133100
+      book: 1266159015998010006
+      eraser: -1434259609053306990
+      finish: 7685756496879133100
+      gear: -6047551232761366684
+      letter: -3766586387527474658
+      magnifier: 8190908487205143286
+      question: 3789460877503523107
+      slowdown: 4089807839224065556
+      time: 5932524499996336505
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

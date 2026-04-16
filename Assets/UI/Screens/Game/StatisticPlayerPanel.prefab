@@ -521,7 +521,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2
+  m_PixelsPerUnitMultiplier: 10
 --- !u!1 &6656035798822912347
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 721814710800370769, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_fontSize
-      value: 48
+      value: 36.25
       objectReference: {fileID: 0}
     - target: {fileID: 2701634397093355419, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_Name

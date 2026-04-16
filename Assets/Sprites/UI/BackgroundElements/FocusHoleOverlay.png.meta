@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: afd4b8c352876db428dafadca7ca9116
+guid: 12c06d3b220615844b35eba51e17f8bc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 555895916406473244
-    second: Wordlet-382_0
+      213: -1698547817709003844
+    second: FocusHoleOverlay_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,7 +105,7 @@ TextureImporter:
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -131,7 +131,7 @@ TextureImporter:
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wordlet-382_0
+      name: FocusHoleOverlay_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 382
-        height: 367
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 50, y: 50, z: 50, w: 50}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c128f750460f6b700800000000000000
-      internalID: 555895916406473244
+      spriteID: cbb907352cb8d68e0800000000000000
+      internalID: -1698547817709003844
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 34ae1ebb00e90dc4a905b530cc4d243b
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Wordlet-382_0: 555895916406473244
+      FocusHoleOverlay_0: -1698547817709003844
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

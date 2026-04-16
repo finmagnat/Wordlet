@@ -6,6 +6,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UI.Components;
+using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -36,12 +37,17 @@ namespace UI.Screens
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
         [SerializeField] protected StatisticsPanel _statisticsPanel;
         [SerializeField] protected KeyboardPanel _keyboardPanel;
+        [SerializeField] protected FocusHoleOverlay _eraserOverlay;
+        [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
 
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
+        internal WordsField WordsField => _wordsField;
         internal StatisticsPanel StatisticsPanel => _statisticsPanel;
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
+        internal FocusHoleOverlay EraserOverlay => _eraserOverlay;
+        internal FloatingBubblePopup EraseBubble => _eraseBubblePopup;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
         internal Button PauseButton => _pauseButton;
         internal Button PassButton => _passButton;
@@ -103,6 +109,8 @@ namespace UI.Screens
             _playerPanelOpponent.Reset();
             _progressBar.ResetTimer();
             _repeatGame.gameObject.SetActive(false);
+            _eraserOverlay.gameObject.SetActive(false);
+            _eraseBubblePopup.HideAsync().Forget();
             
             if (_isPaused)
             {
@@ -156,6 +164,7 @@ namespace UI.Screens
         {
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
+            _isProcessing = false;
         }
 
         protected async UniTask UpdateSkinAsync()

@@ -80,6 +80,7 @@ namespace Core.Services
             {
                 RewardType.Letter   => BoosterType.Letter,
                 RewardType.Slowdown => BoosterType.Slowdown,
+                RewardType.Eraser => BoosterType.Eraser,
                 _ => (BoosterType?)null
             };
         }

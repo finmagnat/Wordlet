@@ -47,6 +47,9 @@ namespace Game.Logic
         private bool _bPause; // Игра на паузе
         private bool _bLetterPut; // Буква установлена игроком (текущего клиента)
         private bool _bModePlayOwner = true; // Режим хода игрока (текущего клиента)
+        private bool _bModeEraser; // Режим бустера "Ластик"
+        private bool _bLetterRemoved; // "Ластик" стер букву в этом ходе игрока.
+        
         private uint _maxPasses;
         private ComplexityAI _complexityAI;
         private ComplexityAISettings _complexityAISettings;
@@ -171,6 +174,8 @@ namespace Game.Logic
             _gameScreen.PassButton.interactable = true;
             
             _bPause = false;
+            _bModeEraser = false;
+            _bLetterRemoved = false;
             
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI,"NAME_PLAYER_OWNER")); // TODO: установить имя из профиля
             
@@ -366,7 +371,17 @@ namespace Game.Logic
             
             _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
             
-            if(!_gameScreen.KeyboardPanel.IsVisible)
+            if (_bModeEraser)
+            {
+                _bModeEraser = false;
+                _bLetterRemoved = true;
+                _wordsFieldManager.SetModeEraser(_bModeEraser);
+                _gameScreen.WordsField.SetModeEraser(_bModeEraser);
+                
+                _gameScreen.EraserOverlay.HideAsync().Forget();
+            }
+
+            if (!_gameScreen.KeyboardPanel.IsVisible)
                 _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
         
@@ -577,6 +592,7 @@ namespace Game.Logic
                 _gameScreen.PassButton.interactable = false;
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
+                _bLetterRemoved = false;
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
@@ -591,6 +607,7 @@ namespace Game.Logic
             _bStart = false;
             _bPause = false;
             _bLetterPut = false;
+            _bLetterRemoved = false;
             _gameScreen.PauseButton.interactable = false;
             _gameScreen.PassButton.interactable = false;
             _gameScreen.CancelButton.SetActive(false);
@@ -713,6 +730,14 @@ namespace Game.Logic
             // не даём прожать активный бустер
             if (_gameScreen.BoosterPanel.IsActive(eventData.boosterType))
                 return;
+            
+            if (_bLetterRemoved && eventData.boosterType == BoosterType.Eraser)
+            {
+                Debug.Log("[BOOSTER ERASER] ERROR: Можно стереть только одну букву за ход");
+                if(!_gameScreen.EraseBubble.IsVisible)
+                    _gameScreen.EraseBubble.ShowAsync().Forget();
+                return;
+            }
 
             _boosterProcessing = true;
             await BlockUIAsync(true);
@@ -743,11 +768,30 @@ namespace Game.Logic
 
                 case BoosterType.Slowdown:
                     ActivateBoosterSlowdownAsync();       // можно оставить async void, он не критичен
+                    break; 
+                
+                case BoosterType.Eraser:
+                    ActivateBoosterEraserAsync();
                     break;
             }
 
             await BlockUIAsync(false);
             _boosterProcessing = false;
+        }
+
+        private async UniTask ActivateBoosterEraserAsync()
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+            
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            
+            Cancel(); // "очистить мусор"
+            
+            _bModeEraser = true;
+            _wordsFieldManager.SetModeEraser(_bModeEraser);
+            _gameScreen.WordsField.SetModeEraser(_bModeEraser);
+            await _gameScreen.EraserOverlay.ShowAsync();
         }
         
         private async UniTask ActivateBoosterLetterAsync()

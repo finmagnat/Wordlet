@@ -8,6 +8,7 @@ namespace Core.Services
         [Header("Android Rewarded Ad Units")]
         public string RewardedLetter;
         public string RewardedSlowdown;
+        public string RewardedEraser;
         public string InterstitialAd;
 
 #if UNITY_EDITOR
@@ -26,6 +27,7 @@ namespace Core.Services
             {
                 RewardType.Letter   => RewardedLetter,
                 RewardType.Slowdown => RewardedSlowdown,
+                RewardType.Eraser => RewardedEraser,
                 _ => null
             };
         }

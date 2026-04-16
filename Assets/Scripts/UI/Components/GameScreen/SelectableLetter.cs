@@ -88,6 +88,7 @@ namespace UI.Components
             
             if (Empty() && !IsHighlight)
             {
+                //Debug.Log("[SelectableLetter][OnPressed] [Cell Select Event] Index: " + Index + ", Empty ");
                 EventBus.Raise(new CellSelectEvent{ letter = this }); // Игрок кликнул по пустой ячейке
                 return;
             }
@@ -95,6 +96,7 @@ namespace UI.Components
             if (!Empty() && !IsHighlight)
             {
                 ModeBlinkClear();
+                //Debug.Log("[SelectableLetter][OnPressed] [Letter Select Event] Index: " + Index + ", Letter: " + _letter);
                 EventBus.Raise(new LetterSelectEvent{ letter = this });
             }
         }

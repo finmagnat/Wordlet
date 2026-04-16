@@ -33,9 +33,13 @@ namespace UI.Components
                 await HideAsync();
             });
         }
-        
-        internal void SetStartWord(string value) => _startWordText.text = _startWord = value;
-        
+
+        internal void SetStartWord(string value)
+        {
+            _startWord = value;
+            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"magnifier\"></voffset></size>";
+        }
+
         public void OnStartWordPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _startWord});
         
         internal async UniTask UpdateSkin()

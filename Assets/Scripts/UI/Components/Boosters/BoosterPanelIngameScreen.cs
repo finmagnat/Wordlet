@@ -18,9 +18,14 @@ namespace UI.Components
             UseBoosterHandler(boosterSlowdown);
         }
         
+        public void OnUseEraser()
+        {
+            //Debug.Log("Ластик КЛИК");
+            UseBoosterHandler(boosterEraser);
+        }
+        
         private void UseBoosterHandler(BoosterUI boosterUI)
         {
-            //Debug.Log("Замедлялка КЛИК");
             if (!boosterUI.IsActive)
             {
                 Debug.Log($"Использовать {boosterUI.Type}, IsEmpty = {boosterUI.IsEmpty}");

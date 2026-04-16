@@ -8,6 +8,7 @@ namespace UI.Components
     {
         [SerializeField] protected BoosterUI boosterLetter;
         [SerializeField] protected BoosterUI boosterSlowdown;
+        [SerializeField] protected BoosterUI boosterEraser;
 
         [Inject] protected IInventoryService _inventory;
 
@@ -18,6 +19,9 @@ namespace UI.Components
             
             count = _inventory.GetQuantity(BoosterType.Slowdown);
             boosterSlowdown.SetBoosterData(BoosterType.Slowdown, count);
+            
+            count = _inventory.GetQuantity(BoosterType.Eraser);
+            boosterEraser.SetBoosterData(BoosterType.Eraser, count);
         }
     }
 }

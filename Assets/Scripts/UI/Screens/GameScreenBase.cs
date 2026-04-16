@@ -164,6 +164,7 @@ namespace UI.Screens
         {
             TimerBar.ResetTimer();
             SetStatusLocalizationKey("STATUS_LABEL_GAME_OVER");
+            _isProcessing = false;
         }
 
         protected async UniTask UpdateSkinAsync()

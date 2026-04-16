@@ -507,6 +507,10 @@ MonoBehaviour:
     m_Key: POPUP_CLOUD_HINT_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 56547154310086656
+    m_Key: LOADING_SCREEN_ERASER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

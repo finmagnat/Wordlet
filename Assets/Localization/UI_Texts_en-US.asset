@@ -542,6 +542,10 @@ MonoBehaviour:
     m_Localized: You can only erase one letter per move
     m_Metadata:
       m_Items: []
+  - m_Id: 56547154310086656
+    m_Localized: ERASER
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

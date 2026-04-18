@@ -103,6 +103,7 @@ namespace Core.Installers
 
         private async UniTaskVoid InitializeAsync()
         {
+            var analytics = Container.Resolve<AnalyticsService>();
             loading.SetProgress(0.0f);
 
             await Container.Resolve<LocalizationService>().InitializeAsync();
@@ -111,7 +112,7 @@ namespace Core.Installers
             await Container.Resolve<GameLogger>().InitializeAsync();
             loading.SetProgress(0.10f);
 
-            await Container.Resolve<AnalyticsService>().InitializeAsync();
+            await analytics.InitializeAsync();
 
             await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.15f);
@@ -189,6 +190,13 @@ namespace Core.Installers
             await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
 
             await loading.HideAsync();
+
+            int waitTimeMs = Mathf.RoundToInt((Time.realtimeSinceStartup - AppLaunchTracker.LaunchRealtimeSinceStartup) * 1000f);
+            analytics.TrackEvent(AnalyticsEvents.Startup.MainMenuShown, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Startup.WaitTimeMs] = waitTimeMs,
+                [AnalyticsEvents.Startup.WaitTimeSeconds] = waitTimeMs / 1000f
+            });
 
             Destroy(loading.gameObject);
         }

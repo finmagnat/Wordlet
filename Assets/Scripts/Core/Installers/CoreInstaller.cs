@@ -52,6 +52,7 @@ namespace Core.Installers
 
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
             Container.Bind<SkinsService>().AsSingle().NonLazy();
+            Container.Bind<GameBoosterController>().AsSingle();
             Container.Bind<GameController>().AsSingle();
 
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();

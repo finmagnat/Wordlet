@@ -535,7 +535,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 56120294698795008
-    m_Localized: Click a letter to erase it
+    m_Localized: Select a letter to erase it
     m_Metadata:
       m_Items: []
   - m_Id: 56188700009578496

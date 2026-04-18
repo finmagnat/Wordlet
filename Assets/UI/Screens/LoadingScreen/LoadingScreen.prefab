@@ -371,7 +371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u0440\u0430\u0437\u0438\u0441\u044C \n\u0441 \u0418\u0418!"
+  m_text: "\u0421\u0440\u0430\u0437\u0438\u0441\u044C \n\u0441 AI!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1779f3b02e1a7c94e94caaf149a4500e, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 3b6e54218d0731545a99ef79fe3aa65e, type: 2}

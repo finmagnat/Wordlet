@@ -23,8 +23,11 @@ namespace Core.Installers
     {
         [Inject] private DictionaryManagerPresenter _dictPresenter;
 
-        [Header("Scene UI")] [SerializeField] 
+        [Header("Scene UI")] [SerializeField]
         private StartLoadingScreen loading;
+
+        [Header("Analytics")] [SerializeField]
+        private AnalyticsInstallerSettings _analyticsSettings = new();
 
         public override void InstallBindings()
         {
@@ -32,12 +35,12 @@ namespace Core.Installers
                 $"<color=yellow>BUILD: {BuildInfo.VersionName} code={BuildInfo.AndroidVersionCode} utc={BuildInfo.Utc}</color>");
 
             Container.Bind<GameLogger>().AsSingle();
-            
+
             Container.BindInterfacesAndSelfTo<ConfigService>().AsSingle().NonLazy();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
 
             Container.Bind<AddressablesLoader>().AsSingle();
-            
+
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<IUIManager>().To<UIManager>().FromComponentInHierarchy().AsSingle();
 
@@ -45,6 +48,12 @@ namespace Core.Installers
             Container.Bind<IInternetConnectionService>().To<InternetConnectionService>().AsSingle();
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
+
+            Container.BindInstance(_analyticsSettings).AsSingle();
+            Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
+
+            if (_analyticsSettings.EnableGameAnalytics)
+                Container.BindInterfacesAndSelfTo<GameAnalyticsProvider>().AsSingle();
 
             Container.Bind<List<LanguageDictionaryConfig>>().FromInstance(_dictPresenter.configs).AsSingle();
             Container.Bind<DictionaryService>().AsSingle();
@@ -73,7 +82,7 @@ namespace Core.Installers
             Container.Bind<ShowWordInfoPresenter>().AsSingle();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
+            Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
 #else
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
 #endif
@@ -95,12 +104,14 @@ namespace Core.Installers
         private async UniTaskVoid InitializeAsync()
         {
             loading.SetProgress(0.0f);
-            
+
             await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.05f);
 
             await Container.Resolve<GameLogger>().InitializeAsync();
             loading.SetProgress(0.10f);
+
+            await Container.Resolve<AnalyticsService>().InitializeAsync();
 
             await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.15f);
@@ -109,7 +120,7 @@ namespace Core.Installers
             var internetService = Container.Resolve<IInternetConnectionService>();
             await internetService.InitializeAsync();
             loading.SetProgress(0.20f);
-            
+
             if (!await internetService.CheckNowAsync())
             {
                 // апку запустили без интернета...
@@ -178,7 +189,7 @@ namespace Core.Installers
             await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
 
             await loading.HideAsync();
-            
+
             Destroy(loading.gameObject);
         }
 

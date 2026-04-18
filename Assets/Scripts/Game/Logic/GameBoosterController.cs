@@ -63,9 +63,21 @@ namespace Game.Logic
 
         public void OnGameFinished()
         {
+            CancelEraserMode();
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _gameScreen?.BoosterPanel.SlowdownStop();
+        }
+
+        public void CancelEraserMode()
+        {
+            if (!_bModeEraser || _gameScreen == null || _wordsFieldManager == null)
+                return;
+
+            _bModeEraser = false;
+            _wordsFieldManager.SetModeEraser(false);
+            _gameScreen.WordsField.SetModeEraser(false);
+            _gameScreen.EraserOverlay.HideAsync().Forget();
         }
 
         public void OnCellSelectSuccess()
@@ -73,11 +85,8 @@ namespace Game.Logic
             if (!_bModeEraser || _gameScreen == null || _wordsFieldManager == null)
                 return;
 
-            _bModeEraser = false;
+            CancelEraserMode();
             _bLetterRemoved = true;
-            _wordsFieldManager.SetModeEraser(false);
-            _gameScreen.WordsField.SetModeEraser(false);
-            _gameScreen.EraserOverlay.HideAsync().Forget();
         }
 
         public void StopSlowdown()

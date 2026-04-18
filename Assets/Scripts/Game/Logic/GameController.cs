@@ -492,6 +492,7 @@ namespace Game.Logic
         private void OnTimeExpired(IGameEvent eventData)
         {
             _ai.AbortSearch();
+            _boosterController.CancelEraserMode();
 
             _gameScreen.StatisticsPanel.HideAsync().Forget();
             _gameScreen.KeyboardPanel.HideAsync().Forget();

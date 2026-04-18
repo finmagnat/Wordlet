@@ -56,6 +56,8 @@ namespace Core.Services
                 return;
             }
 
+            AnalyticsDebug.Log($"Send event: {FormatEvent(analyticsEvent)}");
+
             foreach (var provider in _providers)
             {
                 if (provider == null || !provider.IsEnabled)
@@ -125,5 +127,71 @@ namespace Core.Services
 
             TrackEvent(AnalyticsEvent.Ad(action, adType, sdkName, placement, duration, error, parameters));
         }
+
+        private static string FormatEvent(AnalyticsEvent analyticsEvent)
+        {
+            string payload = analyticsEvent.Type switch
+            {
+                AnalyticsEventType.Design => $"type=design, name={analyticsEvent.Name}",
+                AnalyticsEventType.Progression => FormatProgressionEvent(analyticsEvent),
+                AnalyticsEventType.Resource => FormatResourceEvent(analyticsEvent),
+                AnalyticsEventType.Ad => FormatAdEvent(analyticsEvent),
+                _ => $"type={analyticsEvent.Type}, name={analyticsEvent.Name}"
+            };
+
+            return $"{payload}, params={FormatParameters(analyticsEvent.Parameters)}";
+        }
+
+        private static string FormatProgressionEvent(AnalyticsEvent analyticsEvent)
+        {
+            var data = analyticsEvent.ProgressionData;
+            if (data == null)
+                return $"type=progression, name={analyticsEvent.Name}";
+
+            return $"type=progression, status={data.Status}, progression01={data.Progression01}, progression02={ValueOrDash(data.Progression02)}, progression03={ValueOrDash(data.Progression03)}, score={FormatNullable(data.Score)}";
+        }
+
+        private static string FormatResourceEvent(AnalyticsEvent analyticsEvent)
+        {
+            var data = analyticsEvent.ResourceData;
+            if (data == null)
+                return $"type=resource, name={analyticsEvent.Name}";
+
+            return $"type=resource, flow={data.FlowType}, currency={data.Currency}, amount={data.Amount}, itemType={data.ItemType}, itemId={data.ItemId}";
+        }
+
+        private static string FormatAdEvent(AnalyticsEvent analyticsEvent)
+        {
+            var data = analyticsEvent.AdData;
+            if (data == null)
+                return $"type=ad, name={analyticsEvent.Name}";
+
+            return $"type=ad, action={data.Action}, adType={data.AdType}, sdk={data.SdkName}, placement={data.Placement}, duration={FormatNullable(data.Duration)}, error={FormatNullable(data.Error)}";
+        }
+
+        private static string FormatParameters(IReadOnlyDictionary<string, object> parameters)
+        {
+            if (parameters == null || parameters.Count == 0)
+                return "{}";
+
+            return "{ " + string.Join(", ", parameters.Select(x => $"{x.Key}={FormatValue(x.Value)}")) + " }";
+        }
+
+        private static string FormatValue(object value)
+        {
+            return value switch
+            {
+                null => "-",
+                float floatValue => floatValue.ToString("0.###"),
+                double doubleValue => doubleValue.ToString("0.###"),
+                _ => value.ToString()
+            };
+        }
+
+        private static string FormatNullable<T>(T? value) where T : struct
+            => value.HasValue ? FormatValue(value.Value) : "-";
+
+        private static string ValueOrDash(string value)
+            => string.IsNullOrWhiteSpace(value) ? "-" : value;
     }
 }

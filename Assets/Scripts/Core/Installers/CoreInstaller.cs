@@ -104,6 +104,14 @@ namespace Core.Installers
         private async UniTaskVoid InitializeAsync()
         {
             var analytics = Container.Resolve<AnalyticsService>();
+            
+            var parameters = AnalyticsEvents.GetWaitTimeParams();
+            var bannerType = loading.CurrentBanner != null
+                ? loading.CurrentBanner.BannerType.ToString()
+                : "Unknown";
+            parameters.Add(AnalyticsEvents.Parameter.Banner, bannerType);
+            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingStarted, parameters);
+            
             loading.SetProgress(0.0f);
 
             await Container.Resolve<LocalizationService>().InitializeAsync();
@@ -130,6 +138,8 @@ namespace Core.Installers
                 while (!await internetService.CheckNowAsync())
                     await UniTask.Delay(500, ignoreTimeScale: true);
 
+                analytics.TrackEvent(AnalyticsEvents.Startup.LoadingInternetConnectionRestored, AnalyticsEvents.GetWaitTimeParams());
+                
                 await loading.ShowAsync();
                 loading.SetProgress(0.20f);
             }
@@ -185,19 +195,13 @@ namespace Core.Installers
             loading.SetProgress(0.80f);
 
             loading.SetProgress(1.0f);
-
+            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingCompleted, AnalyticsEvents.GetWaitTimeParams());
+            
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
 
             await loading.HideAsync();
-
-            int waitTimeMs = Mathf.RoundToInt((Time.realtimeSinceStartup - AppLaunchTracker.LaunchRealtimeSinceStartup) * 1000f);
-            analytics.TrackEvent(AnalyticsEvents.Startup.MainMenuShown, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Startup.WaitTimeMs] = waitTimeMs,
-                [AnalyticsEvents.Startup.WaitTimeSeconds] = waitTimeMs / 1000f
-            });
-
+            
             Destroy(loading.gameObject);
         }
 
@@ -205,5 +209,6 @@ namespace Core.Installers
         {
             Container.Resolve<GameController>().Dispose();
         }
+        
     }
 }

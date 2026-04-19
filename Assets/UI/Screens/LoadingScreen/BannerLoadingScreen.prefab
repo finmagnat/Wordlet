@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3547447279072552769}
   - component: {fileID: 8404885857811997193}
+  - component: {fileID: 6532753722329554431}
   m_Layer: 0
   m_Name: BannerSlowdown
   m_TagString: Untagged
@@ -66,6 +67,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6532753722329554431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451567200328872292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71809b2d87b0402aa29e59b5a1f22150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Loading.BannerItemUI
+  _bannerType: 4
+  _textHeader: {fileID: 7164937808669290439}
 --- !u!1 &815881473422403504
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5862649364417134965}
   - component: {fileID: 925611650556900354}
+  - component: {fileID: 588236310324784159}
   m_Layer: 0
   m_Name: BannerLetter
   m_TagString: Untagged
@@ -394,6 +410,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &588236310324784159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3629372616362105039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71809b2d87b0402aa29e59b5a1f22150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Loading.BannerItemUI
+  _bannerType: 3
+  _textHeader: {fileID: 5528209789062530066}
 --- !u!1 &3669740727012400511
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +713,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6761256172519830082}
   - component: {fileID: 819610340291865409}
+  - component: {fileID: 5159372099762365830}
   m_Layer: 0
   m_Name: BannerEraser
   m_TagString: Untagged
@@ -739,6 +770,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5159372099762365830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803335943831199686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71809b2d87b0402aa29e59b5a1f22150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Loading.BannerItemUI
+  _bannerType: 5
+  _textHeader: {fileID: 4858833437047419011}
 --- !u!1 &6064654566303400160
 GameObject:
   m_ObjectHideFlags: 0

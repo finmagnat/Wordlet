@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Data;
 using Core.Events;
 using Core.Generated;
@@ -30,6 +31,7 @@ namespace UI.Screens
         [Inject] private GameController _gameController;
         [Inject] private LocalizationService _localization;
         [Inject] private ConfigService _configService;
+        [Inject] private AnalyticsService _analytics;
 
         private bool _isProcessing;
 
@@ -189,12 +191,12 @@ namespace UI.Screens
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
+            SendAnalytics();
             return base.ShowAsync();
         } 
         protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            //_mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
             _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
 
@@ -202,6 +204,15 @@ namespace UI.Screens
             _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
             _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
             _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
+        }
+
+        private void SendAnalytics()
+        {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.MainMenuShown, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                [AnalyticsEvents.Parameter.Skin] = _skinsService.SkinCurrent.SkinType.ToString(),
+            });
         }
     }
 }

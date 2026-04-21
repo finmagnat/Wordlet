@@ -44,6 +44,8 @@ namespace UI.Screens
             {
                 if (_isProcessing) return;
                 _isProcessing = true;
+                
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.PlayMainMenuClicked);
 
                 var popup = await _ui.ShowPopupAsync<AIGameSetupPopup, GameSetupData>(AssetKey.AIGameSetupPopup, new GameSetupData());
                 var data = await popup.WaitForResultAsync();
@@ -72,6 +74,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.ContinueMainMenuClicked);
+                
                 var popup = await _ui.ShowPopupAsync<LoadSavedGamePopup>(AssetKey.LoadSavedGamePopup);
                 var data = await popup.WaitForResultAsync();
 
@@ -99,6 +103,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.SettingsMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<SettingsPopup>(AssetKey.SettingsPopup);
 
                 _isProcessing = false;
@@ -110,6 +116,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.InfoMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<InfoPopup>(AssetKey.InfoPopup);
 
                 _isProcessing = false;
@@ -121,6 +129,8 @@ namespace UI.Screens
                     return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.SkinsMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<SkinsPopup>(AssetKey.SkinsPopup);
 
                 _isProcessing = false;
@@ -131,6 +141,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.ShopMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup);
 
                 _isProcessing = false;
@@ -191,9 +203,10 @@ namespace UI.Screens
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
-            SendAnalytics();
+            SendAnalyticsScreenShown();
             return base.ShowAsync();
         } 
+        
         protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
@@ -206,7 +219,7 @@ namespace UI.Screens
             _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
         }
 
-        private void SendAnalytics()
+        private void SendAnalyticsScreenShown()
         {
             _analytics.TrackEvent(AnalyticsEvents.Navigation.MainMenuShown, new Dictionary<string, object>
             {

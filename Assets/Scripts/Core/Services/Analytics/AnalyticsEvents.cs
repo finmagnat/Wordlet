@@ -19,6 +19,12 @@ namespace Core.Services
             public const string Group = "navigation:";
             
             public const string MainMenuShown = Group + "main_menu_shown";
+            public const string PlayMainMenuClicked = Group + "play_main_menu_clicked";
+            public const string ContinueMainMenuClicked = Group + "continue_main_menu_clicked";
+            public const string SettingsMainMenuClicked = Group + "settings_main_menu_clicked";
+            public const string SkinsMainMenuClicked = Group + "skins_main_menu_clicked";
+            public const string InfoMainMenuClicked = Group + "info_main_menu_clicked";
+            public const string ShopMainMenuClicked = Group + "shop_main_menu_clicked";
         }
         
         public static class Parameter

@@ -37,6 +37,8 @@ namespace Core.Services
             public const string CloseSkinsClicked = Group + "close_skins_clicked";
             public const string ApplySkinsClicked = Group + "apply_skins_clicked";
             
+            public const string InfoPopupShown = Group + "info_popup_shown";
+            public const string CloseInfoClicked = Group + "close_info_clicked";
         }
         
         public static class Parameter

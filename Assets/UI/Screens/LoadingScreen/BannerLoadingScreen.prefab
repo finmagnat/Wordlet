@@ -909,9 +909,9 @@ MonoBehaviour:
   _canvasGroup: {fileID: 1764157444826318481}
   _fadeDuration: 0.3
   _banners:
-  - {fileID: 4803335943831199686}
-  - {fileID: 451567200328872292}
-  - {fileID: 3629372616362105039}
+  - {fileID: 5159372099762365830}
+  - {fileID: 6532753722329554431}
+  - {fileID: 588236310324784159}
   _isDebug: 0
   _indexAlways: 0
 --- !u!1 &6747731299414658846

@@ -9,9 +9,9 @@ namespace Core.Services
         {
             public const string Group = "startup:";
             
-            public const string LoadingStarted = Group + "loading_started";
+            public const string LoadingStarted = Group + "start_loading_started";
             public const string LoadingInternetConnectionRestored = Group + "internet_connection_restored";
-            public const string LoadingCompleted = Group + "loading_completed";
+            public const string LoadingCompleted = Group + "start_loading_completed";
         }
         
         public static class Navigation

@@ -25,6 +25,13 @@ namespace Core.Services
             public const string SkinsMainMenuClicked = Group + "skins_main_menu_clicked";
             public const string InfoMainMenuClicked = Group + "info_main_menu_clicked";
             public const string ShopMainMenuClicked = Group + "shop_main_menu_clicked";
+            
+            public const string SettingsPopupShown = Group + "settings_popup_shown";
+            public const string CloseSettingsClicked = Group + "close_settings_clicked";
+            public const string LocaleSettingsClicked = Group + "locale_settings_clicked";
+            public const string PrivacyPolicySettingsClicked = Group + "privacy_policy_settings_clicked";
+            public const string TermsOfServiceSettingsClicked = Group + "terms_of_service_settings_clicked";
+            public const string SupportSettingsClicked = Group + "support_settings_clicked";
         }
         
         public static class Parameter
@@ -34,11 +41,14 @@ namespace Core.Services
             public const string Banner = "banner";
             public const string Locale = "locale";
             public const string Skin = "skin";
+            public const string Sound = "sound";
+            public const string Giro = "giro";
         }
         
         public static class Option
         {
-            
+            public const string On = "on";
+            public const string Off = "off";
         }
         
         public static Dictionary<string, object> GetWaitTimeParams()

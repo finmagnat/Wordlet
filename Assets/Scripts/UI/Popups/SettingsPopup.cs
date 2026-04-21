@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Core.Config;
 using Core.Events;
@@ -29,6 +28,7 @@ namespace UI.Popups
         [Inject] private PlayFabAuthService _playFabAuthService;
         [Inject] private ConfigService _configService;
         [Inject] private DiContainer _container;
+        [Inject] private AnalyticsService _analytics;
         
         private Locale _newLanguage;
         private Locale _oldLanguage;
@@ -63,6 +63,11 @@ namespace UI.Popups
 
             UpdateSoundView();
             
+            _gyroEnabled = PlayerPrefs.GetInt(PlayerPrefsKey.GyroKey, 1) == 1;
+            UpdateGyroView();
+            
+            SendAnalytics(AnalyticsEvents.Navigation.SettingsPopupShown);
+            
             await base.ShowAsync();
         }
 
@@ -81,12 +86,10 @@ namespace UI.Popups
         {
             _closeButton.onClick.AddListener(async () =>
             {
+                SendAnalytics(AnalyticsEvents.Navigation.CloseSettingsClicked);
                 await HideAsync();
                 //_completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
             });
-            
-            _gyroEnabled = PlayerPrefs.GetInt(PlayerPrefsKey.GyroKey, 1) == 1;
-            UpdateGyroView();
         }
         
         public void OnSoundButtonClick()
@@ -104,31 +107,33 @@ namespace UI.Popups
             if (_localization.CurrentLocale == _newLanguage) return;
 
             _localization.SetLocale(_newLanguage.Identifier.Code);
-
-            OnCloseButtonClick();
+            
+            SendAnalytics(AnalyticsEvents.Navigation.LocaleSettingsClicked);
+            
+            HideAsync().Forget();
         }
         
         public void OnTermsButtonClick()
         {
-            //_analyticsManager.SendEvent(Constants.SettingsTOSEvent);
-            OnCloseButtonClick(false);
+            SendAnalytics(AnalyticsEvents.Navigation.TermsOfServiceSettingsClicked);
+            HideAsync().Forget();
 
             Application.OpenURL(_configService.Game.Terms);
         }
 
         public void OnPrivacyButtonClick()
         {
-            //_analyticsManager.SendEvent(Constants.SettingsPPEvent);
-            OnCloseButtonClick(false);
+            SendAnalytics(AnalyticsEvents.Navigation.PrivacyPolicySettingsClicked);
+            HideAsync().Forget();
 
             Application.OpenURL(_configService.Game.Privacy);
         }
 
         public void OnSupportButtonClick()
         {
-            //_analyticsManager.SendEvent(Constants.SettingsSupportEvent);
+            SendAnalytics(AnalyticsEvents.Navigation.SupportSettingsClicked);
 
-            OnCloseButtonClick(false);
+            HideAsync().Forget();
 
             string body = string.Empty;
             if (PlayFabClientAPI.IsClientLoggedIn())
@@ -142,17 +147,6 @@ namespace UI.Popups
         private string MyEscapeURL(string url)
         {
             return UnityWebRequest.EscapeURL(url).Replace("+","%20");
-        }
-
-        public void OnCloseButtonClick(bool sendAnalytics = true)
-        {
-            /*
-            if (sendAnalytics)
-            {
-                _analyticsManager.SendEvent(Constants.SettingsBackEvent);
-            }*/
-
-            HideAsync();
         }
         
         private void UpdateSoundView() =>
@@ -175,5 +169,24 @@ namespace UI.Popups
             UpdateGyroView();
         }
         
+        private void SendAnalytics(string eventName)
+        {
+            Dictionary<string, object> parameters = null;
+            switch (eventName)
+            {
+                case AnalyticsEvents.Navigation.SettingsPopupShown:
+                case AnalyticsEvents.Navigation.CloseSettingsClicked:
+                case AnalyticsEvents.Navigation.LocaleSettingsClicked:
+                    parameters = new Dictionary<string, object>
+                    {
+                        [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                        [AnalyticsEvents.Parameter.Sound] = _audioService.MasterVolume > 0.1f ? AnalyticsEvents.Option.On : AnalyticsEvents.Option.Off,
+                        [AnalyticsEvents.Parameter.Giro] = _gyroEnabled ? AnalyticsEvents.Option.On : AnalyticsEvents.Option.Off,
+                    };
+                    break;
+            }
+            
+            _analytics.TrackEvent(eventName, parameters);
+        }
     }
 }

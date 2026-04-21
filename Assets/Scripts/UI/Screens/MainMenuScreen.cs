@@ -203,7 +203,7 @@ namespace UI.Screens
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
-            SendAnalyticsScreenShown();
+            SendAnalyticsShown();
             return base.ShowAsync();
         } 
         
@@ -219,7 +219,7 @@ namespace UI.Screens
             _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
         }
 
-        private void SendAnalyticsScreenShown()
+        private void SendAnalyticsShown()
         {
             _analytics.TrackEvent(AnalyticsEvents.Navigation.MainMenuShown, new Dictionary<string, object>
             {

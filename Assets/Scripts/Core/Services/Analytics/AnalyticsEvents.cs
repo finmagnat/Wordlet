@@ -32,6 +32,11 @@ namespace Core.Services
             public const string PrivacyPolicySettingsClicked = Group + "privacy_policy_settings_clicked";
             public const string TermsOfServiceSettingsClicked = Group + "terms_of_service_settings_clicked";
             public const string SupportSettingsClicked = Group + "support_settings_clicked";
+            
+            public const string SkinsPopupShown = Group + "skins_popup_shown";
+            public const string CloseSkinsClicked = Group + "close_skins_clicked";
+            public const string ApplySkinsClicked = Group + "apply_skins_clicked";
+            
         }
         
         public static class Parameter

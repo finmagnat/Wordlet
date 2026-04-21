@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.Config;
-using Core.Generated;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
@@ -21,6 +20,7 @@ namespace UI.Popups
         [Inject] private ISpriteService _spritesService;
         [Inject] private AudioService _audioService;
         [Inject] private DiContainer _container;
+        [Inject] private AnalyticsService _analytics;
         
         private readonly List<SkinButton> _buttons = new();
 
@@ -31,25 +31,20 @@ namespace UI.Popups
         {
             _closeButton.onClick.AddListener(async () =>
             {
+                SendAnalytics(AnalyticsEvents.Navigation.CloseSkinsClicked);
                 await HideAsync();
             });
             
             _applyButton.onClick.AddListener(async () =>
             {
-                Apply();
+                if (_skinsService.SkinCurrent.SkinType != _newSkin)
+                {
+                    _skinsService.SaveSkinCurrent(_newSkin);
+                    _audioService?.PlaySfxAsync(SoundsConfig.SkinChanged);
+                    SendAnalytics(AnalyticsEvents.Navigation.ApplySkinsClicked);
+                }
                 await HideAsync();
             });
-        }
-
-        private void Apply()
-        {
-            if (_skinsService.SkinCurrent.SkinType != _newSkin)
-            {
-                _skinsService.SaveSkinCurrent(_newSkin);
-                _audioService?.PlaySfxAsync(SoundsConfig.SkinChanged);
-                //Dictionary<string, string> paramDictionary = new() { { Constants.Type, _newSkin.ToString() } };
-                //_analyticsManager.SendEvent(Constants.LanguagePressedEvent, paramDictionary);
-            }
         }
 
         public override async UniTask ShowAsync()
@@ -73,6 +68,8 @@ namespace UI.Popups
 
             SelectSkin(_oldSkin);
             
+            SendAnalytics(AnalyticsEvents.Navigation.SkinsPopupShown);
+            
             await base.ShowAsync();
         }
         
@@ -82,6 +79,23 @@ namespace UI.Popups
 
             foreach (var button in _buttons)
                 button.SetActiveStatus(button.SkinType == skinType);
+        }
+        
+        private void SendAnalytics(string eventName)
+        {
+            Dictionary<string, object> parameters = null;
+            switch (eventName)
+            {
+                case AnalyticsEvents.Navigation.SkinsPopupShown:
+                case AnalyticsEvents.Navigation.ApplySkinsClicked:
+                    parameters = new Dictionary<string, object>
+                    {
+                        [AnalyticsEvents.Parameter.Skin] = _skinsService.SkinCurrent.SkinType.ToString(),
+                    };
+                    break;
+            }
+            
+            _analytics.TrackEvent(eventName, parameters);
         }
     }
 }

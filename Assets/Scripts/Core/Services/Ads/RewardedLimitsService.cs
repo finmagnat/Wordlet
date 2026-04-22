@@ -6,6 +6,29 @@ using Zenject;
 
 namespace Core.Services
 {
+    public readonly struct RewardedLimitSnapshot
+    {
+        public RewardedLimitSnapshot(
+            int usedToday,
+            int dailyLimit,
+            int cooldownSeconds,
+            int remainingCooldownSeconds,
+            bool dailyLimitReached)
+        {
+            UsedToday = usedToday;
+            DailyLimit = dailyLimit;
+            CooldownSeconds = cooldownSeconds;
+            RemainingCooldownSeconds = remainingCooldownSeconds;
+            DailyLimitReached = dailyLimitReached;
+        }
+
+        public int UsedToday { get; }
+        public int DailyLimit { get; }
+        public int CooldownSeconds { get; }
+        public int RemainingCooldownSeconds { get; }
+        public bool DailyLimitReached { get; }
+    }
+
     /// <summary>
     /// Локальные лимиты Rewarded (MVP):
     /// - DailyLimit: 0 = безлимит
@@ -60,6 +83,34 @@ namespace Core.Services
         }
 
         /// <summary>Вызывать только после УСПЕШНОГО начисления награды (у тебя: GrantBoosterAsync ok).</summary>
+        /// <summary>Возвращает текущее состояние daily-limit/cooldown для rewarded-оффера.</summary>
+        public RewardedLimitSnapshot GetSnapshot(RewardType type)
+        {
+            var cfg = GetConfig(type);
+            if (cfg == null)
+                return new RewardedLimitSnapshot(0, 0, 0, 0, false);
+
+            int usedToday = cfg.DailyLimit > 0 ? GetDailyCount(type) : 0;
+            bool dailyLimitReached = cfg.DailyLimit > 0 && usedToday >= cfg.DailyLimit;
+            int remainingCooldownSeconds = 0;
+
+            if (cfg.CooldownSeconds > 0)
+            {
+                int now = NowUnix();
+                int last = GetLastClaimTs(type);
+                int elapsed = now - last;
+                remainingCooldownSeconds = Mathf.Max(0, cfg.CooldownSeconds - elapsed);
+            }
+
+            return new RewardedLimitSnapshot(
+                usedToday,
+                cfg.DailyLimit,
+                cfg.CooldownSeconds,
+                remainingCooldownSeconds,
+                dailyLimitReached);
+        }
+
+        /// <summary>Вызывать только после УСПЕШНОГО начисления награды (GrantBoosterAsync ok).</summary>
         public void RegisterSuccessfulClaim(RewardType type)
         {
             var cfg = GetConfig(type);

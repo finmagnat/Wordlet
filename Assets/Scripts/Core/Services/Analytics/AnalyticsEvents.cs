@@ -39,6 +39,25 @@ namespace Core.Services
             
             public const string InfoPopupShown = Group + "info_popup_shown";
             public const string CloseInfoClicked = Group + "close_info_clicked";
+            
+            public const string ShopPopupShown = Group + "shop_popup_shown";
+            public const string CloseShopClicked = Group + "close_shop_clicked";
+        }
+
+        public static class Monetization
+        {
+            public const string Group = "monetization:";
+            
+            public const string IapOfferShopClicked = Group + "iap_offer_shop_clicked";
+            public const string AdOfferShopClicked = Group + "ad_offer_shop_clicked";
+            public const string RemoveAdOfferShopClicked = Group + "remove_ad_offer_shop_clicked";
+        }
+        
+        public static class Ads
+        {
+            public const string Group = "ads:";
+            
+            public const string RewardedAvailability = Group + "rewarded_availability";
         }
         
         public static class Parameter
@@ -50,12 +69,26 @@ namespace Core.Services
             public const string Skin = "skin";
             public const string Sound = "sound";
             public const string Giro = "giro";
+            public const string ProductId = "product_id";
+            public const string Reward = "reward";
+            public const string Price = "price";
+            public const string LimitRemain = "limit_remain";
+            public const string Result = "result";
+            public const string RewardType = "reward_type";
+            public const string IsReady = "is_ready";
+            public const string IsLoading = "is_loading";
+            public const string Cooldown = "cooldown";
+            public const string DailyLimitReached = "daily_limit_reached";
         }
         
         public static class Option
         {
             public const string On = "on";
             public const string Off = "off";
+            public const string Success = "success";
+            public const string NotReady = "not_ready";
+            public const string Cooldown = "cooldown";
+            public const string Limit = "limit";
         }
         
         public static Dictionary<string, object> GetWaitTimeParams()

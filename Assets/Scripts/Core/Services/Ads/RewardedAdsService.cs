@@ -34,6 +34,9 @@ namespace Core.Services
             return UniTask.CompletedTask;
         }
 
+        public bool IsLoading(RewardType type)
+            => _loading.Contains(type);
+        
         public bool IsReady(RewardType type)
             => _ads.TryGetValue(type, out var ad) && ad != null && ad.CanShowAd();
 

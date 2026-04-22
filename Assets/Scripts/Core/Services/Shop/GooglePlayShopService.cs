@@ -88,6 +88,7 @@ namespace Core.Services.Shop
 
                     // По умолчанию
                     IsAvailable = o.DebugAvailable,
+                    IsDisableInterstitialAds = o.DisableInterstitialAds,
                     CtaText = o.Type == ShopOfferType.RewardedAd ? _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook) : o.DebugPriceText
                 };
 

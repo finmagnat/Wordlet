@@ -62,6 +62,7 @@ namespace Core.Services.Shop
                         ? o.DebugPriceText
                         : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
                     IsAvailable = o.DebugAvailable,
+                    IsDisableInterstitialAds = o.DisableInterstitialAds,
                     Rewards = o.Rewards.Select(r => new ShopRewardDto { ItemId = r.ItemId, Amount = r.Amount, SpriteIcon = r.SpriteIcon }).ToList()
                 });
             }

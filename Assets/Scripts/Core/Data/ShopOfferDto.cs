@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Services;
 using Inventory;
 using UnityEngine;
@@ -26,14 +27,22 @@ namespace Core.Data
 
         public string CtaText;        // "19.99" или "Смотреть"
         public bool IsAvailable;
-
+        public bool IsDisableInterstitialAds;
+        
         public List<ShopRewardDto> Rewards = new();
+
+        public string RewardsToString()
+        {
+            return "[" + string.Join(",", Rewards.Select(r =>
+                $"{{item_id:{r.ItemId},amount:{r.Amount}}}"
+            )) + "]";
+        }
     }
     
     [Serializable]
     public sealed class ShopRewardDto
     {
-        public BoosterType ItemId;  // "booster_hint", "booster_slowtime", "no_ads"
+        public BoosterType ItemId;
         public int Amount;
         public Sprite SpriteIcon;
     }

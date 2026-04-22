@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.Data;
 using DG.Tweening;
 using TMPro;
@@ -10,7 +11,12 @@ namespace Core.Services.Shop
 {
     public sealed class ShopPackItemView : MonoBehaviour
     {
+        public ShopOfferDto Dto => _dto;
+        public int Cooldown => _limitRemain;
+        public bool IsLimitDailyReached => _limitDailyReached;
+        
         [Inject] private LocalizationService _localization;
+        [Inject] private AnalyticsService _analytics;
         [InjectOptional] private RewardedAdsService _ads;
         [InjectOptional] private RewardedLimitsService _limits;
         [InjectOptional] private RewardedBoosterGrantService _grant;
@@ -32,7 +38,10 @@ namespace Core.Services.Shop
 
         private float _nextTickTime;
         private Sequence _popSeq;
-
+        
+        private int _limitRemain;
+        private bool _limitDailyReached;
+        
         public void Bind(ShopOfferDto dto, Action<ShopOfferDto> onClick)
         {
             Unsubscribe();
@@ -130,19 +139,19 @@ namespace Core.Services.Shop
             // 2) лимиты (daily/cooldown)
             if (_limits != null)
             {
-                bool can = _limits.CanClaim(_dto.RewardType, out int remain, out bool dailyReached);
+                bool can = _limits.CanClaim(_dto.RewardType, out _limitRemain, out _limitDailyReached);
 
                 if (!can)
                 {
-                    if (dailyReached)
+                    if (_limitDailyReached)
                     {
                         SetBlockedDaily();
                         return;
                     }
 
-                    if (remain > 0)
+                    if (_limitRemain > 0)
                     {
-                        SetCooldown(remain);
+                        SetCooldown(_limitRemain);
                         return;
                     }
                 }
@@ -169,11 +178,11 @@ namespace Core.Services.Shop
             // Если лимит/кулдаун не позволяет — просто обновим текст и выйдем
             if (_limits != null)
             {
-                bool can = _limits.CanClaim(_dto.RewardType, out int remain, out bool dailyReached);
+                bool can = _limits.CanClaim(_dto.RewardType, out _limitRemain, out _limitDailyReached);
                 if (!can)
                 {
-                    if (dailyReached) SetBlockedDaily();
-                    else if (remain > 0) SetCooldown(remain);
+                    if (_limitDailyReached) SetBlockedDaily();
+                    else if (_limitRemain > 0) SetCooldown(_limitRemain);
                     else SetLoading(false);
                     return;
                 }
@@ -185,6 +194,8 @@ namespace Core.Services.Shop
             if (_dto.Type == ShopOfferTypeDto.RewardedAd)
                 SetLoading(true);
 
+            SendAnalytics();
+            
             _onClick?.Invoke(_dto);
         }
 
@@ -231,18 +242,22 @@ namespace Core.Services.Shop
 
         private void SetReady()
         {
+            _limitDailyReached = false;
+            _limitRemain = 0;
             _buyButton.interactable = true;
             _ctaText.text = _idleCtaText; // обычно "Смотреть"
         }
 
         private void SetBlockedDaily()
         {
+            _limitDailyReached = true;
             _buyButton.interactable = false;
             _ctaText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLimit);
         }
 
         private void SetCooldown(int remainSeconds)
         {
+            _limitRemain = remainSeconds;
             _buyButton.interactable = false;
             _ctaText.text = $"{_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextThrough)} {FormatMMSS(remainSeconds)}";
         }
@@ -250,6 +265,8 @@ namespace Core.Services.Shop
         // showDots=true -> "..." (нажатие/показ), false -> "Загрузка..." (ждём preload)
         private void SetLoading(bool showDots)
         {
+            _limitDailyReached = false;
+            _limitRemain = 0;
             _buyButton.interactable = false;
             _ctaText.text = showDots ? "..." : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelLoading);
         }
@@ -285,5 +302,64 @@ namespace Core.Services.Shop
         }
 
         private void OnDestroy() => Unsubscribe();
+        
+        private void SendAnalytics()
+        {
+            var eventName = _dto.Type switch
+            {
+                ShopOfferTypeDto.IapPack => _dto.IsDisableInterstitialAds ? AnalyticsEvents.Monetization.RemoveAdOfferShopClicked : AnalyticsEvents.Monetization.IapOfferShopClicked,
+                ShopOfferTypeDto.RewardedAd => AnalyticsEvents.Monetization.AdOfferShopClicked,
+                _ => AnalyticsEvents.Monetization.RemoveAdOfferShopClicked
+            }; 
+            
+            Dictionary<string, object> parameters = null;
+            switch (eventName)
+            {
+                case AnalyticsEvents.Monetization.IapOfferShopClicked:
+                    parameters = new()
+                    {
+                        [AnalyticsEvents.Parameter.ProductId] = _dto.ProductId,
+                        [AnalyticsEvents.Parameter.Reward] = _dto.RewardsToString(),
+                        [AnalyticsEvents.Parameter.Price] = _dto.CtaText,
+                    };
+                    break;
+                case AnalyticsEvents.Monetization.AdOfferShopClicked:
+                    var limits = _limits?.GetSnapshot(_dto.RewardType) ?? new RewardedLimitSnapshot(0, 0, 0, 0, false);
+                    bool willShowLimitState = limits.DailyLimit > 0 && limits.UsedToday + 1 >= limits.DailyLimit;
+                    string result = AnalyticsEvents.Option.Success;
+                    if (limits.DailyLimitReached || willShowLimitState)
+                        result = AnalyticsEvents.Option.Limit;
+                    else if (limits.CooldownSeconds > 0)
+                        result = AnalyticsEvents.Option.Cooldown;
+
+                    parameters = new ()
+                    {
+                        [AnalyticsEvents.Parameter.Reward] = _dto.RewardsToString(),
+                        [AnalyticsEvents.Parameter.LimitRemain] = FormatLimitRemain(limits),
+                        [AnalyticsEvents.Parameter.Result] = result,
+                    };
+                    break;
+                case AnalyticsEvents.Monetization.RemoveAdOfferShopClicked:
+                    parameters = new ()
+                    {
+                        [AnalyticsEvents.Parameter.Price] = _dto.CtaText,
+                    };
+                    break;
+            }
+            
+            _analytics.TrackEvent(eventName, parameters);
+        }
+
+        private static string FormatLimitRemain(RewardedLimitSnapshot limits)
+        {
+            if (limits.DailyLimit <= 0)
+                return "0/0";
+
+            int currentAttempt = limits.DailyLimitReached
+                ? limits.DailyLimit
+                : Mathf.Clamp(limits.UsedToday + 1, 1, limits.DailyLimit);
+
+            return $"{currentAttempt}/{limits.DailyLimit}";
+        }
     }
 }

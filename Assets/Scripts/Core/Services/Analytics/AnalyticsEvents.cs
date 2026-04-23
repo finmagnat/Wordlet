@@ -39,6 +39,9 @@ namespace Core.Services
             
             public const string ShopPopupShown = Group + "shop_popup_shown";
             public const string CloseShopClicked = Group + "close_shop_clicked";
+            public const string RewardPopupShown = Group + "reward_popup_shown";
+            public const string CloseRewardClicked = Group + "close_reward_clicked";
+            public const string OkRewardClicked = Group + "ok_reward_clicked";
         }
 
         public static class Monetization

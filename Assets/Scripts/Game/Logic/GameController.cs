@@ -711,6 +711,10 @@ namespace Game.Logic
 
         private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
         {
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.WordInfoClicked, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Word] = eventData.word
+            });
             await _wordInfoPresenter.ShowAsync(
                 eventData.word,
                 _dictionaryService.DictionaryConfig.languageCode);

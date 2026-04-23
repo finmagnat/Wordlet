@@ -23,6 +23,7 @@ namespace UI.Components
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
+        [Inject] private AnalyticsService _analytics;
         
         private string _startWord;
         
@@ -30,6 +31,7 @@ namespace UI.Components
         {
             _closeButton.onClick.AddListener(async () =>
             {
+                _analytics.TrackEvent(AnalyticsEvents.GameFlow.CloseHistoryGameClicked);
                 await HideAsync();
             });
         }

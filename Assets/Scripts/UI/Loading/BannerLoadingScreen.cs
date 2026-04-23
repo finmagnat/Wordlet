@@ -3,6 +3,8 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using UI.Loading;
 using UI.Screens;
+using Core.Services;
+using Zenject;
 
 namespace Core.UI
 {
@@ -10,6 +12,8 @@ namespace Core.UI
     public class BannerLoadingScreen : UIScreen
     {
         public BannerItemUI CurrentBanner { get; private set; }
+
+        [Inject] private AnalyticsService _analytics;
 
         [Header("UI Elements")] [SerializeField]
         protected CanvasGroup _canvasGroup;
@@ -38,6 +42,16 @@ namespace Core.UI
             if (_isVisible) return;
 
             UpdateBanners();
+
+            if (CurrentBanner != null)
+            {
+                _analytics.TrackEvent(
+                    AnalyticsEvents.Navigation.BannerLoadingShown,
+                    new System.Collections.Generic.Dictionary<string, object>
+                    {
+                        [AnalyticsEvents.Parameter.Banner] = CurrentBanner.BannerType.ToString()
+                    });
+            }
 
             _isVisible = true;
             _canvasGroup.blocksRaycasts = true;

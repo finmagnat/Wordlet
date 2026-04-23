@@ -53,6 +53,7 @@ namespace Core.Services
             public const string CloseSavedGameClicked = Group + "close_saved_game_clicked";
             public const string RemoveSavedGameClicked = Group + "remove_saved_game_clicked";
             public const string PlaySavedGameClicked = Group + "play_saved_game_clicked";
+            public const string BannerLoadingShown = Group + "banner_loading_shown";
         }
 
         public static class Monetization

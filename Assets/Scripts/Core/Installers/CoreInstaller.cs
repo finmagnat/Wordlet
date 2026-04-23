@@ -105,7 +105,7 @@ namespace Core.Installers
         {
             var analytics = Container.Resolve<AnalyticsService>();
             
-            var parameters = AnalyticsEvents.GetWaitTimeParams();
+            var parameters = AdsAnalyticsHelper.GetWaitTimeParams();
             var bannerType = loading.CurrentBanner != null
                 ? loading.CurrentBanner.BannerType.ToString()
                 : "Unknown";
@@ -138,7 +138,7 @@ namespace Core.Installers
                 while (!await internetService.CheckNowAsync())
                     await UniTask.Delay(500, ignoreTimeScale: true);
 
-                analytics.TrackEvent(AnalyticsEvents.Startup.LoadingInternetConnectionRestored, AnalyticsEvents.GetWaitTimeParams());
+                analytics.TrackEvent(AnalyticsEvents.Startup.LoadingInternetConnectionRestored, AdsAnalyticsHelper.GetWaitTimeParams());
                 
                 await loading.ShowAsync();
                 loading.SetProgress(0.20f);
@@ -195,7 +195,7 @@ namespace Core.Installers
             loading.SetProgress(0.80f);
 
             loading.SetProgress(1.0f);
-            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingCompleted, AnalyticsEvents.GetWaitTimeParams());
+            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingCompleted, AdsAnalyticsHelper.GetWaitTimeParams());
             
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);

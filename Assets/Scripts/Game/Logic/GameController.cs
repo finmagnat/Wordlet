@@ -482,7 +482,7 @@ namespace Game.Logic
 
         private async UniTask RepeatGame()
         {
-            await _interstitialService.TryShowAndWaitAsync("exit_game");
+            await _interstitialService.TryShowAndWaitAsync(AnalyticsEvents.Placement.RepeatGame);
 
             _gameScreen.Reset();
 

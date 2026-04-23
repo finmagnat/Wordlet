@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Core.Services
 {
     public static class AnalyticsEvents
@@ -58,6 +55,22 @@ namespace Core.Services
             public const string Group = "ads:";
             
             public const string RewardedAvailability = Group + "rewarded_availability";
+            public const string RewardedLoadStart = Group + "rewarded_load_start";
+            public const string RewardedLoadSuccess = Group + "rewarded_load_success";
+            public const string RewardedLoadFailed = Group + "rewarded_load_failed";
+            public const string RewardedShowAttempt = Group + "rewarded_show_attempt";
+            public const string RewardedShowStart = Group + "rewarded_show_start";
+            public const string RewardedShowFailed = Group + "rewarded_show_failed";
+            public const string RewardedEarned = Group + "rewarded_earned";
+            public const string RewardedClosed = Group + "rewarded_closed";
+
+            public const string InterstitialLoadStart = Group + "interstitial_load_start";
+            public const string InterstitialLoadSuccess = Group + "interstitial_load_success";
+            public const string InterstitialLoadFailed = Group + "interstitial_load_failed";
+            public const string InterstitialShowAttempt = Group + "interstitial_show_attempt";
+            public const string InterstitialShowStart = Group + "interstitial_show_start";
+            public const string InterstitialShowFailed = Group + "interstitial_show_failed";
+            public const string InterstitialClosed = Group + "interstitial_closed";
         }
         
         public static class Parameter
@@ -75,10 +88,15 @@ namespace Core.Services
             public const string LimitRemain = "limit_remain";
             public const string Result = "result";
             public const string RewardType = "reward_type";
+            public const string Placement = "placement";
             public const string IsReady = "is_ready";
             public const string IsLoading = "is_loading";
             public const string Cooldown = "cooldown";
             public const string DailyLimitReached = "daily_limit_reached";
+            public const string LoadTimeMs = "load_time_ms";
+            public const string LoadReason = "load_reason";
+            public const string Error = "error";
+            public const string WasRewarded = "was_rewarded";
         }
         
         public static class Option
@@ -89,16 +107,25 @@ namespace Core.Services
             public const string NotReady = "not_ready";
             public const string Cooldown = "cooldown";
             public const string Limit = "limit";
+            public const string NoFill = "no_fill";
+            public const string Timeout = "timeout";
+            public const string Network = "network";
+            public const string InternalError = "internal_error";
+            public const string InvalidRequest = "invalid_request";
+            public const string Disabled = "disabled";
+            public const string TooEarly = "too_early";
+            public const string Unknown = "unknown";
+            public const string Initial = "initial";
+            public const string ReloadOnDemand = "reload_on_demand";
+            public const string ReloadAfterClose = "reload_after_close";
+            public const string ReloadAfterFail = "reload_after_fail";
         }
-        
-        public static Dictionary<string, object> GetWaitTimeParams()
+
+        public static class Placement
         {
-            int waitTimeMs = Mathf.RoundToInt((Time.realtimeSinceStartup - AppLaunchTracker.LaunchRealtimeSinceStartup) * 1000f);
-            return new Dictionary<string, object>
-            {
-                [Parameter.WaitTimeMs] = waitTimeMs,
-                [Parameter.WaitTimeSeconds] = waitTimeMs / 1000f
-            };
+            public const string RepeatGame = "repeat_game";
+            public const string ExitGame = "exit_game";
+            public const string Global = "global";
         }
     }
 }

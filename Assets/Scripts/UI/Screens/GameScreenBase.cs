@@ -144,7 +144,7 @@ namespace UI.Screens
 
         protected async UniTask GoToHome(bool isSaveGame = false)
         {
-            await _interstitialService.TryShowAndWaitAsync("exit_game");
+            await _interstitialService.TryShowAndWaitAsync(AnalyticsEvents.Placement.ExitGame);
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
             
             if (isSaveGame)

@@ -373,7 +373,9 @@ namespace Game.Logic
                 [AnalyticsEvents.Parameter.Index] = eventData.index
             });
             _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
-            _gameScreen.KeyboardPanel.HideAsync().Forget();
+
+            if (!eventData.keepKeyboardOpen)
+                _gameScreen.KeyboardPanel.HideAsync().Forget();
         }
 
         private void OnCellSelectSuccess(CellSelectSuccessEvent eventData)

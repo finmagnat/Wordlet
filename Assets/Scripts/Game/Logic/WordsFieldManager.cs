@@ -141,7 +141,11 @@ namespace Game.Logic
                 {
                     int selectedIndex = _wordsFildData.SelectedItem.Index;
                     _wordsFildData.CellSelectCancel();
-                    EventBus.Raise(new CellSelectCancelEvent { index = selectedIndex });
+                    EventBus.Raise(new CellSelectCancelEvent
+                    {
+                        index = selectedIndex,
+                        keepKeyboardOpen = true
+                    });
                 }
                 
                 _wordsFildData.SetSelectedCell(eventData.letter);

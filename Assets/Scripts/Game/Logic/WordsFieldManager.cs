@@ -162,9 +162,14 @@ namespace Game.Logic
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
         {
+            var selectedItem = _wordsFildData.SelectedItem;
             if(_wordsFildData.SetLetterToSelectedCell(eventData.letter))
             {
-                EventBus.Raise(new LetterPutSuccessEvent());
+                EventBus.Raise(new LetterPutSuccessEvent
+                {
+                    letter = eventData.letter,
+                    index = selectedItem != null ? selectedItem.Index : -1
+                });
                 _bModeSelectWord = true;
             }
         }

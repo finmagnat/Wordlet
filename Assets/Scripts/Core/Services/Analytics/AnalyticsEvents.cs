@@ -106,6 +106,7 @@ namespace Core.Services
             public const string CellSelected = Group + "cell_selected";
             public const string CellUnselected = Group + "cell_unselected";
             public const string KeyboardLetterClicked = Group + "keyboard_letter_clicked";
+            public const string LetterPutSuccess = Group + "letter_put_success";
         }
 
         public static class BoosterUsage

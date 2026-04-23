@@ -394,8 +394,13 @@ namespace Game.Logic
                 _gameScreen.KeyboardPanel.ShowAsync().Forget();
         }
 
-        private void OnLetterPutSuccess(IGameEvent eventData)
+        private void OnLetterPutSuccess(LetterPutSuccessEvent eventData)
         {
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.LetterPutSuccess, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Letter] = eventData.letter,
+                [AnalyticsEvents.Parameter.Index] = eventData.index
+            });
             _bLetterPut = true;
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);

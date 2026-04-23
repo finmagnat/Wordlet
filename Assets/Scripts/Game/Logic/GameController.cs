@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using Core.Config;
 using Core.Data;
@@ -10,6 +11,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
+using Inventory;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -33,6 +35,8 @@ namespace Game.Logic
         [Inject] private InterstitialPolicyService _interstitialService;
         [Inject] private ISaveService _saveService;
         [Inject] private GameBoosterController _boosterController;
+        [Inject] private AnalyticsService _analytics;
+        [Inject] private IInventoryService _inventory;
 
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
 
@@ -157,6 +161,8 @@ namespace Game.Logic
 
         private void OnGameScreenStart(GameScreenStartEvent eventData)
         {
+            bool isSavedGame = _saveGameData != null;
+
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
             _boosterController.Attach(_gameScreen, _wordsFieldManager, _ai);
@@ -240,6 +246,14 @@ namespace Game.Logic
 
             _saveGameData = null;
             _bStart = true;
+
+            if (_gameOpponent == GameOpponent.AI)
+            {
+                if (isSavedGame)
+                    TrackAiSavedGameStarted();
+                else
+                    TrackAiGameStarted();
+            }
 
             if (eventData.AutoStart)
                 OnGameScreenReady(null);
@@ -453,6 +467,9 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            if (_gameOpponent == GameOpponent.AI)
+                _analytics.TrackEvent(AnalyticsEvents.GameFlow.PassGameClicked, GetGameSnapshotParams());
+
             TryConfirmPass().Forget();
         }
 
@@ -491,6 +508,13 @@ namespace Game.Logic
 
         private void OnTimeExpired(IGameEvent eventData)
         {
+            if (_gameOpponent == GameOpponent.AI)
+            {
+                var parameters = GetGameSnapshotParams();
+                parameters[AnalyticsEvents.Parameter.WhoseMove] = _bModePlayOwner ? AnalyticsEvents.Option.Owner : AnalyticsEvents.Option.Opponent;
+                _analytics.TrackEvent(AnalyticsEvents.GameFlow.TimeExpired, parameters);
+            }
+
             _ai.AbortSearch();
             _boosterController.CancelEraserMode();
 
@@ -694,7 +718,64 @@ namespace Game.Logic
 
         private async void OnActivateBooster(UseBoosterEvent eventData)
         {
+            if (_gameOpponent == GameOpponent.AI)
+            {
+                var parameters = GetGameSnapshotParams();
+                parameters[AnalyticsEvents.Parameter.BoosterClicked] = eventData.boosterType.ToString();
+                _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.BoosterGameClicked, parameters);
+            }
+
             await _boosterController.HandleUseAsync(eventData, this);
+        }
+
+        private void TrackAiGameStarted()
+        {
+            _analytics.TrackEvent(
+                AnalyticsEvents.GameFlow.AiGameStarted,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsEvents.Parameter.ComplexityAi] = _complexityAI.ToString(),
+                    [AnalyticsEvents.Parameter.DurationRound] = _durationGame,
+                    [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters),
+                    [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                    [AnalyticsEvents.Parameter.StartWord] = _firstWord
+                });
+        }
+
+        private void TrackAiSavedGameStarted()
+        {
+            _analytics.TrackEvent(
+                AnalyticsEvents.GameFlow.AiSavedGameStarted,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsEvents.Parameter.SavedGame] = _saveGameData != null ? JsonUtility.ToJson(_saveGameData) : "{}",
+                    [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
+                });
+        }
+
+        private Dictionary<string, object> GetGameSnapshotParams()
+        {
+            string[] boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+            int emptyCells = 0;
+
+            for (int i = 0; i < boardData.Length; i++)
+            {
+                if (string.IsNullOrEmpty(boardData[i]))
+                    emptyCells++;
+            }
+
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters),
+                [AnalyticsEvents.Parameter.ComplexityAi] = _complexityAI.ToString(),
+                [AnalyticsEvents.Parameter.DurationRound] = _durationGame,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, _durationGame - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
+                [AnalyticsEvents.Parameter.CellsEmpty] = emptyCells,
+                [AnalyticsEvents.Parameter.Score] = (int)_gameScreen.PlayerPanelOwner.Score,
+                [AnalyticsEvents.Parameter.ScoreOpponent] = (int)_gameScreen.PlayerPanelOpponent.Score,
+                [AnalyticsEvents.Parameter.Pass] = $"{_gameScreen.PlayerPanelOwner.Pass}/{_maxPasses}",
+                [AnalyticsEvents.Parameter.PassOpponent] = $"{_gameScreen.PlayerPanelOpponent.Pass}/{_maxPasses}"
+            };
         }
 
         internal async UniTask BlockUIAsync(bool isBlocked, BlockUIScreenMode mode = BlockUIScreenMode.Default)

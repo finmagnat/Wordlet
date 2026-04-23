@@ -83,6 +83,7 @@ namespace UI.Screens
 
         public void OnPressedPause()
         {
+            OnPausePressed();
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
             _pauseService.SetUserPause(!_pauseService.IsPaused);
@@ -91,8 +92,17 @@ namespace UI.Screens
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         public void OnPressedRepeatGame() => EventBus.Raise(new RepeatGameEvent());
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
-        public void OnPressedSkip() => EventBus.Raise(new GameSkipEvent());
-        public void OnOpenStatistic() => _statisticsPanel.ShowAsync().Forget();
+        public void OnPressedSkip()
+        {
+            OnSkipPressed();
+            EventBus.Raise(new GameSkipEvent());
+        }
+
+        public void OnOpenStatistic()
+        {
+            OnStatisticOpened();
+            _statisticsPanel.ShowAsync().Forget();
+        }
 
         public override async UniTask ShowAsync()
         {
@@ -141,6 +151,10 @@ namespace UI.Screens
         {
             await GoToHome();
         }
+
+        protected virtual void OnPausePressed() { }
+        protected virtual void OnSkipPressed() { }
+        protected virtual void OnStatisticOpened() { }
 
         protected async UniTask GoToHome(bool isSaveGame = false)
         {

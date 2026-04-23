@@ -54,6 +54,9 @@ namespace Core.Services
             public const string RemoveSavedGameClicked = Group + "remove_saved_game_clicked";
             public const string PlaySavedGameClicked = Group + "play_saved_game_clicked";
             public const string BannerLoadingShown = Group + "banner_loading_shown";
+            
+            public const string AiGameScreenShown = Group + "ai_game_screen_shown";
+            public const string AiGameHomeClicked = Group + "ai_game_home_clicked";
         }
 
         public static class Monetization
@@ -87,6 +90,25 @@ namespace Core.Services
             public const string InterstitialShowFailed = Group + "interstitial_show_failed";
             public const string InterstitialClosed = Group + "interstitial_closed";
         }
+
+        public static class GameFlow
+        {
+            public const string Group = "game_flow:";
+            
+            public const string AiGameStarted = Group + "ai_game_started";
+            public const string AiSavedGameStarted = Group + "ai_saved_game_started";
+            public const string PauseGameClicked = Group + "pause_game_clicked";
+            public const string TimeExpired = Group + "time_expired";
+            public const string PassGameClicked = Group + "pass_game_clicked";
+            public const string HistoryGameClicked = Group + "history_game_clicked";
+        }
+
+        public static class BoosterUsage
+        {
+            public const string Group = "booster_usage:";
+
+            public const string BoosterGameClicked = Group + "booster_game_clicked";
+        }
         
         public static class Parameter
         {
@@ -117,6 +139,15 @@ namespace Core.Services
             public const string Boosters = "boosters";
             public const string BoosterClicked = "booster_clicked";
             public const string SavedGame = "saved_game";
+            public const string StartWord = "start_word";
+            public const string DurationRoundLeft = "duration_round_left";
+            public const string CellsEmpty = "cells_empty";
+            public const string Score = "score";
+            public const string ScoreOpponent = "score_opponent";
+            public const string Pass = "pass";
+            public const string PassOpponent = "pass_opponent";
+            public const string WhoseMove = "whose_move";
+            public const string State = "state";
         }
         
         public static class Option
@@ -139,6 +170,8 @@ namespace Core.Services
             public const string ReloadOnDemand = "reload_on_demand";
             public const string ReloadAfterClose = "reload_after_close";
             public const string ReloadAfterFail = "reload_after_fail";
+            public const string Owner = "owner";
+            public const string Opponent = "opponent";
         }
 
         public static class Placement

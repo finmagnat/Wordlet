@@ -332,6 +332,11 @@ namespace Game.Logic
                 }
                 else
                 {
+                    _analytics.TrackEvent(AnalyticsEvents.GameFlow.ApplyWordClicked, new Dictionary<string, object>
+                    {
+                        [AnalyticsEvents.Parameter.Word] = word,
+                        [AnalyticsEvents.Parameter.WordLength] = word.Length
+                    });
                     _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
                     SaveWordAndContinueGame(word);
                 }
@@ -343,6 +348,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner)
                 return;
 
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CancelClicked);
             Cancel();
         }
 

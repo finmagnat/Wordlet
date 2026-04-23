@@ -128,21 +128,26 @@ namespace Game.Logic
             if (_wordsFildData.SelectedItem != null && 
                 _wordsFildData.SelectedItem.Index == eventData.letter.Index) // Эта ячейка уже была выделена
             {
+                int selectedIndex = _wordsFildData.SelectedItem.Index;
                 _wordsFildData.CellSelectCancel();
                 //Debug.Log("[WordsFieldManager][TryCellSelect] [CellSelect Cancel Event] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
-                EventBus.Raise(new CellSelectCancelEvent());
+                EventBus.Raise(new CellSelectCancelEvent { index = selectedIndex });
                 return;
             }
             
             if(_wordsFildData.TrySetLetter(eventData.letter.Index))
             {
                 if (_wordsFildData.SelectedItem != null) // Другая ячейка уже была выделена
+                {
+                    int selectedIndex = _wordsFildData.SelectedItem.Index;
                     _wordsFildData.CellSelectCancel();
+                    EventBus.Raise(new CellSelectCancelEvent { index = selectedIndex });
+                }
                 
                 _wordsFildData.SetSelectedCell(eventData.letter);
                 eventData.letter.HighlightCell();
                 //Debug.Log("[WordsFieldManager][TryCellSelect] [CellSelect Success Event] Position: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
-                EventBus.Raise(new CellSelectSuccessEvent());
+                EventBus.Raise(new CellSelectSuccessEvent { letter = eventData.letter });
             }
         }
         

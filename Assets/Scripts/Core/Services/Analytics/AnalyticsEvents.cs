@@ -103,6 +103,9 @@ namespace Core.Services
             public const string HistoryGameClicked = Group + "history_game_clicked";
             public const string CloseHistoryGameClicked = Group + "close_history_game_clicked";
             public const string WordInfoClicked = Group + "word_info_clicked";
+            public const string CellSelected = Group + "cell_selected";
+            public const string CellUnselected = Group + "cell_unselected";
+            public const string KeyboardLetterClicked = Group + "keyboard_letter_clicked";
         }
 
         public static class BoosterUsage
@@ -143,6 +146,8 @@ namespace Core.Services
             public const string SavedGame = "saved_game";
             public const string StartWord = "start_word";
             public const string Word = "word";
+            public const string Letter = "letter";
+            public const string Index = "index";
             public const string DurationRoundLeft = "duration_round_left";
             public const string CellsEmpty = "cells_empty";
             public const string Score = "score";

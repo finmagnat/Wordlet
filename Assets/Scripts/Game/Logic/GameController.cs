@@ -72,6 +72,7 @@ namespace Game.Logic
             EventBus.Subscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Subscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Subscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
+            EventBus.Subscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Subscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Subscribe<LetterPutToWordEvent>(OnLetterPutToWord);
             EventBus.Subscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
@@ -104,6 +105,7 @@ namespace Game.Logic
             EventBus.Unsubscribe<CellSelectEvent>(OnCellSelect);
             EventBus.Unsubscribe<CellSelectCancelEvent>(OnCellSelectCancel);
             EventBus.Unsubscribe<CellSelectSuccessEvent>(OnCellSelectSuccess);
+            EventBus.Unsubscribe<KeyboardLetterSelectEvent>(OnKeyboardLetterSelect);
             EventBus.Unsubscribe<LetterPutSuccessEvent>(OnLetterPutSuccess);
             EventBus.Unsubscribe<LetterPutToWordEvent>(OnLetterPutToWord);
             EventBus.Unsubscribe<LetterRemoveLastFromWordEvent>(OnLetterRemoveLastFromWord);
@@ -366,6 +368,10 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CellUnselected, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Index] = eventData.index
+            });
             _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
             _gameScreen.KeyboardPanel.HideAsync().Forget();
         }
@@ -375,6 +381,10 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CellSelected, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Index] = eventData.letter.Index
+            });
             _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
             _boosterController.OnCellSelectSuccess();
 
@@ -388,6 +398,17 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
+        }
+
+        private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
+        {
+            if (!_bStart || _bPause || !_bModePlayOwner)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.KeyboardLetterClicked, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Letter] = eventData.letter
+            });
         }
 
         private void OnLetterPutToWord(LetterPutToWordEvent eventData)

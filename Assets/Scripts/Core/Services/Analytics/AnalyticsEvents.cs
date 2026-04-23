@@ -42,6 +42,9 @@ namespace Core.Services
             public const string RewardPopupShown = Group + "reward_popup_shown";
             public const string CloseRewardClicked = Group + "close_reward_clicked";
             public const string OkRewardClicked = Group + "ok_reward_clicked";
+            public const string NoAdsPopupShown = Group + "no_ads_popup_shown";
+            public const string CloseNoAdsClicked = Group + "close_no_ads_clicked";
+            public const string OkNoAdsClicked = Group + "ok_no_ads_clicked";
         }
 
         public static class Monetization

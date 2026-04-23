@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
 using Core.Config;
 using Core.Data;
 using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
+using Inventory;
 using TMPro;
 using UI.Components;
 using UnityEngine;
@@ -22,6 +25,8 @@ namespace UI.Popups
         [SerializeField] private Slider _durationGameSlider;
 
         [Inject] private ConfigService _configService;
+        [Inject] private AnalyticsService _analytics;
+        [Inject] private IInventoryService _inventory;
 
         private GameConfig _gameConfig;
         private ComplexityAI _complexityAI;
@@ -39,6 +44,10 @@ namespace UI.Popups
 
             _startButton.onClick.AddListener(async () =>
             {
+                _analytics.TrackEvent(
+                    AnalyticsEvents.Navigation.PlayGameSetupClicked,
+                    GetGameSetupAnalyticsParams());
+
                 PlayerPrefs.SetInt(PlayerPrefsKey.DurationGame, _durationGame);
                 PlayerPrefs.SetInt(PlayerPrefsKey.ComplexityAI, (int)_complexityAI);
 
@@ -56,6 +65,7 @@ namespace UI.Popups
 
             _closeButton.onClick.AddListener(async () =>
             {
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseGameSetupClicked);
                 await HideAsync();
                 _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.Close });
             });
@@ -75,14 +85,12 @@ namespace UI.Popups
 
             _isInitializing = true;
 
-            // Сложность
             _complexityAI = (ComplexityAI)PlayerPrefs.GetInt(
                 PlayerPrefsKey.ComplexityAI,
                 (int)_gameConfig.complexityAiByDefault);
 
             ApplyComplexityToUI(_complexityAI);
 
-            // Время хода
             _durationGame = PlayerPrefs.GetInt(
                 PlayerPrefsKey.DurationGame,
                 _gameConfig.durationGameByDefault);
@@ -96,6 +104,12 @@ namespace UI.Popups
             _isInitializing = false;
 
             return UniTask.CompletedTask;
+        }
+
+        public override async UniTask ShowAsync()
+        {
+            await base.ShowAsync();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.GameSetupPopupShown);
         }
 
         private void BindToggles()
@@ -126,6 +140,13 @@ namespace UI.Popups
 
         private async void OnGotoShopEvent(GotoShopEvent objEvent)
         {
+            _analytics.TrackEvent(
+                AnalyticsEvents.Navigation.BoosterGameSetupClicked,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsEvents.Parameter.BoosterClicked] = objEvent.BoosterType.ToString()
+                });
+
             await HideAsync();
             _completionSource?.TrySetResult(new GameSetupData { Result = PopupResult.GotoShop });
         }
@@ -153,10 +174,31 @@ namespace UI.Popups
 
         private void SetFormatMMSS(int seconds)
         {
-            if (seconds < 0) seconds = 0;
+            if (seconds < 0)
+                seconds = 0;
+
             int m = seconds / 60;
             int s = seconds % 60;
             _timeText.text = $"{m:00}:{s:00}";
+        }
+
+        private Dictionary<string, object> GetGameSetupAnalyticsParams()
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.ComplexityAi] = _complexityAI.ToString(),
+                [AnalyticsEvents.Parameter.DurationRound] = _durationGame,
+                [AnalyticsEvents.Parameter.Boosters] = GetBoostersPayload()
+            };
+        }
+
+        private string GetBoostersPayload()
+        {
+            return "[" + string.Join(",",
+                _inventory.Boosters
+                    .Where(x => x.Key != BoosterType.None)
+                    .OrderBy(x => x.Key)
+                    .Select(x => $"{{\"item_id\":\"{x.Value.Type}\",\"amount\":{x.Value.Count}}}")) + "]";
         }
     }
 }

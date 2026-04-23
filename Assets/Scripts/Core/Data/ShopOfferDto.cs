@@ -34,7 +34,7 @@ namespace Core.Data
         public string RewardsToString()
         {
             return "[" + string.Join(",", Rewards.Select(r =>
-                $"{{item_id:{r.ItemId},amount:{r.Amount}}}"
+                $"{{\"item_id\":\"{r.ItemId}\",\"amount\":{r.Amount}}}"
             )) + "]";
         }
     }

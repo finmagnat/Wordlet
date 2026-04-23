@@ -7,7 +7,7 @@ namespace UI.Components
         public void OnClick()
         {
             if (IsEmpty)
-                EventBus.Raise(new GotoShopEvent());
+                EventBus.Raise(new GotoShopEvent { BoosterType = Type });
         }
     }
 }

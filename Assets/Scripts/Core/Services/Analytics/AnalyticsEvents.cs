@@ -45,6 +45,10 @@ namespace Core.Services
             public const string NoAdsPopupShown = Group + "no_ads_popup_shown";
             public const string CloseNoAdsClicked = Group + "close_no_ads_clicked";
             public const string OkNoAdsClicked = Group + "ok_no_ads_clicked";
+            public const string GameSetupPopupShown = Group + "game_setup_popup_shown";
+            public const string CloseGameSetupClicked = Group + "close_game_setup_clicked";
+            public const string BoosterGameSetupClicked = Group + "booster_game_setup_clicked";
+            public const string PlayGameSetupClicked = Group + "play_game_setup_clicked";
         }
 
         public static class Monetization
@@ -103,6 +107,10 @@ namespace Core.Services
             public const string LoadReason = "load_reason";
             public const string Error = "error";
             public const string WasRewarded = "was_rewarded";
+            public const string ComplexityAi = "complexity_ai";
+            public const string DurationRound = "duration_round";
+            public const string Boosters = "boosters";
+            public const string BoosterClicked = "booster_clicked";
         }
         
         public static class Option

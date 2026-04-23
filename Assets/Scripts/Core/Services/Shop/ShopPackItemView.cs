@@ -319,7 +319,7 @@ namespace Core.Services.Shop
                     parameters = new()
                     {
                         [AnalyticsEvents.Parameter.ProductId] = _dto.ProductId,
-                        [AnalyticsEvents.Parameter.Reward] = _dto.RewardsToString(),
+                        [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_dto.Rewards),
                         [AnalyticsEvents.Parameter.Price] = _dto.CtaText,
                     };
                     break;
@@ -334,7 +334,7 @@ namespace Core.Services.Shop
 
                     parameters = new ()
                     {
-                        [AnalyticsEvents.Parameter.Reward] = _dto.RewardsToString(),
+                        [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_dto.Rewards),
                         [AnalyticsEvents.Parameter.LimitRemain] = FormatLimitRemain(limits),
                         [AnalyticsEvents.Parameter.Result] = result,
                     };

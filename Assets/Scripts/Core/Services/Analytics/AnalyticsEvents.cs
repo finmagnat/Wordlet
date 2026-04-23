@@ -49,6 +49,10 @@ namespace Core.Services
             public const string CloseGameSetupClicked = Group + "close_game_setup_clicked";
             public const string BoosterGameSetupClicked = Group + "booster_game_setup_clicked";
             public const string PlayGameSetupClicked = Group + "play_game_setup_clicked";
+            public const string SavedGamePopupShown = Group + "saved_game_popup_shown";
+            public const string CloseSavedGameClicked = Group + "close_saved_game_clicked";
+            public const string RemoveSavedGameClicked = Group + "remove_saved_game_clicked";
+            public const string PlaySavedGameClicked = Group + "play_saved_game_clicked";
         }
 
         public static class Monetization
@@ -111,6 +115,7 @@ namespace Core.Services
             public const string DurationRound = "duration_round";
             public const string Boosters = "boosters";
             public const string BoosterClicked = "booster_clicked";
+            public const string SavedGame = "saved_game";
         }
         
         public static class Option

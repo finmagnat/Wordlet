@@ -79,7 +79,7 @@ namespace UI.Popups
             return new Dictionary<string, object>
             {
                 [AnalyticsEvents.Parameter.ProductId] = _currentOffer?.ProductId,
-                [AnalyticsEvents.Parameter.Reward] = _currentOffer?.RewardsToString()
+                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentOffer.Rewards)
             };
         }
     }

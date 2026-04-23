@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Core.Services;
 using Inventory;
 using UnityEngine;
@@ -30,13 +29,6 @@ namespace Core.Data
         public bool IsDisableInterstitialAds;
         
         public List<ShopRewardDto> Rewards = new();
-
-        public string RewardsToString()
-        {
-            return "[" + string.Join(",", Rewards.Select(r =>
-                $"{{\"item_id\":\"{r.ItemId}\",\"amount\":{r.Amount}}}"
-            )) + "]";
-        }
     }
     
     [Serializable]

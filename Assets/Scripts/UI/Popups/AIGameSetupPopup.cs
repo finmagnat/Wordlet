@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Core.Config;
 using Core.Data;
 using Core.Events;
@@ -188,17 +187,8 @@ namespace UI.Popups
             {
                 [AnalyticsEvents.Parameter.ComplexityAi] = _complexityAI.ToString(),
                 [AnalyticsEvents.Parameter.DurationRound] = _durationGame,
-                [AnalyticsEvents.Parameter.Boosters] = GetBoostersPayload()
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
             };
-        }
-
-        private string GetBoostersPayload()
-        {
-            return "[" + string.Join(",",
-                _inventory.Boosters
-                    .Where(x => x.Key != BoosterType.None)
-                    .OrderBy(x => x.Key)
-                    .Select(x => $"{{\"item_id\":\"{x.Value.Type}\",\"amount\":{x.Value.Count}}}")) + "]";
         }
     }
 }

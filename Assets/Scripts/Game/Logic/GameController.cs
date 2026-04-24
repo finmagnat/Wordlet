@@ -167,6 +167,7 @@ namespace Game.Logic
         private void OnGameScreenStart(GameScreenStartEvent eventData)
         {
             bool isSavedGame = _saveGameData != null;
+            string savedGameJson = isSavedGame ? JsonUtility.ToJson(_saveGameData) : null;
 
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
@@ -255,7 +256,7 @@ namespace Game.Logic
             if (_gameOpponent == GameOpponent.AI)
             {
                 if (isSavedGame)
-                    TrackAiSavedGameStarted();
+                    TrackAiSavedGameStarted(savedGameJson);
                 else
                     TrackAiGameStarted();
             }
@@ -807,13 +808,13 @@ namespace Game.Logic
                 });
         }
 
-        private void TrackAiSavedGameStarted()
+        private void TrackAiSavedGameStarted(string savedGameJson)
         {
             _analytics.TrackEvent(
                 AnalyticsEvents.GameFlow.AiSavedGameStarted,
                 new Dictionary<string, object>
                 {
-                    [AnalyticsEvents.Parameter.SavedGame] = _saveGameData != null ? JsonUtility.ToJson(_saveGameData) : "{}",
+                    [AnalyticsEvents.Parameter.SavedGame] = string.IsNullOrEmpty(savedGameJson) ? "{}" : savedGameJson,
                     [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
                 });
         }

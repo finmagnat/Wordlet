@@ -397,6 +397,10 @@ namespace Game.Logic
             if (eventData.isEraserSuccess)
             {
                 _boosterController.OnCellSelectSuccess(eventData);
+
+                if (!_gameScreen.KeyboardPanel.IsVisible)
+                    _gameScreen.KeyboardPanel.ShowAsync().Forget();
+
                 return;
             }
 

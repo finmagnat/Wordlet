@@ -57,6 +57,9 @@ namespace Core.Services
             public const string WordInfoPopupShown = Group + "word_info_popup_shown";
             public const string CloseWordInfoClicked = Group + "close_word_info_clicked";
             public const string SendComplaintClicked = Group + "send_complaint_clicked";
+            public const string AdvicePopupShown = Group + "advice_popup_shown";
+            public const string CloseAdvicePopupClicked = Group + "close_advice_popup_clicked";
+            public const string OkAdvicePopupClicked = Group + "ok_advice_popup_clicked";
             
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";

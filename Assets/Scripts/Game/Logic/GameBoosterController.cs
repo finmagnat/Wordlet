@@ -18,6 +18,8 @@ namespace Game.Logic
         bool IsGameStarted { get; }
         bool IsPaused { get; }
         bool IsOwnerTurn { get; }
+        int RoundDurationSeconds { get; }
+        string LocaleCode { get; }
 
         UniTask BlockUIAsync(bool isBlocked, BlockUIScreenMode mode = BlockUIScreenMode.Default);
         void CancelCurrentMove();
@@ -31,6 +33,7 @@ namespace Game.Logic
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        [Inject] private AnalyticsService _analytics;
 
         private WordsFieldManager _wordsFieldManager;
         private AIGameController _ai;
@@ -172,9 +175,10 @@ namespace Game.Logic
             host.CancelCurrentMove();
 
             var res = await _ai.FindWordAsync(_configService.Game.boosterLetterAiSettings);
-
+            
             if (res.Success)
             {
+                TrackLetterBoosterSuccess(host, res.Word);
                 ShowBoosterLetterSuccess(host, res.Word);
 
                 await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
@@ -183,6 +187,7 @@ namespace Game.Logic
             }
             else
             {
+                TrackLetterBoosterFail(host);
                 await ShowBoosterLetterFailAsync();
                 _gameScreen.TimerBar.StartTimer();
             }
@@ -207,6 +212,48 @@ namespace Game.Logic
 
             await _inventorySync.GrantBoosterAsync(BoosterType.Letter, 1);
             _gameScreen.BoosterPanel.Refresh();
+        }
+
+        private void TrackLetterBoosterSuccess(IGameBoosterHost host, string word)
+        {
+            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+            int emptyCells = 0;
+
+            for (int i = 0; i < boardData.Length; i++)
+            {
+                if (string.IsNullOrEmpty(boardData[i]))
+                    emptyCells++;
+            }
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Word] = word,
+                [AnalyticsEvents.Parameter.WordLength] = word.Length,
+                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
+                [AnalyticsEvents.Parameter.CellsEmpty] = emptyCells,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
+            });
+        }
+
+        private void TrackLetterBoosterFail(IGameBoosterHost host)
+        {
+            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+            int emptyCells = 0;
+
+            for (int i = 0; i < boardData.Length; i++)
+            {
+                if (string.IsNullOrEmpty(boardData[i]))
+                    emptyCells++;
+            }
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterFail, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
+                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
+                [AnalyticsEvents.Parameter.CellsEmpty] = emptyCells,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
+            });
         }
 
         private async UniTaskVoid ActivateBoosterSlowdownAsync(IGameBoosterHost host)

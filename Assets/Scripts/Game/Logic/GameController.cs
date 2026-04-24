@@ -58,6 +58,9 @@ namespace Game.Logic
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
 
+        public int RoundDurationSeconds => _durationGame;
+        public string LocaleCode => _localization.CurrentLocale.Identifier.Code;
+
         public async UniTask InitializeAsync()
         {
             EventBus.Subscribe<GameScreenStartEvent>(OnGameScreenStart);

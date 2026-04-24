@@ -29,6 +29,18 @@ namespace Core.Services
                 x => x.Amount);
         }
 
+        public static string GetFieldPayload(IReadOnlyList<string> boardData)
+        {
+            if (boardData == null || boardData.Count == 0)
+                return "{}";
+
+            return "{"
+                   + string.Join(",",
+                       boardData.Select((value, index) =>
+                           $"\"{index}\":\"{EscapeJson(value ?? string.Empty)}\""))
+                   + "}";
+        }
+
         private static string BuildItemAmountsJson<T>(
             IEnumerable<T> items,
             Func<T, string> getItemId,

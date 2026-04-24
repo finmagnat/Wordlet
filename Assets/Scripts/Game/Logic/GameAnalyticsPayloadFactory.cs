@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Config;
+using Core.Data;
 using Core.Services;
 using Inventory;
 using UnityEngine;
@@ -88,6 +89,25 @@ namespace Game.Logic
                 snapshot[AnalyticsEvents.Parameter.SavedGameRemoved] = true;
 
             return snapshot;
+        }
+
+        public Dictionary<string, object> CreateGameSnapshotPayload(
+            SaveGameData gameData,
+            uint maxPasses,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            return CreateGameSnapshotPayload(
+                gameData.localeCode,
+                gameData.boardRows,
+                (ComplexityAI)gameData.levelComplexityAI,
+                gameData.maxSeconds,
+                gameData.currentSeconds,
+                gameData.playerScore,
+                gameData.opponentScore,
+                gameData.playerPasses,
+                gameData.opponentPasses,
+                maxPasses,
+                boosters);
         }
 
         public Dictionary<string, object> CreateLetterBoosterSuccessPayload(

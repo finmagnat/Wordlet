@@ -4,6 +4,8 @@ using Core.Events;
 using Core.Generated;
 using Core.Services;
 using Cysharp.Threading.Tasks;
+using Game.Logic;
+using Inventory;
 using UI.Popups;
 using UnityEngine;
 using Zenject;
@@ -13,6 +15,10 @@ namespace UI.Screens
     public class AIGameScreen : GameScreenNoPayload
     {
         [Inject] private AnalyticsService _analytics;
+        [Inject] private ConfigService _configService;
+        [Inject] private GameController _gameController;
+        [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
+        [Inject] private IInventoryService _inventory;
         
         protected override UniTask PrepareScreenAsync()
         {
@@ -40,9 +46,26 @@ namespace UI.Screens
             {
                 var popup = await _ui.ShowPopupAsync<AIGameExitPopup>(AssetKey.AIGameExitPopup);
                 var data = await popup.WaitForResultAsync();
+                var gameData = _gameController.GetGameData();
+                uint maxPasses = _configService.Game.GetComplexityAIItem((ComplexityAI)gameData.levelComplexityAI).MaxPasses;
 
-                if (data.Result == PopupResult.Exit || data.Result == PopupResult.SaveAndExit)
-                    await GoToHome(data.Result == PopupResult.SaveAndExit);
+                if (data.Result == PopupResult.Exit)
+                {
+                    _analytics.TrackEvent(
+                        AnalyticsEvents.Navigation.NoAiGameExitPopupClicked,
+                        _analyticsPayloadFactory.CreateGameSnapshotPayload(gameData, maxPasses, _inventory.Boosters));
+                    await GoToHome(false);
+                }
+                else if (data.Result == PopupResult.SaveAndExit)
+                {
+                    _analytics.TrackEvent(
+                        AnalyticsEvents.Navigation.YesAiGameExitPopupClicked,
+                        new System.Collections.Generic.Dictionary<string, object>
+                        {
+                            [AnalyticsEvents.Parameter.SavedGame] = JsonUtility.ToJson(gameData)
+                        });
+                    await GoToHome(true);
+                }
                 else
                     Debug.Log("Игрок вернулся в игру");
             }

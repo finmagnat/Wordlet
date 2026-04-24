@@ -1,8 +1,11 @@
 using Core.Config;
 using Core.Data;
+using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
+using System.Collections.Generic;
 
 namespace UI.Popups
 {
@@ -10,6 +13,8 @@ namespace UI.Popups
     {
         [SerializeField] private Button _yesButton;
         [SerializeField] private Toggle _toggleDontShowAgain;
+
+        [Inject] private AnalyticsService _analytics;
         
         private NewWordWindowEventData _eventData;
         
@@ -20,7 +25,8 @@ namespace UI.Popups
             _closeButton.gameObject.SetActive(false);
             
             _yesButton.onClick.AddListener(async () =>
-            {                
+            {
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.YesConfirmPassPopupClicked, GetAnalyticsParams());
                 await HideAsync();
                 Close();
 
@@ -34,9 +40,16 @@ namespace UI.Popups
         {
             return UniTask.CompletedTask;
         }
+
+        public override async UniTask ShowAsync()
+        {
+            await base.ShowAsync();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.ConfirmPassPopupShown);
+        }
         
         protected override void OnExitClicked()
         {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.NoConfirmPassPopupClicked);
             TrySaveToggleState();
             base.OnExitClicked();
         }
@@ -48,6 +61,14 @@ namespace UI.Popups
                 PlayerPrefs.SetInt(PlayerPrefsKey.ConfirmPassDontShowAgainKey, 1);
                 PlayerPrefs.Save();
             }
+        }
+
+        private Dictionary<string, object> GetAnalyticsParams()
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.DontShow] = _toggleDontShowAgain != null && _toggleDontShowAgain.isOn
+            };
         }
         
     }

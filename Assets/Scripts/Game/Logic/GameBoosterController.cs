@@ -35,6 +35,7 @@ namespace Game.Logic
         [Inject] private ConfigService _configService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
         [Inject] private AnalyticsService _analytics;
         [Inject] private IInventoryService _inventory;
 
@@ -236,44 +237,21 @@ namespace Game.Logic
 
         private void TrackLetterBoosterSuccess(IGameBoosterHost host, string word)
         {
-            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
-            int emptyCells = 0;
-
-            for (int i = 0; i < boardData.Length; i++)
-            {
-                if (string.IsNullOrEmpty(boardData[i]))
-                    emptyCells++;
-            }
-
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Word] = word,
-                [AnalyticsEvents.Parameter.WordLength] = word.Length,
-                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
-                [AnalyticsEvents.Parameter.CellsEmpty] = emptyCells,
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterSuccess,
+                _analyticsPayloadFactory.CreateLetterBoosterSuccessPayload(
+                    word,
+                    host.LocaleCode,
+                    _wordsFieldManager.WordsFieldData.GetBoardData()));
         }
 
         private void TrackLetterBoosterFail(IGameBoosterHost host)
         {
-            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
-            int emptyCells = 0;
-
-            for (int i = 0; i < boardData.Length; i++)
-            {
-                if (string.IsNullOrEmpty(boardData[i]))
-                    emptyCells++;
-            }
-
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterFail, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
-                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
-                [AnalyticsEvents.Parameter.CellsEmpty] = emptyCells,
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.LetterBoosterFail,
+                _analyticsPayloadFactory.CreateLetterBoosterFailPayload(
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    _gameScreen.TimerBar.GetCurrentValue(),
+                    _wordsFieldManager.WordsFieldData.GetBoardData()));
         }
 
         private async UniTaskVoid ActivateBoosterSlowdownAsync(IGameBoosterHost host)
@@ -321,13 +299,10 @@ namespace Game.Logic
 
         private void TrackEraserBoosterShown(IGameBoosterHost host)
         {
-            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
-
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterShown, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterShown,
+                _analyticsPayloadFactory.CreateEraserBoosterShownPayload(
+                    host.LocaleCode,
+                    _wordsFieldManager.WordsFieldData.GetBoardData()));
         }
 
         private void TrackEraserBoosterClosed(IGameBoosterHost host)
@@ -335,12 +310,11 @@ namespace Game.Logic
             if (host == null)
                 return;
 
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterClosed, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterClosed,
+                _analyticsPayloadFactory.CreateEraserBoosterClosedPayload(
+                    host.RoundDurationSeconds,
+                    _gameScreen.TimerBar.GetCurrentValue(),
+                    _inventory.Boosters));
         }
 
         private void TrackEraserBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData)
@@ -348,17 +322,15 @@ namespace Game.Logic
             if (host == null || eventData == null || !eventData.isEraserSuccess || eventData.letter == null)
                 return;
 
-            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
-
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
-                [AnalyticsEvents.Parameter.EraseItem] = AnalyticsPayloadHelper.GetIndexedItemPayload(eventData.letter.Index, eventData.erasedLetter),
-                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterSuccess,
+                _analyticsPayloadFactory.CreateEraserBoosterSuccessPayload(
+                    host.LocaleCode,
+                    _wordsFieldManager.WordsFieldData.GetBoardData(),
+                    eventData.letter.Index,
+                    eventData.erasedLetter,
+                    host.RoundDurationSeconds,
+                    _gameScreen.TimerBar.GetCurrentValue(),
+                    _inventory.Boosters));
         }
 
         private void TrackSlowdownBoosterSuccess(IGameBoosterHost host)
@@ -366,17 +338,14 @@ namespace Game.Logic
             if (host == null)
                 return;
 
-            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
-
-            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SlowdownBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.SlowdownDelay] = _configService.Game.slowdownDelay,
-                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
-                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
-            });
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SlowdownBoosterSuccess,
+                _analyticsPayloadFactory.CreateSlowdownBoosterSuccessPayload(
+                    _configService.Game.slowdownDelay,
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    _gameScreen.TimerBar.GetCurrentValue(),
+                    _wordsFieldManager.WordsFieldData.GetBoardData(),
+                    _inventory.Boosters));
         }
 
         private void TrackSlowdownBoosterEnd()

@@ -121,6 +121,8 @@ namespace Core.Services
             public const string EraserBoosterShown = Group + "eraser_booster_shown";
             public const string EraserBoosterClosed = Group + "eraser_booster_closed";
             public const string EraserBoosterSuccess = Group + "eraser_booster_success";
+            public const string SlowdownBoosterSuccess = Group + "slowdown_booster_success";
+            public const string SlowdownBoosterEnd = Group + "slowdown_booster_end";
         }
         
         public static class Parameter
@@ -167,6 +169,7 @@ namespace Core.Services
             public const string State = "state";
             public const string Field = "field";
             public const string EraseItem = "erase_item";
+            public const string SlowdownDelay = "slowdown_delay";
         }
         
         public static class Option

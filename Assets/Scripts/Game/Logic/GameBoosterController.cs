@@ -1,3 +1,4 @@
+using System;
 using Core.Config;
 using Core.Events;
 using Core.Generated;
@@ -6,6 +7,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
 using Inventory;
+using System.Threading;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -40,6 +42,8 @@ namespace Game.Logic
         private AIGameController _ai;
         private GameScreenBase _gameScreen;
         private IGameBoosterHost _activeEraserHost;
+        private IGameBoosterHost _activeSlowdownHost;
+        private CancellationTokenSource _slowdownCts;
 
         private bool _bModeEraser;
         private bool _bLetterRemoved;
@@ -66,6 +70,8 @@ namespace Game.Logic
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
+            CancelSlowdownTracking();
+            _activeSlowdownHost = null;
         }
 
         public void ResetForOpponentTurn()
@@ -79,7 +85,7 @@ namespace Game.Logic
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
-            _gameScreen?.BoosterPanel.SlowdownStop();
+            StopSlowdown();
         }
 
         public void CancelEraserMode()
@@ -106,7 +112,7 @@ namespace Game.Logic
 
         public void StopSlowdown()
         {
-            _gameScreen?.BoosterPanel.SlowdownStop();
+            EndSlowdown(restartTimer: false);
         }
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
@@ -275,14 +281,25 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
+            CancelSlowdownTracking();
+            _activeSlowdownHost = host;
             _gameScreen.TimerBar.StopTimer();
             _gameScreen.BoosterPanel.SlowdownStart();
+            TrackSlowdownBoosterSuccess(host);
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
 
-            await UniTask.WaitForSeconds(_configService.Game.slowdownDelay);
+            _slowdownCts = new CancellationTokenSource();
 
-            if (!host.IsPaused && host.IsGameStarted)
-                _gameScreen.TimerBar.StartTimer();
+            try
+            {
+                await UniTask.Delay(System.TimeSpan.FromSeconds(_configService.Game.slowdownDelay), cancellationToken: _slowdownCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            EndSlowdown(restartTimer: !host.IsPaused && host.IsGameStarted && host.IsOwnerTurn);
         }
 
         private void OnEraserOverlayCloseButtonClicked()
@@ -342,6 +359,54 @@ namespace Game.Logic
                 [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
                 [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
             });
+        }
+
+        private void TrackSlowdownBoosterSuccess(IGameBoosterHost host)
+        {
+            if (host == null)
+                return;
+
+            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SlowdownBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.SlowdownDelay] = _configService.Game.slowdownDelay,
+                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
+                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
+            });
+        }
+
+        private void TrackSlowdownBoosterEnd()
+        {
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SlowdownBoosterEnd);
+        }
+
+        private void EndSlowdown(bool restartTimer)
+        {
+            if (_gameScreen == null || _activeSlowdownHost == null || !_gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
+                return;
+
+            CancelSlowdownTracking();
+            _gameScreen.BoosterPanel.SlowdownStop();
+            TrackSlowdownBoosterEnd();
+
+            if (restartTimer)
+                _gameScreen.TimerBar.StartTimer();
+
+            _activeSlowdownHost = null;
+        }
+
+        private void CancelSlowdownTracking()
+        {
+            if (_slowdownCts == null)
+                return;
+
+            _slowdownCts.Cancel();
+            _slowdownCts.Dispose();
+            _slowdownCts = null;
         }
     }
 }

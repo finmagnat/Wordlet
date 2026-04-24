@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Core.Data;
 using Core.Generated;
 using Core.Services;
@@ -46,6 +47,8 @@ namespace UI.Popups
         private readonly IReportWordService _reportService;
         private readonly IReportWordLimitsService _limitsService;
         private readonly LocalizationService _localization;
+        private readonly AnalyticsService _analytics;
+        private readonly ConfigService _configService;
         
         private string _cooldownText;
         
@@ -53,12 +56,16 @@ namespace UI.Popups
             IUIManager ui,
             IReportWordService reportService,
             IReportWordLimitsService limitsService,
-            LocalizationService localization)
+            LocalizationService localization,
+            AnalyticsService analytics,
+            ConfigService configService)
         {
             _ui = ui;
             _reportService = reportService;
             _limitsService = limitsService;
             _localization = localization;
+            _analytics = analytics;
+            _configService = configService;
         }
 
         public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language)
@@ -93,6 +100,15 @@ namespace UI.Popups
             {
                 return new ReportWordPopupFlowResult(ReportWordFlowStatus.Cancelled);
             }
+
+            var selectedReason = popup.GetSelectedReason();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.SendComplaintClicked, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                [AnalyticsEvents.Parameter.Word] = word,
+                [AnalyticsEvents.Parameter.Reason] = selectedReason.ToId(),
+                [AnalyticsEvents.Parameter.ReportLimit] = GetReportLimitPayload()
+            });
 
             var submitResult = await _reportService.TrySubmitWordAsync(word, popup.GetSelectedReason(), language);
 
@@ -152,6 +168,22 @@ namespace UI.Popups
             return ts.TotalHours >= 1
                 ? ts.ToString(@"hh\:mm\:ss")
                 : ts.ToString(@"mm\:ss");
+        }
+
+        private string GetReportLimitPayload()
+        {
+            int dailyLimit = _configService.Game.reportWordsDailyLimit;
+            if (dailyLimit <= 0)
+                return "0/0";
+
+            int usedToday = UnityEngine.PlayerPrefs.GetInt(GetDailyCountKey(), 0);
+            int currentAttempt = UnityEngine.Mathf.Clamp(usedToday + 1, 1, dailyLimit);
+            return $"{currentAttempt}/{dailyLimit}";
+        }
+
+        private static string GetDailyCountKey()
+        {
+            return "report_words_daily_" + DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
         }
     }
 }

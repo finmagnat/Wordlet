@@ -54,6 +54,9 @@ namespace Core.Services
             public const string RemoveSavedGameClicked = Group + "remove_saved_game_clicked";
             public const string PlaySavedGameClicked = Group + "play_saved_game_clicked";
             public const string BannerLoadingShown = Group + "banner_loading_shown";
+            public const string WordInfoPopupShown = Group + "word_info_popup_shown";
+            public const string CloseWordInfoClicked = Group + "close_word_info_clicked";
+            public const string SendComplaintClicked = Group + "send_complaint_clicked";
             
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";
@@ -144,6 +147,8 @@ namespace Core.Services
             public const string Price = "price";
             public const string LimitRemain = "limit_remain";
             public const string Result = "result";
+            public const string Reason = "reason";
+            public const string ReportLimit = "report_limit";
             public const string RewardType = "reward_type";
             public const string Placement = "placement";
             public const string IsReady = "is_ready";

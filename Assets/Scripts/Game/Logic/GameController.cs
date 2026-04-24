@@ -392,12 +392,19 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
+
+            if (eventData.isEraserSuccess)
+            {
+                _boosterController.OnCellSelectSuccess(eventData);
+                return;
+            }
+
             _analytics.TrackEvent(AnalyticsEvents.GameFlow.CellSelected, new Dictionary<string, object>
             {
                 [AnalyticsEvents.Parameter.Index] = eventData.letter.Index
             });
-            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
-            _boosterController.OnCellSelectSuccess();
+            _boosterController.OnCellSelectSuccess(eventData);
 
             if (!_gameScreen.KeyboardPanel.IsVisible)
                 _gameScreen.KeyboardPanel.ShowAsync().Forget();

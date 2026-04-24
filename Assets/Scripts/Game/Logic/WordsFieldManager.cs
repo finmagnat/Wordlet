@@ -181,11 +181,17 @@ namespace Game.Logic
             
             if (_bModeEraser && !eventData.letter.Empty())
             {
+                string erasedLetter = eventData.letter.GetLetter();
                 eventData.letter.SetLetter("");
                 _wordsFildData.SetSelectedCell(eventData.letter);
                 eventData.letter.HighlightCell();
                 //Debug.Log("[WordsFieldManager][OnLetterSelected] [CellSelect Success Event] Index: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
-                EventBus.Raise(new CellSelectSuccessEvent { letter = eventData.letter });
+                EventBus.Raise(new CellSelectSuccessEvent
+                {
+                    letter = eventData.letter,
+                    isEraserSuccess = true,
+                    erasedLetter = erasedLetter
+                });
                 return;
             }
             

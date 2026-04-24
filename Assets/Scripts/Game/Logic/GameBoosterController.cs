@@ -34,10 +34,12 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private AnalyticsService _analytics;
+        [Inject] private IInventoryService _inventory;
 
         private WordsFieldManager _wordsFieldManager;
         private AIGameController _ai;
         private GameScreenBase _gameScreen;
+        private IGameBoosterHost _activeEraserHost;
 
         private bool _bModeEraser;
         private bool _bLetterRemoved;
@@ -63,6 +65,7 @@ namespace Game.Logic
             _bModeEraser = false;
             _bLetterRemoved = false;
             _boosterProcessing = false;
+            _activeEraserHost = null;
         }
 
         public void ResetForOpponentTurn()
@@ -75,6 +78,7 @@ namespace Game.Logic
             CancelEraserMode();
             _bLetterRemoved = false;
             _boosterProcessing = false;
+            _activeEraserHost = null;
             _gameScreen?.BoosterPanel.SlowdownStop();
         }
 
@@ -84,16 +88,18 @@ namespace Game.Logic
                 return;
 
             _bModeEraser = false;
+            _activeEraserHost = null;
             _wordsFieldManager.SetModeEraser(false);
             _gameScreen.WordsField.SetModeEraser(false);
             _gameScreen.EraserOverlay.HideAsync().Forget();
         }
 
-        public void OnCellSelectSuccess()
+        public void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
         {
             if (!_bModeEraser || _gameScreen == null || _wordsFieldManager == null)
                 return;
 
+            TrackEraserBoosterSuccess(_activeEraserHost, eventData);
             CancelEraserMode();
             _bLetterRemoved = true;
         }
@@ -170,8 +176,10 @@ namespace Game.Logic
             host.CancelCurrentMove();
 
             _bModeEraser = true;
+            _activeEraserHost = host;
             _wordsFieldManager.SetModeEraser(true);
             _gameScreen.WordsField.SetModeEraser(true);
+            TrackEraserBoosterShown(host);
             await _gameScreen.EraserOverlay.ShowAsync();
         }
 
@@ -282,14 +290,58 @@ namespace Game.Logic
             if (!_bModeEraser)
                 return;
 
+            var host = _activeEraserHost;
             CancelEraserMode();
-            ReturnEraserBoosterAsync().Forget();
+            ReturnEraserBoosterAsync(host).Forget();
         }
 
-        private async UniTaskVoid ReturnEraserBoosterAsync()
+        private async UniTaskVoid ReturnEraserBoosterAsync(IGameBoosterHost host)
         {
             await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1);
             _gameScreen?.BoosterPanel.Refresh();
+            TrackEraserBoosterClosed(host);
+        }
+
+        private void TrackEraserBoosterShown(IGameBoosterHost host)
+        {
+            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterShown, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
+            });
+        }
+
+        private void TrackEraserBoosterClosed(IGameBoosterHost host)
+        {
+            if (host == null)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterClosed, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
+            });
+        }
+
+        private void TrackEraserBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData)
+        {
+            if (host == null || eventData == null || !eventData.isEraserSuccess || eventData.letter == null)
+                return;
+
+            var boardData = _wordsFieldManager.WordsFieldData.GetBoardData();
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterSuccess, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = host.LocaleCode,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
+                [AnalyticsEvents.Parameter.EraseItem] = AnalyticsPayloadHelper.GetIndexedItemPayload(eventData.letter.Index, eventData.erasedLetter),
+                [AnalyticsEvents.Parameter.DurationRound] = host.RoundDurationSeconds,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, host.RoundDurationSeconds - Mathf.RoundToInt(_gameScreen.TimerBar.GetCurrentValue())),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
+            });
         }
     }
 }

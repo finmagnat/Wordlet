@@ -41,6 +41,11 @@ namespace Core.Services
                    + "}";
         }
 
+        public static string GetIndexedItemPayload(int index, string value)
+        {
+            return $"{{\"{index}\":\"{EscapeJson(value ?? string.Empty)}\"}}";
+        }
+
         private static string BuildItemAmountsJson<T>(
             IEnumerable<T> items,
             Func<T, string> getItemId,

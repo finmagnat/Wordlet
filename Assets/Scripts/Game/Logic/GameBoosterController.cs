@@ -47,9 +47,15 @@ namespace Game.Logic
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
+            if (_gameScreen?.EraserOverlay != null)
+                _gameScreen.EraserOverlay.CloseButtonClicked -= OnEraserOverlayCloseButtonClicked;
+
             _gameScreen = gameScreen;
             _wordsFieldManager = wordsFieldManager;
             _ai = ai;
+
+            if (_gameScreen?.EraserOverlay != null)
+                _gameScreen.EraserOverlay.CloseButtonClicked += OnEraserOverlayCloseButtonClicked;
         }
 
         public void ResetForNewGame()
@@ -269,6 +275,21 @@ namespace Game.Logic
 
             if (!host.IsPaused && host.IsGameStarted)
                 _gameScreen.TimerBar.StartTimer();
+        }
+
+        private void OnEraserOverlayCloseButtonClicked()
+        {
+            if (!_bModeEraser)
+                return;
+
+            CancelEraserMode();
+            ReturnEraserBoosterAsync().Forget();
+        }
+
+        private async UniTaskVoid ReturnEraserBoosterAsync()
+        {
+            await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1);
+            _gameScreen?.BoosterPanel.Refresh();
         }
     }
 }

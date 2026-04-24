@@ -778,6 +778,7 @@ namespace Game.Logic
         private Dictionary<string, object> GetGameSnapshotParams()
         {
             return _analyticsPayloadFactory.CreateGameSnapshotPayload(
+                _localization.CurrentLocale.Identifier.Code,
                 _wordsFieldManager.WordsFieldData.GetBoardData(),
                 _complexityAI,
                 _durationGame,

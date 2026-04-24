@@ -37,6 +37,7 @@ namespace Game.Logic
         }
 
         public Dictionary<string, object> CreateGameSnapshotPayload(
+            string locale,
             string[] boardData,
             ComplexityAI complexityAI,
             int durationRound,
@@ -48,17 +49,26 @@ namespace Game.Logic
             uint maxPasses,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
+            var snapshot = CreateGameplayStatePayload(locale, boardData, durationRound, currentTimerValue, boosters);
+            snapshot[AnalyticsEvents.Parameter.ComplexityAi] = complexityAI.ToString();
+            snapshot[AnalyticsEvents.Parameter.Score] = (int)score;
+            snapshot[AnalyticsEvents.Parameter.ScoreOpponent] = (int)scoreOpponent;
+            snapshot[AnalyticsEvents.Parameter.Pass] = $"{pass}/{maxPasses}";
+            snapshot[AnalyticsEvents.Parameter.PassOpponent] = $"{passOpponent}/{maxPasses}";
+
             return new Dictionary<string, object>
             {
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters),
-                [AnalyticsEvents.Parameter.ComplexityAi] = complexityAI.ToString(),
-                [AnalyticsEvents.Parameter.DurationRound] = durationRound,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
-                [AnalyticsEvents.Parameter.CellsEmpty] = CountEmptyCells(boardData),
-                [AnalyticsEvents.Parameter.Score] = (int)score,
-                [AnalyticsEvents.Parameter.ScoreOpponent] = (int)scoreOpponent,
-                [AnalyticsEvents.Parameter.Pass] = $"{pass}/{maxPasses}",
-                [AnalyticsEvents.Parameter.PassOpponent] = $"{passOpponent}/{maxPasses}"
+                [AnalyticsEvents.Parameter.Locale] = snapshot[AnalyticsEvents.Parameter.Locale],
+                [AnalyticsEvents.Parameter.ComplexityAi] = snapshot[AnalyticsEvents.Parameter.ComplexityAi],
+                [AnalyticsEvents.Parameter.DurationRound] = snapshot[AnalyticsEvents.Parameter.DurationRound],
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = snapshot[AnalyticsEvents.Parameter.DurationRoundLeft],
+                [AnalyticsEvents.Parameter.Score] = snapshot[AnalyticsEvents.Parameter.Score],
+                [AnalyticsEvents.Parameter.ScoreOpponent] = snapshot[AnalyticsEvents.Parameter.ScoreOpponent],
+                [AnalyticsEvents.Parameter.Pass] = snapshot[AnalyticsEvents.Parameter.Pass],
+                [AnalyticsEvents.Parameter.PassOpponent] = snapshot[AnalyticsEvents.Parameter.PassOpponent],
+                [AnalyticsEvents.Parameter.CellsEmpty] = snapshot[AnalyticsEvents.Parameter.CellsEmpty],
+                [AnalyticsEvents.Parameter.Field] = snapshot[AnalyticsEvents.Parameter.Field],
+                [AnalyticsEvents.Parameter.Boosters] = snapshot[AnalyticsEvents.Parameter.Boosters]
             };
         }
 
@@ -101,14 +111,9 @@ namespace Game.Logic
             float currentTimerValue,
             string[] boardData)
         {
-            return new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Locale] = locale,
-                [AnalyticsEvents.Parameter.DurationRound] = durationRound,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
-                [AnalyticsEvents.Parameter.CellsEmpty] = CountEmptyCells(boardData),
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
-            };
+            var statePayload = CreateGameplayStatePayload(locale, boardData, durationRound, currentTimerValue, null);
+            statePayload.Remove(AnalyticsEvents.Parameter.Boosters);
+            return statePayload;
         }
 
         public Dictionary<string, object> CreateEraserBoosterShownPayload(
@@ -144,15 +149,11 @@ namespace Game.Logic
             float currentTimerValue,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
-            return new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Locale] = locale,
-                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
-                [AnalyticsEvents.Parameter.EraseItem] = AnalyticsPayloadHelper.GetIndexedItemPayload(erasedIndex, erasedLetter),
-                [AnalyticsEvents.Parameter.DurationRound] = durationRound,
-                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
-            };
+            var statePayload = CreateGameplayStatePayload(locale, boardData, durationRound, currentTimerValue, boosters);
+            statePayload.Remove(AnalyticsEvents.Parameter.CellsEmpty);
+            statePayload[AnalyticsEvents.Parameter.EraseItem] =
+                AnalyticsPayloadHelper.GetIndexedItemPayload(erasedIndex, erasedLetter);
+            return statePayload;
         }
 
         public Dictionary<string, object> CreateSlowdownBoosterSuccessPayload(
@@ -163,12 +164,25 @@ namespace Game.Logic
             string[] boardData,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
+            var statePayload = CreateGameplayStatePayload(locale, boardData, durationRound, currentTimerValue, boosters);
+            statePayload.Remove(AnalyticsEvents.Parameter.CellsEmpty);
+            statePayload[AnalyticsEvents.Parameter.SlowdownDelay] = slowdownDelay;
+            return statePayload;
+        }
+
+        private Dictionary<string, object> CreateGameplayStatePayload(
+            string locale,
+            IReadOnlyList<string> boardData,
+            int durationRound,
+            float currentTimerValue,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
             return new Dictionary<string, object>
             {
-                [AnalyticsEvents.Parameter.SlowdownDelay] = slowdownDelay,
                 [AnalyticsEvents.Parameter.Locale] = locale,
                 [AnalyticsEvents.Parameter.DurationRound] = durationRound,
                 [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
+                [AnalyticsEvents.Parameter.CellsEmpty] = CountEmptyCells(boardData),
                 [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData),
                 [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
             };

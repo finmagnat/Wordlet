@@ -133,6 +133,8 @@ namespace Game.Logic
             if (_bLetterPut)
                 Cancel();
 
+            var boardRows = _wordsFieldManager.WordsFieldData.GetBoardData();
+
             var data = new SaveGameData
             {
                 version = _configService.Game.version,
@@ -140,8 +142,8 @@ namespace Game.Logic
                 savedAtUtcTicks = DateTime.UtcNow.Ticks,
 
                 mode = _gameOpponent.ToString(),
-                boardSize = _configService.Game.defaultBoardSize,
-                boardRows = _wordsFieldManager.WordsFieldData.GetBoardData(),
+                boardSize = (uint)(boardRows?.Length ?? 0),
+                boardRows = boardRows,
                 levelComplexityAI = (int)_complexityAI,
                 playerTurn = _bModePlayOwner,
                 maxSeconds = _durationGame,

@@ -71,6 +71,9 @@ namespace Core.Services
             public const string CloseAiGameExitPopupClicked = Group + "close_ai_game_exit_popup_clicked";
             public const string NoAiGameExitPopupClicked = Group + "no_ai_game_exit_popup_clicked";
             public const string YesAiGameExitPopupClicked = Group + "yes_ai_game_exit_popup_clicked";
+            public const string FinishGamePopupShown = Group + "finish_game_popup_shown";
+            public const string CloseFinishGamePopupClicked = Group + "close_finish_game_popup_clicked";
+            public const string OkFinishGamePopupClicked = Group + "ok_finish_game_popup_clicked";
             
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";

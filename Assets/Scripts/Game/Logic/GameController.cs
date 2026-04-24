@@ -701,7 +701,13 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.Score,
                 _gameScreen.PlayerPanelOwner.Pass,
                 _gameScreen.PlayerPanelOpponent.Pass,
-                _maxPasses
+                _maxPasses,
+                resultGame switch
+                {
+                    ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
+                    ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
+                    _ => AnalyticsEvents.Option.Draft
+                }
             );
 
             FinishGamePopup finishPopup;

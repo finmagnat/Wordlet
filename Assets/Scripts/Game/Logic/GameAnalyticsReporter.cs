@@ -127,5 +127,22 @@ namespace Game.Logic
             _analytics.TrackEvent(AnalyticsEvents.GameFlow.FinishGame,
                 _payloadFactory.CreateFinishGamePayload(snapshot, resultGame, isSavedGame));
         }
+
+        public void TrackAiMoveStart(Dictionary<string, object> snapshot)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiMoveStart, snapshot);
+        }
+
+        public void TrackAiMoveSuccess(Dictionary<string, object> snapshot, string word)
+        {
+            snapshot[AnalyticsEvents.Parameter.Word] = word;
+            snapshot[AnalyticsEvents.Parameter.WordLength] = word.Length;
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiMoveSuccess, snapshot);
+        }
+
+        public void TrackAiMoveFail(Dictionary<string, object> snapshot)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiMoveFail, snapshot);
+        }
     }
 }

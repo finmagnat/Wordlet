@@ -729,13 +729,20 @@ namespace Game.Logic
         private async UniTaskVoid AIPlayAsync()
         {
             await UniTask.WaitForSeconds(_configService.Game.delayAIPlaySeconds);
+            _analyticsReporter.TrackAiMoveStart(GetGameSnapshotParams());
 
             var res = await _ai.FindWordAsync(_complexityAISettings);
 
             if (res.Success)
+            {
+                _analyticsReporter.TrackAiMoveSuccess(GetGameSnapshotParams(), res.Word);
                 EventBus.Raise(new OpponentFindWordEvent { word = res.Word });
+            }
             else
+            {
+                _analyticsReporter.TrackAiMoveFail(GetGameSnapshotParams());
                 EventBus.Raise(new OpponentFindWordFailEvent());
+            }
         }
 
         private void OnPurchaseSuccessEvent(PurchaseSuccessEvent eventData)

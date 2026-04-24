@@ -111,6 +111,9 @@ namespace Core.Services
             public const string ApplyWordClicked = Group + "apply_word_clicked";
             public const string FinishGame = Group + "finish_game";
             public const string ReplayClicked = Group + "replay_clicked";
+            public const string AiMoveStart = Group + "ai_move_start";
+            public const string AiMoveSuccess = Group + "ai_move_success";
+            public const string AiMoveFail = Group + "ai_move_fail";
         }
 
         public static class BoosterUsage

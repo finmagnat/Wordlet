@@ -110,6 +110,7 @@ namespace Core.Services
             public const string CancelClicked = Group + "cancel_clicked";
             public const string ApplyWordClicked = Group + "apply_word_clicked";
             public const string FinishGame = Group + "finish_game";
+            public const string ReplayClicked = Group + "replay_clicked";
         }
 
         public static class BoosterUsage

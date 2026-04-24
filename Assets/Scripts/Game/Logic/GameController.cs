@@ -542,6 +542,7 @@ namespace Game.Logic
 
         private void OnRepeatGame(RepeatGameEvent eventData)
         {
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.ReplayClicked);
             _gameScreen.RepeatGame.SetActive(false);
             RepeatGame().Forget();
         }

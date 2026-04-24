@@ -14,13 +14,14 @@ namespace UI.UI
 
         protected override void Awake()
         {
-            if (_canvasGroup == null)
-                _canvasGroup = GetComponent<CanvasGroup>();
-
+            base.Awake();
+            
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
             _isVisible = true;
             _loadingText.text = "";
+
+            UpdateBanners();
         }
         
         public void SetProgress(float value01)

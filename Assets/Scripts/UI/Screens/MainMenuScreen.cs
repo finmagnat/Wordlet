@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Data;
 using Core.Events;
 using Core.Generated;
@@ -30,6 +31,7 @@ namespace UI.Screens
         [Inject] private GameController _gameController;
         [Inject] private LocalizationService _localization;
         [Inject] private ConfigService _configService;
+        [Inject] private AnalyticsService _analytics;
 
         private bool _isProcessing;
 
@@ -42,6 +44,8 @@ namespace UI.Screens
             {
                 if (_isProcessing) return;
                 _isProcessing = true;
+                
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.PlayMainMenuClicked);
 
                 var popup = await _ui.ShowPopupAsync<AIGameSetupPopup, GameSetupData>(AssetKey.AIGameSetupPopup, new GameSetupData());
                 var data = await popup.WaitForResultAsync();
@@ -70,6 +74,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.ContinueMainMenuClicked);
+                
                 var popup = await _ui.ShowPopupAsync<LoadSavedGamePopup>(AssetKey.LoadSavedGamePopup);
                 var data = await popup.WaitForResultAsync();
 
@@ -97,6 +103,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.SettingsMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<SettingsPopup>(AssetKey.SettingsPopup);
 
                 _isProcessing = false;
@@ -108,6 +116,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.InfoMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<InfoPopup>(AssetKey.InfoPopup);
 
                 _isProcessing = false;
@@ -119,6 +129,8 @@ namespace UI.Screens
                     return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.SkinsMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<SkinsPopup>(AssetKey.SkinsPopup);
 
                 _isProcessing = false;
@@ -129,6 +141,8 @@ namespace UI.Screens
                 if (_isProcessing) return;
                 _isProcessing = true;
 
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.ShopMainMenuClicked);
+                
                 await _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup);
 
                 _isProcessing = false;
@@ -189,12 +203,13 @@ namespace UI.Screens
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
+            SendAnalyticsShown();
             return base.ShowAsync();
         } 
+        
         protected async UniTask UpdateSkin()
         {
             var skin = _skinsService.SkinCurrent;
-            //_mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
             _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
 
@@ -202,6 +217,15 @@ namespace UI.Screens
             _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
             _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
             _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
+        }
+
+        private void SendAnalyticsShown()
+        {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.MainMenuShown, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                [AnalyticsEvents.Parameter.Skin] = _skinsService.SkinCurrent.SkinType.ToString(),
+            });
         }
     }
 }

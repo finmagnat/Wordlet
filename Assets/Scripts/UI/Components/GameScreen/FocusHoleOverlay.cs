@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,11 @@ namespace UI.Components
 {
     public class FocusHoleOverlay : UIPopup
     {
+        public event Action CloseButtonClicked;
+
+        [Header("Controls")]
+        [SerializeField] private Button _closeButton;
+        
         [Header("Root")]
         [SerializeField] private RectTransform _overlayRoot;
 
@@ -64,8 +70,10 @@ namespace UI.Components
         public bool IsShown => _isShown;
         public RectTransform Target => _target;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             if (_overlayRoot == null)
                 _overlayRoot = transform as RectTransform;
 
@@ -78,7 +86,18 @@ namespace UI.Components
                     : _rootCanvas.worldCamera;
             }
 
+            if (_closeButton != null)
+                _closeButton.onClick.AddListener(OnCloseButtonClicked);
+
             HideImmediate();
+        }
+
+        private void OnDestroy()
+        {
+            StopFrameAnimation();
+
+            if (_closeButton != null)
+                _closeButton.onClick.RemoveListener(OnCloseButtonClicked);
         }
 
         private void LateUpdate()
@@ -276,9 +295,10 @@ namespace UI.Components
             StopFrameAnimation();
         }
 
-        private void OnDestroy()
+        private void OnCloseButtonClicked()
         {
-            StopFrameAnimation();
+            HideAsync().Forget();
+            CloseButtonClicked?.Invoke();
         }
 
 #if UNITY_EDITOR

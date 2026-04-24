@@ -23,8 +23,11 @@ namespace Core.Installers
     {
         [Inject] private DictionaryManagerPresenter _dictPresenter;
 
-        [Header("Scene UI")] [SerializeField] 
+        [Header("Scene UI")] [SerializeField]
         private StartLoadingScreen loading;
+
+        [Header("Analytics")] [SerializeField]
+        private AnalyticsInstallerSettings _analyticsSettings = new();
 
         public override void InstallBindings()
         {
@@ -32,12 +35,12 @@ namespace Core.Installers
                 $"<color=yellow>BUILD: {BuildInfo.VersionName} code={BuildInfo.AndroidVersionCode} utc={BuildInfo.Utc}</color>");
 
             Container.Bind<GameLogger>().AsSingle();
-            
+
             Container.BindInterfacesAndSelfTo<ConfigService>().AsSingle().NonLazy();
             Container.Bind<LocalizationService>().AsSingle().NonLazy();
 
             Container.Bind<AddressablesLoader>().AsSingle();
-            
+
             Container.Bind<ILoadingUI>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<IUIManager>().To<UIManager>().FromComponentInHierarchy().AsSingle();
 
@@ -46,12 +49,21 @@ namespace Core.Installers
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
 
+            Container.BindInstance(_analyticsSettings).AsSingle();
+            Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
+
+            if (_analyticsSettings.EnableGameAnalytics)
+                Container.BindInterfacesAndSelfTo<GameAnalyticsProvider>().AsSingle();
+
             Container.Bind<List<LanguageDictionaryConfig>>().FromInstance(_dictPresenter.configs).AsSingle();
             Container.Bind<DictionaryService>().AsSingle();
             Container.Bind<DictionaryManager>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
             Container.Bind<SkinsService>().AsSingle().NonLazy();
+            Container.Bind<GameAnalyticsPayloadFactory>().AsSingle();
+            Container.Bind<GameAnalyticsReporter>().AsSingle();
+            Container.Bind<BoosterAnalyticsReporter>().AsSingle();
             Container.Bind<GameBoosterController>().AsSingle();
             Container.Bind<GameController>().AsSingle();
 
@@ -73,7 +85,7 @@ namespace Core.Installers
             Container.Bind<ShowWordInfoPresenter>().AsSingle();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
+            Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
 #else
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
 #endif
@@ -94,13 +106,24 @@ namespace Core.Installers
 
         private async UniTaskVoid InitializeAsync()
         {
-            loading.SetProgress(0.0f);
+            var analytics = Container.Resolve<AnalyticsService>();
             
+            var parameters = AdsAnalyticsHelper.GetWaitTimeParams();
+            var bannerType = loading.CurrentBanner != null
+                ? loading.CurrentBanner.BannerType.ToString()
+                : "Unknown";
+            parameters.Add(AnalyticsEvents.Parameter.Banner, bannerType);
+            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingStarted, parameters);
+            
+            loading.SetProgress(0.0f);
+
             await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.05f);
 
             await Container.Resolve<GameLogger>().InitializeAsync();
             loading.SetProgress(0.10f);
+
+            await analytics.InitializeAsync();
 
             await Container.Resolve<ConfigService>().InitializeAsync();
             loading.SetProgress(0.15f);
@@ -109,7 +132,7 @@ namespace Core.Installers
             var internetService = Container.Resolve<IInternetConnectionService>();
             await internetService.InitializeAsync();
             loading.SetProgress(0.20f);
-            
+
             if (!await internetService.CheckNowAsync())
             {
                 // апку запустили без интернета...
@@ -118,6 +141,8 @@ namespace Core.Installers
                 while (!await internetService.CheckNowAsync())
                     await UniTask.Delay(500, ignoreTimeScale: true);
 
+                analytics.TrackEvent(AnalyticsEvents.Startup.LoadingInternetConnectionRestored, AdsAnalyticsHelper.GetWaitTimeParams());
+                
                 await loading.ShowAsync();
                 loading.SetProgress(0.20f);
             }
@@ -173,7 +198,8 @@ namespace Core.Installers
             loading.SetProgress(0.80f);
 
             loading.SetProgress(1.0f);
-
+            analytics.TrackEvent(AnalyticsEvents.Startup.LoadingCompleted, AdsAnalyticsHelper.GetWaitTimeParams());
+            
             await ui.HideAllScreensAsync();
             await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
 
@@ -186,5 +212,6 @@ namespace Core.Installers
         {
             Container.Resolve<GameController>().Dispose();
         }
+        
     }
 }

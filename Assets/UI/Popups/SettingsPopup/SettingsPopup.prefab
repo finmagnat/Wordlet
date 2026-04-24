@@ -3495,19 +3495,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6770638238409425469}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1265940358153872694}
-        m_TargetAssemblyTypeName: UI.Popups.SettingsPopup, Assembly-CSharp
-        m_MethodName: OnCloseButtonClick
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &223521005886593481
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -124,7 +124,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8599082732245117501}
         m_TargetAssemblyTypeName: UI.Popups.PurchaseConfirmationPopup, Assembly-CSharp
-        m_MethodName: OnClose
+        m_MethodName: OnOkButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1115,7 +1115,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8599082732245117501}
         m_TargetAssemblyTypeName: UI.Popups.PurchaseConfirmationPopup, Assembly-CSharp
-        m_MethodName: OnClose
+        m_MethodName: OnCloseButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -20,6 +20,7 @@ namespace UI.Popups
         [SerializeField] private Button _sendButton;
 
         [Inject] private LocalizationService _localization;
+        [Inject] private AnalyticsService _analytics;
         
         private ShowWordInfoWindowEventData _eventData;
         private UniTaskCompletionSource<PopupExitData> _completionSource;
@@ -57,6 +58,7 @@ namespace UI.Popups
         
         public override UniTask PrepareAsync(ShowWordInfoWindowEventData data)
         {
+            _eventData = data;
             _wordText.text = data.word;
             
             var options = new List<TMP_Dropdown.OptionData>(ReportReasonExtensions.Reasons.Count);
@@ -78,6 +80,11 @@ namespace UI.Popups
         {
             _completionSource = new UniTaskCompletionSource<PopupExitData>();
             await base.ShowAsync();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.WordInfoPopupShown, new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = _localization.CurrentLocale.Identifier.Code,
+                [AnalyticsEvents.Parameter.Word] = _eventData?.word ?? string.Empty
+            });
         }
         
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
@@ -108,6 +115,7 @@ namespace UI.Popups
         
         protected virtual void OnCloseClicked()
         {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseWordInfoClicked);
             HandleButtonClick(PopupResult.Close).Forget();
         }
 

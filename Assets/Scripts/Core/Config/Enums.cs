@@ -40,4 +40,13 @@ namespace Core.Config
         BLUE = 1,       
         PINK
     }
+    
+    public enum BannerType
+    {
+        UseBusters = 1,
+        PlayVsAI,
+        BusterLetter,
+        BusterSlowdown,
+        BusterEraser
+    }
 }

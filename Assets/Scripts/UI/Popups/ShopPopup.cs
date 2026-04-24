@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Events;
 using Core.Generated;
+using Core.Services;
 using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
@@ -16,6 +18,8 @@ namespace UI.Popups
         [Inject] private IShopService _shop;
         [Inject] private DiContainer _container;
         [Inject] private IUIManager _ui;
+        [Inject] private RewardedAdsService _ads;
+        [Inject] private AnalyticsService _analytics;
         
         [Header("UI Elements")]
         [SerializeField] private Button _exitButton;
@@ -25,11 +29,13 @@ namespace UI.Popups
         private UniTaskCompletionSource<PopupExitData> _completionSource;
         
         private bool _isInitialized;
+        private List<ShopPackItemView> _packItems = new ();
         
         protected virtual void Start()
         {
             _exitButton.onClick.AddListener(async () =>
-            {                
+            {         
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseShopClicked);
                 await HideAsync();
                 _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Exit });
             });
@@ -38,6 +44,7 @@ namespace UI.Popups
         public override async UniTask ShowAsync()
         {
             _completionSource = new ();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.ShopPopupShown);
             
             if (!_isInitialized)
             {
@@ -45,7 +52,23 @@ namespace UI.Popups
                 
                 _isInitialized = true;
             }
-
+            
+            foreach (var packItem in _packItems)
+            {
+                if (packItem.Dto.Type == ShopOfferTypeDto.RewardedAd)
+                {
+                    _analytics.TrackEvent(AnalyticsEvents.Ads.RewardedAvailability,
+                        new Dictionary<string, object>
+                        {
+                            [AnalyticsEvents.Parameter.RewardType] = packItem.Dto.RewardType.ToString(),
+                            [AnalyticsEvents.Parameter.IsReady] = _ads.IsReady(packItem.Dto.RewardType),
+                            [AnalyticsEvents.Parameter.IsLoading] = _ads.IsLoading(packItem.Dto.RewardType),
+                            [AnalyticsEvents.Parameter.Cooldown] = packItem.Cooldown,
+                            [AnalyticsEvents.Parameter.DailyLimitReached] = packItem.IsLimitDailyReached,
+                        });
+                }
+            }
+            
             await base.ShowAsync();
         }
         
@@ -100,10 +123,11 @@ namespace UI.Popups
 
             foreach (var offer in offers)
             {
-                var view = _container.InstantiatePrefabForComponent<ShopPackItemView>(_itemPrefab, _contentRoot);
-                view.Bind(offer, OnOfferClicked);
+                var packItemView = _container.InstantiatePrefabForComponent<ShopPackItemView>(_itemPrefab, _contentRoot);
+                packItemView.Bind(offer, OnOfferClicked);
+                
+                _packItems.Add(packItemView);
             }
         }
-
     }
 }

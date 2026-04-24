@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Services;
@@ -13,16 +14,18 @@ namespace UI.Popups
         [Header("UI Elements")]
         [SerializeField] private ShopItemView _itemPrefab;
         [SerializeField] private Transform _contentRoot;
-        
+
         [Inject] private AudioService _audioService;
-        
+        [Inject] private AnalyticsService _analytics;
+
         protected UniTaskCompletionSource<PopupExitData> _completionSource;
-        
-        private bool _isInitialized;
-        
+
+        private ShopOfferDto _currentOffer;
+
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
-        
-        public override UniTask PrepareAsync(ShopOfferDto offer) {
+
+        public override UniTask PrepareAsync(ShopOfferDto offer)
+        {
             Bind(offer);
             return UniTask.CompletedTask;
         }
@@ -31,23 +34,33 @@ namespace UI.Popups
         {
             await base.ShowAsync();
             _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.RewardPopupShown, GetAnalyticsParams());
         }
-        
-        public void OnClose()
+
+        public void OnCloseButtonClicked()
         {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseRewardClicked);
             Close().Forget();
         }
-        
+
+        public void OnOkButtonClicked()
+        {
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.OkRewardClicked);
+            Close().Forget();
+        }
+
         private void Bind(ShopOfferDto dto)
         {
+            _currentOffer = dto;
             Clear();
+
             foreach (var item in dto.Rewards)
             {
                 var view = Instantiate(_itemPrefab, _contentRoot);
                 view.Bind(item);
             }
         }
-        
+
         private async UniTask Close()
         {
             await HideAsync();
@@ -57,9 +70,17 @@ namespace UI.Popups
 
         private void Clear()
         {
-            // очистка наград
             for (int i = _contentRoot.childCount - 1; i >= 0; i--)
                 Destroy(_contentRoot.GetChild(i).gameObject);
+        }
+
+        private Dictionary<string, object> GetAnalyticsParams()
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.ProductId] = _currentOffer?.ProductId,
+                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentOffer.Rewards)
+            };
         }
     }
 }

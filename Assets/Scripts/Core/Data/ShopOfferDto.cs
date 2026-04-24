@@ -26,14 +26,15 @@ namespace Core.Data
 
         public string CtaText;        // "19.99" или "Смотреть"
         public bool IsAvailable;
-
+        public bool IsDisableInterstitialAds;
+        
         public List<ShopRewardDto> Rewards = new();
     }
     
     [Serializable]
     public sealed class ShopRewardDto
     {
-        public BoosterType ItemId;  // "booster_hint", "booster_slowtime", "no_ads"
+        public BoosterType ItemId;
         public int Amount;
         public Sprite SpriteIcon;
     }

@@ -9,6 +9,7 @@ namespace Core.Data
         public readonly uint OwnerPass;
         public readonly uint OpponentPass;
         public readonly uint MaxPasses;
+        public readonly string Result;
 
         public FinishGamePopupData(
             string ownerName,
@@ -17,7 +18,8 @@ namespace Core.Data
             uint opponentScore,
             uint ownerPass,
             uint opponentPass,
-            uint maxPasses)
+            uint maxPasses,
+            string result)
         {
             OwnerName = ownerName;
             OpponentName = opponentName;
@@ -26,6 +28,7 @@ namespace Core.Data
             OwnerPass = ownerPass;
             OpponentPass = opponentPass;
             MaxPasses = maxPasses;
+            Result = result;
         }
     }
 }

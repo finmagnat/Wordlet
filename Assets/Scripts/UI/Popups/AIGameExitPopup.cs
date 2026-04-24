@@ -1,7 +1,9 @@
 using Core.Data;
+using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Popups
 {
@@ -11,6 +13,8 @@ namespace UI.Popups
         [SerializeField] private Button _saveAndExitButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button _closeButton;
+
+        [Inject] private AnalyticsService _analytics;
         
         private UniTaskCompletionSource<GameExitData> _completionSource;
 
@@ -30,6 +34,7 @@ namespace UI.Popups
 
             _closeButton.onClick.AddListener(async () =>
             {
+                _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseAiGameExitPopupClicked);
                 await HideAsync();
                 _completionSource?.TrySetResult(new GameExitData { Result = PopupResult.Close });
             });
@@ -39,6 +44,7 @@ namespace UI.Popups
         {
             _completionSource = new ();
             await base.ShowAsync();
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.AiGameExitPopupShown);
         }
         
         public UniTask<GameExitData> WaitForResultAsync() => _completionSource.Task;

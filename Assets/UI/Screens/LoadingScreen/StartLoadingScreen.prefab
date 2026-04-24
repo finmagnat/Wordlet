@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71809b2d87b0402aa29e59b5a1f22150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Loading.BannerItemUI
+  _bannerType: 1
   _textHeader: {fileID: 8100119412809793854}
 --- !u!1 &1204040309957561251
 GameObject:
@@ -156,7 +157,7 @@ GameObject:
   - component: {fileID: 2965135018212876528}
   - component: {fileID: 4571333006700130936}
   m_Layer: 0
-  m_Name: TextLoading
+  m_Name: LoadingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -668,6 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71809b2d87b0402aa29e59b5a1f22150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Loading.BannerItemUI
+  _bannerType: 2
   _textHeader: {fileID: 5152261491073031055}
 --- !u!1 &3179063119167327182
 GameObject:
@@ -792,7 +794,7 @@ GameObject:
   - component: {fileID: 5032742693890654003}
   - component: {fileID: 8408762169792592218}
   m_Layer: 0
-  m_Name: LoadingScreen
+  m_Name: StartLoadingScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,14 +845,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 291855589fd7bc044a6bdad2ee05fe45, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.UI.StartLoadingScreen
   _canvasGroup: {fileID: 5032742693890654003}
   _fadeDuration: 0.3
   _banners:
-  - {fileID: 345732969551263917}
-  - {fileID: 3168349380901780486}
+  - {fileID: 3792597699552731480}
+  - {fileID: 2664594065201715497}
   _isDebug: 0
-  _indexAlways: 1
+  _indexAlways: 0
   _progressBar: {fileID: 5126490387867394060}
   _loadingText: {fileID: 2965135018212876528}
   _percentText: {fileID: 7917195423434401703}
@@ -1283,7 +1285,7 @@ GameObject:
   - component: {fileID: 3223619596500029173}
   - component: {fileID: 7917195423434401703}
   m_Layer: 0
-  m_Name: Progress
+  m_Name: PercentText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

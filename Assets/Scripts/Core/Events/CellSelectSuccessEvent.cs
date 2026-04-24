@@ -5,6 +5,8 @@ namespace Core.Events
     public class CellSelectSuccessEvent : IGameEvent
     {
         public SelectableLetter letter;
+        public bool isEraserSuccess;
+        public string erasedLetter;
     }
 
 }

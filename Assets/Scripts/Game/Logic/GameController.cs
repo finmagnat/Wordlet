@@ -36,7 +36,7 @@ namespace Game.Logic
         [Inject] private ISaveService _saveService;
         [Inject] private GameBoosterController _boosterController;
         [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
-        [Inject] private AnalyticsService _analytics;
+        [Inject] private GameAnalyticsReporter _analyticsReporter;
         [Inject] private IInventoryService _inventory;
 
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
@@ -337,11 +337,7 @@ namespace Game.Logic
                 }
                 else
                 {
-                    _analytics.TrackEvent(AnalyticsEvents.GameFlow.ApplyWordClicked, new Dictionary<string, object>
-                    {
-                        [AnalyticsEvents.Parameter.Word] = word,
-                        [AnalyticsEvents.Parameter.WordLength] = word.Length
-                    });
+                    _analyticsReporter.TrackApplyWordClicked(word);
                     _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
                     SaveWordAndContinueGame(word);
                 }
@@ -353,7 +349,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner)
                 return;
 
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CancelClicked);
+            _analyticsReporter.TrackCancelClicked();
             Cancel();
         }
 
@@ -379,10 +375,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CellUnselected, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Index] = eventData.index
-            });
+            _analyticsReporter.TrackCellUnselected(eventData.index);
             _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
 
             if (!eventData.keepKeyboardOpen)
@@ -406,10 +399,7 @@ namespace Game.Logic
                 return;
             }
 
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.CellSelected, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Index] = eventData.letter.Index
-            });
+            _analyticsReporter.TrackCellSelected(eventData.letter.Index);
             _boosterController.OnCellSelectSuccess(eventData);
 
             if (!_gameScreen.KeyboardPanel.IsVisible)
@@ -418,11 +408,7 @@ namespace Game.Logic
 
         private void OnLetterPutSuccess(LetterPutSuccessEvent eventData)
         {
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.LetterPutSuccess, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Letter] = eventData.letter,
-                [AnalyticsEvents.Parameter.Index] = eventData.index
-            });
+            _analyticsReporter.TrackLetterPutSuccess(eventData.letter, eventData.index);
             _bLetterPut = true;
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
@@ -434,10 +420,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.KeyboardLetterClicked, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Letter] = eventData.letter
-            });
+            _analyticsReporter.TrackKeyboardLetterClicked(eventData.letter);
         }
 
         private void OnLetterPutToWord(LetterPutToWordEvent eventData)
@@ -518,7 +501,7 @@ namespace Game.Logic
                 return;
 
             if (_gameOpponent == GameOpponent.AI)
-                _analytics.TrackEvent(AnalyticsEvents.GameFlow.PassGameClicked, GetGameSnapshotParams());
+                _analyticsReporter.TrackPassGameClicked(GetGameSnapshotParams());
 
             TryConfirmPass().Forget();
         }
@@ -543,7 +526,7 @@ namespace Game.Logic
 
         private void OnRepeatGame(RepeatGameEvent eventData)
         {
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.ReplayClicked);
+            _analyticsReporter.TrackReplayClicked();
             _gameScreen.RepeatGame.SetActive(false);
             RepeatGame().Forget();
         }
@@ -560,11 +543,7 @@ namespace Game.Logic
         private void OnTimeExpired(IGameEvent eventData)
         {
             if (_gameOpponent == GameOpponent.AI)
-            {
-                var parameters = GetGameSnapshotParams();
-                parameters[AnalyticsEvents.Parameter.WhoseMove] = _bModePlayOwner ? AnalyticsEvents.Option.Owner : AnalyticsEvents.Option.Opponent;
-                _analytics.TrackEvent(AnalyticsEvents.GameFlow.TimeExpired, parameters);
-            }
+                _analyticsReporter.TrackTimeExpired(GetGameSnapshotParams(), _bModePlayOwner);
 
             _ai.AbortSearch();
             _boosterController.CancelEraserMode();
@@ -689,22 +668,20 @@ namespace Game.Logic
                     resultGame = ResultGame.OWNER_LOSE;
             }
 
-            var analyticsParameters = _analyticsPayloadFactory.CreateFinishGamePayload(
-                GetGameSnapshotParams(),
-                resultGame,
-                _isSavedGame);
+            var analyticsSnapshot = GetGameSnapshotParams();
+            bool wasSavedGame = _isSavedGame;
 
             EventBus.Raise(new GameEndEvent());
 
             _boosterController.OnGameFinished();
 
-            if (_isSavedGame)
+            if (wasSavedGame)
             {
                 _saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
 
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.FinishGame, analyticsParameters);
+            _analyticsReporter.TrackFinishGame(analyticsSnapshot, resultGame, wasSavedGame);
 
             ShowFinishGamePopup(resultGame).Forget();
         }
@@ -769,10 +746,7 @@ namespace Game.Logic
 
         private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
         {
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.WordInfoClicked, new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.Word] = eventData.word
-            });
+            _analyticsReporter.TrackWordInfoClicked(eventData.word);
             await _wordInfoPresenter.ShowAsync(
                 eventData.word,
                 _dictionaryService.DictionaryConfig.languageCode);
@@ -781,30 +755,24 @@ namespace Game.Logic
         private async void OnActivateBooster(UseBoosterEvent eventData)
         {
             if (_gameOpponent == GameOpponent.AI)
-            {
-                var parameters = GetGameSnapshotParams();
-                parameters[AnalyticsEvents.Parameter.BoosterClicked] = eventData.boosterType.ToString();
-                _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.BoosterGameClicked, parameters);
-            }
+                _analyticsReporter.TrackBoosterGameClicked(GetGameSnapshotParams(), eventData.boosterType);
 
             await _boosterController.HandleUseAsync(eventData, this);
         }
 
         private void TrackAiGameStarted()
         {
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiGameStarted,
-                _analyticsPayloadFactory.CreateAiGameStartedPayload(
-                    _complexityAI,
-                    _durationGame,
-                    _inventory.Boosters,
-                    _localization.CurrentLocale.Identifier.Code,
-                    _firstWord));
+            _analyticsReporter.TrackAiGameStarted(
+                _complexityAI,
+                _durationGame,
+                _inventory.Boosters,
+                _localization.CurrentLocale.Identifier.Code,
+                _firstWord);
         }
 
         private void TrackAiSavedGameStarted(string savedGameJson)
         {
-            _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiSavedGameStarted,
-                _analyticsPayloadFactory.CreateAiSavedGameStartedPayload(savedGameJson, _inventory.Boosters));
+            _analyticsReporter.TrackAiSavedGameStarted(savedGameJson, _inventory.Boosters);
         }
 
         private Dictionary<string, object> GetGameSnapshotParams()

@@ -62,6 +62,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
             Container.Bind<SkinsService>().AsSingle().NonLazy();
             Container.Bind<GameAnalyticsPayloadFactory>().AsSingle();
+            Container.Bind<GameAnalyticsReporter>().AsSingle();
             Container.Bind<BoosterAnalyticsReporter>().AsSingle();
             Container.Bind<GameBoosterController>().AsSingle();
             Container.Bind<GameController>().AsSingle();

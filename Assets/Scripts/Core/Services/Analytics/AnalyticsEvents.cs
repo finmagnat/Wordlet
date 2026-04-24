@@ -109,6 +109,7 @@ namespace Core.Services
             public const string LetterPutSuccess = Group + "letter_put_success";
             public const string CancelClicked = Group + "cancel_clicked";
             public const string ApplyWordClicked = Group + "apply_word_clicked";
+            public const string FinishGame = Group + "finish_game";
         }
 
         public static class BoosterUsage
@@ -167,6 +168,7 @@ namespace Core.Services
             public const string PassOpponent = "pass_opponent";
             public const string WhoseMove = "whose_move";
             public const string State = "state";
+            public const string SavedGameRemoved = "saved_game_removed";
             public const string Field = "field";
             public const string EraseItem = "erase_item";
             public const string SlowdownDelay = "slowdown_delay";
@@ -194,6 +196,9 @@ namespace Core.Services
             public const string ReloadAfterFail = "reload_after_fail";
             public const string Owner = "owner";
             public const string Opponent = "opponent";
+            public const string Win = "win";
+            public const string Lose = "lose";
+            public const string Draft = "draft";
         }
 
         public static class Placement

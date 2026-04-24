@@ -686,6 +686,17 @@ namespace Game.Logic
                     resultGame = ResultGame.OWNER_LOSE;
             }
 
+            var analyticsParameters = GetGameSnapshotParams();
+            analyticsParameters[AnalyticsEvents.Parameter.Result] = resultGame switch
+            {
+                ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
+                ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
+                _ => AnalyticsEvents.Option.Draft
+            };
+
+            if (_isSavedGame)
+                analyticsParameters[AnalyticsEvents.Parameter.SavedGameRemoved] = true;
+
             EventBus.Raise(new GameEndEvent());
 
             _boosterController.OnGameFinished();
@@ -695,6 +706,8 @@ namespace Game.Logic
                 _saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
+
+            _analytics.TrackEvent(AnalyticsEvents.GameFlow.FinishGame, analyticsParameters);
 
             ShowFinishGamePopup(resultGame).Forget();
         }

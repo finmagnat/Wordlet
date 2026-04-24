@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Core.Data;
 using Core.Generated;
 using Core.Services;
@@ -46,6 +47,8 @@ namespace UI.Popups
         private readonly INewWordsService _newWordsService;
         private readonly INewWordsLimitsService _newWordsLimitsService;
         private readonly LocalizationService _localization;
+        private readonly AnalyticsService _analytics;
+        private readonly ConfigService _configService;
         
         private string _cooldownText;
         
@@ -53,12 +56,16 @@ namespace UI.Popups
             IUIManager ui,
             INewWordsService newWordsService,
             INewWordsLimitsService newWordsLimitsService,
-            LocalizationService localization)
+            LocalizationService localization,
+            AnalyticsService analytics,
+            ConfigService configService)
         {
             _ui = ui;
             _newWordsService = newWordsService;
             _newWordsLimitsService = newWordsLimitsService;
             _localization = localization;
+            _analytics = analytics;
+            _configService = configService;
         }
 
         public async UniTask<MissingWordPopupFlowResult> ShowAsync(string word, string language)
@@ -93,6 +100,12 @@ namespace UI.Popups
             {
                 return new MissingWordPopupFlowResult(MissingWordPopupFlowStatus.Cancelled);
             }
+
+            _analytics.TrackEvent(AnalyticsEvents.Navigation.YesMissingWordPopupClicked, new System.Collections.Generic.Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Word] = word,
+                [AnalyticsEvents.Parameter.ReportLimit] = GetReportLimitPayload()
+            });
 
             var submitResult = await _newWordsService.TrySubmitWordAsync(word, language);
 
@@ -152,6 +165,22 @@ namespace UI.Popups
             return ts.TotalHours >= 1
                 ? ts.ToString(@"hh\:mm\:ss")
                 : ts.ToString(@"mm\:ss");
+        }
+
+        private string GetReportLimitPayload()
+        {
+            int dailyLimit = _configService.Game.newWordsDailyLimit;
+            if (dailyLimit <= 0)
+                return "0/0";
+
+            int usedToday = UnityEngine.PlayerPrefs.GetInt(GetDailyCountKey(), 0);
+            int currentAttempt = UnityEngine.Mathf.Clamp(usedToday + 1, 1, dailyLimit);
+            return $"{currentAttempt}/{dailyLimit}";
+        }
+
+        private static string GetDailyCountKey()
+        {
+            return "new_words_daily_" + DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
         }
     }
 }

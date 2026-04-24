@@ -76,7 +76,7 @@ namespace UI.Screens
 
                 _analytics.TrackEvent(AnalyticsEvents.Navigation.ContinueMainMenuClicked);
                 
-                var popup = await _ui.ShowPopupAsync<LoadSavedGamePopup>(AssetKey.LoadSavedGamePopup);
+                var popup = await _ui.ShowPopupAsync<LoadSavedGamePopup, NoPayload>(AssetKey.LoadSavedGamePopup, NoPayload.Value);
                 var data = await popup.WaitForResultAsync();
 
                 if (data.Result == PopupResult.Play)

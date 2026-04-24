@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Services;
+using Core.UI;
 using Cysharp.Threading.Tasks;
 using Inventory;
 using TMPro;
@@ -13,7 +13,7 @@ using Zenject;
 
 namespace UI.Popups
 {
-    public class LoadSavedGamePopup : UIPopup
+    public class LoadSavedGamePopup : UIPopup<NoPayload>
     {
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI _gameDataText;
@@ -31,8 +31,10 @@ namespace UI.Popups
 
         private UniTaskCompletionSource<LoadSavedGameData> _completionSource;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _startButton.onClick.AddListener(async () =>
             {
                 _analytics.TrackEvent(
@@ -66,15 +68,24 @@ namespace UI.Popups
 
         public UniTask<LoadSavedGameData> WaitForResultAsync() => _completionSource.Task;
 
+        public override async UniTask PrepareAsync(NoPayload payload)
+        {
+            _gameData = await _saveService.LoadAsync();
+            ChangeText();
+        }
+
         public override async UniTask ShowAsync()
         {
             _completionSource = new UniTaskCompletionSource<LoadSavedGameData>();
-
-            _gameData = await _saveService.LoadAsync();
-            ChangeText();
-
             await base.ShowAsync();
             _analytics.TrackEvent(AnalyticsEvents.Navigation.SavedGamePopupShown);
+        }
+
+        protected override async UniTask BeforeShowAnimationAsync()
+        {
+            RefreshLayout();
+            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+            RefreshLayout();
         }
 
         private void ChangeText()
@@ -97,17 +108,12 @@ namespace UI.Popups
                     _gameData.firstWord,
                     string.Join(", ", _gameData.playerWords),
                     string.Join(", ", _gameData.opponentWords));
-
-                StartCoroutine(RebuildEndOfFrame());
             }
         }
 
-        private IEnumerator RebuildEndOfFrame()
+        private void RefreshLayout()
         {
             _gameDataText.ForceMeshUpdate();
-
-            yield return null;
-
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(content);
             Canvas.ForceUpdateCanvases();

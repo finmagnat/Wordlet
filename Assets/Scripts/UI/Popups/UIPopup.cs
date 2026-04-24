@@ -69,6 +69,7 @@ namespace UI.Popups
             gameObject.SetActive(true);
 
             SetHiddenStateImmediate();
+            await BeforeShowAnimationAsync();
 
             var seq = DOTween.Sequence();
             seq.Join(_canvasGroup.DOFade(1f, _fadeDuration));
@@ -95,6 +96,11 @@ namespace UI.Popups
             gameObject.SetActive(false);
             IsVisible = false;
             OnHideCompleted?.Invoke();
+        }
+
+        protected virtual UniTask BeforeShowAnimationAsync()
+        {
+            return UniTask.CompletedTask;
         }
     }
 

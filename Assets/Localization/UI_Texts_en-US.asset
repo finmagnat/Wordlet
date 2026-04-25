@@ -331,7 +331,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 23577441229750272
-    m_Localized: The Wordlet found a word!
+    m_Localized: '<line-height=100%>
+
+      <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>The
+      Wordlet found a word!</size></voffset>
+
+      </line-height>'
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728
@@ -397,7 +402,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38027508804108288
-    m_Localized: Through
+    m_Localized: Through {0}
     m_Metadata:
       m_Items: []
   - m_Id: 40198534363234304
@@ -544,6 +549,17 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 56547154310086656
     m_Localized: ERASER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59803351008034816
+    m_Localized: '<line-height=100%>
+
+      <size=250%><voffset=10><sprite name="slowdown"></voffset></size><size=130%><voffset=10><b>Your
+      turn time is up.</b></size>
+
+      The opponent moves.</voffset>
+
+      </line-height>'
     m_Metadata:
       m_Items: []
   references:

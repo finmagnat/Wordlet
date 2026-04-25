@@ -503,6 +503,10 @@ MonoBehaviour:
     m_Key: LOADING_SCREEN_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 59803351008034816
+    m_Key: STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

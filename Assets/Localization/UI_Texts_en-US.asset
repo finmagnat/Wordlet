@@ -546,6 +546,12 @@ MonoBehaviour:
     m_Localized: ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 59803351008034816
+    m_Localized: 'Your turn time is up.
+
+      The opponent moves.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

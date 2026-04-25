@@ -58,6 +58,7 @@ namespace Game.Logic
         private string _firstWord;
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
+        private bool _timeExpiredStatus;
 
         public int RoundDurationSeconds => _durationGame;
         public string LocaleCode => _localization.CurrentLocale.Identifier.Code;
@@ -547,6 +548,9 @@ namespace Game.Logic
             if (_gameOpponent == GameOpponent.AI)
                 _analyticsReporter.TrackTimeExpired(GetGameSnapshotParams(), _bModePlayOwner);
 
+            if (_bModePlayOwner)
+                _timeExpiredStatus = true;
+
             _ai.AbortSearch();
             _boosterController.CancelEraserMode();
 
@@ -622,7 +626,16 @@ namespace Game.Logic
             }
             else
             {
-                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
+                if (_timeExpiredStatus)
+                {
+                    _timeExpiredStatus = false;
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
+                }
+                else
+                {
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
+                }
+                
                 _wordsFieldManager.SetModeSelect(false);
                 _gameScreen.PauseButton.interactable = false;
                 _gameScreen.PassButton.interactable = false;

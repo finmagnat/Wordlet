@@ -145,7 +145,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1751850777612933834}
   - component: {fileID: 7582873540337681247}
-  - component: {fileID: 1309747442672269331}
   - component: {fileID: 3187163673044601033}
   - component: {fileID: 5889900118624748528}
   m_Layer: 5
@@ -186,20 +185,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3751327684624850806}
   m_CullTransparentMesh: 1
---- !u!114 &1309747442672269331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3751327684624850806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!114 &3187163673044601033
 MonoBehaviour:
   m_ObjectHideFlags: 0

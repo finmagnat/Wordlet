@@ -43,25 +43,25 @@ MonoBehaviour:
       Max: 24
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
-    MaxPasses: 3
+    MaxPasses: 5
     IsRandomWordLength: 0
     WordLength:
       Min: 0
       Max: 3
   - "\u0421omplexityAiLevel": 2
-    MaxPasses: 2
+    MaxPasses: 3
     IsRandomWordLength: 1
     WordLength:
       Min: 2
       Max: 5
   - "\u0421omplexityAiLevel": 3
-    MaxPasses: 1
+    MaxPasses: 2
     IsRandomWordLength: 1
     WordLength:
       Min: 3
       Max: 6
   - "\u0421omplexityAiLevel": 4
-    MaxPasses: 1
+    MaxPasses: 2
     IsRandomWordLength: 0
     WordLength:
       Min: 8

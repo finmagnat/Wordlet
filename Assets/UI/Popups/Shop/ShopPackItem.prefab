@@ -221,7 +221,7 @@ MonoBehaviour:
   _contentRoot: {fileID: 7418700457807117596}
   _header: {fileID: 6734162702858729742}
   _headerImage: {fileID: 6576034315918778629}
-  _title: {fileID: 8882471195550630128}
+  _title: {fileID: 8233488225976308170}
   _buyButton: {fileID: 1605595533637128369}
   _ctaText: {fileID: 3377431985831000961}
 --- !u!1 &5163956610733976072
@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 5206638167396281503}
   - component: {fileID: 3766705037058567915}
   - component: {fileID: 8882471195550630128}
+  - component: {fileID: 8233488225976308170}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -723,6 +724,30 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8233488225976308170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8876714942585584185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb59f96e2f24cd793f0cae7d14330fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.LocalizedTMPStringEvent
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:0a5ae1994ef9a1a4b9c1933bb33f7666
+    m_TableEntryReference:
+      m_KeyId: 24306362871070720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &2674681921776478477
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -55,6 +55,8 @@ namespace UI.Popups
             
             foreach (var packItem in _packItems)
             {
+                packItem.RefreshLocalizedState();
+
                 if (packItem.Dto.Type == ShopOfferTypeDto.RewardedAd)
                 {
                     _analytics.TrackEvent(AnalyticsEvents.Ads.RewardedAvailability,

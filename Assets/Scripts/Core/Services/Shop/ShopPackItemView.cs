@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Data;
+using Core.UI.Components;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Core.Services.Shop
         public ShopOfferDto Dto => _dto;
         public int Cooldown => _limitRemain;
         public bool IsLimitDailyReached => _limitDailyReached;
-        
+
         [Inject] private LocalizationService _localization;
         [Inject] private AnalyticsService _analytics;
         [InjectOptional] private RewardedAdsService _ads;
@@ -25,7 +26,7 @@ namespace Core.Services.Shop
         [SerializeField] private Transform _contentRoot;
         [SerializeField] private GameObject _header;
         [SerializeField] private Image _headerImage;
-        [SerializeField] private TextMeshProUGUI _title;
+        [SerializeField] private LocalizedTMPStringEvent _title;
         [SerializeField] private Button _buyButton;
         [SerializeField] private TextMeshProUGUI _ctaText;
 
@@ -38,10 +39,10 @@ namespace Core.Services.Shop
 
         private float _nextTickTime;
         private Sequence _popSeq;
-        
+
         private int _limitRemain;
         private bool _limitDailyReached;
-        
+
         public void Bind(ShopOfferDto dto, Action<ShopOfferDto> onClick)
         {
             Unsubscribe();
@@ -53,17 +54,16 @@ namespace Core.Services.Shop
             {
                 _header.gameObject.SetActive(true);
                 _headerImage.sprite = dto.SpriteHeader;
-                _title.text = _localization.Get(LocalizationConst.TableUI, dto.Title);
+                _title.SetReference(LocalizationConst.TableUI, dto.Title);
             }
             else
             {
                 _header.gameObject.SetActive(false);
             }
 
-            _idleCtaText = string.IsNullOrWhiteSpace(dto.CtaText) ? "—" : dto.CtaText;
+            _idleCtaText = BuildIdleCtaText();
             _ctaText.text = _idleCtaText;
 
-            // очистка наград
             for (int i = _contentRoot.childCount - 1; i >= 0; i--)
                 Destroy(_contentRoot.GetChild(i).gameObject);
 
@@ -78,7 +78,6 @@ namespace Core.Services.Shop
 
             ApplyInitialState();
 
-            // Rewarded wiring
             if (dto.Type == ShopOfferTypeDto.RewardedAd)
             {
                 if (_ads != null)
@@ -101,6 +100,22 @@ namespace Core.Services.Shop
             }
         }
 
+        public void RefreshLocalizedState()
+        {
+            if (_dto == null)
+                return;
+
+            _idleCtaText = BuildIdleCtaText();
+
+            if (_dto.Type == ShopOfferTypeDto.RewardedAd)
+            {
+                SyncRewardedState();
+                return;
+            }
+
+            ApplyInitialState();
+        }
+
         private void ApplyInitialState()
         {
             if (_dto.Type == ShopOfferTypeDto.IapPack)
@@ -120,7 +135,6 @@ namespace Core.Services.Shop
             if (_dto.Type != ShopOfferTypeDto.RewardedAd) return;
             if (_limits == null) return;
 
-            // Обновляем кнопку раз в 1 секунду, если есть cooldown
             if (Time.unscaledTime < _nextTickTime) return;
             _nextTickTime = Time.unscaledTime + 1f;
 
@@ -129,14 +143,12 @@ namespace Core.Services.Shop
 
         private void SyncRewardedState()
         {
-            // 1) если показывается — "..."
             if (_ads != null && _ads.IsShowing(_dto.RewardType))
             {
                 SetLoading(true);
                 return;
             }
 
-            // 2) лимиты (daily/cooldown)
             if (_limits != null)
             {
                 bool can = _limits.CanClaim(_dto.RewardType, out _limitRemain, out _limitDailyReached);
@@ -157,10 +169,8 @@ namespace Core.Services.Shop
                 }
             }
 
-            // 3) готовность рекламы
             if (_ads == null)
             {
-                // нет сервиса рекламы — не показываем ошибку, просто выключаем
                 SetLoading(false);
                 return;
             }
@@ -175,7 +185,6 @@ namespace Core.Services.Shop
         {
             if (_dto == null) return;
 
-            // Если лимит/кулдаун не позволяет — просто обновим текст и выйдем
             if (_limits != null)
             {
                 bool can = _limits.CanClaim(_dto.RewardType, out _limitRemain, out _limitDailyReached);
@@ -195,7 +204,7 @@ namespace Core.Services.Shop
                 SetLoading(true);
 
             SendAnalytics();
-            
+
             _onClick?.Invoke(_dto);
         }
 
@@ -205,7 +214,6 @@ namespace Core.Services.Shop
             if (_dto.Type != ShopOfferTypeDto.RewardedAd) return;
             if (_dto.RewardType != type) return;
 
-            // не трогаем пока показывается
             if (_ads != null && _ads.IsShowing(type))
                 return;
 
@@ -237,7 +245,7 @@ namespace Core.Services.Shop
             if (_dto.Type != ShopOfferTypeDto.RewardedAd) return;
             if (_dto.RewardType != type) return;
 
-            SyncRewardedState(); // сразу обновим (появится cooldown)
+            SyncRewardedState();
         }
 
         private void SetReady()
@@ -245,7 +253,7 @@ namespace Core.Services.Shop
             _limitDailyReached = false;
             _limitRemain = 0;
             _buyButton.interactable = true;
-            _ctaText.text = _idleCtaText; // обычно "Смотреть"
+            _ctaText.text = _idleCtaText;
         }
 
         private void SetBlockedDaily()
@@ -259,16 +267,26 @@ namespace Core.Services.Shop
         {
             _limitRemain = remainSeconds;
             _buyButton.interactable = false;
-            _ctaText.text = $"{_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextThrough)} {FormatMMSS(remainSeconds)}";
+            _ctaText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextThrough, FormatMMSS(remainSeconds));
         }
 
-        // showDots=true -> "..." (нажатие/показ), false -> "Загрузка..." (ждём preload)
         private void SetLoading(bool showDots)
         {
             _limitDailyReached = false;
             _limitRemain = 0;
             _buyButton.interactable = false;
             _ctaText.text = showDots ? "..." : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelLoading);
+        }
+
+        private string BuildIdleCtaText()
+        {
+            if (_dto == null)
+                return "-";
+
+            if (_dto.Type == ShopOfferTypeDto.RewardedAd)
+                return _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook);
+
+            return string.IsNullOrWhiteSpace(_dto.CtaText) ? "-" : _dto.CtaText;
         }
 
         private static string FormatMMSS(int seconds)
@@ -302,7 +320,7 @@ namespace Core.Services.Shop
         }
 
         private void OnDestroy() => Unsubscribe();
-        
+
         private void SendAnalytics()
         {
             var eventName = _dto.Type switch
@@ -310,8 +328,8 @@ namespace Core.Services.Shop
                 ShopOfferTypeDto.IapPack => _dto.IsDisableInterstitialAds ? AnalyticsEvents.Monetization.RemoveAdOfferShopClicked : AnalyticsEvents.Monetization.IapOfferShopClicked,
                 ShopOfferTypeDto.RewardedAd => AnalyticsEvents.Monetization.AdOfferShopClicked,
                 _ => AnalyticsEvents.Monetization.RemoveAdOfferShopClicked
-            }; 
-            
+            };
+
             Dictionary<string, object> parameters = null;
             switch (eventName)
             {
@@ -332,7 +350,7 @@ namespace Core.Services.Shop
                     else if (limits.CooldownSeconds > 0)
                         result = AnalyticsEvents.Option.Cooldown;
 
-                    parameters = new ()
+                    parameters = new()
                     {
                         [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_dto.Rewards),
                         [AnalyticsEvents.Parameter.LimitRemain] = FormatLimitRemain(limits),
@@ -340,13 +358,13 @@ namespace Core.Services.Shop
                     };
                     break;
                 case AnalyticsEvents.Monetization.RemoveAdOfferShopClicked:
-                    parameters = new ()
+                    parameters = new()
                     {
                         [AnalyticsEvents.Parameter.Price] = _dto.CtaText,
                     };
                     break;
             }
-            
+
             _analytics.TrackEvent(eventName, parameters);
         }
 

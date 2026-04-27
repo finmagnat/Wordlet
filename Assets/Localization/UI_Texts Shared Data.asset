@@ -507,6 +507,10 @@ MonoBehaviour:
     m_Key: STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT
     m_Metadata:
       m_Items: []
+  - m_Id: 60000000000000000
+    m_Key: WORD_DEFINITION_PENDING
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

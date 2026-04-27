@@ -60,6 +60,9 @@ namespace UI.Popups
         {
             _eventData = data;
             _wordText.text = data.word;
+            _infoText.text = string.IsNullOrWhiteSpace(data.definition)
+                ? _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyWordDefinitionPending)
+                : data.definition;
             
             var options = new List<TMP_Dropdown.OptionData>(ReportReasonExtensions.Reasons.Count);
             foreach (ReportReason reason in ReportReasonExtensions.Reasons)
@@ -71,8 +74,7 @@ namespace UI.Popups
             _reasonDropdown.RefreshShownValue();
             
             _sendButton.interactable = false;
-            
-            // _infoText.text = ""; // TODO: получить значение слова для текущей локализации из базы данных и отобразить. 
+
             return UniTask.CompletedTask;
         }
         
@@ -129,6 +131,7 @@ namespace UI.Popups
         private void Close()
         {
             _wordText.text = "";
+            _infoText.text = "";
             _cooldownText.text = "";
             _cooldownText.gameObject.SetActive(false);
         }

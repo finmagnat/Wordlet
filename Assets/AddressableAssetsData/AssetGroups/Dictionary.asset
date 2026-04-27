@@ -27,7 +27,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - Dictionary
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fe907ac8063642419954562f0b53a9ca
+  - m_GUID: ed20235b5c4662d4f8b838259b113de8
     m_Address: dict_ru
     m_ReadOnly: 0
     m_SerializedLabels:

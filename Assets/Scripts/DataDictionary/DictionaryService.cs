@@ -8,10 +8,14 @@ namespace Core.DataDictionary
 {
     public class DictionaryService : IDictionaryService
     {
+        private const string WordPrefix = "WORD:";
+        private const string DefinitionPrefix = "DEFINITION:";
+
         private readonly AddressablesLoader _loader;
 
         private LanguageDictionaryConfig _config;
         private HashSet<string> _words;
+        private Dictionary<string, string> _definitionsByWord;
         private Dictionary<int, List<string>> _wordsByLength;
         private string _alphabet;
         private bool _isLoaded;
@@ -19,6 +23,7 @@ namespace Core.DataDictionary
         public LanguageDictionaryConfig DictionaryConfig => _config;
         public string Alphabet => _alphabet; // Алфавит текущего словаря.
         public IReadOnlyCollection<string> Words => _words;
+        public IReadOnlyDictionary<string, string> WordDefinitions => _definitionsByWord;
 
         public DictionaryService(AddressablesLoader loader)
         {
@@ -33,6 +38,7 @@ namespace Core.DataDictionary
             _config = config;
             _isLoaded = false;
             _words = new HashSet<string>();
+            _definitionsByWord = new Dictionary<string, string>();
             _wordsByLength = new Dictionary<int, List<string>>();
 
             // 1. Алфавит из SO
@@ -52,18 +58,85 @@ namespace Core.DataDictionary
                 return;
             }
 
-            var lines = textAsset.text.Split('\n');
-            foreach (var line in lines)
-            {
-                var w = line.Trim().ToUpperInvariant();
-                if (!string.IsNullOrEmpty(w))
-                    _words.Add(w);
-            }
+            LoadDictionary(textAsset.text);
 
             BuildWordLengthIndex();
             _isLoaded = true;
 
-            Debug.Log($"📘 Dictionary initialized. Lang: {_config.languageCode}, words: {_words.Count}");
+            Debug.Log($"📘 Dictionary initialized. Lang: {_config.languageCode}, words: {_words.Count}, definitions: {_definitionsByWord.Count}");
+        }
+
+        private void LoadDictionary(string text)
+        {
+            var lines = text.Split('\n');
+            int skippedMalformedLines = 0;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var line = lines[i].Trim();
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
+                if (TryReadPrefixedValue(line, WordPrefix, out var word))
+                {
+                    string definition = string.Empty;
+                    int definitionLineIndex = FindNextNonEmptyLine(lines, i + 1);
+
+                    if (definitionLineIndex >= 0
+                        && TryReadPrefixedValue(lines[definitionLineIndex].Trim(), DefinitionPrefix, out var parsedDefinition))
+                    {
+                        definition = parsedDefinition;
+                        i = definitionLineIndex;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"⚠ Dictionary word '{word}' has no definition line.");
+                    }
+
+                    AddWord(word, definition);
+                    continue;
+                }
+
+                skippedMalformedLines++;
+            }
+
+            if (skippedMalformedLines > 0)
+                Debug.LogWarning($"⚠ Dictionary skipped {skippedMalformedLines} lines that do not match WORD/DEFINITION format.");
+        }
+
+        private static int FindNextNonEmptyLine(IReadOnlyList<string> lines, int startIndex)
+        {
+            for (int i = startIndex; i < lines.Count; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(lines[i]))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private static bool TryReadPrefixedValue(string line, string prefix, out string value)
+        {
+            if (line.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                value = line.Substring(prefix.Length).Trim();
+                return true;
+            }
+
+            value = string.Empty;
+            return false;
+        }
+
+        private void AddWord(string word, string definition)
+        {
+            var normalizedWord = NormalizeWord(word);
+            if (string.IsNullOrEmpty(normalizedWord))
+                return;
+
+            _words.Add(normalizedWord);
+
+            if (!string.IsNullOrWhiteSpace(definition))
+                _definitionsByWord[normalizedWord] = definition.Trim();
         }
 
         /// <summary>
@@ -143,7 +216,30 @@ namespace Core.DataDictionary
             if (!_isLoaded || string.IsNullOrWhiteSpace(word))
                 return false;
 
-            return _words.Contains(word.Trim().ToUpperInvariant());
+            return _words.Contains(NormalizeWord(word));
+        }
+
+        public bool TryGetDefinition(string word, out string definition)
+        {
+            definition = string.Empty;
+
+            if (!_isLoaded || string.IsNullOrWhiteSpace(word))
+                return false;
+
+            return _definitionsByWord.TryGetValue(NormalizeWord(word), out definition)
+                   && !string.IsNullOrWhiteSpace(definition);
+        }
+
+        public string GetDefinition(string word)
+        {
+            return TryGetDefinition(word, out var definition)
+                ? definition
+                : string.Empty;
+        }
+
+        private static string NormalizeWord(string word)
+        {
+            return word?.Trim().ToUpperInvariant() ?? string.Empty;
         }
     }
 }

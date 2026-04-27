@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using Core.Data;
+using Core.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.Common;
@@ -49,6 +50,7 @@ namespace UI.Popups
         private readonly LocalizationService _localization;
         private readonly AnalyticsService _analytics;
         private readonly ConfigService _configService;
+        private readonly DictionaryService _dictionaryService;
         
         private string _cooldownText;
         
@@ -58,7 +60,8 @@ namespace UI.Popups
             IReportWordLimitsService limitsService,
             LocalizationService localization,
             AnalyticsService analytics,
-            ConfigService configService)
+            ConfigService configService,
+            DictionaryService dictionaryService)
         {
             _ui = ui;
             _reportService = reportService;
@@ -66,12 +69,17 @@ namespace UI.Popups
             _localization = localization;
             _analytics = analytics;
             _configService = configService;
+            _dictionaryService = dictionaryService;
         }
 
         public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language)
         {
             var popup = await _ui.ShowPopupAsync<ShowWordInfoPopup, ShowWordInfoWindowEventData>(AssetKey.ShowWordInfoPopup, 
-                new ShowWordInfoWindowEventData{ word = word });
+                new ShowWordInfoWindowEventData
+                {
+                    word = word,
+                    definition = _dictionaryService.GetDefinition(word)
+                });
 
             using var timerCts = new System.Threading.CancellationTokenSource();
 

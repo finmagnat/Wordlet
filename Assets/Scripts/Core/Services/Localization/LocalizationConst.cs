@@ -18,5 +18,6 @@ namespace Core.Services
         public const string KeyTextLook = "TEXT_LOOK";
         public const string KeyTextThrough = "TEXT_THROUGH";
         public const string KeyTextLimit = "TEXT_LIMIT";
+        public const string KeyWordDefinitionPending = "WORD_DEFINITION_PENDING";
     }
 }

@@ -6,23 +6,13 @@ namespace UI.Components
 {
     public class BoosterPanelIngameScreen : BoosterPanelUI
     {
-        public void OnUseLetter()
-        {
-            //Debug.Log("Буковка КЛИК");
-            UseBoosterHandler(boosterLetter);
-        }
+        public void OnUseLetter() => UseBoosterHandler(boosterLetter);
 
-        public void OnUseSlowdown()
-        {
-            //Debug.Log("Замедлялка КЛИК");
-            UseBoosterHandler(boosterSlowdown);
-        }
+        public void OnUseSlowdown() => UseBoosterHandler(boosterSlowdown);
         
-        public void OnUseEraser()
-        {
-            //Debug.Log("Ластик КЛИК");
-            UseBoosterHandler(boosterEraser);
-        }
+        public void OnUseEraser()  => UseBoosterHandler(boosterEraser);
+        
+        public void OnUseMixer()  => UseBoosterHandler(boosterMixer);
         
         private void UseBoosterHandler(BoosterUI boosterUI)
         {

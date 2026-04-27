@@ -144,6 +144,11 @@ namespace Game.Logic
 
             bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
             _gameScreen.BoosterPanel.Refresh();
+            
+            // TODO TEST Mixer ****************************
+            if (eventData.boosterType == BoosterType.Mixer)
+                ok = true;
+            // ********************************************
 
             if (!ok)
             {
@@ -165,12 +170,29 @@ namespace Game.Logic
                 case BoosterType.Eraser:
                     await ActivateBoosterEraserAsync(host);
                     break;
+                
+                case BoosterType.Mixer:
+                    await ActivateBoosterMixerAsync(host);
+                    break;
             }
 
             await host.BlockUIAsync(false);
             _boosterProcessing = false;
         }
 
+        private async UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)
+        {
+            if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
+                return;
+
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+
+            host.CancelCurrentMove();
+
+            _wordsFieldManager.MixLetters();
+            //TrackMixerBoosterSuccess(host);
+        }
+        
         private async UniTask ActivateBoosterEraserAsync(IGameBoosterHost host)
         {
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)

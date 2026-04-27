@@ -9,6 +9,7 @@ namespace UI.Components
         [SerializeField] protected BoosterUI boosterLetter;
         [SerializeField] protected BoosterUI boosterSlowdown;
         [SerializeField] protected BoosterUI boosterEraser;
+        [SerializeField] protected BoosterUI boosterMixer;
 
         [Inject] protected IInventoryService _inventory;
 
@@ -22,6 +23,10 @@ namespace UI.Components
             
             count = _inventory.GetQuantity(BoosterType.Eraser);
             boosterEraser.SetBoosterData(BoosterType.Eraser, count);
+            
+            count = _inventory.GetQuantity(BoosterType.Mixer);
+            count = 99; // TODO это тест бустера
+            boosterMixer.SetBoosterData(BoosterType.Mixer, count);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace UI.Components
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private LocalizationService _localization;
+        [Inject] private DiContainer _container;
         
         /// <summary>
         /// Добавить слово.
@@ -70,7 +71,7 @@ namespace UI.Components
 
         private void CreateWordItem(string word)
         {
-            WordListItem wordListItem = Instantiate(_wordListItemPrefab, _listContent);
+            WordListItem wordListItem = _container.InstantiatePrefabForComponent<WordListItem>(_wordListItemPrefab, _listContent);
             wordListItem.Initialize(word);
             Words.Add(word);
         }

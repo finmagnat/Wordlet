@@ -97,52 +97,28 @@ MonoBehaviour:
     AddressKey: SkinButtonBlue
   - Id: CellSelected
     AddressKey: CellSelected
-  - Id: sfx_i_won
-    AddressKey: sfx_i_won
-  - Id: sfx_popup_worning
-    AddressKey: sfx_popup_worning
-  - Id: sfx_booster_slowdown_launch
-    AddressKey: sfx_booster_slowdown_launch
-  - Id: sfx_rezo_shape
-    AddressKey: sfx_rezo_shape
-  - Id: sfx_i_made_move
-    AddressKey: sfx_i_made_move
-  - Id: sfx_opponent_find_word_fail
-    AddressKey: sfx_opponent_find_word_fail
-  - Id: sfx_letter_unblinking
-    AddressKey: sfx_letter_unblinking
   - Id: sfx_opponent_made_move
     AddressKey: sfx_opponent_made_move
-  - Id: sfx_skin_changed
-    AddressKey: sfx_skin_changed
-  - Id: sfx_draw
-    AddressKey: sfx_draw
-  - Id: sfx_pause
-    AddressKey: sfx_pause
-  - Id: sfx_booster_found_word
-    AddressKey: sfx_booster_found_word
-  - Id: sfx_jungl15
-    AddressKey: sfx_jungl15
-  - Id: sfx_letter_blinking
-    AddressKey: sfx_letter_blinking
-  - Id: sfx_button_click
-    AddressKey: sfx_button_click
-  - Id: sfx_opponent_won
-    AddressKey: sfx_opponent_won
   - Id: sfx_pass
     AddressKey: sfx_pass
-  - Id: sfx_start_new_game
-    AddressKey: sfx_start_new_game
-  - Id: sfx_booster_not_found_word
-    AddressKey: sfx_booster_not_found_word
-  - Id: sfx_popup_reward
-    AddressKey: sfx_popup_reward
   - Id: sfx_popup_question
     AddressKey: sfx_popup_question
-  - Id: sfx_letter_selected
-    AddressKey: sfx_letter_selected
+  - Id: sfx_letter_unblinking
+    AddressKey: sfx_letter_unblinking
+  - Id: sfx_opponent_won
+    AddressKey: sfx_opponent_won
+  - Id: sfx_popup_reward
+    AddressKey: sfx_popup_reward
+  - Id: sfx_skin_changed
+    AddressKey: sfx_skin_changed
+  - Id: sfx_booster_found_word
+    AddressKey: sfx_booster_found_word
+  - Id: sfx_start_new_game
+    AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_button_click
+    AddressKey: sfx_button_click
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup

@@ -8,27 +8,27 @@ namespace Core.Config
     [CreateAssetMenu(menuName = "Wordlet/Config/Sounds", fileName = "SoundsConfig")]
     public class SoundsConfig : ScriptableObject
     {
-        public static string StartNewGame => AssetKey.sfx_start_new_game.ToString();
-        public static string LetterPutSuccess => AssetKey.sfx_letter_put_success.ToString();
-        public static string LetterSelected => AssetKey.sfx_letter_selected.ToString();
-        public static string LetterUnblinking => AssetKey.sfx_letter_unblinking.ToString();
-        public static string LetterBlinking => AssetKey.sfx_letter_blinking.ToString();
-        public static string IMadeMove => AssetKey.sfx_i_made_move.ToString();
-        public static string OpponentMadeMove => AssetKey.sfx_opponent_made_move.ToString();
-        public static string OpponentWon => AssetKey.sfx_opponent_won.ToString();
-        public static string PopupQuestion => AssetKey.sfx_popup_question.ToString();
-        public static string PopupWarning => AssetKey.sfx_popup_worning.ToString();
-        public static string OpponentFindWordFail => AssetKey.sfx_opponent_find_word_fail.ToString();
-        public static string Pause => AssetKey.sfx_pause.ToString();
-        public static string Pass => AssetKey.sfx_pass.ToString();
-        public static string Draw => AssetKey.sfx_draw.ToString();
-        public static string IWon => AssetKey.sfx_i_won.ToString();
-        public static string SkinChanged => AssetKey.sfx_skin_changed.ToString();
-        public static string ButtonClick => AssetKey.sfx_button_click.ToString();
-        public static string BoosterFoundWord => AssetKey.sfx_booster_found_word.ToString();
-        public static string BoosterNotFoundWord => AssetKey.sfx_booster_not_found_word.ToString();
-        public static string BoosterSlowdownLaunch => AssetKey.sfx_booster_slowdown_launch.ToString();
-        public static string ShowPurchaseConfirmationPopup => AssetKey.sfx_popup_reward.ToString();
+        public static string StartNewGame => nameof(AssetKey.sfx_start_new_game);
+        public static string LetterPutSuccess => nameof(AssetKey.sfx_letter_put_success);
+        public static string LetterSelected => nameof(AssetKey.sfx_letter_put_success);
+        public static string LetterUnblinking => nameof(AssetKey.sfx_letter_unblinking);
+        public static string LetterBlinking => nameof(AssetKey.sfx_letter_unblinking);
+        public static string IMadeMove => nameof(AssetKey.sfx_letter_put_success);
+        public static string OpponentMadeMove => nameof(AssetKey.sfx_opponent_made_move);
+        public static string OpponentWon => nameof(AssetKey.sfx_opponent_won);
+        public static string PopupQuestion => nameof(AssetKey.sfx_popup_question);
+        public static string PopupWarning => nameof(AssetKey.sfx_popup_question);
+        public static string OpponentFindWordFail => nameof(AssetKey.sfx_popup_question);
+        public static string Pause => nameof(AssetKey.sfx_letter_put_success);
+        public static string Pass => nameof(AssetKey.sfx_pass);
+        public static string Draw => nameof(AssetKey.sfx_opponent_won);
+        public static string IWon => nameof(AssetKey.sfx_opponent_won);
+        public static string SkinChanged => nameof(AssetKey.sfx_skin_changed);
+        public static string ButtonClick => nameof(AssetKey.sfx_button_click);
+        public static string BoosterFoundWord => nameof(AssetKey.sfx_booster_found_word);
+        public static string BoosterNotFoundWord => nameof(AssetKey.sfx_popup_question);
+        public static string BoosterSlowdownLaunch => nameof(AssetKey.sfx_booster_found_word);
+        public static string ShowPurchaseConfirmationPopup => nameof(AssetKey.sfx_popup_reward);
        
         
         [TextArea]

@@ -1906,6 +1906,7 @@ GameObject:
   - component: {fileID: 3000580954778121116}
   - component: {fileID: 4381943578513378547}
   - component: {fileID: 6888252913622836026}
+  - component: {fileID: 6924693124183720682}
   m_Layer: 5
   m_Name: ReasonDropdown
   m_TagString: Untagged
@@ -2035,8 +2036,33 @@ MonoBehaviour:
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6924693124183720682}
+        m_TargetAssemblyTypeName: Core.UI.Components.SoundClickHandler, Assembly-CSharp
+        m_MethodName: OnPointerClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &6924693124183720682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179234923216024735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccfd97b6d5a9471a97e5546c579a9ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundClickHandler
+  _sfxKey: sfx_button_click
 --- !u!1 &6204864532673501953
 GameObject:
   m_ObjectHideFlags: 0

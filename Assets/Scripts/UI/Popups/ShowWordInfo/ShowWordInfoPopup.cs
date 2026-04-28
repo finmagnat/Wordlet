@@ -61,8 +61,8 @@ namespace UI.Popups
             _eventData = data;
             _wordText.text = data.word;
             _infoText.text = string.IsNullOrWhiteSpace(data.definition)
-                ? _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyWordDefinitionPending)
-                : data.definition;
+                ? GetTemplateText(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyWordDefinitionPending))
+                : GetTemplateText(data.definition);
             
             var options = new List<TMP_Dropdown.OptionData>(ReportReasonExtensions.Reasons.Count);
             foreach (ReportReason reason in ReportReasonExtensions.Reasons)
@@ -134,6 +134,11 @@ namespace UI.Popups
             _infoText.text = "";
             _cooldownText.text = "";
             _cooldownText.gameObject.SetActive(false);
+        }
+        
+        private string GetTemplateText(string text)
+        {
+            return $"  <size=150%><voffset=20><sprite name=\"book\"></voffset></size><size=130%><color=#FF9A00><b>Описание слова</b></color></size>\n<line-height=100%>\n{text}\n</line-height>";
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Core.Services
 
         private float _sfxVolume = 1f;
         
-        private bool _isDebugPlayNoAsync = true; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
+        private bool _isUseSoundsConfig = true; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
 
         public AudioService(AddressablesLoader loader, ConfigService configService)
         {
@@ -39,7 +39,7 @@ namespace Core.Services
             _sfxSource.loop = false;
             _sfxSource.volume = _sfxVolume;
             
-            if (_isDebugPlayNoAsync)
+            if (_isUseSoundsConfig)
             {
                 InitDebugCache();
             }

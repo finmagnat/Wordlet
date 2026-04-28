@@ -44,7 +44,7 @@ namespace UI.Popups
                     AnalyticsEvents.Navigation.PlayGameSetupClicked,
                     GetGameSetupAnalyticsParams());
 
-                PlayerPrefs.SetInt(PlayerPrefsKey.DurationGame, _durationGame);
+                _durationGame = GameDurationSettings.SetDurationGameSeconds(_durationGame);
                 PlayerPrefs.SetInt(PlayerPrefsKey.ComplexityAI, (int)_complexityAI);
 
                 await HideAsync();
@@ -87,9 +87,7 @@ namespace UI.Popups
 
             ApplyComplexityToUI(_complexityAI);
 
-            _durationGame = PlayerPrefs.GetInt(
-                PlayerPrefsKey.DurationGame,
-                _gameConfig.durationGameSeconds);
+            _durationGame = GameDurationSettings.GetDurationGameSeconds(_gameConfig);
 
             _boosterPanel.Refresh();
 

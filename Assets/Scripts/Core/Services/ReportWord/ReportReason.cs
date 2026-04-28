@@ -10,6 +10,7 @@ namespace Core.Services.ReportWord
         ProperNoun = 4,              // Имя / название
         RareOrOutdated = 5,          // Редкое / устаревшее
         Offensive = 6,               // Оскорбительное
-        Other = 7                    // Другое
+        IncorrectDescription = 7,    // Неправильное описание
+        Other = 8                    // Другое
     }
 }

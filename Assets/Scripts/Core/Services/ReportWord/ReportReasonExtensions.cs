@@ -13,6 +13,7 @@ namespace Core.Services.ReportWord
             ReportReason.ProperNoun,
             ReportReason.RareOrOutdated,
             ReportReason.Offensive,
+            ReportReason.IncorrectDescription,
             ReportReason.Other
         };
         
@@ -26,6 +27,7 @@ namespace Core.Services.ReportWord
                 ReportReason.ProperNoun => "proper_noun",
                 ReportReason.RareOrOutdated => "rare_or_outdated",
                 ReportReason.Offensive => "offensive",
+                ReportReason.IncorrectDescription => "incorrect_description",
                 ReportReason.Other => "other",
                 _ => "none"
             };
@@ -42,6 +44,7 @@ namespace Core.Services.ReportWord
                 ReportReason.ProperNoun => "REPORT_WORD_PROPER_NOUN",
                 ReportReason.RareOrOutdated => "REPORT_WORD_RARE_OR_OUTDATED",
                 ReportReason.Offensive => "REPORT_WORD_OFFENSIVE",
+                ReportReason.IncorrectDescription => "REPORT_WORD_INCORRECT_DESCRIPTION",
                 ReportReason.Other => "REPORT_WORD_OTHER",
                 _ => "none"
             };

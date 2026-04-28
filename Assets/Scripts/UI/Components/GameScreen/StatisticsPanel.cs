@@ -39,7 +39,7 @@ namespace UI.Components
         internal void SetStartWord(string value)
         {
             _startWord = value;
-            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"magnifier\"></voffset></size>";
+            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
         }
 
         public void OnStartWordPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _startWord});

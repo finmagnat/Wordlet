@@ -66,8 +66,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u041B\u041E\u0412\u041E\u0421\u041B\u041E\u0412\u041E  <size=100%><voffset=20><sprite
-    name=\"magnifier\"></voffset></size>"
+  m_text: "\u0421\u041B\u041E\u0412\u041E\u0421\u041B\u041E\u0412\u041E   <size=100%><voffset=20><sprite
+    name=\"info\"></voffset></size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
@@ -3744,7 +3744,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4994030855067636804}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -8060,7 +8060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925964660013792451, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_fontSize
-      value: 40.65
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_IsActive
@@ -8289,7 +8289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925964660013792451, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_fontSize
-      value: 40.65
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_IsActive

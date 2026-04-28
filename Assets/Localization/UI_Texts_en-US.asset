@@ -558,7 +558,7 @@ MonoBehaviour:
   - m_Id: 59803351008034816
     m_Localized: '<line-height=100%>
 
-      <size=250%><voffset=10><sprite name="slowdown"></voffset></size><size=130%><voffset=10><b>Your
+      <size=250%><voffset=10><sprite name="time"></voffset></size><size=130%><voffset=10><b>Your
       turn time is up.</b></size>
 
       The opponent moves.</voffset>

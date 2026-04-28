@@ -5,7 +5,6 @@ using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using Inventory;
-using TMPro;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,8 +19,6 @@ namespace UI.Popups
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private BoosterPanelUI _boosterPanel;
-        [SerializeField] private TextMeshProUGUI _timeText;
-        [SerializeField] private Slider _durationGameSlider;
 
         [Inject] private ConfigService _configService;
         [Inject] private AnalyticsService _analytics;
@@ -47,7 +44,7 @@ namespace UI.Popups
                     AnalyticsEvents.Navigation.PlayGameSetupClicked,
                     GetGameSetupAnalyticsParams());
 
-                PlayerPrefs.SetInt(PlayerPrefsKey.DurationGame, _durationGame);
+                _durationGame = GameDurationSettings.SetDurationGameSeconds(_durationGame);
                 PlayerPrefs.SetInt(PlayerPrefsKey.ComplexityAI, (int)_complexityAI);
 
                 await HideAsync();
@@ -90,13 +87,7 @@ namespace UI.Popups
 
             ApplyComplexityToUI(_complexityAI);
 
-            _durationGame = PlayerPrefs.GetInt(
-                PlayerPrefsKey.DurationGame,
-                _gameConfig.durationGameByDefault);
-
-            _durationGameSlider.minValue = 0;
-            _durationGameSlider.maxValue = _gameConfig.durationGameMaximum;
-            ChangeTimeText();
+            _durationGame = GameDurationSettings.GetDurationGameSeconds(_gameConfig);
 
             _boosterPanel.Refresh();
 
@@ -151,35 +142,6 @@ namespace UI.Popups
         }
 
         public UniTask<GameSetupData> WaitForResultAsync() => _completionSource.Task;
-
-        public void OnDurationGameSlider()
-        {
-            _durationGame = Mathf.RoundToInt(_durationGameSlider.value);
-
-            if (_durationGame <= _gameConfig.durationGameMinimum)
-            {
-                _durationGame = _gameConfig.durationGameMinimum;
-                _durationGameSlider.value = _durationGame;
-            }
-
-            SetFormatMMSS(_durationGame);
-        }
-
-        private void ChangeTimeText()
-        {
-            _durationGameSlider.value = _durationGame;
-            SetFormatMMSS(_durationGame);
-        }
-
-        private void SetFormatMMSS(int seconds)
-        {
-            if (seconds < 0)
-                seconds = 0;
-
-            int m = seconds / 60;
-            int s = seconds % 60;
-            _timeText.text = $"{m:00}:{s:00}";
-        }
 
         private Dictionary<string, object> GetGameSetupAnalyticsParams()
         {

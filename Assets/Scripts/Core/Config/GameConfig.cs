@@ -47,15 +47,8 @@ namespace Core.Config
         public uint defaultBoardSize = 5;
         
         [Space(10)]
-        [Tooltip("Время хода игрока по умолчанию (секунды)")]
-        public int durationGameByDefault = 60;
-        [Tooltip("Время хода игрока минимальное (секунды)")]
-        public int durationGameMinimum = 10;
-        [Tooltip("Время хода игрока максимальное (секунды)")]
-        public int durationGameMaximum = 120;
-        
-        [Tooltip("Оппонент игрока по умолчанию")]
-        public GameOpponent gameOpponentByDefault = GameOpponent.AI;
+        [Tooltip("Время хода игрока (секунды)")]
+        public int durationGameSeconds = 120;
         
         [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
         public uint maxPassesByDefault = 2;
@@ -102,12 +95,6 @@ namespace Core.Config
 
         [Tooltip("Кулдаун между отправками новых слов (секунды). 0 = выкл")]
         public int newWordsCooldownSeconds = 90;
-        
-        [Tooltip("Минимальная длина нового слова для отправки")]
-        public int newWordsMinLength = 2;
-
-        [Tooltip("Максимальная длина нового слова для отправки")]
-        public int newWordsMaxLength = 32;
         
         //---------------------------------
         [Header("REPORT WORDS MODERATION")]

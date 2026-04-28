@@ -231,7 +231,7 @@ namespace Game.Logic
                 _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWords(_saveGameData.opponentWords);
                 _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
 
-                _durationGame = _saveGameData.maxSeconds;
+                _durationGame = GameDurationSettings.ClampDurationGameSeconds(_saveGameData.maxSeconds);
                 _gameScreen.TimerBar.SetTargetValue(_durationGame);
                 _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
                 _isSavedGame = true;
@@ -245,7 +245,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOwner.SetPass(0, _maxPasses);
                 _gameScreen.PlayerPanelOpponent.SetPass(0, _maxPasses);
 
-                _durationGame = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame);
+                _durationGame = GameDurationSettings.GetDurationGameSeconds(_configService.Game);
                 _gameScreen.TimerBar.SetTargetValue(_durationGame);
             }
 

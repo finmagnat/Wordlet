@@ -39,11 +39,7 @@ namespace UI.Components
             {
                 for (int i = 0; i < WordsFieldData.AMOUNT_LETTERS; ++i)
                 {
-                    var clonePrefab = _container.InstantiatePrefab(_selectebleLetterPrefab);
-                    clonePrefab.transform.SetParent(transform);
-                    clonePrefab.transform.localScale = new Vector3(1, 1, 1);
-
-                    var letter = clonePrefab.GetComponent<SelectableLetter>();
+                    var letter = _container.InstantiatePrefabForComponent<SelectableLetter>(_selectebleLetterPrefab, transform);
                     letter.SetLetter("");
                     letter.Index = i;
 

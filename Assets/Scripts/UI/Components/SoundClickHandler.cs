@@ -16,5 +16,10 @@ namespace Core.UI.Components
         {
             _audioService?.PlaySfxAsync(_sfxKey);
         }
+        
+        public void OnPointerClick()
+        {
+            _audioService?.PlaySfxAsync(_sfxKey);
+        }
     }
 }

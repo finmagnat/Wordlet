@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: SFX
   m_GUID: 6b0c5cedab9450f4f83b9b2b4eac4793
   m_SerializeEntries:
+  - m_GUID: 2f477d87899c014489a2c9e5e588053f
+    m_Address: sfx_button_click
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f62a4f275683d14daa39b0da6c50eb2
     m_Address: sfx_opponent_made_move
     m_ReadOnly: 0

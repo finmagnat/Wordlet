@@ -117,6 +117,8 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_button_click
+    AddressKey: sfx_button_click
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup

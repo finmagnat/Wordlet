@@ -24,7 +24,7 @@ namespace Core.Config
         public static string Draw => nameof(AssetKey.sfx_opponent_won);
         public static string IWon => nameof(AssetKey.sfx_opponent_won);
         public static string SkinChanged => nameof(AssetKey.sfx_skin_changed);
-        public static string ButtonClick => nameof(AssetKey.sfx_letter_put_success);
+        public static string ButtonClick => nameof(AssetKey.sfx_button_click);
         public static string BoosterFoundWord => nameof(AssetKey.sfx_booster_found_word);
         public static string BoosterNotFoundWord => nameof(AssetKey.sfx_popup_question);
         public static string BoosterSlowdownLaunch => nameof(AssetKey.sfx_booster_found_word);

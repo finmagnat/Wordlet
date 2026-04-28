@@ -54,6 +54,7 @@ namespace Core.Generated
         sfx_booster_found_word,
         sfx_start_new_game,
         sfx_letter_put_success,
+        sfx_button_click,
         ConfirmPassPopup,
         WinPopup,
         NoInternetPopup,

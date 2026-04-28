@@ -17,7 +17,7 @@ namespace Core.Services
 
         private float _sfxVolume = 1f;
         
-        private bool _isUseSoundsConfig = true; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
+        private bool _isUseSoundsConfig = false; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
 
         public AudioService(AddressablesLoader loader, ConfigService configService)
         {

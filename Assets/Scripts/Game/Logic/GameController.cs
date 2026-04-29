@@ -616,6 +616,7 @@ namespace Game.Logic
         private void SwitchPlayer()
         {
             _bModePlayOwner = !_bModePlayOwner;
+            _gameScreen.TimerBar.SetTargetValue(_durationGame);
             _gameScreen.TimerBar.StartTimer();
             if (_bModePlayOwner)
             {

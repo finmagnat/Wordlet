@@ -139,7 +139,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766021192351744
-    m_Localized: 'PASSES: {0}/{1}'
+    m_Localized: 'PASSES: '
     m_Metadata:
       m_Items: []
   - m_Id: 6206546046976000
@@ -568,6 +568,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60000000000000000
     m_Localized: Coming soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61252839908196352
+    m_Localized: Random selection
     m_Metadata:
       m_Items: []
   references:

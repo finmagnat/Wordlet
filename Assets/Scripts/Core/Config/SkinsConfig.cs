@@ -11,11 +11,14 @@ namespace Core.Config
         
         [Space(10)]
         [Tooltip("Скин по умолчанию")]
-        public SkinType SkinByDefault = SkinType.PINK;
+        public SkinType SkinByDefault = SkinType.BLUE;
         
         [SerializeField] private List<SkinData> _skins = new ();
         
         public SkinData GetSkinByType(SkinType skinType) =>
             _skins.Find(item => item.SkinType == skinType);
+
+        public SkinData GetSkinRandom() =>
+            _skins[Random.Range(0, _skins.Count)];
     }
 }

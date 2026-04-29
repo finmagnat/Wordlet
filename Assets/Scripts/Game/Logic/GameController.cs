@@ -601,8 +601,8 @@ namespace Game.Logic
 
         private void CheckFinishGame()
         {
-            if (_gameScreen.PlayerPanelOwner.Pass >= _maxPasses ||
-                _gameScreen.PlayerPanelOpponent.Pass >= _maxPasses ||
+            if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass) ||
+                MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass) ||
                 _wordsFieldManager.Filled())
             {
                 FinishGame();
@@ -665,12 +665,12 @@ namespace Game.Logic
             ResultGame resultGame = ResultGame.DRAW;
             bool bResultDetermined = false;
 
-            if (_gameScreen.PlayerPanelOwner.Pass >= _maxPasses)
+            if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass))
             {
                 bResultDetermined = true;
                 resultGame = ResultGame.OWNER_LOSE;
             }
-            else if (_gameScreen.PlayerPanelOpponent.Pass >= _maxPasses)
+            else if (MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass))
             {
                 bResultDetermined = true;
                 resultGame = ResultGame.OWNER_WIN;
@@ -701,6 +701,9 @@ namespace Game.Logic
 
             ShowFinishGamePopup(resultGame).Forget();
         }
+        
+        private bool MaxPassesReached(uint currentPass) => 
+            _maxPasses > 0 ? currentPass >= _maxPasses : false;
 
         protected async UniTaskVoid ShowFinishGamePopup(ResultGame resultGame)
         {

@@ -50,7 +50,7 @@ namespace Core.Config
         [Tooltip("Время хода игрока (секунды)")]
         public int durationGameSeconds = 120;
         
-        [Tooltip("Максимум пропуска ходов (в режиме игры с человеком)")]
+        [Tooltip("Максимум пропуска ходов (в режиме игры с человеком). 0 = безлимит")]
         public uint maxPassesByDefault = 2;
         
         [Tooltip("Кулдаун между переключением паузы (секунды). 0 = выкл")]
@@ -63,10 +63,7 @@ namespace Core.Config
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
         public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
-        
-        [Tooltip("Настройки алгоритма поиска слов для бустера")]
-        public ComplexityAISettings boosterLetterAiSettings;
-        
+       
         [Space(10), Tooltip("Уровни сложности игры с ИИ")]
         public List<ComplexityAISettings> _сomplexityAIList;
         
@@ -79,6 +76,8 @@ namespace Core.Config
         public int slowdownDelay;
         [Tooltip("Время перед переходом хода, после найденного бустером слова (секунды)")]
         public float autoApplyDelay = 2;
+        [Tooltip("Настройки алгоритма поиска слов для бустера")]
+        public ComplexityAISettings boosterLetterAiSettings;
         
         //---------------------------------
         [Header("LEADERBOARD")]

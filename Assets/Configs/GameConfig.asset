@@ -26,11 +26,8 @@ MonoBehaviour:
   unityAdsTestMode: 1
   version: 1
   defaultBoardSize: 5
-  durationGameByDefault: 60
-  durationGameMinimum: 10
-  durationGameMaximum: 120
-  gameOpponentByDefault: 1
-  maxPassesByDefault: 2
+  durationGameSeconds: 120
+  maxPassesByDefault: 0
   pauseCooldownSeconds: 1
   delayAIPlaySeconds: 0.5
   complexityAiByDefault: 2
@@ -43,25 +40,25 @@ MonoBehaviour:
       Max: 24
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
-    MaxPasses: 5
+    MaxPasses: 0
     IsRandomWordLength: 0
     WordLength:
       Min: 0
       Max: 3
   - "\u0421omplexityAiLevel": 2
-    MaxPasses: 3
+    MaxPasses: 0
     IsRandomWordLength: 1
     WordLength:
       Min: 2
       Max: 5
   - "\u0421omplexityAiLevel": 3
-    MaxPasses: 2
+    MaxPasses: 0
     IsRandomWordLength: 1
     WordLength:
       Min: 3
       Max: 6
   - "\u0421omplexityAiLevel": 4
-    MaxPasses: 2
+    MaxPasses: 0
     IsRandomWordLength: 0
     WordLength:
       Min: 8
@@ -72,8 +69,6 @@ MonoBehaviour:
   scoreCacheSeconds: 15
   newWordsDailyLimit: 5
   newWordsCooldownSeconds: 90
-  newWordsMinLength: 2
-  newWordsMaxLength: 32
   reportWordsDailyLimit: 5
   reportWordsCooldownSeconds: 90
   minLoadingScreenDurationMs: 3000

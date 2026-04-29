@@ -3901,7 +3901,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.3
+  m_fontSize: 40
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7251,7 +7251,6 @@ GameObject:
   - component: {fileID: 5952045362536642761}
   - component: {fileID: 2060273859724502801}
   - component: {fileID: 4696974156665089600}
-  - component: {fileID: 7651854290856926331}
   m_Layer: 5
   m_Name: PassButton
   m_TagString: Untagged
@@ -7372,19 +7371,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7651854290856926331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8959738216645001394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
 --- !u!1 &9022864421928944780
 GameObject:
   m_ObjectHideFlags: 0
@@ -7712,7 +7698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7985135849545387340, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
       propertyPath: m_fontSize
-      value: 29.3
+      value: 32.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8646,7 +8632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7985135849545387340, guid: 1269aeab539536c46b69fcbac18bcd57, type: 3}
       propertyPath: m_fontSize
-      value: 29.3
+      value: 32.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

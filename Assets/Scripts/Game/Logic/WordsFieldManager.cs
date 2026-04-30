@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Events;
+using Game.Logic.Mixer;
 using UI.Components;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Game.Logic
         public WordsFieldData WordsFieldData => _wordsFildData;
         
         private WordsFieldData _wordsFildData = new ();
+        private readonly MixerPatternEngine _mixerPatternEngine = new(MixerPatternCatalog.CreateDefault());
         
         private bool _bModeSelectWord;
         private bool _isPause;
@@ -166,81 +168,26 @@ namespace Game.Logic
             if (items == null)
                 return;
 
+            var board = new MixerBoard(_wordsFildData.GetBoardData());
+            if (!_mixerPatternEngine.TryMix(board, out var result))
+            {
+                Debug.LogWarning("[WordsFieldManager][MixLetters] No valid mixer pattern found");
+                return;
+            }
+
             _bModeSelectWord = false;
             _wordsFildData.Clear();
 
-            var filledItems = new List<SelectableLetter>();
-            var letters = new List<string>();
-
-            for (int i = 0; i < items.Count; ++i)
+            for (int i = 0; i < items.Count && i < result.BoardData.Length; ++i)
             {
-                if (items[i] == null || items[i].Empty())
+                if (items[i] == null)
                     continue;
 
-                filledItems.Add(items[i]);
-                letters.Add(items[i].GetLetter());
+                items[i].SetLetter(result.BoardData[i]);
+                items[i].UnHighlight();
             }
 
-            if (letters.Count <= 1)
-                return;
-
-            ShuffleLetters(letters);
-
-            if (!HasOrderChanged(filledItems, letters) && HasDifferentLetters(letters))
-                SwapLetters(letters, 0, FindFirstDifferentLetterIndex(letters));
-
-            for (int i = 0; i < filledItems.Count; ++i)
-                filledItems[i].SetLetter(letters[i]);
-
-            Debug.Log("[WordsFieldManager][MixLetters]");
-        }
-
-        private static void ShuffleLetters(List<string> letters)
-        {
-            for (int i = letters.Count - 1; i > 0; --i)
-            {
-                int randomIndex = Random.Range(0, i + 1);
-                SwapLetters(letters, i, randomIndex);
-            }
-        }
-
-        private static void SwapLetters(List<string> letters, int firstIndex, int secondIndex)
-        {
-            if (firstIndex == secondIndex)
-                return;
-
-            string temp = letters[firstIndex];
-            letters[firstIndex] = letters[secondIndex];
-            letters[secondIndex] = temp;
-        }
-
-        private static bool HasOrderChanged(List<SelectableLetter> items, List<string> letters)
-        {
-            for (int i = 0; i < items.Count; ++i)
-            {
-                if (items[i].GetLetter() != letters[i])
-                    return true;
-            }
-
-            return false;
-        }
-
-        private static bool HasDifferentLetters(List<string> letters)
-        {
-            return FindFirstDifferentLetterIndex(letters) > 0;
-        }
-
-        private static int FindFirstDifferentLetterIndex(List<string> letters)
-        {
-            string firstLetter = letters[0];
-
-            for (int i = 1; i < letters.Count; ++i)
-            {
-                if (letters[i] != firstLetter)
-                    return i;
-            }
-
-            return -1;
+            Debug.Log($"[WordsFieldManager][MixLetters] Pattern: {result.PatternId}");
         }
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)

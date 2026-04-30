@@ -1,5 +1,6 @@
 using Core.Events;
 using Core.Services;
+using Game.Logic.Mixer;
 using Inventory;
 
 namespace Game.Logic
@@ -95,6 +96,40 @@ namespace Game.Logic
         public void TrackSlowdownBoosterEnd()
         {
             _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SlowdownBoosterEnd);
+        }
+
+        public void TrackMixerBoosterSuccess(IGameBoosterHost host, string[] boardBefore, MixerResult result,
+            float currentTimerValue)
+        {
+            if (host == null || result == null)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.MixerBoosterSuccess,
+                _payloadFactory.CreateMixerBoosterSuccessPayload(
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    boardBefore,
+                    result.BoardData,
+                    result.PatternId,
+                    result.TargetIndexes,
+                    _inventory.Boosters));
+        }
+
+        public void TrackMixerBoosterFail(IGameBoosterHost host, string[] boardData, string reason,
+            float currentTimerValue)
+        {
+            if (host == null)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.MixerBoosterFail,
+                _payloadFactory.CreateMixerBoosterFailPayload(
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    boardData,
+                    reason,
+                    _inventory.Boosters));
         }
     }
 }

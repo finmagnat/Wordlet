@@ -24,9 +24,7 @@ namespace UI.Components
             count = _inventory.GetQuantity(BoosterType.Eraser);
             boosterEraser.SetBoosterData(BoosterType.Eraser, count);
             
-            count = _inventory.GetQuantity(BoosterType.Mixer);
-            count = 99; // TODO это тест бустера
-            boosterMixer.SetBoosterData(BoosterType.Mixer, count);
+            boosterMixer.SetBoosterData(BoosterType.Mixer, 0, isInfinite: true);
         }
     }
 }

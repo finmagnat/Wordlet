@@ -162,17 +162,17 @@ namespace Game.Logic
             _bModeEraser = bModeEraser;
         }
         
-        internal void MixLetters()
+        internal MixerResult MixLetters()
         {
             var items = _wordsFildData.Items;
             if (items == null)
-                return;
+                return null;
 
             var board = new MixerBoard(_wordsFildData.GetBoardData());
             if (!_mixerPatternEngine.TryMix(board, out var result))
             {
                 Debug.LogWarning("[WordsFieldManager][MixLetters] No valid mixer pattern found");
-                return;
+                return null;
             }
 
             _bModeSelectWord = false;
@@ -188,6 +188,7 @@ namespace Game.Logic
             }
 
             Debug.Log($"[WordsFieldManager][MixLetters] Pattern: {result.PatternId}");
+            return result;
         }
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)

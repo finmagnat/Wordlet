@@ -10,5 +10,6 @@ namespace Core.Config
         public static string MasterVolume = "MasterVolume";
         public static string GyroKey = "settings.parallax.gyro";
         public static string ConfirmPassDontShowAgainKey = "ConfirmPassDontShowAgain";
+        public static string SkinSelectRandomKey = "SkinSelectRandomKey";
     }
 }

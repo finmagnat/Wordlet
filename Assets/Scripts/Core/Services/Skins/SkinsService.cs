@@ -11,6 +11,8 @@ namespace Core.Services
     {
         public event Action<SkinData> OnSkinChanged;
         public SkinData SkinCurrent { get; private set; }
+        public bool SkinRandomSelect { get; private set; }
+        
         public SkinsConfig Config => _skinsConfig;
         
         [Inject] private ConfigService _configService;
@@ -20,6 +22,9 @@ namespace Core.Services
         public async UniTask InitializeAsync()
         {
             _skinsConfig = _configService.Skins;
+            
+            SkinRandomSelect = PlayerPrefs.GetInt(PlayerPrefsKey.SkinSelectRandomKey, 1) == 1;
+            
             SkinType skinType = (SkinType)PlayerPrefs.GetInt(PlayerPrefsKey.SkinCurrent, (int)_skinsConfig.SkinByDefault);
             
             SkinCurrent = _skinsConfig.GetSkinByType(skinType);
@@ -35,5 +40,17 @@ namespace Core.Services
             OnSkinChanged?.Invoke(SkinCurrent);
         }
         
+        public void TrySaveRandomSelect(bool value)
+        {
+            SkinRandomSelect = value;
+            PlayerPrefs.SetInt(PlayerPrefsKey.SkinSelectRandomKey, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+
+        public void SetSkinRandom()
+        {
+            SaveSkinCurrent(_skinsConfig.GetSkinRandom().SkinType);
+            Debug.Log($"[SkinsService][SetSkinRandom] SkinCurrent = {SkinCurrent.SkinType}");
+        }
     }
 }

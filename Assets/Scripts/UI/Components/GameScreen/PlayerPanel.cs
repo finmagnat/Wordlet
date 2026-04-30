@@ -39,7 +39,8 @@ namespace UI.Components
         public void SetPass(uint pass, uint maxPasses)
         {
             Pass = pass;
-            _passText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelPasses, pass, maxPasses);
+            var label = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelPasses);
+            _passText.text = maxPasses > 0 ? $"{label} {pass}/{maxPasses}" : $"{label} {pass}";
         }
 
         public void Reset()

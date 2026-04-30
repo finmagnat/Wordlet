@@ -156,6 +156,9 @@ namespace UI.Screens
             // Показ *правильного* in-game loading
             await _loadingUI.ShowLoadingAsync<BannerLoadingScreen>(AssetKey.BannerLoadingScreen);
 
+            if (_skinsService.SkinRandomSelect)
+                _skinsService.SetSkinRandom();
+            
             // Засекаем время после фактического показа экрана загрузки с баннерами
             float startTime = Time.realtimeSinceStartup;
 

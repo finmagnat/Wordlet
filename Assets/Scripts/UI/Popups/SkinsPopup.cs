@@ -15,7 +15,8 @@ namespace UI.Popups
         [SerializeField] private Transform _scrollListContent;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _applyButton;
-
+        [SerializeField] private Toggle _toggleRandom;
+        
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
         [Inject] private AudioService _audioService;
@@ -39,6 +40,7 @@ namespace UI.Popups
             {
                 if (_skinsService.SkinCurrent.SkinType != _newSkin)
                 {
+                    _skinsService.TrySaveRandomSelect(_toggleRandom.isOn);
                     _skinsService.SaveSkinCurrent(_newSkin);
                     _audioService?.PlaySfxAsync(SoundsConfig.SkinChanged);
                     SendAnalytics(AnalyticsEvents.Navigation.ApplySkinsClicked);
@@ -67,6 +69,7 @@ namespace UI.Popups
             }
 
             SelectSkin(_oldSkin);
+            _toggleRandom.isOn = _skinsService.SkinRandomSelect;
             
             SendAnalytics(AnalyticsEvents.Navigation.SkinsPopupShown);
             
@@ -91,6 +94,7 @@ namespace UI.Popups
                     parameters = new Dictionary<string, object>
                     {
                         [AnalyticsEvents.Parameter.Skin] = _skinsService.SkinCurrent.SkinType.ToString(),
+                        [AnalyticsEvents.Parameter.SkinRandom] = _skinsService.SkinRandomSelect,
                     };
                     break;
             }

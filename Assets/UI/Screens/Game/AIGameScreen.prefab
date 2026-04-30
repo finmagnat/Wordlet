@@ -66,8 +66,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u041B\u041E\u0412\u041E\u0421\u041B\u041E\u0412\u041E  <size=100%><voffset=20><sprite
-    name=\"magnifier\"></voffset></size>"
+  m_text: "\u0421\u041B\u041E\u0412\u041E\u0421\u041B\u041E\u0412\u041E   <size=100%><voffset=20><sprite
+    name=\"info\"></voffset></size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
@@ -2449,7 +2449,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -150, y: -50, z: -50, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3744,7 +3744,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4994030855067636804}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -4249,7 +4249,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -50, y: -50, z: -50, w: -50}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7251,7 +7251,6 @@ GameObject:
   - component: {fileID: 5952045362536642761}
   - component: {fileID: 2060273859724502801}
   - component: {fileID: 4696974156665089600}
-  - component: {fileID: 7651854290856926331}
   m_Layer: 5
   m_Name: PassButton
   m_TagString: Untagged
@@ -7372,19 +7371,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7651854290856926331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8959738216645001394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
 --- !u!1 &9022864421928944780
 GameObject:
   m_ObjectHideFlags: 0
@@ -8060,7 +8046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925964660013792451, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_fontSize
-      value: 40.65
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_IsActive
@@ -8289,7 +8275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 925964660013792451, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_fontSize
-      value: 40.65
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6655722072036339641, guid: 4f3a08a3e182d3349abd2db60c1aabc5, type: 3}
       propertyPath: m_IsActive

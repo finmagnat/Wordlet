@@ -49,6 +49,9 @@ namespace UI.Popups
 
         private string GetFormatedPasses(uint passes, uint maxPasses)
         {
+            if(maxPasses <= 0)
+                return passes.ToString();
+            
             return passes == maxPasses ? 
                 $"<color=red><b>{passes} / {maxPasses}</b></color>" : 
                 $"{passes} / {maxPasses}";

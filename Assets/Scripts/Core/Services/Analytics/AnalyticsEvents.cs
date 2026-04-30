@@ -157,6 +157,7 @@ namespace Core.Services
             public const string Banner = "banner";
             public const string Locale = "locale";
             public const string Skin = "skin";
+            public const string SkinRandom = "skin_random";
             public const string Sound = "sound";
             public const string Giro = "giro";
             public const string ProductId = "product_id";

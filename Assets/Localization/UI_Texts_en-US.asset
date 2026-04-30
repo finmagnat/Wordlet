@@ -139,7 +139,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4766021192351744
-    m_Localized: 'PASSES: {0}/{1}'
+    m_Localized: 'PASSES: '
     m_Metadata:
       m_Items: []
   - m_Id: 6206546046976000
@@ -558,7 +558,7 @@ MonoBehaviour:
   - m_Id: 59803351008034816
     m_Localized: '<line-height=100%>
 
-      <size=250%><voffset=10><sprite name="slowdown"></voffset></size><size=130%><voffset=10><b>Your
+      <size=250%><voffset=10><sprite name="time"></voffset></size><size=130%><voffset=10><b>Your
       turn time is up.</b></size>
 
       The opponent moves.</voffset>
@@ -568,6 +568,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 60000000000000000
     m_Localized: Coming soon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61252839908196352
+    m_Localized: Random selection
     m_Metadata:
       m_Items: []
   references:

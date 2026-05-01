@@ -197,6 +197,7 @@ namespace Game.Logic
             string[] boardBefore,
             string[] boardAfter,
             string patternId,
+            string arrangerId,
             IReadOnlyList<int> targetIndexes,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
@@ -206,6 +207,7 @@ namespace Game.Logic
             statePayload[AnalyticsEvents.Parameter.FieldAfter] =
                 AnalyticsPayloadHelper.GetFieldPayload(boardAfter);
             statePayload[AnalyticsEvents.Parameter.MixerPattern] = patternId;
+            statePayload[AnalyticsEvents.Parameter.MixerArranger] = arrangerId;
             statePayload[AnalyticsEvents.Parameter.TargetIndexes] =
                 AnalyticsPayloadHelper.GetIndexesPayload(targetIndexes);
 

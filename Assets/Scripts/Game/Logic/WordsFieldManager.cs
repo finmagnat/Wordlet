@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
+using Core.DataDictionary;
 using Core.Events;
 using Game.Logic.Mixer;
 using UI.Components;
@@ -162,14 +163,14 @@ namespace Game.Logic
             _bModeEraser = bModeEraser;
         }
         
-        internal MixerResult MixLetters()
+        internal MixerResult MixLetters(LanguageDictionaryConfig dictionaryConfig)
         {
             var items = _wordsFildData.Items;
             if (items == null)
                 return null;
 
             var board = new MixerBoard(_wordsFildData.GetBoardData());
-            if (!_mixerPatternEngine.TryMix(board, out var result))
+            if (!_mixerPatternEngine.TryMix(board, dictionaryConfig, out var result))
             {
                 Debug.LogWarning("[WordsFieldManager][MixLetters] No valid mixer pattern found");
                 return null;
@@ -187,7 +188,7 @@ namespace Game.Logic
                 items[i].UnHighlight();
             }
 
-            Debug.Log($"[WordsFieldManager][MixLetters] Pattern: {result.PatternId}");
+            Debug.Log($"[WordsFieldManager][MixLetters] Pattern: {result.PatternId}, Arranger: {result.ArrangerId}");
             return result;
         }
 

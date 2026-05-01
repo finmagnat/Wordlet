@@ -112,6 +112,7 @@ namespace Game.Logic
                     boardBefore,
                     result.BoardData,
                     result.PatternId,
+                    result.ArrangerId,
                     result.TargetIndexes,
                     _inventory.Boosters));
         }

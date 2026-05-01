@@ -13,6 +13,10 @@ namespace Core.DataDictionary
         [TextArea] 
         public string alphabet;
 
+        [Header("Mixer Letter Groups")]
+        [TextArea]
+        public string consonants;
+
         [Header("Addressables Key for Dictionary File")]
         public string dictionaryAddressKey; // пример: "dict_ru"
     }

@@ -1,5 +1,6 @@
 using System;
 using Core.Config;
+using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.UI;
@@ -37,6 +38,7 @@ namespace Game.Logic
 
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
+        [Inject] private DictionaryService _dictionaryService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private BoosterAnalyticsReporter _analyticsReporter;
@@ -195,7 +197,7 @@ namespace Game.Logic
             host.CancelCurrentMove();
 
             string[] boardBefore = _wordsFieldManager.WordsFieldData.GetBoardData();
-            MixerResult result = _wordsFieldManager.MixLetters();
+            MixerResult result = _wordsFieldManager.MixLetters(_dictionaryService.DictionaryConfig);
             if (result == null)
             {
                 TrackMixerBoosterFail(host, boardBefore, MixerFailNoValidPattern);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.DataDictionary;
 
 namespace Game.Logic.Mixer
 {
@@ -7,17 +8,24 @@ namespace Game.Logic.Mixer
         private const int MaxAttemptsPerPattern = 8;
 
         private readonly List<IMixerPattern> _patterns;
+        private readonly IMixerLetterArranger _letterArranger;
 
         public MixerPatternEngine(IReadOnlyList<IMixerPattern> patterns)
+            : this(patterns, new AlternatingMixerLetterArranger(new MixerLetterClassifier()))
         {
-            _patterns = new List<IMixerPattern>(patterns);
         }
 
-        public bool TryMix(MixerBoard board, out MixerResult result)
+        public MixerPatternEngine(IReadOnlyList<IMixerPattern> patterns, IMixerLetterArranger letterArranger)
+        {
+            _patterns = new List<IMixerPattern>(patterns);
+            _letterArranger = letterArranger;
+        }
+
+        public bool TryMix(MixerBoard board, LanguageDictionaryConfig dictionaryConfig, out MixerResult result)
         {
             result = null;
 
-            if (board == null || board.FilledCount <= 1)
+            if (board == null || board.FilledCount <= 1 || _letterArranger == null)
                 return false;
 
             var patterns = GetAvailablePatterns(board);
@@ -35,11 +43,13 @@ namespace Game.Logic.Mixer
                     if (!MixerPatternValidator.IsValidTarget(board, targetIndexes))
                         continue;
 
-                    string[] mixedBoard = BuildMixedBoard(board, targetIndexes);
+                    if (!_letterArranger.TryArrange(board, targetIndexes, pattern.Id, dictionaryConfig, out string[] mixedBoard))
+                        continue;
+
                     if (board.IsSameBoard(mixedBoard))
                         continue;
 
-                    result = new MixerResult(pattern.Id, mixedBoard, targetIndexes);
+                    result = new MixerResult(pattern.Id, _letterArranger.Id, mixedBoard, targetIndexes);
                     return true;
                 }
             }
@@ -58,57 +68,6 @@ namespace Game.Logic.Mixer
             }
 
             return availablePatterns;
-        }
-
-        private static string[] BuildMixedBoard(MixerBoard board, IReadOnlyList<int> targetIndexes)
-        {
-            string[] mixedBoard = new string[MixerBoard.CellCount];
-            var letters = new List<string>(board.FilledCount);
-
-            for (int i = 0; i < mixedBoard.Length; ++i)
-                mixedBoard[i] = string.Empty;
-
-            for (int i = 0; i < board.Letters.Count; ++i)
-                letters.Add(board.Letters[i].Value);
-
-            MixerRandom.Shuffle(letters);
-
-            if (HasSameLetterOrder(board, targetIndexes, letters) && HasDifferentLetters(letters))
-                MixerRandom.Swap(letters, 0, FindFirstDifferentLetterIndex(letters));
-
-            for (int i = 0; i < targetIndexes.Count; ++i)
-                mixedBoard[targetIndexes[i]] = letters[i];
-
-            return mixedBoard;
-        }
-
-        private static bool HasSameLetterOrder(MixerBoard board, IReadOnlyList<int> targetIndexes, IReadOnlyList<string> letters)
-        {
-            for (int i = 0; i < targetIndexes.Count; ++i)
-            {
-                if (board.GetLetter(targetIndexes[i]) != letters[i])
-                    return false;
-            }
-
-            return true;
-        }
-
-        private static bool HasDifferentLetters(IReadOnlyList<string> letters)
-        {
-            return FindFirstDifferentLetterIndex(letters) > 0;
-        }
-
-        private static int FindFirstDifferentLetterIndex(IReadOnlyList<string> letters)
-        {
-            string firstLetter = letters[0];
-
-            for (int i = 1; i < letters.Count; ++i)
-            {
-                if (letters[i] != firstLetter)
-                    return i;
-            }
-
-            return -1;
         }
     }
 }

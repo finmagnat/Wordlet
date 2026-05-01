@@ -204,6 +204,7 @@ namespace Core.Services
             public const string EraseItem = "erase_item";
             public const string SlowdownDelay = "slowdown_delay";
             public const string MixerPattern = "mixer_pattern";
+            public const string MixerArranger = "mixer_arranger";
             public const string TargetIndexes = "target_indexes";
             public const string DontShow = "dont_show";
         }

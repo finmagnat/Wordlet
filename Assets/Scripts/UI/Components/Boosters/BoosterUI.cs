@@ -30,6 +30,10 @@ namespace UI.Components
                 _count = data.Count;
                 IsInfinite = data.IsInfinite;
             }
+            else
+            {
+                _count = 0;
+            }
 
             if (IsInfinite)
             {

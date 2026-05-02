@@ -1,48 +1,43 @@
-using Core.Events;
 using Inventory;
-using UnityEngine;
 
 namespace UI.Components
 {
     public class BoosterPanelIngameScreen : BoosterPanelUI
     {
-        public void OnUseLetter() => UseBoosterHandler(boosterLetter);
-
-        public void OnUseSlowdown() => UseBoosterHandler(boosterSlowdown);
-        
-        public void OnUseEraser()  => UseBoosterHandler(boosterEraser);
-        
-        public void OnUseMixer()  => UseBoosterHandler(boosterMixer);
-        
-        private void UseBoosterHandler(BoosterUI boosterUI)
-        {
-            if (!boosterUI.IsActive)
-            {
-                Debug.Log($"Использовать {boosterUI.Type}, IsEmpty = {boosterUI.IsEmpty}");
-                EventBus.Raise(new UseBoosterEvent{ boosterType = boosterUI.Type, isEmpty = boosterUI.IsEmpty});
-            }
-        }
+        private BoosterUI _boosterSlowdown;
         
         public void SlowdownStart()
         {
-            if (!boosterSlowdown.IsActive)
-                boosterSlowdown.ActivateBooster();
+            var booster = GetSlowdown();
+            if (!booster.IsActive)
+                booster.ActivateBooster();
         }
         
         public void SlowdownStop()
         {
-            if (boosterSlowdown.IsActive)
-                boosterSlowdown.Cancel();
+            var booster = GetSlowdown();
+            if (!booster.IsActive)
+                booster.Cancel();
         }
         
         public bool IsActive(BoosterType boosterType)
         {
-            switch (boosterType)
-            {
-                case BoosterType.Letter: return boosterLetter.IsActive;
-                case BoosterType.Slowdown: return boosterSlowdown.IsActive;
-            }
+            foreach (var booster in _boosters)
+                if (booster.Type == boosterType && booster.IsActive)
+                    return true;
             return false;
         }
+        
+        private BoosterUI GetSlowdown()
+        {
+            if (_boosterSlowdown == null)
+            {
+                foreach (var booster in _boosters)
+                    if (booster.Type == BoosterType.Slowdown)
+                        _boosterSlowdown = booster;
+            }
+            return _boosterSlowdown;
+        }
+
     }
 }

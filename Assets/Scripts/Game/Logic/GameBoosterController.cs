@@ -1,5 +1,6 @@
 using System;
 using Core.Config;
+using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.UI;
@@ -8,6 +9,7 @@ using Game.AI;
 using Inventory;
 using System.Threading;
 using Core.Services;
+using Game.Logic.Mixer;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -31,8 +33,12 @@ namespace Game.Logic
 
     public sealed class GameBoosterController
     {
+        private const string MixerFailNoValidPattern = "no_valid_pattern";
+        private const bool MixerFreeExperimentEnabled = true;
+
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
+        [Inject] private DictionaryService _dictionaryService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private BoosterAnalyticsReporter _analyticsReporter;
@@ -116,7 +122,9 @@ namespace Game.Logic
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
         {
-            if (eventData.isEmpty)
+            bool isFreeBooster = IsFreeExperimentBooster(eventData.boosterType);
+
+            if (eventData.isEmpty && !isFreeBooster)
             {
                 _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup).Forget();
                 return;
@@ -142,13 +150,12 @@ namespace Game.Logic
             _boosterProcessing = true;
             await host.BlockUIAsync(true);
 
-            bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
-            _gameScreen.BoosterPanel.Refresh();
-            
-            // TODO TEST Mixer ****************************
-            if (eventData.boosterType == BoosterType.Mixer)
-                ok = true;
-            // ********************************************
+            bool ok = true;
+            if (!isFreeBooster)
+            {
+                ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+                _gameScreen.BoosterPanel.Refresh();
+            }
 
             if (!ok)
             {
@@ -180,17 +187,25 @@ namespace Game.Logic
             _boosterProcessing = false;
         }
 
-        private async UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)
+        private UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)
         {
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
-                return;
+                return UniTask.CompletedTask;
 
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
 
             host.CancelCurrentMove();
 
-            _wordsFieldManager.MixLetters();
-            //TrackMixerBoosterSuccess(host);
+            string[] boardBefore = _wordsFieldManager.WordsFieldData.GetBoardData();
+            MixerResult result = _wordsFieldManager.MixLetters(_dictionaryService.DictionaryConfig);
+            if (result == null)
+            {
+                TrackMixerBoosterFail(host, boardBefore, MixerFailNoValidPattern);
+                return UniTask.CompletedTask;
+            }
+
+            TrackMixerBoosterSuccess(host, boardBefore, result);
+            return UniTask.CompletedTask;
         }
         
         private async UniTask ActivateBoosterEraserAsync(IGameBoosterHost host)
@@ -349,6 +364,29 @@ namespace Game.Logic
         private void TrackSlowdownBoosterEnd()
         {
             _analyticsReporter.TrackSlowdownBoosterEnd();
+        }
+
+        private void TrackMixerBoosterSuccess(IGameBoosterHost host, string[] boardBefore, MixerResult result)
+        {
+            _analyticsReporter.TrackMixerBoosterSuccess(
+                host,
+                boardBefore,
+                result,
+                _gameScreen.TimerBar.GetCurrentValue());
+        }
+
+        private void TrackMixerBoosterFail(IGameBoosterHost host, string[] boardData, string reason)
+        {
+            _analyticsReporter.TrackMixerBoosterFail(
+                host,
+                boardData,
+                reason,
+                _gameScreen.TimerBar.GetCurrentValue());
+        }
+
+        private static bool IsFreeExperimentBooster(BoosterType boosterType)
+        {
+            return MixerFreeExperimentEnabled && boosterType == BoosterType.Mixer;
         }
 
         private void EndSlowdown(bool restartTimer)

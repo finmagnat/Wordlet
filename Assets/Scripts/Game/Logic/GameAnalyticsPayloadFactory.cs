@@ -190,6 +190,43 @@ namespace Game.Logic
             return statePayload;
         }
 
+        public Dictionary<string, object> CreateMixerBoosterSuccessPayload(
+            string locale,
+            int durationRound,
+            float currentTimerValue,
+            string[] boardBefore,
+            string[] boardAfter,
+            string patternId,
+            string arrangerId,
+            IReadOnlyList<int> targetIndexes,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            var statePayload = CreateGameplayStatePayload(locale, boardAfter, durationRound, currentTimerValue, boosters);
+            statePayload[AnalyticsEvents.Parameter.FieldBefore] =
+                AnalyticsPayloadHelper.GetFieldPayload(boardBefore);
+            statePayload[AnalyticsEvents.Parameter.FieldAfter] =
+                AnalyticsPayloadHelper.GetFieldPayload(boardAfter);
+            statePayload[AnalyticsEvents.Parameter.MixerPattern] = patternId;
+            statePayload[AnalyticsEvents.Parameter.MixerArranger] = arrangerId;
+            statePayload[AnalyticsEvents.Parameter.TargetIndexes] =
+                AnalyticsPayloadHelper.GetIndexesPayload(targetIndexes);
+
+            return statePayload;
+        }
+
+        public Dictionary<string, object> CreateMixerBoosterFailPayload(
+            string locale,
+            int durationRound,
+            float currentTimerValue,
+            string[] boardData,
+            string reason,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            var statePayload = CreateGameplayStatePayload(locale, boardData, durationRound, currentTimerValue, boosters);
+            statePayload[AnalyticsEvents.Parameter.Reason] = reason;
+            return statePayload;
+        }
+
         private Dictionary<string, object> CreateGameplayStatePayload(
             string locale,
             IReadOnlyList<string> boardData,

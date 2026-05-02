@@ -9,6 +9,7 @@ namespace Inventory
 
         bool HasBooster(BoosterType type);
         int GetQuantity(BoosterType type);
+        BoosterItem GetItem(BoosterType type);
         bool TryConsumeBooster(BoosterType type);
 
         void SetQuantity(BoosterType type, int count, bool bAdd = false);

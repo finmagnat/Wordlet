@@ -15,4 +15,5 @@ MonoBehaviour:
   languageCode: en
   languageName: English
   alphabet: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  consonants: BCDFGHJKLMNPQRSTVWXZ
   dictionaryAddressKey: dict_en

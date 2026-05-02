@@ -148,6 +148,8 @@ namespace Core.Services
             public const string EraserBoosterSuccess = Group + "eraser_booster_success";
             public const string SlowdownBoosterSuccess = Group + "slowdown_booster_success";
             public const string SlowdownBoosterEnd = Group + "slowdown_booster_end";
+            public const string MixerBoosterSuccess = Group + "mixer_booster_success";
+            public const string MixerBoosterFail = Group + "mixer_booster_fail";
         }
         
         public static class Parameter
@@ -197,8 +199,13 @@ namespace Core.Services
             public const string State = "state";
             public const string SavedGameRemoved = "saved_game_removed";
             public const string Field = "field";
+            public const string FieldBefore = "field_before";
+            public const string FieldAfter = "field_after";
             public const string EraseItem = "erase_item";
             public const string SlowdownDelay = "slowdown_delay";
+            public const string MixerPattern = "mixer_pattern";
+            public const string MixerArranger = "mixer_arranger";
+            public const string TargetIndexes = "target_indexes";
             public const string DontShow = "dont_show";
         }
         

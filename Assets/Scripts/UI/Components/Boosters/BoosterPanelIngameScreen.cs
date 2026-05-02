@@ -16,7 +16,7 @@ namespace UI.Components
         public void SlowdownStop()
         {
             var booster = GetSlowdown();
-            if (!booster.IsActive)
+            if (booster.IsActive)
                 booster.Cancel();
         }
         

@@ -21,6 +21,14 @@ namespace Inventory
             return _boosters[type].Count;
         }
         
+        public BoosterItem GetItem(BoosterType type)
+        {
+            if (!HasBooster(type))
+                return null;
+            
+            return _boosters[type];
+        }
+        
         public bool TryConsumeBooster(BoosterType type)
         {
             if (!HasBooster(type))

@@ -6,25 +6,27 @@ namespace UI.Components
 {
     public class BoosterPanelUI : MonoBehaviour
     {
-        [SerializeField] protected BoosterUI boosterLetter;
-        [SerializeField] protected BoosterUI boosterSlowdown;
-        [SerializeField] protected BoosterUI boosterEraser;
-        [SerializeField] protected BoosterUI boosterMixer;
-
+        [SerializeField] protected BoosterUI[] _boosters;
+        
         [Inject] protected IInventoryService _inventory;
 
         public virtual void Refresh()
         {
-            var count = _inventory.GetQuantity(BoosterType.Letter);
-            boosterLetter.SetBoosterData(BoosterType.Letter, count);
-            
-            count = _inventory.GetQuantity(BoosterType.Slowdown);
-            boosterSlowdown.SetBoosterData(BoosterType.Slowdown, count);
-            
-            count = _inventory.GetQuantity(BoosterType.Eraser);
-            boosterEraser.SetBoosterData(BoosterType.Eraser, count);
-            
-            boosterMixer.SetBoosterData(BoosterType.Mixer, 0, isInfinite: true);
+            foreach (var booster in _boosters)
+            {
+                if(booster.Type == BoosterType.Mixer)
+                    booster.SetBoosterData(new BoosterItem(BoosterType.Mixer, 0, isInfinite: true));
+                else
+                    booster.SetBoosterData(_inventory.GetItem(booster.Type));
+            }
+        }
+        
+        public bool IsActive(BoosterType boosterType)
+        {
+            foreach (var booster in _boosters)
+                if (booster.Type == boosterType && booster.IsActive)
+                    return true;
+            return false;
         }
     }
 }

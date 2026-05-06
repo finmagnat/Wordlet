@@ -4786,19 +4786,7 @@ MonoBehaviour:
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4684618812901221422}
-        m_TargetAssemblyTypeName: Core.UI.Components.SoundClickHandler, Assembly-CSharp
-        m_MethodName: OnPointerClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &4684618812901221422
 MonoBehaviour:
@@ -6043,7 +6031,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1449646538901825586}
   - component: {fileID: 5161161572572513760}
-  - component: {fileID: 5869768382999676342}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -6121,19 +6108,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
---- !u!114 &5869768382999676342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634435164318297696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccfd97b6d5a9471a97e5546c579a9ac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundClickHandler
-  _sfxKey: sfx_button_click
 --- !u!1 &7859201384925444735
 GameObject:
   m_ObjectHideFlags: 0

@@ -79,6 +79,7 @@ namespace UI.Popups
         private void OnDropdownChanged(int index)
         {
             Debug.Log($"Выбран пункт: {index}");
+            _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
             SelectLanguage(_locales[index]);
         }
         

@@ -63,6 +63,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43c491f9c4b590a46aaee1bbc12b4585
+    m_Address: ButtonTurquoise
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4cd55b0ffbabf8244ad89d0a0249950d
     m_Address: ButtonCancel_Blue
     m_ReadOnly: 0

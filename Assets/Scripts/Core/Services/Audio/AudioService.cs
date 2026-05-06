@@ -8,15 +8,13 @@ namespace Core.Services
     public class AudioService : IAudioService
     {
         public float MasterVolume;
-            
+
         private readonly AddressablesLoader _loader;
-
+        private readonly ConfigService _configService;
         private readonly Dictionary<string, AudioClip> _sfxCache = new();
-        private AudioSource _sfxSource;
-        private ConfigService _configService;
 
+        private AudioSource _sfxSource;
         private float _sfxVolume = 1f;
-        
         private bool _isUseSoundsConfig = false; // Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)
 
         public AudioService(AddressablesLoader loader, ConfigService configService)
@@ -25,26 +23,24 @@ namespace Core.Services
             _configService = configService;
         }
 
-        public UniTask InitializeAsync()
+        public async UniTask InitializeAsync()
         {
             MasterVolume = PlayerPrefs.GetFloat(PlayerPrefsKey.MasterVolume, 1f);
             SetSfxVolume(MasterVolume);
-            
-            // Создаём скрытый GameObject под AudioSource
+
             var go = new GameObject("[AudioService]");
             Object.DontDestroyOnLoad(go);
 
             _sfxSource = go.AddComponent<AudioSource>();
             _sfxSource.playOnAwake = false;
             _sfxSource.loop = false;
+            _sfxSource.spatialBlend = 0f;
             _sfxSource.volume = _sfxVolume;
-            
-            if (_isUseSoundsConfig)
-            {
-                InitDebugCache();
-            }
 
-            return UniTask.CompletedTask;
+            if (_isUseSoundsConfig)
+                InitDebugCache();
+
+            await PreloadSfxAsync(SoundsConfig.ButtonClick);
         }
 
         public async UniTask PlaySfxAsync(string addressKey)
@@ -52,23 +48,80 @@ namespace Core.Services
             if (string.IsNullOrEmpty(addressKey) || _sfxVolume < 0.1f)
                 return;
 
-            // 1️⃣ берём из кэша или загружаем
-            if (!_sfxCache.TryGetValue(addressKey, out var clip))
-            {
-                clip = await _loader.LoadAssetAsync<AudioClip>(addressKey);
-                if (clip == null)
-                {
-                    Debug.LogWarning($"🔇 Audio clip not found: {addressKey}");
-                    return;
-                }
+            if (TryPlayCachedSfx(addressKey))
+                return;
 
-                _sfxCache[addressKey] = clip;
+            var clip = await GetOrLoadSfxAsync(addressKey);
+            if (clip == null)
+                return;
+
+            await EnsureAudioDataLoadedAsync(clip);
+            PlayClip(clip);
+        }
+
+        public async UniTask PreloadSfxAsync(string addressKey)
+        {
+            if (string.IsNullOrEmpty(addressKey))
+                return;
+
+            var clip = await GetOrLoadSfxAsync(addressKey);
+            await EnsureAudioDataLoadedAsync(clip);
+        }
+
+        private async UniTask<AudioClip> GetOrLoadSfxAsync(string addressKey)
+        {
+            if (_sfxCache.TryGetValue(addressKey, out var cachedClip))
+                return cachedClip;
+
+            var clip = await _loader.LoadAssetAsync<AudioClip>(addressKey);
+            if (clip == null)
+            {
+                Debug.LogWarning($"Audio clip not found: {addressKey}");
+                return null;
             }
-            //Debug.Log($"🔊 Audio clip start: {addressKey}");
-            // 2️⃣ проигрываем (OneShot позволяет накладывать звуки)
+
+            _sfxCache[addressKey] = clip;
+            return clip;
+        }
+
+        private bool TryPlayCachedSfx(string addressKey)
+        {
+            if (!_sfxCache.TryGetValue(addressKey, out var clip) || clip == null)
+                return false;
+
+            if (clip.loadState != AudioDataLoadState.Loaded)
+                return false;
+
+            PlayClip(clip);
+            return true;
+        }
+
+        private void PlayClip(AudioClip clip)
+        {
+            if (_sfxSource == null || clip == null)
+                return;
+
             _sfxSource.PlayOneShot(clip, _sfxVolume);
         }
-        
+
+        private async UniTask EnsureAudioDataLoadedAsync(AudioClip clip)
+        {
+            if (clip == null || clip.loadState == AudioDataLoadState.Loaded)
+                return;
+
+            if (clip.loadState == AudioDataLoadState.Unloaded && !clip.LoadAudioData())
+            {
+                Debug.LogWarning($"Audio data failed to start loading: {clip.name}");
+                return;
+            }
+
+            if (clip.loadState == AudioDataLoadState.Loading)
+                await UniTask.WaitUntil(() => clip.loadState != AudioDataLoadState.Loading);
+
+            if (clip.loadState == AudioDataLoadState.Failed)
+                Debug.LogWarning($"Audio data failed to load: {clip.name}");
+        }
+
         private void InitDebugCache()
         {
             foreach (var sound in _configService.Sounds.Sounds)
@@ -79,6 +132,7 @@ namespace Core.Services
         {
             _sfxVolume = Mathf.Clamp01(value);
             PlayerPrefs.SetFloat(PlayerPrefsKey.MasterVolume, value);
+
             if (_sfxSource != null)
                 _sfxSource.volume = _sfxVolume;
         }

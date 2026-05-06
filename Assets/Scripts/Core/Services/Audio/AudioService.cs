@@ -101,6 +101,7 @@ namespace Core.Services
             if (_sfxSource == null || clip == null)
                 return;
 
+            //Debug.LogWarning($"[PlayClip] Audio clip: {clip.name}");
             _sfxSource.PlayOneShot(clip, _sfxVolume);
         }
 

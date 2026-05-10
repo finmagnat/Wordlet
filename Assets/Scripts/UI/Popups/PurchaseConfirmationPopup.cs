@@ -4,6 +4,7 @@ using Core.Data;
 using Core.Services;
 using Core.Services.Shop;
 using Cysharp.Threading.Tasks;
+using Inventory;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +18,7 @@ namespace UI.Popups
 
         [Inject] private AudioService _audioService;
         [Inject] private AnalyticsService _analytics;
+        [Inject] private IInventoryService _inventory;
 
         protected UniTaskCompletionSource<PopupExitData> _completionSource;
 
@@ -79,7 +81,8 @@ namespace UI.Popups
             return new Dictionary<string, object>
             {
                 [AnalyticsEvents.Parameter.ProductId] = _currentOffer?.ProductId,
-                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentOffer.Rewards)
+                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentOffer.Rewards),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
             };
         }
     }

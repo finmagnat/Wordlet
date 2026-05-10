@@ -166,8 +166,11 @@ namespace Core.Installers
             await Container.Resolve<PlayFabAuthService>().InitializeAsync();
             loading.SetProgress(0.60f);
 
+            var adsEntitlementInit = Container.Resolve<AdsEntitlementService>().InitializeAsync();
+            var profileInit = Container.Resolve<ProfileService>().InitializeAsync();
+            var inventorySyncInit = Container.Resolve<InventorySyncService>().InitializeAsync();
+
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
-            await Container.Resolve<AdsEntitlementService>().InitializeAsync();
             await Container.Resolve<InterstitialAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
             loading.SetProgress(0.65f);
@@ -196,10 +199,7 @@ namespace Core.Installers
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();
             loading.SetProgress(0.70f);
 
-            await Container.Resolve<ProfileService>().InitializeAsync();
-            loading.SetProgress(0.75f);
-
-            await Container.Resolve<InventorySyncService>().InitializeAsync();
+            await UniTask.WhenAll(adsEntitlementInit, profileInit, inventorySyncInit);
             loading.SetProgress(0.80f);
 
             loading.SetProgress(1.0f);

@@ -1,13 +1,18 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Services
 {
     public class PlayFabAuthService : IService , IPlayFabAuthFacade
     {
+        [Inject] private AnalyticsPlayerContext _analyticsPlayerContext;
+        [Inject] private IAnalyticsService _analyticsService;
+
         public bool IsLoggedIn { get; private set; }
         public bool NewlyCreated { get; private set; }
         public string PlayFabId { get; private set; }
@@ -22,11 +27,18 @@ namespace Core.Services
             IsLoggedIn = true;
             NewlyCreated = loginResult.NewlyCreated;
             PlayFabId = loginResult.PlayFabId;
+            _analyticsPlayerContext.PlayFabId = PlayFabId;
 
             // ✅ если профиль был запрошен — можно получить DisplayName
             DisplayName = loginResult.InfoResultPayload?.PlayerProfile?.DisplayName;
 
             Debug.Log($"PlayFab login OK. New account: {NewlyCreated}. <color=yellow>PlayFabId: {PlayFabId}. Name: {DisplayName}</color>");
+            _analyticsService.TrackEvent(
+                AnalyticsEvents.Startup.PlayFabAuthCompleted,
+                new Dictionary<string, object>
+                {
+                    [AnalyticsEvents.Parameter.NewUser] = NewlyCreated
+                });
 
             if (NewlyCreated)
             {

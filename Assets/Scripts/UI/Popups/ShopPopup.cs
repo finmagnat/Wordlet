@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
@@ -85,12 +86,28 @@ namespace UI.Popups
         
         private async void OnOfferClicked(ShopOfferDto offer)
         {
-            var result = await _shop.ExecuteOfferAsync(offer);
+            PurchaseResult result;
+            try
+            {
+                result = await _shop.ExecuteOfferAsync(offer);
+            }
+            catch (Exception exception)
+            {
+                TrackPurchaseResult(offer, AnalyticsEvents.Monetization.PurchaseError, exception.Message);
+                Debug.LogWarning($"Offer error: {exception}");
+                return;
+            }
             if (!result.Success)
             {
+                TrackPurchaseResult(
+                    offer,
+                    result.IsError ? AnalyticsEvents.Monetization.PurchaseError : AnalyticsEvents.Monetization.PurchaseFailed,
+                    result.Error);
                 Debug.LogWarning($"Offer failed: {result.Error}");
                 return;
             }
+
+            TrackPurchaseResult(offer, AnalyticsEvents.Monetization.PurchaseSuccess);
 
             // 1) Уведомление
             if (offer.Type == ShopOfferTypeDto.IapPack && offer.ProductId == ShopCatalog.RemoveInterstitialProductId)
@@ -113,6 +130,24 @@ namespace UI.Popups
                 
                 HideAsync();
             }
+        }
+
+        private void TrackPurchaseResult(ShopOfferDto offer, string eventName, string error = null)
+        {
+            if (offer == null || offer.Type != ShopOfferTypeDto.IapPack)
+                return;
+
+            var parameters = new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.ProductId] = offer.ProductId,
+                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(offer.Rewards),
+                [AnalyticsEvents.Parameter.Price] = offer.CtaText,
+            };
+
+            if (!string.IsNullOrWhiteSpace(error))
+                parameters[AnalyticsEvents.Parameter.Error] = error;
+
+            _analytics.TrackEvent(eventName, parameters);
         }
         
         private async UniTask RebuildCatalogAsync()

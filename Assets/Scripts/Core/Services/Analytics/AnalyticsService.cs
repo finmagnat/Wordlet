@@ -9,10 +9,14 @@ namespace Core.Services
     public sealed class AnalyticsService : IAnalyticsService
     {
         private readonly List<IAnalyticsProvider> _providers;
+        private readonly AnalyticsPlayerContext _playerContext;
 
-        public AnalyticsService([InjectOptional] List<IAnalyticsProvider> providers)
+        public AnalyticsService(
+            [InjectOptional] List<IAnalyticsProvider> providers,
+            AnalyticsPlayerContext playerContext)
         {
             _providers = providers ?? new List<IAnalyticsProvider>();
+            _playerContext = playerContext;
         }
 
         public async UniTask InitializeAsync()
@@ -56,7 +60,9 @@ namespace Core.Services
                 return;
             }
 
-            AnalyticsDebug.Log($"Send event: {FormatEvent(analyticsEvent)}");
+            AnalyticsEvent enrichedEvent = EnrichEvent(analyticsEvent);
+
+            AnalyticsDebug.Log($"Send event: {FormatEvent(enrichedEvent)}");
 
             foreach (var provider in _providers)
             {
@@ -65,11 +71,11 @@ namespace Core.Services
 
                 try
                 {
-                    provider.Track(analyticsEvent);
+                    provider.Track(enrichedEvent);
                 }
                 catch (Exception exception)
                 {
-                    AnalyticsDebug.Warn($"Provider track failed: {provider.ProviderName}. Event={analyticsEvent.Name}. {exception}");
+                    AnalyticsDebug.Warn($"Provider track failed: {provider.ProviderName}. Event={enrichedEvent.Name}. {exception}");
                 }
             }
         }
@@ -193,5 +199,54 @@ namespace Core.Services
 
         private static string ValueOrDash(string value)
             => string.IsNullOrWhiteSpace(value) ? "-" : value;
+
+        private AnalyticsEvent EnrichEvent(AnalyticsEvent analyticsEvent)
+        {
+            IReadOnlyDictionary<string, object> enrichedParameters = EnrichParameters(analyticsEvent.Parameters);
+
+            if (ReferenceEquals(enrichedParameters, analyticsEvent.Parameters))
+                return analyticsEvent;
+
+            return analyticsEvent.Type switch
+            {
+                AnalyticsEventType.Design => AnalyticsEvent.Design(analyticsEvent.Name, enrichedParameters),
+                AnalyticsEventType.Progression => AnalyticsEvent.Progression(
+                    analyticsEvent.ProgressionData.Status,
+                    analyticsEvent.ProgressionData.Progression01,
+                    analyticsEvent.ProgressionData.Progression02,
+                    analyticsEvent.ProgressionData.Progression03,
+                    analyticsEvent.ProgressionData.Score,
+                    enrichedParameters),
+                AnalyticsEventType.Resource => AnalyticsEvent.Resource(
+                    analyticsEvent.ResourceData.FlowType,
+                    analyticsEvent.ResourceData.Currency,
+                    analyticsEvent.ResourceData.Amount,
+                    analyticsEvent.ResourceData.ItemType,
+                    analyticsEvent.ResourceData.ItemId,
+                    enrichedParameters),
+                AnalyticsEventType.Ad => AnalyticsEvent.Ad(
+                    analyticsEvent.AdData.Action,
+                    analyticsEvent.AdData.AdType,
+                    analyticsEvent.AdData.SdkName,
+                    analyticsEvent.AdData.Placement,
+                    analyticsEvent.AdData.Duration,
+                    analyticsEvent.AdData.Error,
+                    enrichedParameters),
+                _ => analyticsEvent
+            };
+        }
+
+        private IReadOnlyDictionary<string, object> EnrichParameters(IReadOnlyDictionary<string, object> parameters)
+        {
+            if (string.IsNullOrWhiteSpace(_playerContext.PlayFabId))
+                return parameters;
+
+            Dictionary<string, object> mergedParameters = parameters != null
+                ? new Dictionary<string, object>(parameters)
+                : new Dictionary<string, object>();
+
+            mergedParameters[AnalyticsEvents.Parameter.PlayFabId] = _playerContext.PlayFabId;
+            return mergedParameters;
+        }
     }
 }

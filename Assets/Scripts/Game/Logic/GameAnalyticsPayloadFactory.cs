@@ -27,14 +27,11 @@ namespace Game.Logic
         }
 
         public Dictionary<string, object> CreateAiSavedGameStartedPayload(
-            string savedGameJson,
+            SaveGameData gameData,
+            uint maxPasses,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
-            return new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.SavedGame] = string.IsNullOrEmpty(savedGameJson) ? "{}" : savedGameJson,
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
-            };
+            return CreateGameSnapshotPayload(gameData, maxPasses, boosters);
         }
 
         public Dictionary<string, object> CreateGameSnapshotPayload(
@@ -96,6 +93,9 @@ namespace Game.Logic
             uint maxPasses,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
+            if (gameData == null)
+                return new Dictionary<string, object>();
+
             return CreateGameSnapshotPayload(
                 gameData.localeCode,
                 gameData.boardRows,

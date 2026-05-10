@@ -267,7 +267,7 @@ namespace Core.Services.Shop
 
                 if (_purchaseTcs != null && _pendingPurchaseId == productId)
                 {
-                    _purchaseTcs.TrySetResult(PurchaseResult.Fail(ex.Message));
+                    _purchaseTcs.TrySetResult(PurchaseResult.ErrorResult(ex.Message));
                     _purchaseTcs = null;
                     _pendingPurchaseId = null;
                 }

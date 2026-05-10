@@ -215,6 +215,9 @@ namespace Core.Services
                 switch (pair.Value)
                 {
                     case string stringValue:
+                        if (string.IsNullOrWhiteSpace(stringValue))
+                            continue;
+
                         result[pair.Key] = stringValue;
                         break;
                     case bool boolValue:

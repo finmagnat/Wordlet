@@ -49,6 +49,7 @@ namespace Core.Installers
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
 
+            Container.Bind<AnalyticsPlayerContext>().AsSingle();
             Container.BindInstance(_analyticsSettings).AsSingle();
             Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
 

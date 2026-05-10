@@ -9,6 +9,7 @@ namespace Core.Services
             public const string LoadingStarted = Group + "start_loading_started";
             public const string LoadingInternetConnectionRestored = Group + "internet_connection_restored";
             public const string LoadingCompleted = Group + "start_loading_completed";
+            public const string PlayFabAuthCompleted = Group + "playfab_auth_completed";
         }
         
         public static class Navigation
@@ -86,6 +87,9 @@ namespace Core.Services
             public const string IapOfferShopClicked = Group + "iap_offer_shop_clicked";
             public const string AdOfferShopClicked = Group + "ad_offer_shop_clicked";
             public const string RemoveAdOfferShopClicked = Group + "remove_ad_offer_shop_clicked";
+            public const string PurchaseSuccess = Group + "purchase_success";
+            public const string PurchaseFailed = Group + "purchase_failed";
+            public const string PurchaseError = Group + "purchase_error";
         }
         
         public static class Ads
@@ -156,6 +160,8 @@ namespace Core.Services
         {
             public const string WaitTimeMs = "wait_time_ms";
             public const string WaitTimeSeconds = "wait_time_seconds";
+            public const string PlayFabId = "playfab_id";
+            public const string NewUser = "new_user";
             public const string Banner = "banner";
             public const string Locale = "locale";
             public const string Skin = "skin";
@@ -183,7 +189,6 @@ namespace Core.Services
             public const string DurationRound = "duration_round";
             public const string Boosters = "boosters";
             public const string BoosterClicked = "booster_clicked";
-            public const string SavedGame = "saved_game";
             public const string StartWord = "start_word";
             public const string Word = "word";
             public const string WordLength = "word_length";

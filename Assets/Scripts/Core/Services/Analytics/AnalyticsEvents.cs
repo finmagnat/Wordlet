@@ -87,6 +87,9 @@ namespace Core.Services
             public const string IapOfferShopClicked = Group + "iap_offer_shop_clicked";
             public const string AdOfferShopClicked = Group + "ad_offer_shop_clicked";
             public const string RemoveAdOfferShopClicked = Group + "remove_ad_offer_shop_clicked";
+            public const string PurchaseSuccess = Group + "purchase_success";
+            public const string PurchaseFailed = Group + "purchase_failed";
+            public const string PurchaseError = Group + "purchase_error";
         }
         
         public static class Ads

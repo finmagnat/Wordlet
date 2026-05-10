@@ -126,7 +126,7 @@ namespace Core.Services.Shop
             }
             catch (Exception e)
             {
-                return PurchaseResult.Fail(e.Message);
+                return PurchaseResult.ErrorResult(e.Message);
             }
         }
 

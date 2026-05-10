@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Data;
+using Core.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
@@ -32,6 +33,7 @@ namespace UI.Screens
         [Inject] private LocalizationService _localization;
         [Inject] private ConfigService _configService;
         [Inject] private AnalyticsService _analytics;
+        [Inject] private DictionaryManager _dictionaryManager;
 
         private bool _isProcessing;
 
@@ -169,6 +171,8 @@ namespace UI.Screens
             }
 
             // Скрываем главное меню
+            await _dictionaryManager.EnsureCurrentLocaleLoadedAsync();
+
             await _ui.HideAllScreensAsync();
 
             // Переход на экран игры с ИИ

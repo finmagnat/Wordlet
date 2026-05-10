@@ -34,6 +34,7 @@ namespace Game.Logic
         [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
         [Inject] private InterstitialPolicyService _interstitialService;
         [Inject] private ISaveService _saveService;
+        [Inject] private DictionaryManager _dictionaryManager;
         [Inject] private GameBoosterController _boosterController;
         [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
         [Inject] private GameAnalyticsReporter _analyticsReporter;
@@ -538,6 +539,7 @@ namespace Game.Logic
         private async UniTask RepeatGame()
         {
             await _interstitialService.TryShowAndWaitAsync(AnalyticsEvents.Placement.RepeatGame);
+            await _dictionaryManager.EnsureCurrentLocaleLoadedAsync();
 
             _gameScreen.Reset();
 

@@ -167,7 +167,7 @@ namespace Core.Installers
             loading.SetProgress(0.60f);
 
             var adsEntitlementInit = Container.Resolve<AdsEntitlementService>().InitializeAsync();
-            var profileInit = Container.Resolve<ProfileService>().InitializeAsync();
+            InitializeProfileInBackgroundAsync(Container.Resolve<ProfileService>()).Forget();
             var inventorySyncInit = Container.Resolve<InventorySyncService>().InitializeAsync();
 
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
@@ -199,7 +199,7 @@ namespace Core.Installers
             await Container.Resolve<RewardedLimitsService>().InitializeAsync();
             loading.SetProgress(0.70f);
 
-            await UniTask.WhenAll(adsEntitlementInit, profileInit, inventorySyncInit);
+            await UniTask.WhenAll(adsEntitlementInit, inventorySyncInit);
             loading.SetProgress(0.80f);
 
             loading.SetProgress(1.0f);
@@ -211,6 +211,18 @@ namespace Core.Installers
             await loading.HideAsync();
             
             Destroy(loading.gameObject);
+        }
+
+        private static async UniTask InitializeProfileInBackgroundAsync(ProfileService profileService)
+        {
+            try
+            {
+                await profileService.InitializeAsync();
+            }
+            catch (System.Exception exception)
+            {
+                Debug.LogWarning($"Profile initialization failed: {exception}");
+            }
         }
 
         private void OnDestroy()

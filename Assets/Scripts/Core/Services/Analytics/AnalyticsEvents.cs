@@ -189,7 +189,6 @@ namespace Core.Services
             public const string DurationRound = "duration_round";
             public const string Boosters = "boosters";
             public const string BoosterClicked = "booster_clicked";
-            public const string SavedGame = "saved_game";
             public const string StartWord = "start_word";
             public const string Word = "word";
             public const string WordLength = "word_length";

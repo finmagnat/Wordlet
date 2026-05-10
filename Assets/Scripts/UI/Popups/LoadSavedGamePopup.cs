@@ -5,6 +5,7 @@ using Core.Data;
 using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
+using Game.Logic;
 using Inventory;
 using TMPro;
 using UnityEngine;
@@ -23,8 +24,10 @@ namespace UI.Popups
         [SerializeField] private RectTransform content;
 
         [Inject] private ISaveService _saveService;
+        [Inject] private ConfigService _configService;
         [Inject] private LocalizationService _localization;
         [Inject] private AnalyticsService _analytics;
+        [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
         [Inject] private IInventoryService _inventory;
 
         private SaveGameData _gameData;
@@ -157,11 +160,14 @@ namespace UI.Popups
 
         private Dictionary<string, object> GetAnalyticsParams()
         {
-            return new Dictionary<string, object>
-            {
-                [AnalyticsEvents.Parameter.SavedGame] = _gameData != null ? JsonUtility.ToJson(_gameData) : "{}",
-                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
-            };
+            if (_gameData == null)
+                return new Dictionary<string, object>();
+
+            uint maxPasses = _configService.Game
+                .GetComplexityAIItem((ComplexityAI)_gameData.levelComplexityAI)
+                .MaxPasses;
+
+            return _analyticsPayloadFactory.CreateGameSnapshotPayload(_gameData, maxPasses, _inventory.Boosters);
         }
     }
 }

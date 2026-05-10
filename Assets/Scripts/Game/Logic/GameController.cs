@@ -171,7 +171,6 @@ namespace Game.Logic
         private void OnGameScreenStart(GameScreenStartEvent eventData)
         {
             bool isSavedGame = _saveGameData != null;
-            string savedGameJson = isSavedGame ? JsonUtility.ToJson(_saveGameData) : null;
 
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
@@ -219,21 +218,23 @@ namespace Game.Logic
             if (_gameScreen.KeyboardPanel.IsVisible)
                 _gameScreen.KeyboardPanel.HideAsync().Forget();
 
-            if (_saveGameData != null)
+            SaveGameData savedGameData = _saveGameData;
+
+            if (savedGameData != null)
             {
-                _firstWord = _saveGameData.firstWord;
-                _wordsFieldManager.WordsFieldData.SetSaveGameData(_saveGameData);
+                _firstWord = savedGameData.firstWord;
+                _wordsFieldManager.WordsFieldData.SetSaveGameData(savedGameData);
 
                 _gameScreen.StatisticsPanel.SetStartWord(_firstWord);
-                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWords(_saveGameData.playerWords);
-                _gameScreen.PlayerPanelOwner.SetData(_saveGameData.playerScore, _saveGameData.playerPasses, _maxPasses);
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWords(savedGameData.playerWords);
+                _gameScreen.PlayerPanelOwner.SetData(savedGameData.playerScore, savedGameData.playerPasses, _maxPasses);
 
-                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWords(_saveGameData.opponentWords);
-                _gameScreen.PlayerPanelOpponent.SetData(_saveGameData.opponentScore, _saveGameData.opponentPasses, _maxPasses);
+                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWords(savedGameData.opponentWords);
+                _gameScreen.PlayerPanelOpponent.SetData(savedGameData.opponentScore, savedGameData.opponentPasses, _maxPasses);
 
-                _durationGame = GameDurationSettings.ClampDurationGameSeconds(_saveGameData.maxSeconds);
+                _durationGame = GameDurationSettings.ClampDurationGameSeconds(savedGameData.maxSeconds);
                 _gameScreen.TimerBar.SetTargetValue(_durationGame);
-                _gameScreen.TimerBar.SetCurrentValue(_saveGameData.currentSeconds);
+                _gameScreen.TimerBar.SetCurrentValue(savedGameData.currentSeconds);
                 _isSavedGame = true;
             }
             else
@@ -260,7 +261,7 @@ namespace Game.Logic
             if (_gameOpponent == GameOpponent.AI)
             {
                 if (isSavedGame)
-                    TrackAiSavedGameStarted(savedGameJson);
+                    TrackAiSavedGameStarted(savedGameData);
                 else
                     TrackAiGameStarted();
             }
@@ -802,9 +803,12 @@ namespace Game.Logic
                 _firstWord);
         }
 
-        private void TrackAiSavedGameStarted(string savedGameJson)
+        private void TrackAiSavedGameStarted(SaveGameData savedGameData)
         {
-            _analyticsReporter.TrackAiSavedGameStarted(savedGameJson, _inventory.Boosters);
+            if (savedGameData == null)
+                return;
+
+            _analyticsReporter.TrackAiSavedGameStarted(savedGameData, _maxPasses, _inventory.Boosters);
         }
 
         private Dictionary<string, object> GetGameSnapshotParams()

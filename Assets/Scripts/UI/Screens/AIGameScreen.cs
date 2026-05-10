@@ -60,10 +60,7 @@ namespace UI.Screens
                 {
                     _analytics.TrackEvent(
                         AnalyticsEvents.Navigation.YesAiGameExitPopupClicked,
-                        new System.Collections.Generic.Dictionary<string, object>
-                        {
-                            [AnalyticsEvents.Parameter.SavedGame] = JsonUtility.ToJson(gameData)
-                        });
+                        _analyticsPayloadFactory.CreateGameSnapshotPayload(gameData, maxPasses, _inventory.Boosters));
                     await GoToHome(true);
                 }
                 else

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Config;
+using Core.Data;
 using Core.Services;
 using Inventory;
 
@@ -35,11 +36,12 @@ namespace Game.Logic
         }
 
         public void TrackAiSavedGameStarted(
-            string savedGameJson,
+            SaveGameData gameData,
+            uint maxPasses,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
         {
             _analytics.TrackEvent(AnalyticsEvents.GameFlow.AiSavedGameStarted,
-                _payloadFactory.CreateAiSavedGameStartedPayload(savedGameJson, boosters));
+                _payloadFactory.CreateAiSavedGameStartedPayload(gameData, maxPasses, boosters));
         }
 
         public void TrackApplyWordClicked(string word)

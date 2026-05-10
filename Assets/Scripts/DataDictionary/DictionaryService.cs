@@ -12,6 +12,7 @@ namespace Core.DataDictionary
         private const string DefinitionPrefix = "DEFINITION:";
 
         private readonly AddressablesLoader _loader;
+        private readonly Dictionary<string, DictionaryData> _cacheByDictionaryKey = new();
 
         private LanguageDictionaryConfig _config;
         private HashSet<string> _words;
@@ -35,6 +36,23 @@ namespace Core.DataDictionary
         /// </summary>
         public async UniTask InitializeAsync(LanguageDictionaryConfig config)
         {
+            if (config == null)
+            {
+                Debug.LogError("Dictionary config is null.");
+                return;
+            }
+
+            string cacheKey = GetCacheKey(config);
+            if (_isLoaded && _config == config)
+                return;
+
+            if (_cacheByDictionaryKey.TryGetValue(cacheKey, out var cachedData))
+            {
+                ApplyData(config, cachedData);
+                Debug.Log($"Dictionary restored from cache. Lang: {_config.languageCode}, words: {_words.Count}, definitions: {_definitionsByWord.Count}");
+                return;
+            }
+
             _config = config;
             _isLoaded = false;
             _words = new HashSet<string>();
@@ -62,8 +80,28 @@ namespace Core.DataDictionary
 
             BuildWordLengthIndex();
             _isLoaded = true;
+            _cacheByDictionaryKey[cacheKey] = new DictionaryData(
+                _config.alphabet,
+                _words,
+                _definitionsByWord,
+                _wordsByLength);
 
             Debug.Log($"📘 Dictionary initialized. Lang: {_config.languageCode}, words: {_words.Count}, definitions: {_definitionsByWord.Count}");
+        }
+
+        private static string GetCacheKey(LanguageDictionaryConfig config)
+        {
+            return $"{config.languageCode}|{config.dictionaryAddressKey}";
+        }
+
+        private void ApplyData(LanguageDictionaryConfig config, DictionaryData data)
+        {
+            _config = config;
+            _alphabet = data.Alphabet;
+            _words = data.Words;
+            _definitionsByWord = data.DefinitionsByWord;
+            _wordsByLength = data.WordsByLength;
+            _isLoaded = true;
         }
 
         private void LoadDictionary(string text)
@@ -240,6 +278,26 @@ namespace Core.DataDictionary
         private static string NormalizeWord(string word)
         {
             return word?.Trim().ToUpperInvariant() ?? string.Empty;
+        }
+
+        private sealed class DictionaryData
+        {
+            public DictionaryData(
+                string alphabet,
+                HashSet<string> words,
+                Dictionary<string, string> definitionsByWord,
+                Dictionary<int, List<string>> wordsByLength)
+            {
+                Alphabet = alphabet;
+                Words = words;
+                DefinitionsByWord = definitionsByWord;
+                WordsByLength = wordsByLength;
+            }
+
+            public string Alphabet { get; }
+            public HashSet<string> Words { get; }
+            public Dictionary<string, string> DefinitionsByWord { get; }
+            public Dictionary<int, List<string>> WordsByLength { get; }
         }
     }
 }

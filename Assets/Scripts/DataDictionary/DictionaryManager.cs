@@ -28,12 +28,11 @@ namespace Core.DataDictionary
                 _configs[cfg.languageCode] = cfg;
         }
 
-        public async UniTask InitializeAsync()
+        public UniTask InitializeAsync()
         {
             // подписываемся на смену языка
             _localization.OnLocaleChanged += OnLocaleChanged;
-            
-            await LoadDictionaryForCurrentLocale();
+            return UniTask.CompletedTask;
         }
 
         public void Destroy()
@@ -41,12 +40,11 @@ namespace Core.DataDictionary
             _localization.OnLocaleChanged -= OnLocaleChanged;
         }
 
-        private async void OnLocaleChanged(Locale _)
+        private void OnLocaleChanged(Locale _)
         {
-            await LoadDictionaryForCurrentLocale();
         }
 
-        private async UniTask LoadDictionaryForCurrentLocale()
+        public async UniTask EnsureCurrentLocaleLoadedAsync()
         {
             string code = _localization.CurrentLocale.Identifier.Code;
 

@@ -9,6 +9,7 @@ namespace Core.Services
             public const string LoadingStarted = Group + "start_loading_started";
             public const string LoadingInternetConnectionRestored = Group + "internet_connection_restored";
             public const string LoadingCompleted = Group + "start_loading_completed";
+            public const string PlayFabAuthCompleted = Group + "playfab_auth_completed";
         }
         
         public static class Navigation
@@ -156,6 +157,8 @@ namespace Core.Services
         {
             public const string WaitTimeMs = "wait_time_ms";
             public const string WaitTimeSeconds = "wait_time_seconds";
+            public const string PlayFabId = "playfab_id";
+            public const string NewUser = "new_user";
             public const string Banner = "banner";
             public const string Locale = "locale";
             public const string Skin = "skin";

@@ -13,7 +13,7 @@ namespace Core.Services.Shop
         [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _countText;
         
-        public void Bind(ShopRewardDto dtoItem)
+        public void Bind(RewardDto dtoItem)
         {
             if (dtoItem.ItemId == BoosterType.None)
             {

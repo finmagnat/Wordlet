@@ -35,6 +35,8 @@ MonoBehaviour:
     AddressKey: ProgressBkg_Blue
   - Id: ProgressBkg_Pink
     AddressKey: ProgressBkg_Pink
+  - Id: ButtonTurquoise
+    AddressKey: ButtonTurquoise
   - Id: ButtonCancel_Blue
     AddressKey: ButtonCancel_Blue
   - Id: PlayerPanel_Pink
@@ -97,6 +99,8 @@ MonoBehaviour:
     AddressKey: SkinButtonBlue
   - Id: CellSelected
     AddressKey: CellSelected
+  - Id: sfx_button_click
+    AddressKey: sfx_button_click
   - Id: sfx_opponent_made_move
     AddressKey: sfx_opponent_made_move
   - Id: sfx_pass
@@ -117,8 +121,6 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
-  - Id: sfx_button_click
-    AddressKey: sfx_button_click
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: WinPopup

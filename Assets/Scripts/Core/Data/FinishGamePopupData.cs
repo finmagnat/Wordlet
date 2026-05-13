@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Core.Config;
+
 namespace Core.Data
 {
     public readonly struct FinishGamePopupData
@@ -10,6 +13,7 @@ namespace Core.Data
         public readonly uint OpponentPass;
         public readonly uint MaxPasses;
         public readonly string Result;
+        public readonly List<RewardDto> Rewards;
 
         public FinishGamePopupData(
             string ownerName,
@@ -19,7 +23,8 @@ namespace Core.Data
             uint ownerPass,
             uint opponentPass,
             uint maxPasses,
-            string result)
+            string result,
+            List<RewardDto> rewards)
         {
             OwnerName = ownerName;
             OpponentName = opponentName;
@@ -29,6 +34,7 @@ namespace Core.Data
             OpponentPass = opponentPass;
             MaxPasses = maxPasses;
             Result = result;
+            Rewards = rewards;
         }
     }
 }

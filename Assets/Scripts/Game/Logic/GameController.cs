@@ -727,6 +727,11 @@ namespace Game.Logic
                     ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
                     ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
                     _ => AnalyticsEvents.Option.Draft
+                },
+                resultGame switch
+                {
+                    ResultGame.OWNER_WIN => GetWinReward(),
+                    _ => null
                 }
             );
 
@@ -734,7 +739,7 @@ namespace Game.Logic
             switch (resultGame)
             {
                 case ResultGame.OWNER_WIN:
-                    finishPopup = await _ui.ShowPopupAsync<FinishGamePopup, FinishGamePopupData>(AssetKey.WinPopup, data);
+                    finishPopup = await _ui.ShowPopupAsync<WinPopup, FinishGamePopupData>(AssetKey.WinPopup, data);
                     _audioService?.PlaySfxAsync(SoundsConfig.IWon);
                     break;
 
@@ -752,6 +757,18 @@ namespace Game.Logic
             await finishPopup.WaitForResultAsync();
 
             _gameScreen.RepeatGame.SetActive(true);
+        }
+
+        private List<RewardDto> GetWinReward()
+        {
+            var reward = _configService.Game.GetWinReward();
+            
+            foreach (var item in reward)
+                _inventory.Add(item.ItemId, item.Amount);
+            
+            _gameScreen.BoosterPanel.Refresh();
+            
+            return reward;
         }
 
         private async UniTaskVoid AIPlayAsync()

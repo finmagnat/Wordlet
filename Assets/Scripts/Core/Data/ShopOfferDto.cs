@@ -28,11 +28,11 @@ namespace Core.Data
         public bool IsAvailable;
         public bool IsDisableInterstitialAds;
         
-        public List<ShopRewardDto> Rewards = new();
+        public List<RewardDto> Rewards = new();
     }
     
     [Serializable]
-    public sealed class ShopRewardDto
+    public sealed class RewardDto
     {
         public BoosterType ItemId;
         public int Amount;

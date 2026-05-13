@@ -31,13 +31,6 @@ MonoBehaviour:
   pauseCooldownSeconds: 1
   delayAIPlaySeconds: 0.5
   complexityAiByDefault: 2
-  boosterLetterAiSettings:
-    "\u0421omplexityAiLevel": 4
-    MaxPasses: 0
-    IsRandomWordLength: 0
-    WordLength:
-      Min: 8
-      Max: 24
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1
     MaxPasses: 0
@@ -65,6 +58,13 @@ MonoBehaviour:
       Max: 24
   slowdownDelay: 30
   autoApplyDelay: 2
+  boosterLetterAiSettings:
+    "\u0421omplexityAiLevel": 4
+    MaxPasses: 0
+    IsRandomWordLength: 0
+    WordLength:
+      Min: 8
+      Max: 24
   leaderboardTopN: 10
   scoreCacheSeconds: 15
   newWordsDailyLimit: 5
@@ -72,3 +72,13 @@ MonoBehaviour:
   reportWordsDailyLimit: 5
   reportWordsCooldownSeconds: 90
   minLoadingScreenDurationMs: 3000
+  WinRewards:
+  - ItemId: 1
+    Amount: 1
+    SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+  - ItemId: 2
+    Amount: 1
+    SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
+  - ItemId: 3
+    Amount: 1
+    SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}

@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using Core.Data;
+using Inventory;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Core.Config
 {
@@ -106,5 +110,14 @@ namespace Core.Config
         //---------------------------------
         [Tooltip("Минимальное время отображения загрузочного экрана с баннерами (миллисекунды)")]
         public int minLoadingScreenDurationMs = 2000;
+
+        //---------------------------------
+        [Header("REWARDS")]
+        [Tooltip("Награды за победу")]
+        public List<RewardDto> WinRewards = new ();
+        public List<RewardDto> GetWinReward()
+        {
+            return new List<RewardDto> { WinRewards[Random.Range(0, WinRewards.Count)] };
+        }
     }
 }

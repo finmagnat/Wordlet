@@ -574,6 +574,11 @@ MonoBehaviour:
     m_Localized: Random selection
     m_Metadata:
       m_Items: []
+  - m_Id: 66287842819981312
+    m_Localized: '  <size=150%><voffset=20><sprite name="book"></voffset></size><size=130%><color=#FF9A00><b>Description
+      of the word</b></color></size>'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -12,7 +12,7 @@ namespace UI.Popups
 
         [Inject] private AnalyticsService _analytics;
 
-        private FinishGamePopupData _data;
+        protected FinishGamePopupData _data;
 
         public override async UniTask PrepareAsync(FinishGamePopupData data)
         {
@@ -49,7 +49,7 @@ namespace UI.Popups
             base.OnExitClicked();
         }
 
-        private Dictionary<string, object> GetAnalyticsParams()
+        protected virtual Dictionary<string, object> GetAnalyticsParams()
         {
             return new Dictionary<string, object>
             {

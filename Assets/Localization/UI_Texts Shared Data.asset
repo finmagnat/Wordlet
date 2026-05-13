@@ -515,6 +515,10 @@ MonoBehaviour:
     m_Key: WORD_DEFINITION_PENDING
     m_Metadata:
       m_Items: []
+  - m_Id: 66287842819981312
+    m_Key: REPORT_WORD_DESCRIPTION_LABEL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -67,6 +67,11 @@ namespace Core.Data
             _words.Add(word);
         }
 
+        internal List<int> GetSelectedIndexesSnapshot()
+        {
+            return new List<int>(_selectedIndex);
+        }
+
         internal void BlinkNoSelectedLetter()
         {
             if (_setItem)

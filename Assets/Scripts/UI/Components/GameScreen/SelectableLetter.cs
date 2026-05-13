@@ -36,7 +36,7 @@ namespace UI.Components
         private HighlightState _highlightState = HighlightState.None; // Режим подсветки (выделена буква или ячейка)
         enum HighlightState { None, SelectedCell, Highlighted };
 
-        private void Start()
+        private void Awake()
         {
             _wordsField = GetComponentInParent<WordsField>();
         }
@@ -62,7 +62,7 @@ namespace UI.Components
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (Empty()) return;
+            if (IsInputLocked() || Empty()) return;
 
             _suppressClickUntil = Time.unscaledTime + 0.05f;
             _wordsField?.BeginDragSelection(this);
@@ -70,7 +70,7 @@ namespace UI.Components
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (Empty()) return;
+            if (IsInputLocked() || Empty()) return;
 
             _wordsField?.ContinueDragSelection(this);
         }
@@ -82,6 +82,9 @@ namespace UI.Components
         
         public void OnPressed()
         {
+            if (IsInputLocked())
+                return;
+
             // если PointerDown уже выбрал букву — не дублируем выбор по клику
             if (Time.unscaledTime < _suppressClickUntil)
                 return;
@@ -203,6 +206,11 @@ namespace UI.Components
                 _mainBackground.sprite = _skin.selectedCell;
                 _audioService?.PlaySfxAsync(SoundsConfig.LetterBlinking);
             }
+        }
+
+        private bool IsInputLocked()
+        {
+            return _wordsField != null && _wordsField.IsInputLocked;
         }
 
         private void ModeBlinkClear()

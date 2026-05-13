@@ -27,7 +27,7 @@ namespace Game.Logic
 
         UniTask BlockUIAsync(bool isBlocked, BlockUIScreenMode mode = BlockUIScreenMode.Default);
         void CancelCurrentMove();
-        void SaveWordAndContinueGame(string word);
+        UniTask SaveWordAndContinueGameAsync(string word);
         void MarkLetterPlacedByBooster();
     }
 
@@ -239,7 +239,7 @@ namespace Game.Logic
 
                 await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
 
-                host.SaveWordAndContinueGame(res.Word);
+                await host.SaveWordAndContinueGameAsync(res.Word);
             }
             else
             {

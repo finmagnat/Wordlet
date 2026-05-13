@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Core.Data;
 using Core.Services;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 using Core.Events;
@@ -19,18 +20,28 @@ namespace UI.Components
         [Inject] private DiContainer _container;
         
         private const int COLS = 5;
+        private const float AcceptedWordAnimationDuration = 1.2f;
+        private const float AcceptedWordScale = 1.12f;
+        private const int AcceptedWordPulseLoops = 4;
 
         private bool _isDragging;
+        private bool _isInputLocked;
+        private Sequence _acceptedWordSequence;
         private readonly List<SelectableLetter> _dragPath = new();
         private readonly HashSet<int> _dragVisited = new();
         
         private List<SelectableLetter> _items = new (WordsFieldData.AMOUNT_LETTERS);
         private bool _isInitialized;
         private bool _bModeEraser;
+
+        internal bool IsInputLocked => _isInputLocked;
         
         public List<SelectableLetter> InitField()
         {
+            _acceptedWordSequence?.Kill();
+            _acceptedWordSequence = null;
             _isDragging = false;
+            _isInputLocked = false;
             _bModeEraser = false;
             _dragPath.Clear();
             _dragVisited.Clear();
@@ -59,7 +70,7 @@ namespace UI.Components
 
         public void BeginDragSelection(SelectableLetter start)
         {
-            if (_bModeEraser || start == null || start.Empty())
+            if (_isInputLocked || _bModeEraser || start == null || start.Empty())
                 return;
 
             _isDragging = true;
@@ -72,7 +83,7 @@ namespace UI.Components
 
         public void ContinueDragSelection(SelectableLetter current)
         {
-            if (!_isDragging || current == null || current.Empty())
+            if (_isInputLocked || !_isDragging || current == null || current.Empty())
                 return;
 
             // ШАГ НАЗАД: зашли на предпоследнюю букву => снимаем последнюю
@@ -100,6 +111,72 @@ namespace UI.Components
         public void EndDragSelection()
         {
             _isDragging = false;
+        }
+
+        public async UniTask PlayAcceptedWordScaleAnimationAsync(IReadOnlyList<int> selectedIndexes)
+        {
+            if (selectedIndexes == null || selectedIndexes.Count == 0)
+                return;
+
+            _acceptedWordSequence?.Kill();
+
+            var targets = new List<Transform>(selectedIndexes.Count);
+            foreach (int index in selectedIndexes)
+            {
+                if (index < 0 || index >= _items.Count || _items[index] == null)
+                    continue;
+
+                Transform target = _items[index].transform;
+                if (!targets.Contains(target))
+                    targets.Add(target);
+            }
+
+            if (targets.Count == 0)
+                return;
+
+            var baseScales = new Vector3[targets.Count];
+            float pulseDuration = AcceptedWordAnimationDuration / AcceptedWordPulseLoops;
+            Sequence sequence = DOTween.Sequence();
+            _acceptedWordSequence = sequence;
+
+            for (int i = 0; i < targets.Count; ++i)
+            {
+                Transform target = targets[i];
+                target.DOKill();
+
+                baseScales[i] = target.localScale;
+                target.localScale = baseScales[i];
+
+                sequence.Join(
+                    target
+                        .DOScale(baseScales[i] * AcceptedWordScale, pulseDuration)
+                        .SetEase(Ease.InOutSine)
+                        .SetLoops(AcceptedWordPulseLoops, LoopType.Yoyo));
+            }
+
+            try
+            {
+                await sequence.AsyncWaitForCompletion();
+            }
+            finally
+            {
+                for (int i = 0; i < targets.Count; ++i)
+                {
+                    if (targets[i])
+                        targets[i].localScale = baseScales[i];
+                }
+
+                if (_acceptedWordSequence == sequence)
+                    _acceptedWordSequence = null;
+            }
+        }
+
+        internal void SetInputLocked(bool value)
+        {
+            _isInputLocked = value;
+
+            if (value)
+                EndDragSelection();
         }
         
         public async UniTask UpdateSkin()
@@ -159,6 +236,13 @@ namespace UI.Components
             int dy = Mathf.Abs(ay - by);
 
             return dx + dy == 1;
+        }
+
+        private void OnDisable()
+        {
+            _acceptedWordSequence?.Kill();
+            _acceptedWordSequence = null;
+            _isInputLocked = false;
         }
     }
 

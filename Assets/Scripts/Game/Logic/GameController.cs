@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Core.Config;
@@ -51,6 +50,7 @@ namespace Game.Logic
         private bool _bPause; // Game is paused.
         private bool _bLetterPut; // The local player has placed a letter.
         private bool _bModePlayOwner = true; // It is the local player's turn.
+        private bool _isSavingWord;
 
         private uint _maxPasses;
         private ComplexityAI _complexityAI;
@@ -318,7 +318,7 @@ namespace Game.Logic
 
         private async void OnGameGo(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
                 return;
 
             if (!_bLetterPut)
@@ -344,14 +344,14 @@ namespace Game.Logic
                 {
                     _analyticsReporter.TrackApplyWordClicked(word);
                     _audioService?.PlaySfxAsync(SoundsConfig.IMadeMove);
-                    SaveWordAndContinueGame(word);
+                    await SaveWordAndContinueGameAsync(word);
                 }
             }
         }
 
         private void OnGameCancel(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner)
+            if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner || _isSavingWord)
                 return;
 
             _analyticsReporter.TrackCancelClicked();
@@ -369,7 +369,7 @@ namespace Game.Logic
 
         internal void OnCellSelect(CellSelectEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
                 return;
 
             _wordsFieldManager.TryCellSelect(eventData);
@@ -474,35 +474,65 @@ namespace Game.Logic
             BlockUIAsync(false).Forget();
         }
 
-        private void SaveWordAndContinueGame(string word)
+        private async UniTask SaveWordAndContinueGameAsync(string word)
         {
-            _boosterController.StopSlowdown();
+            if (_isSavingWord)
+                return;
 
-            _gameScreen.TimerBar.ResetTimer();
-            if (_bModePlayOwner)
+            _isSavingWord = true;
+
+            try
             {
-                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWord(word);
-                _gameScreen.PlayerPanelOwner.SetScore(_gameScreen.PlayerPanelOwner.Score + (uint)word.Length);
+                _boosterController.StopSlowdown();
+
+                _gameScreen.TimerBar.ResetTimer();
+                if (_bModePlayOwner)
+                {
+                    _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.AddWord(word);
+                    _gameScreen.PlayerPanelOwner.SetScore(_gameScreen.PlayerPanelOwner.Score + (uint)word.Length);
+                }
+                else
+                {
+                    _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWord(word);
+                    _gameScreen.PlayerPanelOpponent.SetScore(_gameScreen.PlayerPanelOpponent.Score + (uint)word.Length);
+                }
+
+                _gameScreen.GoButton.SetActive(false);
+                _gameScreen.CancelButton.SetActive(false);
+                _gameScreen.PauseButton.interactable = false;
+                _gameScreen.PassButton.interactable = false;
+
+                var selectedIndexes = _wordsFieldManager.WordsFieldData.GetSelectedIndexesSnapshot();
+                var wordsField = _gameScreen.WordsField;
+                wordsField.SetInputLocked(true);
+                try
+                {
+                    await wordsField.PlayAcceptedWordScaleAnimationAsync(selectedIndexes);
+                }
+                finally
+                {
+                    if (wordsField)
+                        wordsField.SetInputLocked(false);
+                }
+
+                _gameScreen.SetTextWord("");
+
+                _wordsFieldManager.SaveWord(word);
+                _wordsFieldManager.Clear();
+
+                _bLetterPut = false;
+
+                CheckFinishGame();
             }
-            else
+            finally
             {
-                _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.AddWord(word);
-                _gameScreen.PlayerPanelOpponent.SetScore(_gameScreen.PlayerPanelOpponent.Score + (uint)word.Length);
+                _isSavingWord = false;
             }
-
-            _gameScreen.SetTextWord("");
-
-            _wordsFieldManager.SaveWord(word);
-            _wordsFieldManager.Clear();
-
-            _bLetterPut = false;
-
-            CheckFinishGame();
         }
 
         private void OnGameSkip(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
                 return;
 
             if (_gameOpponent == GameOpponent.AI)
@@ -584,15 +614,15 @@ namespace Game.Logic
         {
             _gameScreen.TimerBar.StopTimer();
             _gameScreen.SetTextWord(eventData.word);
-            _gameScreen.StartCoroutine(DisplayWordOpponent(eventData));
+            DisplayWordOpponentAsync(eventData).Forget();
 
             _audioService?.PlaySfxAsync(SoundsConfig.OpponentMadeMove);
         }
 
-        private IEnumerator DisplayWordOpponent(OpponentFindWordEvent eventData)
+        private async UniTask DisplayWordOpponentAsync(OpponentFindWordEvent eventData)
         {
-            yield return new WaitForSeconds(2);
-            SaveWordAndContinueGame(eventData.word);
+            await UniTask.WaitForSeconds(2);
+            await SaveWordAndContinueGameAsync(eventData.word);
         }
 
         private void OnOpponentFindWordFail(IGameEvent eventData)
@@ -806,6 +836,9 @@ namespace Game.Logic
 
         private async void OnActivateBooster(UseBoosterEvent eventData)
         {
+            if (_isSavingWord)
+                return;
+
             if (_gameOpponent == GameOpponent.AI)
                 _analyticsReporter.TrackBoosterGameClicked(GetGameSnapshotParams(), eventData.boosterType);
 
@@ -877,9 +910,9 @@ namespace Game.Logic
             Cancel();
         }
 
-        void IGameBoosterHost.SaveWordAndContinueGame(string word)
+        UniTask IGameBoosterHost.SaveWordAndContinueGameAsync(string word)
         {
-            SaveWordAndContinueGame(word);
+            return SaveWordAndContinueGameAsync(word);
         }
 
         void IGameBoosterHost.MarkLetterPlacedByBooster()

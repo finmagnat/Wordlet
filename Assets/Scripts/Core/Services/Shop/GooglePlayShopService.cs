@@ -79,7 +79,7 @@ namespace Core.Services.Shop
                     SpriteHeader = o.SpriteHeader,
                     Description = o.Description,
 
-                    Rewards = o.Rewards.Select(r => new ShopRewardDto
+                    Rewards = o.Rewards.Select(r => new RewardDto
                     {
                         ItemId = r.ItemId,
                         Amount = r.Amount,

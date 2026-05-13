@@ -21,7 +21,7 @@ namespace Core.Services
                 x => x.Value.Count);
         }
 
-        public static string GetRewardsPayload(IEnumerable<ShopRewardDto> rewards)
+        public static string GetRewardsPayload(IEnumerable<RewardDto> rewards)
         {
             return BuildItemAmountsJson(
                 rewards,

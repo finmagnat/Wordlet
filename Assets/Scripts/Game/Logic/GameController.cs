@@ -501,6 +501,7 @@ namespace Game.Logic
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.PauseButton.interactable = false;
                 _gameScreen.PassButton.interactable = false;
+                _gameScreen.SetTextWordWithInfoIcon(word);
 
                 var selectedIndexes = _wordsFieldManager.WordsFieldData.GetSelectedIndexesSnapshot();
                 var wordsField = _gameScreen.WordsField;
@@ -514,8 +515,6 @@ namespace Game.Logic
                     if (wordsField)
                         wordsField.SetInputLocked(false);
                 }
-
-                _gameScreen.SetTextWord("");
 
                 _wordsFieldManager.SaveWord(word);
                 _wordsFieldManager.Clear();
@@ -613,16 +612,9 @@ namespace Game.Logic
         private void OnOpponentFindWordSuccess(OpponentFindWordEvent eventData)
         {
             _gameScreen.TimerBar.StopTimer();
-            _gameScreen.SetTextWord(eventData.word);
-            DisplayWordOpponentAsync(eventData).Forget();
+            SaveWordAndContinueGameAsync(eventData.word).Forget();
 
             _audioService?.PlaySfxAsync(SoundsConfig.OpponentMadeMove);
-        }
-
-        private async UniTask DisplayWordOpponentAsync(OpponentFindWordEvent eventData)
-        {
-            await UniTask.WaitForSeconds(2);
-            await SaveWordAndContinueGameAsync(eventData.word);
         }
 
         private void OnOpponentFindWordFail(IGameEvent eventData)
@@ -726,7 +718,7 @@ namespace Game.Logic
 
             if (wasSavedGame)
             {
-                _saveService.ClearAsync().Forget();
+                //_saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
 

@@ -15,6 +15,8 @@ namespace UI.Screens
 {
     public abstract class GameScreenBase : UIScreen
     {
+        private const string WordInfoIconMarkup = "   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
+
         [Space, Header("Game Screen UI Components")]
         [SerializeField] protected TextMeshProUGUI _statusText;
         [SerializeField] protected TextMeshProUGUI _wordText;
@@ -67,14 +69,23 @@ namespace UI.Screens
         protected bool _isProcessing;
         protected bool _isPaused;
 
+        private Button _wordInfoButton;
+        private string _wordInfoWord;
+        private bool _isWordInfoVisible;
+        private bool _wordInfoButtonInitialized;
+
         protected virtual void Start()
         {
+            EnsureWordInfoButton();
             EventBus.Subscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Subscribe<GameEndEvent>(OnGameEnd);
         }
 
         protected virtual void OnDestroy()
         {
+            if (_wordInfoButton)
+                _wordInfoButton.onClick.RemoveListener(OnWordInfoPressed);
+
             EventBus.Unsubscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
@@ -121,7 +132,7 @@ namespace UI.Screens
             _repeatGame.gameObject.SetActive(false);
             _eraserOverlay.gameObject.SetActive(false);
             _eraseBubblePopup.HideAsync().Forget();
-            
+
             if (_isPaused)
             {
                 _isPaused = false;
@@ -132,9 +143,38 @@ namespace UI.Screens
 
         internal virtual List<SelectableLetter> InitWordsField() => _wordsField.InitField();
         internal virtual void InitAlphabetField() => _lettersField.InitField();
-        internal virtual void SetTextWord(string value) => _wordText.text = value;
+        internal virtual void SetTextWord(string value)
+        {
+            _isWordInfoVisible = false;
+            SetWordInfoClickEnabled(false);
+            _wordText.text = value;
+        }
+
+        internal virtual void SetTextWordWithInfoIcon(string word)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                SetTextWord(string.Empty);
+                return;
+            }
+
+            _wordInfoWord = word;
+            _isWordInfoVisible = true;
+            _wordText.text = $"{word}{WordInfoIconMarkup}";
+            SetWordInfoClickEnabled(true);
+        }
+
         internal virtual string GetTextWord() => _wordText.text;
-        internal virtual void AddLetterToWord(string letter) => _wordText.text += letter;
+
+        internal virtual void AddLetterToWord(string letter)
+        {
+            if (_isWordInfoVisible)
+                _wordText.text = string.Empty;
+
+            _isWordInfoVisible = false;
+            SetWordInfoClickEnabled(false);
+            _wordText.text += letter;
+        }
 
         internal virtual void SetStatusLocalizationKey(string localizationKey)
         {
@@ -143,6 +183,14 @@ namespace UI.Screens
 
         internal virtual void RemoveLastLetter()
         {
+            if (_isWordInfoVisible)
+            {
+                SetTextWord(string.Empty);
+                return;
+            }
+
+            SetWordInfoClickEnabled(false);
+
             if (!string.IsNullOrEmpty(_wordText.text))
                 _wordText.text = _wordText.text[..^1];
         }
@@ -160,7 +208,7 @@ namespace UI.Screens
         {
             await _interstitialService.TryShowAndWaitAsync(AnalyticsEvents.Placement.ExitGame);
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
-            
+
             if (isSaveGame)
                 await _saveService.SaveAsync();
 
@@ -168,9 +216,9 @@ namespace UI.Screens
 
             await _ui.HideAllScreensAsync();
             await _ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
-            
+
             _isProcessing = false;
-            
+
             await _loadingUI.HideLoadingAsync();
         }
 
@@ -206,6 +254,47 @@ namespace UI.Screens
         {
             Reset();
             await UpdateSkinAsync();
+        }
+
+        private void EnsureWordInfoButton()
+        {
+            if (_wordInfoButtonInitialized || !_wordText)
+                return;
+
+            _wordInfoButton = _wordText.GetComponent<Button>();
+
+            if (!_wordInfoButton)
+                _wordInfoButton = _wordText.gameObject.AddComponent<Button>();
+
+            _wordInfoButton.transition = Selectable.Transition.None;
+            _wordInfoButton.targetGraphic = _wordText;
+            _wordInfoButton.onClick.RemoveListener(OnWordInfoPressed);
+            _wordInfoButton.onClick.AddListener(OnWordInfoPressed);
+            _wordInfoButton.interactable = false;
+            _wordText.raycastTarget = false;
+            _wordInfoButtonInitialized = true;
+        }
+
+        private void SetWordInfoClickEnabled(bool value)
+        {
+            EnsureWordInfoButton();
+
+            if (!value)
+                _wordInfoWord = null;
+
+            if (_wordInfoButton)
+                _wordInfoButton.interactable = value;
+
+            if (_wordText)
+                _wordText.raycastTarget = value;
+        }
+
+        private void OnWordInfoPressed()
+        {
+            if (string.IsNullOrWhiteSpace(_wordInfoWord))
+                return;
+
+            EventBus.Raise(new ShowWordInfoEvent { word = _wordInfoWord });
         }
     }
 }

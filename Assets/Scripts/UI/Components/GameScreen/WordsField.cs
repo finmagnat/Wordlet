@@ -22,7 +22,7 @@ namespace UI.Components
         private const int COLS = 5;
         private const float AcceptedWordAnimationDuration = 1.2f;
         private const float AcceptedWordScale = 1.12f;
-        private const int AcceptedWordPulseLoops = 4;
+        private const int AcceptedWordPulseLoops = 2;
 
         private bool _isDragging;
         private bool _isInputLocked;

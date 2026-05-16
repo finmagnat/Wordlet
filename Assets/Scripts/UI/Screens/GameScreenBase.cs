@@ -15,11 +15,13 @@ namespace UI.Screens
 {
     public abstract class GameScreenBase : UIScreen
     {
-        private const string WordInfoIconMarkup = "   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
+        private const float WordInfoIconGap = 8f;
 
         [Space, Header("Game Screen UI Components")]
         [SerializeField] protected TextMeshProUGUI _statusText;
         [SerializeField] protected TextMeshProUGUI _wordText;
+        [SerializeField] protected RectTransform _wordInfoIconRect;
+        [SerializeField] protected Image _wordInfoIcon;
         [SerializeField] protected TimerProgressBar _progressBar;
 
         [SerializeField] protected Button _homeButton;
@@ -72,6 +74,7 @@ namespace UI.Screens
         private Button _wordInfoButton;
         private string _wordInfoWord;
         private bool _isWordInfoVisible;
+        private float _wordInfoIconAnchoredY;
         private bool _wordInfoButtonInitialized;
 
         protected virtual void Start()
@@ -160,8 +163,9 @@ namespace UI.Screens
 
             _wordInfoWord = word;
             _isWordInfoVisible = true;
-            _wordText.text = $"{word}{WordInfoIconMarkup}";
+            _wordText.text = word;
             SetWordInfoClickEnabled(true);
+            UpdateWordInfoIconPosition();
         }
 
         internal virtual string GetTextWord() => _wordText.text;
@@ -272,6 +276,13 @@ namespace UI.Screens
             _wordInfoButton.onClick.AddListener(OnWordInfoPressed);
             _wordInfoButton.interactable = false;
             _wordText.raycastTarget = false;
+
+            if (_wordInfoIconRect)
+            {
+                _wordInfoIconAnchoredY = _wordInfoIconRect.anchoredPosition.y;
+                _wordInfoIconRect.gameObject.SetActive(false);
+            }
+
             _wordInfoButtonInitialized = true;
         }
 
@@ -287,6 +298,12 @@ namespace UI.Screens
 
             if (_wordText)
                 _wordText.raycastTarget = value;
+
+            if (_wordInfoIconRect)
+                _wordInfoIconRect.gameObject.SetActive(value);
+
+            if (_wordInfoIcon)
+                _wordInfoIcon.raycastTarget = value;
         }
 
         private void OnWordInfoPressed()
@@ -295,6 +312,21 @@ namespace UI.Screens
                 return;
 
             EventBus.Raise(new ShowWordInfoEvent { word = _wordInfoWord });
+        }
+
+        private void UpdateWordInfoIconPosition()
+        {
+            if (!_wordText || !_wordInfoIconRect)
+                return;
+
+            _wordText.ForceMeshUpdate();
+
+            var textBounds = _wordText.textBounds;
+            var iconRect = _wordInfoIconRect.rect;
+            var pivotOffset = iconRect.width * _wordInfoIconRect.pivot.x;
+            var iconX = textBounds.max.x + WordInfoIconGap + pivotOffset;
+
+            _wordInfoIconRect.anchoredPosition = new Vector2(iconX, _wordInfoIconAnchoredY);
         }
     }
 }

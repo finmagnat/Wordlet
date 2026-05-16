@@ -718,7 +718,7 @@ namespace Game.Logic
 
             if (wasSavedGame)
             {
-                //_saveService.ClearAsync().Forget();
+                _saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
 

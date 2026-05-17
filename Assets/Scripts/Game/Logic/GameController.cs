@@ -201,6 +201,9 @@ namespace Game.Logic
                     _complexityAISettings = _configService.Game.GetComplexityAIItem(_complexityAI);
                     _maxPasses = _complexityAISettings.MaxPasses;
 
+                    if (!isSavedGame)
+                        _dictionaryService.ShuffleWordsForGameSession();
+
                     _ai.Init(_wordsFieldManager, _dictionaryService);
 
                     _bModePlayOwner = true;

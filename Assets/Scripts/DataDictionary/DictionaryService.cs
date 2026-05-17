@@ -205,6 +205,36 @@ namespace Core.DataDictionary
         }
 
         /// <summary>
+        /// Перемешать порядок слов внутри групп по длине для новой игровой сессии.
+        /// </summary>
+        public void ShuffleWordsForGameSession()
+        {
+            if (!_isLoaded)
+            {
+                Debug.LogWarning("⚠ DictionaryService.ShuffleWordsForGameSession called before dictionary was loaded.");
+                return;
+            }
+
+            int shuffledWords = 0;
+            foreach (var words in _wordsByLength.Values)
+            {
+                Shuffle(words);
+                shuffledWords += words.Count;
+            }
+
+            Debug.Log($"🔀 Dictionary words shuffled for game session. Groups: {_wordsByLength.Count}, words: {shuffledWords}");
+        }
+
+        private static void Shuffle<T>(IList<T> items)
+        {
+            for (int i = items.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                (items[i], items[j]) = (items[j], items[i]);
+            }
+        }
+
+        /// <summary>
         /// Вернуть случайное слово указанной длины.
         /// Если слов такой длины нет — возвращает null.
         /// </summary>

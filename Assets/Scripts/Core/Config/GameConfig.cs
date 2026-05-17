@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Core.Data;
-using Inventory;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -113,6 +111,9 @@ namespace Core.Config
 
         //---------------------------------
         [Header("REWARDS")]
+        [Tooltip("Количество побед в серии для получения награды.")]
+        public int WinsInSeries = 3;
+        
         [Tooltip("Награды за победу")]
         public List<RewardDto> WinRewards = new ();
         public List<RewardDto> GetWinReward()

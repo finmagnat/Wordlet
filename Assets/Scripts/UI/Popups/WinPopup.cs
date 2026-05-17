@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Core.Data;
 using Core.Services;
-using Core.Services.Shop;
+using Core.UI.Components;
 using Cysharp.Threading.Tasks;
 using Inventory;
 using UnityEngine;
@@ -12,22 +12,27 @@ namespace UI.Popups
     public class WinPopup : FinishGamePopup
     {
         [Header("Reward Elements")]
-        [SerializeField] private ShopItemView _itemPrefab;
-        [SerializeField] private Transform _contentRoot;
+        
+        [SerializeField] private VictoryReward _victoryReward;
+        [SerializeField] private ProgressVictories _progressVictories;
 
         [Inject] private IInventoryService _inventory;
         
         public override async UniTask PrepareAsync(FinishGamePopupData data)
         {
             await base.PrepareAsync(data);
-            
-            for (int i = _contentRoot.childCount - 1; i >= 0; i--)
-                Destroy(_contentRoot.GetChild(i).gameObject);
-            
-            foreach (var item in data.Rewards)
+
+            if (_data.Reward.Rewards != null)
             {
-                var view = Instantiate(_itemPrefab, _contentRoot);
-                view.Bind(item);
+                _progressVictories.gameObject.SetActive(false);
+                _victoryReward.gameObject.SetActive(true);
+                _victoryReward.SetData(data);
+            }
+            else
+            {
+                _progressVictories.gameObject.SetActive(true);
+                _victoryReward.gameObject.SetActive(false);
+                _progressVictories.SetData(data);
             }
 
             await UniTask.CompletedTask;
@@ -36,8 +41,17 @@ namespace UI.Popups
         protected override Dictionary<string, object> GetAnalyticsParams()
         {
             var dictionary = base.GetAnalyticsParams();
-            dictionary[AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_data.Rewards);
-            dictionary[AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters);
+            
+            dictionary[AnalyticsEvents.Parameter.WinsInSeriesCount] = _data.Reward.WinsInSeriesCount;
+            dictionary[AnalyticsEvents.Parameter.WinsInSeriesMax] = _data.Reward.WinsInSeriesMax;
+            if (_data.Reward.Rewards != null)
+            {
+                dictionary[AnalyticsEvents.Parameter.Reward] =
+                    AnalyticsPayloadHelper.GetRewardsPayload(_data.Reward.Rewards);
+                dictionary[AnalyticsEvents.Parameter.Boosters] =
+                    AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters);
+            }
+
             return dictionary;
         }
     }

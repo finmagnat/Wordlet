@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Core.Config;
 
 namespace Core.Data
 {
@@ -13,7 +12,8 @@ namespace Core.Data
         public readonly uint OpponentPass;
         public readonly uint MaxPasses;
         public readonly string Result;
-        public readonly List<RewardDto> Rewards;
+        public readonly FinishRewardData Reward;
+        
 
         public FinishGamePopupData(
             string ownerName,
@@ -24,7 +24,7 @@ namespace Core.Data
             uint opponentPass,
             uint maxPasses,
             string result,
-            List<RewardDto> rewards)
+            FinishRewardData reward)
         {
             OwnerName = ownerName;
             OpponentName = opponentName;
@@ -34,6 +34,24 @@ namespace Core.Data
             OpponentPass = opponentPass;
             MaxPasses = maxPasses;
             Result = result;
+            Reward = reward;
+        }
+    }
+
+    public readonly struct FinishRewardData
+    {
+        public readonly int WinsInSeriesCount;
+        public readonly int WinsInSeriesMax;
+        public readonly List<RewardDto> Rewards;
+        
+        public FinishRewardData(
+            int winsInSeriesCount,
+            int winsInSeriesMax,
+            List<RewardDto> rewards
+            )
+        {
+            WinsInSeriesCount = winsInSeriesCount;
+            WinsInSeriesMax = winsInSeriesMax;
             Rewards = rewards;
         }
     }

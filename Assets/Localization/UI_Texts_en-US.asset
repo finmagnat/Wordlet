@@ -579,6 +579,14 @@ MonoBehaviour:
       of the word</b></color></size>'
     m_Metadata:
       m_Items: []
+  - m_Id: 67739486875172864
+    m_Localized: Your reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67739878069518336
+    m_Localized: Winning streak
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

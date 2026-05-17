@@ -60,6 +60,7 @@ namespace Game.Logic
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
         private bool _timeExpiredStatus;
+        private int _winsInSeries;
 
         public int RoundDurationSeconds => _durationGame;
         public string LocaleCode => _localization.CurrentLocale.Identifier.Code;
@@ -721,7 +722,7 @@ namespace Game.Logic
 
             if (wasSavedGame)
             {
-                _saveService.ClearAsync().Forget();
+                //_saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
 
@@ -753,11 +754,7 @@ namespace Game.Logic
                     ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
                     _ => AnalyticsEvents.Option.Draft
                 },
-                resultGame switch
-                {
-                    ResultGame.OWNER_WIN => GetWinReward(),
-                    _ => null
-                }
+                GetWinReward(resultGame)
             );
 
             FinishGamePopup finishPopup;
@@ -783,17 +780,35 @@ namespace Game.Logic
 
             _gameScreen.RepeatGame.SetActive(true);
         }
-
-        private List<RewardDto> GetWinReward()
+        
+        private FinishRewardData GetWinReward(ResultGame resultGame)
         {
-            var reward = _configService.Game.GetWinReward();
+            List<RewardDto> reward = null;
+                
+            if(resultGame == ResultGame.OWNER_WIN)
+            {
+                if (++_winsInSeries >= _configService.Game.WinsInSeries)
+                {
+                    reward = _configService.Game.GetWinReward();
+                    foreach (var item in reward)
+                        _inventory.Add(item.ItemId, item.Amount);
+
+                    _gameScreen.BoosterPanel.Refresh();
+                    _winsInSeries = 0;
+                }
+            }
+            else
+            {
+                _winsInSeries = 0;
+            }
             
-            foreach (var item in reward)
-                _inventory.Add(item.ItemId, item.Amount);
+            var data = new FinishRewardData(
+                _winsInSeries,
+                _configService.Game.WinsInSeries,
+                reward
+            );
             
-            _gameScreen.BoosterPanel.Refresh();
-            
-            return reward;
+            return data;
         }
 
         private async UniTaskVoid AIPlayAsync()

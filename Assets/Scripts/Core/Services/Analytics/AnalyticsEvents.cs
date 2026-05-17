@@ -212,6 +212,8 @@ namespace Core.Services
             public const string MixerArranger = "mixer_arranger";
             public const string TargetIndexes = "target_indexes";
             public const string DontShow = "dont_show";
+            public const string WinsInSeriesCount = "wins_in_series_count";
+            public const string WinsInSeriesMax = "wins_in_series_max";
         }
         
         public static class Option

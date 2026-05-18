@@ -72,7 +72,7 @@ namespace UI.Components
 
         public void BeginDragSelection(SelectableLetter start)
         {
-            if (_isInputLocked || _bModeEraser || start == null || start.Empty())
+            if (_isInputLocked || _bModeEraser || _bModeSwap || start == null || start.Empty())
                 return;
 
             _isDragging = true;

@@ -67,6 +67,18 @@ namespace Game.Logic
                     currentTimerValue,
                     _inventory.Boosters));
         }
+        
+        public void TrackSwapBoosterClosed(IGameBoosterHost host, float currentTimerValue)
+        {
+            if (host == null)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterClosed,
+                _payloadFactory.CreateSwapBoosterClosedPayload(
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    _inventory.Boosters));
+        }
 
         public void TrackEraserBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData,
             float currentTimerValue, string[] boardData)

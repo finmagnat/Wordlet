@@ -60,15 +60,15 @@ namespace Game.Logic
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
-            if (_gameScreen?.EraserOverlay != null)
-                _gameScreen.EraserOverlay.CloseButtonClicked -= OnEraserOverlayCloseButtonClicked;
+            if (_gameScreen?.HoleOverlay != null)
+                _gameScreen.HoleOverlay.CloseButtonClicked -= OnHoleOverlayCloseButtonClicked;
 
             _gameScreen = gameScreen;
             _wordsFieldManager = wordsFieldManager;
             _ai = ai;
 
-            if (_gameScreen?.EraserOverlay != null)
-                _gameScreen.EraserOverlay.CloseButtonClicked += OnEraserOverlayCloseButtonClicked;
+            if (_gameScreen?.HoleOverlay != null)
+                _gameScreen.HoleOverlay.CloseButtonClicked += OnHoleOverlayCloseButtonClicked;
         }
 
         public void ResetForNewGame()
@@ -104,7 +104,19 @@ namespace Game.Logic
             _activeEraserHost = null;
             _wordsFieldManager.SetModeEraser(false);
             _gameScreen.WordsField.SetModeEraser(false);
-            _gameScreen.EraserOverlay.HideAsync().Forget();
+            _gameScreen.HoleOverlay.HideAsync().Forget();
+        }
+        
+        public void CancelSwapMode()
+        {
+            if (!_bModeSwap || _gameScreen == null || _wordsFieldManager == null)
+                return;
+
+            _bModeSwap = false;
+            _activeSwapHost = null;
+            _wordsFieldManager.SetModeSwap(false);
+            _gameScreen.WordsField.SetModeSwap(false);
+            _gameScreen.HoleOverlay.HideAsync().Forget();
         }
 
         public void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
@@ -228,7 +240,7 @@ namespace Game.Logic
             _wordsFieldManager.SetModeEraser(true);
             _gameScreen.WordsField.SetModeEraser(true);
             TrackEraserBoosterShown(host);
-            await _gameScreen.EraserOverlay.ShowAsync();
+            await _gameScreen.HoleOverlay.ShowAsync();
         }
         
         private async UniTask ActivateBoosterSwapAsync(IGameBoosterHost host)
@@ -245,7 +257,7 @@ namespace Game.Logic
             _wordsFieldManager.SetModeSwap(true);
             _gameScreen.WordsField.SetModeSwap(true);
             TrackSwapBoosterShown(host);
-            await _gameScreen.EraserOverlay.ShowAsync();
+            await _gameScreen.HoleOverlay.ShowAsync();
         }
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
@@ -335,16 +347,30 @@ namespace Game.Logic
             EndSlowdown(restartTimer: !host.IsPaused && host.IsGameStarted && host.IsOwnerTurn);
         }
 
-        private void OnEraserOverlayCloseButtonClicked()
+        private void OnHoleOverlayCloseButtonClicked()
         {
-            if (!_bModeEraser)
-                return;
-
-            var host = _activeEraserHost;
-            CancelEraserMode();
-            ReturnEraserBoosterAsync(host).Forget();
+            if (_bModeEraser)
+            {
+                var host = _activeEraserHost;
+                CancelEraserMode();
+                ReturnEraserBoosterAsync(host).Forget();
+            }
+            
+            if (_bModeSwap)
+            {
+                var host = _activeSwapHost;
+                CancelSwapMode();
+                ReturnSwapBoosterAsync(host).Forget();
+            }
         }
-
+        
+        private async UniTaskVoid ReturnSwapBoosterAsync(IGameBoosterHost host)
+        {
+            await _inventorySync.GrantBoosterAsync(BoosterType.Swap, 1);
+            _gameScreen?.BoosterPanel.Refresh();
+            TrackSwapBoosterClosed(host);
+        }
+        
         private async UniTaskVoid ReturnEraserBoosterAsync(IGameBoosterHost host)
         {
             await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1);
@@ -368,6 +394,13 @@ namespace Game.Logic
         private void TrackEraserBoosterClosed(IGameBoosterHost host)
         {
             _analyticsReporter.TrackEraserBoosterClosed(
+                host,
+                _gameScreen.TimerBar.GetCurrentValue());
+        }
+        
+        private void TrackSwapBoosterClosed(IGameBoosterHost host)
+        {
+            _analyticsReporter.TrackSwapBoosterClosed(
                 host,
                 _gameScreen.TimerBar.GetCurrentValue());
         }

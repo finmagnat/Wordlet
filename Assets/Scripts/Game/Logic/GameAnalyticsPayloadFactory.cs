@@ -170,6 +170,19 @@ namespace Game.Logic
                 [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
             };
         }
+        
+        public Dictionary<string, object> CreateSwapBoosterClosedPayload(
+            int durationRound,
+            float currentTimerValue,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.DurationRound] = durationRound,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
+            };
+        }
 
         public Dictionary<string, object> CreateEraserBoosterSuccessPayload(
             string locale,

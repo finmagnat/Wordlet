@@ -41,7 +41,7 @@ namespace UI.Screens
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
         [SerializeField] protected StatisticsPanel _statisticsPanel;
         [SerializeField] protected KeyboardPanel _keyboardPanel;
-        [SerializeField] protected FocusHoleOverlay _eraserOverlay;
+        [SerializeField] protected FocusHoleOverlay _holeOverlay;
         [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
 
         internal TimerProgressBar TimerBar => _progressBar;
@@ -50,7 +50,7 @@ namespace UI.Screens
         internal WordsField WordsField => _wordsField;
         internal StatisticsPanel StatisticsPanel => _statisticsPanel;
         internal KeyboardPanel KeyboardPanel => _keyboardPanel;
-        internal FocusHoleOverlay EraserOverlay => _eraserOverlay;
+        internal FocusHoleOverlay HoleOverlay => _holeOverlay;
         internal FloatingBubblePopup EraseBubble => _eraseBubblePopup;
         internal BoosterPanelIngameScreen BoosterPanel => _boosterPanel;
         internal Button PauseButton => _pauseButton;
@@ -133,7 +133,7 @@ namespace UI.Screens
             _playerPanelOpponent.Reset();
             _progressBar.ResetTimer();
             _repeatGame.gameObject.SetActive(false);
-            _eraserOverlay.gameObject.SetActive(false);
+            _holeOverlay.gameObject.SetActive(false);
             _eraseBubblePopup.HideAsync().Forget();
 
             if (_isPaused)

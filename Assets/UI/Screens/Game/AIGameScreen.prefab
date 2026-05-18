@@ -1930,7 +1930,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3985699514760359786}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -3999,7 +3999,7 @@ GameObject:
   - component: {fileID: 2538769162845976306}
   - component: {fileID: 441991318237677251}
   m_Layer: 5
-  m_Name: EraserOverlay
+  m_Name: HoleOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6587,7 +6587,7 @@ MonoBehaviour:
   _pauseButtonAnimator: {fileID: 5689286121469514212}
   _statisticsPanel: {fileID: 7880118975273660879}
   _keyboardPanel: {fileID: 8993251663135509573}
-  _eraserOverlay: {fileID: 441991318237677251}
+  _holeOverlay: {fileID: 441991318237677251}
   _eraseBubblePopup: {fileID: 4543654959007652336}
 --- !u!114 &5041397750972415920 stripped
 MonoBehaviour:

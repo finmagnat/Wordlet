@@ -150,6 +150,7 @@ namespace Core.Services
             public const string EraserBoosterShown = Group + "eraser_booster_shown";
             public const string SwapBoosterShown = Group + "swap_booster_shown";
             public const string EraserBoosterClosed = Group + "eraser_booster_closed";
+            public const string SwapBoosterClosed = Group + "swap_booster_closed";
             public const string EraserBoosterSuccess = Group + "eraser_booster_success";
             public const string SlowdownBoosterSuccess = Group + "slowdown_booster_success";
             public const string SlowdownBoosterEnd = Group + "slowdown_booster_end";

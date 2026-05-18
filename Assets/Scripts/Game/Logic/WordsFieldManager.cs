@@ -96,6 +96,7 @@ namespace Game.Logic
             _isPause = false;
             _bModeSelectWord = false;
             _bModeEraser = false;
+            _bModeSwap = false;
             _wordsFildData.Reset();
         }
         
@@ -127,7 +128,7 @@ namespace Game.Logic
         /// <param name="eventData"></param>
         internal void TryCellSelect(CellSelectEvent eventData)
         {
-            if (_bModeSelectWord || _bModeEraser) return;
+            if (_bModeSelectWord || _bModeEraser || _bModeSwap) return;
             
             if (_wordsFildData.SelectedItem != null && 
                 _wordsFildData.SelectedItem.Index == eventData.letter.Index) // Эта ячейка уже была выделена

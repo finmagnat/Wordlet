@@ -9,6 +9,7 @@ namespace Core.Services
         public string RewardedLetter;
         public string RewardedSlowdown;
         public string RewardedEraser;
+        public string RewardedSwap;
         public string InterstitialAd;
 
 #if UNITY_EDITOR
@@ -28,6 +29,7 @@ namespace Core.Services
                 RewardType.Letter   => RewardedLetter,
                 RewardType.Slowdown => RewardedSlowdown,
                 RewardType.Eraser => RewardedEraser,
+                RewardType.Swap => RewardedSwap,
                 _ => null
             };
         }

@@ -1,4 +1,4 @@
-using Core.Services.Common;
+using Core.Config;
 using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;

@@ -50,4 +50,23 @@ namespace Core.Config
         BusterEraser,
         BusterSwap,
     }
+    
+    public enum BoosterType
+    {
+        None = 0,
+        Letter,      // “Буковка”
+        Slowdown,    // “Замедлялка”
+        Eraser,      // “Ластик”
+        Mixer,       // “Миксер”
+        Swap,        // “Менялка”
+    }
+    
+    public enum RewardType
+    {
+        None = 0,
+        Letter,
+        Slowdown,
+        Eraser, 
+        Swap, 
+    }
 }

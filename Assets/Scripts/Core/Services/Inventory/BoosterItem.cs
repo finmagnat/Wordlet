@@ -1,5 +1,5 @@
 using System;
-using Core.Services.Common;
+using Core.Config;
 
 namespace Core.Services.Inventory
 {

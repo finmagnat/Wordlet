@@ -97,6 +97,24 @@ namespace Game.Logic
                     _inventory.Boosters));
         }
 
+        public void TrackSwapBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData,
+            float currentTimerValue)
+        {
+            if (host == null || eventData == null || !eventData.isSwapSuccess)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterSuccess,
+                _payloadFactory.CreateSwapBoosterSuccessPayload(
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    eventData.boardBeforeSwap,
+                    eventData.boardAfterSwap,
+                    eventData.swapFirstIndex,
+                    eventData.swapSecondIndex,
+                    _inventory.Boosters));
+        }
+
         public void TrackSlowdownBoosterSuccess(IGameBoosterHost host, int slowdownDelay, float currentTimerValue,
             string[] boardData)
         {

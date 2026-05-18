@@ -36,6 +36,7 @@ namespace UI.Components
         private bool _bModeSwap;
 
         internal bool IsInputLocked => _isInputLocked;
+        internal bool IsBoosterLetterSelectionMode => _bModeEraser || _bModeSwap;
         
         public List<SelectableLetter> InitField()
         {

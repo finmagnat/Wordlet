@@ -74,9 +74,11 @@ namespace Game.Logic
         public void ResetForNewGame()
         {
             _bModeEraser = false;
+            _bModeSwap = false;
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
+            _activeSwapHost = null;
             CancelSlowdownTracking();
             _activeSlowdownHost = null;
         }
@@ -89,9 +91,11 @@ namespace Game.Logic
         public void OnGameFinished()
         {
             CancelEraserMode();
+            CancelSwapMode();
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
+            _activeSwapHost = null;
             StopSlowdown();
         }
 
@@ -121,12 +125,22 @@ namespace Game.Logic
 
         public void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
         {
-            if (!_bModeEraser || _gameScreen == null || _wordsFieldManager == null)
+            if (_gameScreen == null || _wordsFieldManager == null)
                 return;
 
-            TrackEraserBoosterSuccess(_activeEraserHost, eventData);
-            CancelEraserMode();
-            _bLetterRemoved = true;
+            if (_bModeEraser)
+            {
+                TrackEraserBoosterSuccess(_activeEraserHost, eventData);
+                CancelEraserMode();
+                _bLetterRemoved = true;
+                return;
+            }
+
+            if (_bModeSwap)
+            {
+                TrackSwapBoosterSuccess(_activeSwapHost, eventData);
+                CancelSwapMode();
+            }
         }
 
         public void StopSlowdown()
@@ -412,6 +426,14 @@ namespace Game.Logic
                 eventData,
                 _gameScreen.TimerBar.GetCurrentValue(),
                 _wordsFieldManager.WordsFieldData.GetBoardData());
+        }
+
+        private void TrackSwapBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData)
+        {
+            _analyticsReporter.TrackSwapBoosterSuccess(
+                host,
+                eventData,
+                _gameScreen.TimerBar.GetCurrentValue());
         }
 
         private void TrackSlowdownBoosterSuccess(IGameBoosterHost host)

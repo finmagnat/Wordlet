@@ -26,6 +26,7 @@ namespace UI.Components
         private SkinCellData _skin;
         private WordsField _wordsField;
         private float _suppressClickUntil;
+        private bool _handledPointerDownSelection;
         
         private float _blinkDtTimer = 0;
         private float _blinkCounter = 0;
@@ -62,9 +63,19 @@ namespace UI.Components
         
         public void OnPointerDown(PointerEventData eventData)
         {
+            _handledPointerDownSelection = false;
+
             if (IsInputLocked() || Empty()) return;
 
             _suppressClickUntil = Time.unscaledTime + 0.05f;
+
+            if (_wordsField != null && _wordsField.IsBoosterLetterSelectionMode)
+            {
+                _handledPointerDownSelection = true;
+                EventBus.Raise(new LetterSelectEvent{ letter = this });
+                return;
+            }
+
             _wordsField?.BeginDragSelection(this);
         }
 
@@ -82,7 +93,13 @@ namespace UI.Components
         
         public void OnPressed()
         {
+            bool handledPointerDownSelection = _handledPointerDownSelection;
+            _handledPointerDownSelection = false;
+
             if (IsInputLocked())
+                return;
+
+            if (handledPointerDownSelection)
                 return;
 
             // если PointerDown уже выбрал букву — не дублируем выбор по клику

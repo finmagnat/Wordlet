@@ -408,6 +408,12 @@ namespace Game.Logic
                 return;
             }
 
+            if (eventData.isSwapSuccess)
+            {
+                _boosterController.OnCellSelectSuccess(eventData);
+                return;
+            }
+
             _analyticsReporter.TrackCellSelected(eventData.letter.Index);
             _boosterController.OnCellSelectSuccess(eventData);
 
@@ -589,6 +595,7 @@ namespace Game.Logic
 
             _ai.AbortSearch();
             _boosterController.CancelEraserMode();
+            _boosterController.CancelSwapMode();
 
             _gameScreen.StatisticsPanel.HideAsync().Forget();
             _gameScreen.KeyboardPanel.HideAsync().Forget();

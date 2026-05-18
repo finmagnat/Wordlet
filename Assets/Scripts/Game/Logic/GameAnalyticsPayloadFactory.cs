@@ -200,6 +200,24 @@ namespace Game.Logic
             return statePayload;
         }
 
+        public Dictionary<string, object> CreateSwapBoosterSuccessPayload(
+            string locale,
+            int durationRound,
+            float currentTimerValue,
+            string[] boardBefore,
+            string[] boardAfter,
+            int firstIndex,
+            int secondIndex,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            var statePayload = CreateGameplayStatePayload(locale, boardAfter, durationRound, currentTimerValue, boosters);
+            statePayload[AnalyticsEvents.Parameter.FieldAfter] =
+                AnalyticsPayloadHelper.GetFieldPayload(boardBefore);
+            statePayload[AnalyticsEvents.Parameter.TargetIndexes] =
+                AnalyticsPayloadHelper.GetIndexesPayload(new[] { firstIndex, secondIndex });
+            return statePayload;
+        }
+
         public Dictionary<string, object> CreateSlowdownBoosterSuccessPayload(
             int slowdownDelay,
             string locale,

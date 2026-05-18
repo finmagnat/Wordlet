@@ -15,6 +15,7 @@ namespace Game.Logic
         
         private WordsFieldData _wordsFildData = new ();
         private readonly MixerPatternEngine _mixerPatternEngine = new(MixerPatternCatalog.CreateDefault());
+        private readonly List<SelectableLetter> _swapSelectedItems = new(2);
         
         private bool _bModeSelectWord;
         private bool _isPause;
@@ -97,6 +98,7 @@ namespace Game.Logic
             _bModeSelectWord = false;
             _bModeEraser = false;
             _bModeSwap = false;
+            ClearSwapSelection();
             _wordsFildData.Reset();
         }
         
@@ -168,6 +170,7 @@ namespace Game.Logic
         internal void SetModeSwap(bool value)
         {
             _bModeSwap = value;
+            ClearSwapSelection();
         }
         
         internal MixerResult MixLetters(LanguageDictionaryConfig dictionaryConfig)
@@ -233,6 +236,12 @@ namespace Game.Logic
                 });
                 return;
             }
+
+            if (_bModeSwap)
+            {
+                TrySelectSwapLetter(eventData.letter);
+                return;
+            }
             
             if (_bModeSelectWord && _wordsFildData.CheckSelectLetter(eventData.letter))
             {
@@ -240,6 +249,65 @@ namespace Game.Logic
                 //Debug.Log("[WordsFieldManager][OnLetterSelected] [Letter Put To Word Event] Index: " + eventData.letter.Index + ", Letter: " + eventData.letter.GetLetter());
                 EventBus.Raise(new LetterPutToWordEvent { letter = eventData.letter.GetLetter() });                
             }
+        }
+
+        private void TrySelectSwapLetter(SelectableLetter letter)
+        {
+            if (letter == null || letter.Empty())
+                return;
+
+            if (_swapSelectedItems.Remove(letter))
+            {
+                letter.UnHighlight();
+                return;
+            }
+
+            if (_swapSelectedItems.Count >= 2)
+                return;
+
+            _swapSelectedItems.Add(letter);
+            letter.Highlight();
+
+            if (_swapSelectedItems.Count < 2)
+                return;
+
+            var first = _swapSelectedItems[0];
+            var second = _swapSelectedItems[1];
+
+            if (first == null || second == null || first == second)
+            {
+                ClearSwapSelection();
+                return;
+            }
+
+            string[] boardBefore = _wordsFildData.GetBoardData();
+            string firstLetter = first.GetLetter();
+            string secondLetter = second.GetLetter();
+
+            first.SetLetter(secondLetter);
+            second.SetLetter(firstLetter);
+
+            string[] boardAfter = _wordsFildData.GetBoardData();
+            ClearSwapSelection();
+
+            EventBus.Raise(new CellSelectSuccessEvent
+            {
+                letter = second,
+                isSwapSuccess = true,
+                swapFirstIndex = first.Index,
+                swapSecondIndex = second.Index,
+                boardBeforeSwap = boardBefore,
+                boardAfterSwap = boardAfter
+            });
+        }
+
+        private void ClearSwapSelection()
+        {
+            foreach (var item in _swapSelectedItems)
+                if (item != null)
+                    item.UnHighlight();
+
+            _swapSelectedItems.Clear();
         }
 
         private void OnGameEnd(GameEndEvent eventData)

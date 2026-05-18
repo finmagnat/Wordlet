@@ -47,6 +47,7 @@ namespace Core.Config
         PlayVsAI,
         BusterLetter,
         BusterSlowdown,
-        BusterEraser
+        BusterEraser,
+        BusterSwap,
     }
 }

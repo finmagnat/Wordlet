@@ -531,6 +531,10 @@ MonoBehaviour:
     m_Key: POPUP_VICTORY_PROGRESS_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 68130679605837824
+    m_Key: LOADING_SCREEN_SWAP
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

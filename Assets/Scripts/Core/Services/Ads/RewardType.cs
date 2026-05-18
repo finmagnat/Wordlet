@@ -6,5 +6,6 @@ namespace Core.Services
         Letter,
         Slowdown,
         Eraser, 
+        Swap, 
     }
 }

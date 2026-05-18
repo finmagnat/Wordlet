@@ -7,5 +7,6 @@ namespace Inventory
         Slowdown,    // “Замедлялка”
         Eraser,      // “Ластик”
         Mixer,       // “Миксер”
+        Swap,        // “Менялка”
     }
 }

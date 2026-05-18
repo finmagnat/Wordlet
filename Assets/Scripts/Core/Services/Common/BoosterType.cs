@@ -1,4 +1,4 @@
-namespace Inventory
+namespace Core.Services.Common
 {
     public enum BoosterType
     {

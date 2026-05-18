@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Services;
+using Core.Services.Common;
 
 namespace Inventory
 {

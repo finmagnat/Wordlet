@@ -1,4 +1,4 @@
-namespace Core.Services
+namespace Core.Services.Common
 {
     public enum RewardType
     {

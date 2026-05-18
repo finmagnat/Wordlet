@@ -1,4 +1,5 @@
 using System;
+using Core.Services.Common;
 
 namespace Inventory
 {

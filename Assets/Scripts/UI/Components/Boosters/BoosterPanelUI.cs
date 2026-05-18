@@ -1,3 +1,4 @@
+using Core.Services.Common;
 using Inventory;
 using UnityEngine;
 using Zenject;

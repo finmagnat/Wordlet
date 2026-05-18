@@ -1,4 +1,4 @@
-using Inventory;
+using Core.Services.Common;
 
 namespace Core.Events
 {

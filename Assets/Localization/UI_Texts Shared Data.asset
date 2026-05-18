@@ -499,6 +499,10 @@ MonoBehaviour:
     m_Key: POPUP_HINT_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 56120294698795009
+    m_Key: POPUP_HINT_SWAP
+    m_Metadata:
+      m_Items: []
   - m_Id: 56188700009578496
     m_Key: POPUP_CLOUD_HINT_ERASER
     m_Metadata:

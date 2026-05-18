@@ -486,7 +486,6 @@ GameObject:
   - component: {fileID: 7130503054996650365}
   - component: {fileID: 1062218044694207615}
   - component: {fileID: 5450664083249814594}
-  - component: {fileID: 4054873908895599813}
   m_Layer: 5
   m_Name: HintText
   m_TagString: Untagged
@@ -614,30 +613,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4054873908895599813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989569160968556902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb59f96e2f24cd793f0cae7d14330fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localizedString:
-    m_TableReference:
-      m_TableCollectionName: GUID:0a5ae1994ef9a1a4b9c1933bb33f7666
-    m_TableEntryReference:
-      m_KeyId: 56120294698795008
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1221476948255041527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +1905,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3985699514760359786}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -4068,6 +4043,7 @@ MonoBehaviour:
   _scalePunch: 0.05
   _scaleTransform: {fileID: 8773241243926044560}
   _closeButton: {fileID: 1568544081335887976}
+  _hintText: {fileID: 5450664083249814594}
   _overlayRoot: {fileID: 8773241243926044560}
   _target: {fileID: 8335046255413620607}
   _topBlock: {fileID: 2692374625665743565}

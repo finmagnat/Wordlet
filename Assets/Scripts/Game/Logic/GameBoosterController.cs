@@ -42,6 +42,7 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private BoosterAnalyticsReporter _analyticsReporter;
+        [Inject] private LocalizationService _localization;
 
         private WordsFieldManager _wordsFieldManager;
         private AIGameController _ai;
@@ -253,6 +254,9 @@ namespace Game.Logic
             _activeEraserHost = host;
             _wordsFieldManager.SetModeEraser(true);
             _gameScreen.WordsField.SetModeEraser(true);
+            _gameScreen.HoleOverlay.SetHintText(_localization.Get(
+                LocalizationConst.TableUI,
+                LocalizationConst.KeyPopupHintEraser));
             TrackEraserBoosterShown(host);
             await _gameScreen.HoleOverlay.ShowAsync();
         }
@@ -270,6 +274,9 @@ namespace Game.Logic
             _activeSwapHost = host;
             _wordsFieldManager.SetModeSwap(true);
             _gameScreen.WordsField.SetModeSwap(true);
+            _gameScreen.HoleOverlay.SetHintText(_localization.Get(
+                LocalizationConst.TableUI,
+                LocalizationConst.KeyPopupHintSwap));
             TrackSwapBoosterShown(host);
             await _gameScreen.HoleOverlay.ShowAsync();
         }

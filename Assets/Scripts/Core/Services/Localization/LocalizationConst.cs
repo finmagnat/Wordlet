@@ -19,5 +19,7 @@ namespace Core.Services
         public const string KeyTextThrough = "TEXT_THROUGH";
         public const string KeyTextLimit = "TEXT_LIMIT";
         public const string KeyWordDefinitionPending = "WORD_DEFINITION_PENDING";
+        public const string KeyPopupHintEraser = "POPUP_HINT_ERASER";
+        public const string KeyPopupHintSwap = "POPUP_HINT_SWAP";
     }
 }

@@ -547,6 +547,10 @@ MonoBehaviour:
     m_Localized: Select a letter to erase it
     m_Metadata:
       m_Items: []
+  - m_Id: 56120294698795009
+    m_Localized: Select 2 letters to swap them
+    m_Metadata:
+      m_Items: []
   - m_Id: 56188700009578496
     m_Localized: You can only erase one letter per move
     m_Metadata:

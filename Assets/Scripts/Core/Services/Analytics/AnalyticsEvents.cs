@@ -148,6 +148,7 @@ namespace Core.Services
             public const string LetterBoosterSuccess = Group + "letter_booster_success";
             public const string LetterBoosterFail = Group + "letter_booster_fail";
             public const string EraserBoosterShown = Group + "eraser_booster_shown";
+            public const string SwapBoosterShown = Group + "swap_booster_shown";
             public const string EraserBoosterClosed = Group + "eraser_booster_closed";
             public const string EraserBoosterSuccess = Group + "eraser_booster_success";
             public const string SlowdownBoosterSuccess = Group + "slowdown_booster_success";

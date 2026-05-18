@@ -19,6 +19,7 @@ namespace Game.Logic
         private bool _bModeSelectWord;
         private bool _isPause;
         private bool _bModeEraser;
+        private bool _bModeSwap;
 
         public void Initialize()
         {
@@ -158,9 +159,14 @@ namespace Game.Logic
             }
         }
         
-        internal void SetModeEraser(bool bModeEraser)
+        internal void SetModeEraser(bool value)
         {
-            _bModeEraser = bModeEraser;
+            _bModeEraser = value;
+        }
+        
+        internal void SetModeSwap(bool value)
+        {
+            _bModeSwap = value;
         }
         
         internal MixerResult MixLetters(LanguageDictionaryConfig dictionaryConfig)

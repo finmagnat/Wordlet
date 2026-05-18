@@ -3,6 +3,7 @@ handlers.GrantStarterGift = function (args, context) {
         "boost_letter": 1,
         "boost_slow": 1,
         "boost_eraser": 1,
+        "boost_swap": 1,
     };
 
     const keys = Object.keys(gifts);

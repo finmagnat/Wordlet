@@ -47,10 +47,12 @@ namespace Game.Logic
         private AIGameController _ai;
         private GameScreenBase _gameScreen;
         private IGameBoosterHost _activeEraserHost;
+        private IGameBoosterHost _activeSwapHost;
         private IGameBoosterHost _activeSlowdownHost;
         private CancellationTokenSource _slowdownCts;
 
         private bool _bModeEraser;
+        private bool _bModeSwap;
         private bool _bLetterRemoved;
         private bool _boosterProcessing;
 
@@ -181,6 +183,10 @@ namespace Game.Logic
                 case BoosterType.Mixer:
                     await ActivateBoosterMixerAsync(host);
                     break;
+                
+                case BoosterType.Swap:
+                    await ActivateBoosterSwapAsync(host);
+                    break;
             }
 
             await host.BlockUIAsync(false);
@@ -192,7 +198,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return UniTask.CompletedTask;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
 
             host.CancelCurrentMove();
 
@@ -213,7 +219,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
 
             host.CancelCurrentMove();
 
@@ -222,6 +228,23 @@ namespace Game.Logic
             _wordsFieldManager.SetModeEraser(true);
             _gameScreen.WordsField.SetModeEraser(true);
             TrackEraserBoosterShown(host);
+            await _gameScreen.EraserOverlay.ShowAsync();
+        }
+        
+        private async UniTask ActivateBoosterSwapAsync(IGameBoosterHost host)
+        {
+            if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
+                return;
+
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
+
+            host.CancelCurrentMove();
+
+            _bModeSwap = true;
+            _activeSwapHost = host;
+            _wordsFieldManager.SetModeSwap(true);
+            _gameScreen.WordsField.SetModeSwap(true);
+            TrackSwapBoosterShown(host);
             await _gameScreen.EraserOverlay.ShowAsync();
         }
 
@@ -332,6 +355,12 @@ namespace Game.Logic
         private void TrackEraserBoosterShown(IGameBoosterHost host)
         {
             _analyticsReporter.TrackEraserBoosterShown(
+                host,
+                _wordsFieldManager.WordsFieldData.GetBoardData());
+        }
+        private void TrackSwapBoosterShown(IGameBoosterHost host)
+        {
+            _analyticsReporter.TrackSwapBoosterShown(
                 host,
                 _wordsFieldManager.WordsFieldData.GetBoardData());
         }

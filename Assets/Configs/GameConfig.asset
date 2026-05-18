@@ -72,6 +72,7 @@ MonoBehaviour:
   reportWordsDailyLimit: 5
   reportWordsCooldownSeconds: 90
   minLoadingScreenDurationMs: 3000
+  WinsInSeries: 3
   WinRewards:
   - ItemId: 1
     Amount: 1
@@ -82,3 +83,6 @@ MonoBehaviour:
   - ItemId: 3
     Amount: 1
     SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
+  - ItemId: 5
+    Amount: 1
+    SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}

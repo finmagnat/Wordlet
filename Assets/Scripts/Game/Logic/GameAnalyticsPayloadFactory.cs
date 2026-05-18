@@ -146,6 +146,17 @@ namespace Game.Logic
                 [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
             };
         }
+        
+        public Dictionary<string, object> CreateSwapBoosterShownPayload(
+            string locale,
+            string[] boardData)
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = locale,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
+            };
+        }
 
         public Dictionary<string, object> CreateEraserBoosterClosedPayload(
             int durationRound,

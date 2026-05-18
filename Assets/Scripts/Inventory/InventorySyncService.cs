@@ -34,6 +34,7 @@ namespace Inventory
                 PlayFabInventoryKeys.BoostLetter,
                 PlayFabInventoryKeys.BoostSlow,
                 PlayFabInventoryKeys.BoostEraser,
+                PlayFabInventoryKeys.BoostSwap,
             };
 
             var result = await GetUserReadOnlyDataAsync(keys);
@@ -41,10 +42,12 @@ namespace Inventory
             int letter = ReadInt(result.Data, PlayFabInventoryKeys.BoostLetter);
             int slow   = ReadInt(result.Data, PlayFabInventoryKeys.BoostSlow);
             int eraser = ReadInt(result.Data, PlayFabInventoryKeys.BoostEraser);
+            int swap = ReadInt(result.Data, PlayFabInventoryKeys.BoostSwap);
 
             _inventory.SetQuantity(BoosterType.Letter, letter);
             _inventory.SetQuantity(BoosterType.Slowdown, slow);
             _inventory.SetQuantity(BoosterType.Eraser, eraser);
+            _inventory.SetQuantity(BoosterType.Swap, swap);
 
             HasServerSnapshot = true;
             InventoryChanged?.Invoke();

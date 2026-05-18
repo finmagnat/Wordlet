@@ -47,6 +47,14 @@ namespace Game.Logic
                     host.LocaleCode,
                     boardData));
         }
+        
+        public void TrackSwapBoosterShown(IGameBoosterHost host, string[] boardData)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterShown,
+                _payloadFactory.CreateSwapBoosterShownPayload(
+                    host.LocaleCode,
+                    boardData));
+        }
 
         public void TrackEraserBoosterClosed(IGameBoosterHost host, float currentTimerValue)
         {

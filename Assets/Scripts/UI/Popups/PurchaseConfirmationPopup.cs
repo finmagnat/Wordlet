@@ -4,7 +4,7 @@ using Core.Data;
 using Core.Services;
 using Core.Services.Shop;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;
 

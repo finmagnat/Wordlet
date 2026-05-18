@@ -5,7 +5,7 @@ using Core.Generated;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
-using Inventory;
+using Core.Services.Inventory;
 using UI.Popups;
 using UnityEngine;
 using Zenject;

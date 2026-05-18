@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Services;
-using Inventory;
+using Core.Services.Common;
 using UnityEngine;
 
 namespace Core.Config
@@ -43,7 +42,7 @@ namespace Core.Config
         public bool DebugAvailable = true;
 
         [Header("Rewarded Ad only")]
-        public RewardType RewardType;   // Letter / Slowdown (какой ad unit дергать)
+        public RewardType RewardType;   // RewardedBoosterCatalog defines supported rewarded booster rewards.
         public int DailyLimit = 20;     // лимит на “фарм”
         public int CooldownSeconds = 60; // анти-спам
         

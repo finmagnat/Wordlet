@@ -1,6 +1,6 @@
-using Core.Services;
 using System;
 using System.Collections.Generic;
+using Core.Config;
 using Cysharp.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -8,7 +8,7 @@ using PlayFab.Json;
 using UnityEngine;
 using Zenject;
 
-namespace Inventory
+namespace Core.Services.Inventory
 {
     public class InventorySyncService : IService
     {
@@ -29,22 +29,11 @@ namespace Inventory
         /// </summary>
         public async UniTask SyncFromServerAsync()
         {
-            var keys = new List<string>
-            {
-                PlayFabInventoryKeys.BoostLetter,
-                PlayFabInventoryKeys.BoostSlow,
-                PlayFabInventoryKeys.BoostEraser,
-            };
-
+            var keys = RewardedBoosterCatalog.GetPlayFabKeys();
             var result = await GetUserReadOnlyDataAsync(keys);
 
-            int letter = ReadInt(result.Data, PlayFabInventoryKeys.BoostLetter);
-            int slow   = ReadInt(result.Data, PlayFabInventoryKeys.BoostSlow);
-            int eraser = ReadInt(result.Data, PlayFabInventoryKeys.BoostEraser);
-
-            _inventory.SetQuantity(BoosterType.Letter, letter);
-            _inventory.SetQuantity(BoosterType.Slowdown, slow);
-            _inventory.SetQuantity(BoosterType.Eraser, eraser);
+            foreach (var definition in RewardedBoosterCatalog.All)
+                _inventory.SetQuantity(definition.BoosterType, ReadInt(result.Data, definition.PlayFabKey));
 
             HasServerSnapshot = true;
             InventoryChanged?.Invoke();

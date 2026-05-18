@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.DataDictionary
+namespace Core.Services.DataDictionary
 {
     [CreateAssetMenu(menuName = "Wordlet/Dictionary/Language Config", fileName = "LanguageDictionaryConfig")]
     public class LanguageDictionaryConfig : ScriptableObject

@@ -1,14 +1,15 @@
 using System;
 using Core.Config;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
-using Inventory;
+using Core.Services.Inventory;
 using System.Threading;
 using Core.Services;
+using Core.Services.Common;
 using Game.Logic.Mixer;
 using UI.Popups;
 using UI.Screens;
@@ -42,15 +43,18 @@ namespace Game.Logic
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
         [Inject] private BoosterAnalyticsReporter _analyticsReporter;
+        [Inject] private LocalizationService _localization;
 
         private WordsFieldManager _wordsFieldManager;
         private AIGameController _ai;
         private GameScreenBase _gameScreen;
         private IGameBoosterHost _activeEraserHost;
+        private IGameBoosterHost _activeSwapHost;
         private IGameBoosterHost _activeSlowdownHost;
         private CancellationTokenSource _slowdownCts;
 
         private bool _bModeEraser;
+        private bool _bModeSwap;
         private bool _bLetterRemoved;
         private bool _boosterProcessing;
 
@@ -58,23 +62,25 @@ namespace Game.Logic
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
-            if (_gameScreen?.EraserOverlay != null)
-                _gameScreen.EraserOverlay.CloseButtonClicked -= OnEraserOverlayCloseButtonClicked;
+            if (_gameScreen?.HoleOverlay != null)
+                _gameScreen.HoleOverlay.CloseButtonClicked -= OnHoleOverlayCloseButtonClicked;
 
             _gameScreen = gameScreen;
             _wordsFieldManager = wordsFieldManager;
             _ai = ai;
 
-            if (_gameScreen?.EraserOverlay != null)
-                _gameScreen.EraserOverlay.CloseButtonClicked += OnEraserOverlayCloseButtonClicked;
+            if (_gameScreen?.HoleOverlay != null)
+                _gameScreen.HoleOverlay.CloseButtonClicked += OnHoleOverlayCloseButtonClicked;
         }
 
         public void ResetForNewGame()
         {
             _bModeEraser = false;
+            _bModeSwap = false;
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
+            _activeSwapHost = null;
             CancelSlowdownTracking();
             _activeSlowdownHost = null;
         }
@@ -87,9 +93,11 @@ namespace Game.Logic
         public void OnGameFinished()
         {
             CancelEraserMode();
+            CancelSwapMode();
             _bLetterRemoved = false;
             _boosterProcessing = false;
             _activeEraserHost = null;
+            _activeSwapHost = null;
             StopSlowdown();
         }
 
@@ -102,17 +110,39 @@ namespace Game.Logic
             _activeEraserHost = null;
             _wordsFieldManager.SetModeEraser(false);
             _gameScreen.WordsField.SetModeEraser(false);
-            _gameScreen.EraserOverlay.HideAsync().Forget();
+            _gameScreen.HoleOverlay.HideAsync().Forget();
+        }
+        
+        public void CancelSwapMode()
+        {
+            if (!_bModeSwap || _gameScreen == null || _wordsFieldManager == null)
+                return;
+
+            _bModeSwap = false;
+            _activeSwapHost = null;
+            _wordsFieldManager.SetModeSwap(false);
+            _gameScreen.WordsField.SetModeSwap(false);
+            _gameScreen.HoleOverlay.HideAsync().Forget();
         }
 
         public void OnCellSelectSuccess(CellSelectSuccessEvent eventData)
         {
-            if (!_bModeEraser || _gameScreen == null || _wordsFieldManager == null)
+            if (_gameScreen == null || _wordsFieldManager == null)
                 return;
 
-            TrackEraserBoosterSuccess(_activeEraserHost, eventData);
-            CancelEraserMode();
-            _bLetterRemoved = true;
+            if (_bModeEraser)
+            {
+                TrackEraserBoosterSuccess(_activeEraserHost, eventData);
+                CancelEraserMode();
+                _bLetterRemoved = true;
+                return;
+            }
+
+            if (_bModeSwap)
+            {
+                TrackSwapBoosterSuccess(_activeSwapHost, eventData);
+                CancelSwapMode();
+            }
         }
 
         public void StopSlowdown()
@@ -181,6 +211,10 @@ namespace Game.Logic
                 case BoosterType.Mixer:
                     await ActivateBoosterMixerAsync(host);
                     break;
+                
+                case BoosterType.Swap:
+                    await ActivateBoosterSwapAsync(host);
+                    break;
             }
 
             await host.BlockUIAsync(false);
@@ -192,7 +226,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return UniTask.CompletedTask;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
 
             host.CancelCurrentMove();
 
@@ -213,7 +247,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
 
             host.CancelCurrentMove();
 
@@ -221,8 +255,31 @@ namespace Game.Logic
             _activeEraserHost = host;
             _wordsFieldManager.SetModeEraser(true);
             _gameScreen.WordsField.SetModeEraser(true);
+            _gameScreen.HoleOverlay.SetHintText(_localization.Get(
+                LocalizationConst.TableUI,
+                LocalizationConst.KeyPopupHintEraser));
             TrackEraserBoosterShown(host);
-            await _gameScreen.EraserOverlay.ShowAsync();
+            await _gameScreen.HoleOverlay.ShowAsync();
+        }
+        
+        private async UniTask ActivateBoosterSwapAsync(IGameBoosterHost host)
+        {
+            if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
+                return;
+
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
+
+            host.CancelCurrentMove();
+
+            _bModeSwap = true;
+            _activeSwapHost = host;
+            _wordsFieldManager.SetModeSwap(true);
+            _gameScreen.WordsField.SetModeSwap(true);
+            _gameScreen.HoleOverlay.SetHintText(_localization.Get(
+                LocalizationConst.TableUI,
+                LocalizationConst.KeyPopupHintSwap));
+            TrackSwapBoosterShown(host);
+            await _gameScreen.HoleOverlay.ShowAsync();
         }
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
@@ -312,16 +369,30 @@ namespace Game.Logic
             EndSlowdown(restartTimer: !host.IsPaused && host.IsGameStarted && host.IsOwnerTurn);
         }
 
-        private void OnEraserOverlayCloseButtonClicked()
+        private void OnHoleOverlayCloseButtonClicked()
         {
-            if (!_bModeEraser)
-                return;
-
-            var host = _activeEraserHost;
-            CancelEraserMode();
-            ReturnEraserBoosterAsync(host).Forget();
+            if (_bModeEraser)
+            {
+                var host = _activeEraserHost;
+                CancelEraserMode();
+                ReturnEraserBoosterAsync(host).Forget();
+            }
+            
+            if (_bModeSwap)
+            {
+                var host = _activeSwapHost;
+                CancelSwapMode();
+                ReturnSwapBoosterAsync(host).Forget();
+            }
         }
-
+        
+        private async UniTaskVoid ReturnSwapBoosterAsync(IGameBoosterHost host)
+        {
+            await _inventorySync.GrantBoosterAsync(BoosterType.Swap, 1);
+            _gameScreen?.BoosterPanel.Refresh();
+            TrackSwapBoosterClosed(host);
+        }
+        
         private async UniTaskVoid ReturnEraserBoosterAsync(IGameBoosterHost host)
         {
             await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1);
@@ -335,10 +406,23 @@ namespace Game.Logic
                 host,
                 _wordsFieldManager.WordsFieldData.GetBoardData());
         }
+        private void TrackSwapBoosterShown(IGameBoosterHost host)
+        {
+            _analyticsReporter.TrackSwapBoosterShown(
+                host,
+                _wordsFieldManager.WordsFieldData.GetBoardData());
+        }
 
         private void TrackEraserBoosterClosed(IGameBoosterHost host)
         {
             _analyticsReporter.TrackEraserBoosterClosed(
+                host,
+                _gameScreen.TimerBar.GetCurrentValue());
+        }
+        
+        private void TrackSwapBoosterClosed(IGameBoosterHost host)
+        {
+            _analyticsReporter.TrackSwapBoosterClosed(
                 host,
                 _gameScreen.TimerBar.GetCurrentValue());
         }
@@ -350,6 +434,14 @@ namespace Game.Logic
                 eventData,
                 _gameScreen.TimerBar.GetCurrentValue(),
                 _wordsFieldManager.WordsFieldData.GetBoardData());
+        }
+
+        private void TrackSwapBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData)
+        {
+            _analyticsReporter.TrackSwapBoosterSuccess(
+                host,
+                eventData,
+                _gameScreen.TimerBar.GetCurrentValue());
         }
 
         private void TrackSlowdownBoosterSuccess(IGameBoosterHost host)

@@ -1,7 +1,7 @@
 using Core.Events;
 using Core.Services;
 using Game.Logic.Mixer;
-using Inventory;
+using Core.Services.Inventory;
 
 namespace Game.Logic
 {
@@ -47,6 +47,14 @@ namespace Game.Logic
                     host.LocaleCode,
                     boardData));
         }
+        
+        public void TrackSwapBoosterShown(IGameBoosterHost host, string[] boardData)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterShown,
+                _payloadFactory.CreateSwapBoosterShownPayload(
+                    host.LocaleCode,
+                    boardData));
+        }
 
         public void TrackEraserBoosterClosed(IGameBoosterHost host, float currentTimerValue)
         {
@@ -55,6 +63,18 @@ namespace Game.Logic
 
             _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterClosed,
                 _payloadFactory.CreateEraserBoosterClosedPayload(
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    _inventory.Boosters));
+        }
+        
+        public void TrackSwapBoosterClosed(IGameBoosterHost host, float currentTimerValue)
+        {
+            if (host == null)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterClosed,
+                _payloadFactory.CreateSwapBoosterClosedPayload(
                     host.RoundDurationSeconds,
                     currentTimerValue,
                     _inventory.Boosters));
@@ -74,6 +94,24 @@ namespace Game.Logic
                     eventData.erasedLetter,
                     host.RoundDurationSeconds,
                     currentTimerValue,
+                    _inventory.Boosters));
+        }
+
+        public void TrackSwapBoosterSuccess(IGameBoosterHost host, CellSelectSuccessEvent eventData,
+            float currentTimerValue)
+        {
+            if (host == null || eventData == null || !eventData.isSwapSuccess)
+                return;
+
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.SwapBoosterSuccess,
+                _payloadFactory.CreateSwapBoosterSuccessPayload(
+                    host.LocaleCode,
+                    host.RoundDurationSeconds,
+                    currentTimerValue,
+                    eventData.boardBeforeSwap,
+                    eventData.boardAfterSwap,
+                    eventData.swapFirstIndex,
+                    eventData.swapSecondIndex,
                     _inventory.Boosters));
         }
 

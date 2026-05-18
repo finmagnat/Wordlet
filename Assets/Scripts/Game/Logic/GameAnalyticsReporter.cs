@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Services;
-using Inventory;
+using Core.Services.Common;
+using Core.Services.Inventory;
 
 namespace Game.Logic
 {

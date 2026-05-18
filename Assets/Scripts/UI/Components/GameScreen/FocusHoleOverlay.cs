@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
+using TMPro;
 using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace UI.Components
 
         [Header("Controls")]
         [SerializeField] private Button _closeButton;
+        [SerializeField] private TextMeshProUGUI _hintText;
         
         [Header("Root")]
         [SerializeField] private RectTransform _overlayRoot;
@@ -69,6 +71,12 @@ namespace UI.Components
 
         public bool IsShown => _isShown;
         public RectTransform Target => _target;
+
+        public void SetHintText(string text)
+        {
+            if (_hintText != null)
+                _hintText.text = text ?? string.Empty;
+        }
 
         protected override void Awake()
         {

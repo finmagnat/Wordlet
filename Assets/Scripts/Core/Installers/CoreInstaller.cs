@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Build;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.NewWords;
@@ -9,7 +9,7 @@ using Core.Services.Shop;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
-using Inventory;
+using Core.Services.Inventory;
 using UI.Popups;
 using UI.Screens;
 using UI.UI;

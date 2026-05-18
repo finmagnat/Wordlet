@@ -1,4 +1,4 @@
-using Inventory;
+using Core.Config;
 
 namespace UI.Components
 {

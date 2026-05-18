@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Core.Config;
 
-namespace Inventory
+namespace Core.Services.Inventory
 {
     public class InventoryService : IInventoryService
     {

@@ -1,5 +1,5 @@
+using Core.Config;
 using Core.Data;
-using Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

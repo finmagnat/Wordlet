@@ -1,6 +1,4 @@
-using Core.Services;
-
-namespace Core.DataDictionary
+namespace Core.Services.DataDictionary
 {
     public interface IDictionaryService : IService
     {

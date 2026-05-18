@@ -1,4 +1,5 @@
-using Inventory;
+using Core.Config;
+using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;
 

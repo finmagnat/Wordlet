@@ -7,6 +7,11 @@ namespace Core.Events
         public SelectableLetter letter;
         public bool isEraserSuccess;
         public string erasedLetter;
+        public bool isSwapSuccess;
+        public int swapFirstIndex;
+        public int swapSecondIndex;
+        public string[] boardBeforeSwap;
+        public string[] boardAfterSwap;
     }
 
 }

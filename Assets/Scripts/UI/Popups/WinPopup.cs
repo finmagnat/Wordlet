@@ -3,7 +3,7 @@ using Core.Data;
 using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;
 

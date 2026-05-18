@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Core.Config;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;
 
@@ -46,23 +47,22 @@ namespace Core.Services
 
         private async UniTaskVoid GrantAsync(RewardType rewardType)
         {
-            var booster = Map(rewardType);
-            if (booster == null)
+            if (!RewardedBoosterCatalog.TryGetBoosterType(rewardType, out var booster))
             {
                 Debug.LogWarning($"[Reward] Unknown rewardType={rewardType}");
                 return;
             }
 
             // ✅ Server-authoritative: CloudScript AddBooster
-            bool ok = await _inventorySync.GrantBoosterAsync(booster.Value, 1);
+            bool ok = await _inventorySync.GrantBoosterAsync(booster, 1);
 
             if (!ok)
             {
-                Debug.LogWarning($"[Reward] Failed to grant {booster.Value}.");
+                Debug.LogWarning($"[Reward] Failed to grant {booster}.");
                 return;
             }
 
-            Debug.Log($"[Reward] Granted +1 {booster.Value} (server).");
+            Debug.Log($"[Reward] Granted +1 {booster} (server).");
 
             // ✅ важно: cooldown/daily лимит — только после успешного начисления
             _limits.RegisterSuccessfulClaim(rewardType);
@@ -74,15 +74,5 @@ namespace Core.Services
             OnRewardGranted?.Invoke(rewardType, 1);
         }
 
-        private static BoosterType? Map(RewardType rewardType)
-        {
-            return rewardType switch
-            {
-                RewardType.Letter   => BoosterType.Letter,
-                RewardType.Slowdown => BoosterType.Slowdown,
-                RewardType.Eraser => BoosterType.Eraser,
-                _ => (BoosterType?)null
-            };
-        }
     }
 }

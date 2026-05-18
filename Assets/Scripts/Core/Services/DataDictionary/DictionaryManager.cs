@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 using UnityEngine.Localization;
 
-namespace Core.DataDictionary
+namespace Core.Services.DataDictionary
 {
     public class DictionaryManager
     {

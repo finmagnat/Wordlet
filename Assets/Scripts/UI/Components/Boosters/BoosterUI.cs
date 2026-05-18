@@ -1,5 +1,6 @@
+using Core.Config;
 using Core.Events;
-using Inventory;
+using Core.Services.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

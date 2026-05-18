@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using Core.Data;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.Common;

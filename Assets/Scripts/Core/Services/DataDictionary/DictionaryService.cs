@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core.DataDictionary
+namespace Core.Services.DataDictionary
 {
     public class DictionaryService : IDictionaryService
     {

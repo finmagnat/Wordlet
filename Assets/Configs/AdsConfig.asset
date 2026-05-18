@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ac74bb3bf14d79b8ccb478f62a592e, type: 3}
   m_Name: AdsConfig
   m_EditorClassIdentifier: Assembly-CSharp::Core.Services.AdsConfig
-  RewardedLetter: ca-app-pub-8216303467519012/4101298318
-  RewardedSlowdown: ca-app-pub-8216303467519012/5358539665
-  RewardedEraser: ca-app-pub-8216303467519012/5951671611
+  RewardedAdUnits:
+  - RewardType: 1
+    AdUnitId: ca-app-pub-8216303467519012/4101298318
+  - RewardType: 2
+    AdUnitId: ca-app-pub-8216303467519012/5358539665
+  - RewardType: 3
+    AdUnitId: ca-app-pub-8216303467519012/5951671611
+  - RewardType: 4
+    AdUnitId: ca-app-pub-8216303467519012/5322356891
   InterstitialAd: ca-app-pub-8216303467519012/8664733002
   UseTestIds: 0

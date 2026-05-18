@@ -499,6 +499,10 @@ MonoBehaviour:
     m_Key: POPUP_HINT_ERASER
     m_Metadata:
       m_Items: []
+  - m_Id: 56120294698795009
+    m_Key: POPUP_HINT_SWAP
+    m_Metadata:
+      m_Items: []
   - m_Id: 56188700009578496
     m_Key: POPUP_CLOUD_HINT_ERASER
     m_Metadata:
@@ -525,6 +529,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 67739878069518336
     m_Key: POPUP_VICTORY_PROGRESS_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68130679605837824
+    m_Key: LOADING_SCREEN_SWAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68141737703784448
+    m_Key: STORE_TITLE_SWAP
     m_Metadata:
       m_Items: []
   m_Metadata:

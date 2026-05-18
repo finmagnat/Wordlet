@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Config;
 using Core.Events;
 using Cysharp.Threading.Tasks;
 using GoogleMobileAds.Api;
@@ -28,9 +29,8 @@ namespace Core.Services
         public UniTask InitializeAsync()
         {
 #if UNITY_ANDROID || UNITY_IOS
-            EnsureLoaded(RewardType.Letter, AnalyticsEvents.Option.Initial);
-            EnsureLoaded(RewardType.Slowdown, AnalyticsEvents.Option.Initial);
-            EnsureLoaded(RewardType.Eraser, AnalyticsEvents.Option.Initial);
+            foreach (var definition in RewardedBoosterCatalog.All)
+                EnsureLoaded(definition.RewardType, AnalyticsEvents.Option.Initial);
 #else
             Debug.Log("[Ads] Skipping rewarded init on this platform.");
 #endif

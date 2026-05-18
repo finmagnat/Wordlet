@@ -33,8 +33,10 @@ namespace UI.Components
         private List<SelectableLetter> _items = new (WordsFieldData.AMOUNT_LETTERS);
         private bool _isInitialized;
         private bool _bModeEraser;
+        private bool _bModeSwap;
 
         internal bool IsInputLocked => _isInputLocked;
+        internal bool IsBoosterLetterSelectionMode => _bModeEraser || _bModeSwap;
         
         public List<SelectableLetter> InitField()
         {
@@ -43,6 +45,7 @@ namespace UI.Components
             _isDragging = false;
             _isInputLocked = false;
             _bModeEraser = false;
+            _bModeSwap = false;
             _dragPath.Clear();
             _dragVisited.Clear();
             
@@ -70,7 +73,7 @@ namespace UI.Components
 
         public void BeginDragSelection(SelectableLetter start)
         {
-            if (_isInputLocked || _bModeEraser || start == null || start.Empty())
+            if (_isInputLocked || _bModeEraser || _bModeSwap || start == null || start.Empty())
                 return;
 
             _isDragging = true;
@@ -196,6 +199,11 @@ namespace UI.Components
         internal void SetModeEraser(bool value)
         {
             _bModeEraser = value;
+        }
+        
+        internal void SetModeSwap(bool value)
+        {
+            _bModeSwap = value;
         }
 
         private void AddToPathAndNotifySelect(SelectableLetter letter)

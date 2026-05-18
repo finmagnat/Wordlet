@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
 using Core.Services;
-using Inventory;
+using Core.Services.Common;
+using Core.Services.Inventory;
 using UnityEngine;
 
 namespace Game.Logic
@@ -77,8 +78,8 @@ namespace Game.Logic
         {
             snapshot[AnalyticsEvents.Parameter.Result] = resultGame switch
             {
-                ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
-                ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
+                ResultGame.OwnerWin => AnalyticsEvents.Option.Win,
+                ResultGame.OwnerLose => AnalyticsEvents.Option.Lose,
                 _ => AnalyticsEvents.Option.Draft
             };
 
@@ -146,8 +147,32 @@ namespace Game.Logic
                 [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
             };
         }
+        
+        public Dictionary<string, object> CreateSwapBoosterShownPayload(
+            string locale,
+            string[] boardData)
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.Locale] = locale,
+                [AnalyticsEvents.Parameter.Field] = AnalyticsPayloadHelper.GetFieldPayload(boardData)
+            };
+        }
 
         public Dictionary<string, object> CreateEraserBoosterClosedPayload(
+            int durationRound,
+            float currentTimerValue,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            return new Dictionary<string, object>
+            {
+                [AnalyticsEvents.Parameter.DurationRound] = durationRound,
+                [AnalyticsEvents.Parameter.DurationRoundLeft] = Mathf.Max(0, durationRound - Mathf.RoundToInt(currentTimerValue)),
+                [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(boosters)
+            };
+        }
+        
+        public Dictionary<string, object> CreateSwapBoosterClosedPayload(
             int durationRound,
             float currentTimerValue,
             IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
@@ -173,6 +198,24 @@ namespace Game.Logic
             statePayload.Remove(AnalyticsEvents.Parameter.CellsEmpty);
             statePayload[AnalyticsEvents.Parameter.EraseItem] =
                 AnalyticsPayloadHelper.GetIndexedItemPayload(erasedIndex, erasedLetter);
+            return statePayload;
+        }
+
+        public Dictionary<string, object> CreateSwapBoosterSuccessPayload(
+            string locale,
+            int durationRound,
+            float currentTimerValue,
+            string[] boardBefore,
+            string[] boardAfter,
+            int firstIndex,
+            int secondIndex,
+            IReadOnlyDictionary<BoosterType, BoosterItem> boosters)
+        {
+            var statePayload = CreateGameplayStatePayload(locale, boardAfter, durationRound, currentTimerValue, boosters);
+            statePayload[AnalyticsEvents.Parameter.FieldAfter] =
+                AnalyticsPayloadHelper.GetFieldPayload(boardBefore);
+            statePayload[AnalyticsEvents.Parameter.TargetIndexes] =
+                AnalyticsPayloadHelper.GetIndexesPayload(new[] { firstIndex, secondIndex });
             return statePayload;
         }
 

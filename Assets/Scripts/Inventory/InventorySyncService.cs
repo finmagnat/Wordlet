@@ -29,25 +29,11 @@ namespace Inventory
         /// </summary>
         public async UniTask SyncFromServerAsync()
         {
-            var keys = new List<string>
-            {
-                PlayFabInventoryKeys.BoostLetter,
-                PlayFabInventoryKeys.BoostSlow,
-                PlayFabInventoryKeys.BoostEraser,
-                PlayFabInventoryKeys.BoostSwap,
-            };
-
+            var keys = RewardedBoosterCatalog.GetPlayFabKeys();
             var result = await GetUserReadOnlyDataAsync(keys);
 
-            int letter = ReadInt(result.Data, PlayFabInventoryKeys.BoostLetter);
-            int slow   = ReadInt(result.Data, PlayFabInventoryKeys.BoostSlow);
-            int eraser = ReadInt(result.Data, PlayFabInventoryKeys.BoostEraser);
-            int swap = ReadInt(result.Data, PlayFabInventoryKeys.BoostSwap);
-
-            _inventory.SetQuantity(BoosterType.Letter, letter);
-            _inventory.SetQuantity(BoosterType.Slowdown, slow);
-            _inventory.SetQuantity(BoosterType.Eraser, eraser);
-            _inventory.SetQuantity(BoosterType.Swap, swap);
+            foreach (var definition in RewardedBoosterCatalog.All)
+                _inventory.SetQuantity(definition.BoosterType, ReadInt(result.Data, definition.PlayFabKey));
 
             HasServerSnapshot = true;
             InventoryChanged?.Invoke();

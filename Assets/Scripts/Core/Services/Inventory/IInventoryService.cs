@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Core.Services;
 using Core.Services.Common;
 
-namespace Inventory
+namespace Core.Services.Inventory
 {
     public interface IInventoryService : IService
     {

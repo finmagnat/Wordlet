@@ -4,7 +4,7 @@ using Core.Data;
 using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.UI;

@@ -10,7 +10,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
-using Inventory;
+using Core.Services.Inventory;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;

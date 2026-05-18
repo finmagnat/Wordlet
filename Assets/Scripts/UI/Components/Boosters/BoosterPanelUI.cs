@@ -1,5 +1,5 @@
 using Core.Services.Common;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 using Zenject;
 

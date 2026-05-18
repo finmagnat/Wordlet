@@ -4,7 +4,7 @@ using System.Linq;
 using Core.Config;
 using Core.Data;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using PlayFab;
 using PlayFab.ClientModels;
 using Zenject;

@@ -3,7 +3,7 @@ using Core.Config;
 using Core.Data;
 using Core.Services;
 using Core.Services.Common;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 
 namespace Game.Logic

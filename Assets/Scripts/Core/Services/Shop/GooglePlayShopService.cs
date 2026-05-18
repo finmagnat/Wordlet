@@ -5,7 +5,7 @@ using Core.Config;
 using Core.Data;
 using Core.Services.Common;
 using Cysharp.Threading.Tasks;
-using Inventory;
+using Core.Services.Inventory;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using Zenject;

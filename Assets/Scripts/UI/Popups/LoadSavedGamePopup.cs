@@ -6,7 +6,7 @@ using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
-using Inventory;
+using Core.Services.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,4 +1,3 @@
-using Core.Services;
 using System;
 using System.Collections.Generic;
 using Core.Services.Common;
@@ -9,7 +8,7 @@ using PlayFab.Json;
 using UnityEngine;
 using Zenject;
 
-namespace Inventory
+namespace Core.Services.Inventory
 {
     public class InventorySyncService : IService
     {

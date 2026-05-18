@@ -1,7 +1,7 @@
 using System;
 using Core.Services.Common;
 
-namespace Inventory
+namespace Core.Services.Inventory
 {
     [Serializable]
     public class BoosterItem

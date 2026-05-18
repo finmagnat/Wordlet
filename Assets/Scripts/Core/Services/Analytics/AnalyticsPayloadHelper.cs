@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Data;
 using Core.Services.Common;
-using Inventory;
+using Core.Services.Inventory;
 
 namespace Core.Services
 {

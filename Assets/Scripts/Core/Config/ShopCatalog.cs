@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Services;
 using Core.Services.Common;
-using Inventory;
 using UnityEngine;
 
 namespace Core.Config

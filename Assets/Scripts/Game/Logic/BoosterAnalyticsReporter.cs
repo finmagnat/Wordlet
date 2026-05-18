@@ -1,7 +1,7 @@
 using Core.Events;
 using Core.Services;
 using Game.Logic.Mixer;
-using Inventory;
+using Core.Services.Inventory;
 
 namespace Game.Logic
 {

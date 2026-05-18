@@ -6,7 +6,7 @@ using Core.Generated;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
-using Inventory;
+using Core.Services.Inventory;
 using System.Threading;
 using Core.Services;
 using Core.Services.Common;

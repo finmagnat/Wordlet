@@ -143,10 +143,10 @@ namespace UI.Popups
         {
             return (ComplexityAI)complexityAI switch
             {
-                ComplexityAI.EASY => "POPUP_LABEL_DIFFICULTY_EASY",
-                ComplexityAI.NORMAL => "POPUP_LABEL_DIFFICULTY_NORMAL",
-                ComplexityAI.HARD => "POPUP_LABEL_DIFFICULTY_HARD",
-                ComplexityAI.MASTER => "POPUP_LABEL_DIFFICULTY_MASTER",
+                ComplexityAI.Easy => "POPUP_LABEL_DIFFICULTY_EASY",
+                ComplexityAI.Normal => "POPUP_LABEL_DIFFICULTY_NORMAL",
+                ComplexityAI.Hard => "POPUP_LABEL_DIFFICULTY_HARD",
+                ComplexityAI.Master => "POPUP_LABEL_DIFFICULTY_MASTER",
                 _ => "none"
             };
         }

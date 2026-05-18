@@ -70,7 +70,7 @@ namespace Game.Logic
         {
             if (!_bModeSelectWord) return false;
             GameError err = _wordsFildData.CheckWord(word);
-            if (err == GameError.NONE)
+            if (err == GameError.None)
                 return true;
             
             EventBus.Raise(new PlayerErrorEvent { GameError = err });

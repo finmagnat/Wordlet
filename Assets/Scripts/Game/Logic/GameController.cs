@@ -209,7 +209,7 @@ namespace Game.Logic
 
                     _bModePlayOwner = true;
                     break;
-                case GameOpponent.FRIEND:
+                case GameOpponent.Friend:
                     _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_OPPONENT"));
                     _maxPasses = _configService.Game.maxPassesByDefault;
                     _bModePlayOwner = true;
@@ -327,7 +327,7 @@ namespace Game.Logic
 
             if (!_bLetterPut)
             {
-                EventBus.Raise(new PlayerErrorEvent { GameError = GameError.NO_SETTED_LETTER });
+                EventBus.Raise(new PlayerErrorEvent { GameError = GameError.NoLetterInstalled });
                 return;
             }
 
@@ -466,13 +466,13 @@ namespace Game.Logic
 
             switch (eventData.GameError)
             {
-                case GameError.SET_LETTER_NO_SELECTED:
+                case GameError.SetLetterNoSelected:
                     BlockUIAsync(true, BlockUIScreenMode.NoSpinner).Forget();
                     _gameScreen.CancelButton.SetActive(false);
                     _gameScreen.GoButton.SetActive(false);
                     _wordsFieldManager.BlinkNoSelectedLetter();
                     break;
-                case GameError.WORD_ALREADY_BEEN:
+                case GameError.WordAlreadyBeen:
                     Cancel();
                     break;
             }
@@ -698,26 +698,26 @@ namespace Game.Logic
             _gameScreen.CancelButton.SetActive(false);
             _gameScreen.GoButton.SetActive(false);
 
-            ResultGame resultGame = ResultGame.DRAW;
+            ResultGame resultGame = ResultGame.Draw;
             bool bResultDetermined = false;
 
             if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass))
             {
                 bResultDetermined = true;
-                resultGame = ResultGame.OWNER_LOSE;
+                resultGame = ResultGame.OwnerLose;
             }
             else if (MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass))
             {
                 bResultDetermined = true;
-                resultGame = ResultGame.OWNER_WIN;
+                resultGame = ResultGame.OwnerWin;
             }
 
             if (!bResultDetermined)
             {
                 if (_gameScreen.PlayerPanelOwner.Score > _gameScreen.PlayerPanelOpponent.Score)
-                    resultGame = ResultGame.OWNER_WIN;
+                    resultGame = ResultGame.OwnerWin;
                 else if (_gameScreen.PlayerPanelOwner.Score < _gameScreen.PlayerPanelOpponent.Score)
-                    resultGame = ResultGame.OWNER_LOSE;
+                    resultGame = ResultGame.OwnerLose;
             }
 
             var analyticsSnapshot = GetGameSnapshotParams();
@@ -757,8 +757,8 @@ namespace Game.Logic
                 _maxPasses,
                 resultGame switch
                 {
-                    ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
-                    ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
+                    ResultGame.OwnerWin => AnalyticsEvents.Option.Win,
+                    ResultGame.OwnerLose => AnalyticsEvents.Option.Lose,
                     _ => AnalyticsEvents.Option.Draft
                 },
                 GetWinReward(resultGame)
@@ -767,12 +767,12 @@ namespace Game.Logic
             FinishGamePopup finishPopup;
             switch (resultGame)
             {
-                case ResultGame.OWNER_WIN:
+                case ResultGame.OwnerWin:
                     finishPopup = await _ui.ShowPopupAsync<WinPopup, FinishGamePopupData>(AssetKey.WinPopup, data);
                     _audioService?.PlaySfxAsync(SoundsConfig.IWon);
                     break;
 
-                case ResultGame.OWNER_LOSE:
+                case ResultGame.OwnerLose:
                     finishPopup = await _ui.ShowPopupAsync<FinishGamePopup, FinishGamePopupData>(AssetKey.LosePopup, data);
                     _audioService?.PlaySfxAsync(SoundsConfig.OpponentWon);
                     break;
@@ -792,7 +792,7 @@ namespace Game.Logic
         {
             List<RewardDto> reward = null;
                 
-            if(resultGame == ResultGame.OWNER_WIN)
+            if(resultGame == ResultGame.OwnerWin)
             {
                 if (++_winsInSeries >= _configService.Game.WinsInSeries)
                 {

@@ -47,15 +47,15 @@ namespace Core.Data
         internal GameError CheckWord(string word)
         {
             if (_selectedIndex.Count == 0)
-                return GameError.WORD_NO_SELECTED;
+                return GameError.WordNoSelected;
 
             if (_setItem == null || !_selectedIndex.Exists(x => x == _setItem.Index))
-                return GameError.SET_LETTER_NO_SELECTED;
+                return GameError.SetLetterNoSelected;
 
             if (Exist(word))
-                return GameError.WORD_ALREADY_BEEN;
+                return GameError.WordAlreadyBeen;
 
-            return GameError.NONE;
+            return GameError.None;
         }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace Core.Config
         //---------------------------------
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]
         [Tooltip("Сложность игры с ИИ по умолчанию")]
-        public ComplexityAI complexityAiByDefault = ComplexityAI.NORMAL;
+        public ComplexityAI complexityAiByDefault = ComplexityAI.Normal;
        
         [Space(10), Tooltip("Уровни сложности игры с ИИ")]
         public List<ComplexityAISettings> _сomplexityAIList;

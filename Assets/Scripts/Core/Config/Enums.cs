@@ -3,42 +3,42 @@ namespace Core.Config
     public enum GameOpponent
     {
         AI = 1,
-        FRIEND
+        Friend
     }
     
     public enum ComplexityAI
     {
-        EASY = 1,
-        NORMAL,
-        HARD,
-        MASTER
+        Easy = 1,
+        Normal,
+        Hard,
+        Master
     }
 
     public enum ResultGame
     {
-        DRAW,
-        OWNER_WIN,
-        OWNER_LOSE
+        Draw,
+        OwnerWin,
+        OwnerLose
     }
 
     public enum GameError
     {
-        NONE = 0, // Ошибок нет
-        NO_SETTED_LETTER, // Не установлена новая буква на поле
-        SET_LETTER_NO_SELECTED, // Установленная буква не использована в слове
-        WORD_NO_SELECTED, // Не выделено ни одной буквы на поле
-        WORD_ALREADY_BEEN // Такое слово уже было в текущем сеансе игры
+        None = 0, // Ошибок нет
+        NoLetterInstalled, // Не установлена новая буква на поле
+        SetLetterNoSelected, // Установленная буква не использована в слове
+        WordNoSelected, // Не выделено ни одной буквы на поле
+        WordAlreadyBeen // Такое слово уже было в текущем сеансе игры
     }
 
     public enum PopupType
     {
-        MESSAGE_BOX_APPLICATION_RESTART,
+        MessageBoxApplicationRestart,
     }
     
     public enum SkinType
     {
-        BLUE = 1,       
-        PINK
+        Blue = 1,       
+        Pink
     }
     
     public enum BannerType

@@ -78,8 +78,8 @@ namespace Game.Logic
         {
             snapshot[AnalyticsEvents.Parameter.Result] = resultGame switch
             {
-                ResultGame.OWNER_WIN => AnalyticsEvents.Option.Win,
-                ResultGame.OWNER_LOSE => AnalyticsEvents.Option.Lose,
+                ResultGame.OwnerWin => AnalyticsEvents.Option.Win,
+                ResultGame.OwnerLose => AnalyticsEvents.Option.Lose,
                 _ => AnalyticsEvents.Option.Draft
             };
 

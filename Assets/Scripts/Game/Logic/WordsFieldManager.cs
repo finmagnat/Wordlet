@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Core.Config;
 using Core.Data;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Events;
 using Game.Logic.Mixer;
 using UI.Components;

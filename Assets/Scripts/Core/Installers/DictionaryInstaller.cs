@@ -1,4 +1,4 @@
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using UnityEngine;
 using Zenject;
 

@@ -1,5 +1,5 @@
 using Core.Config;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
 

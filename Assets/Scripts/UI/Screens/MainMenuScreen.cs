@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Data;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;

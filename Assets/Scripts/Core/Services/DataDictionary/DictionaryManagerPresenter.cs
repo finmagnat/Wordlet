@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.DataDictionary
+namespace Core.Services.DataDictionary
 {
     public class DictionaryManagerPresenter : MonoBehaviour
     {

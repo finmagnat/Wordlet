@@ -1,6 +1,6 @@
 using System;
 using Core.Config;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.UI;

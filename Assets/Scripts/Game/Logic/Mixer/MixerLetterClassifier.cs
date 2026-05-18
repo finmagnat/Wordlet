@@ -1,4 +1,4 @@
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 
 namespace Game.Logic.Mixer
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Core.Config;
 using Core.Data;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
 using Core.Services;

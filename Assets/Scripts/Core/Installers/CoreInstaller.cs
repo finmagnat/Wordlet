@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Build;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using Core.Generated;
 using Core.Services;
 using Core.Services.NewWords;

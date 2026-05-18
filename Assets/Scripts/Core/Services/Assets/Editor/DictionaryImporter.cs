@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using Core.DataDictionary;
+using Core.Services.DataDictionary;
 using UnityEditor;
 using UnityEngine;
 

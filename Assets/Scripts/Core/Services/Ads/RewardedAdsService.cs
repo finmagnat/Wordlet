@@ -31,6 +31,7 @@ namespace Core.Services
             EnsureLoaded(RewardType.Letter, AnalyticsEvents.Option.Initial);
             EnsureLoaded(RewardType.Slowdown, AnalyticsEvents.Option.Initial);
             EnsureLoaded(RewardType.Eraser, AnalyticsEvents.Option.Initial);
+            EnsureLoaded(RewardType.Swap, AnalyticsEvents.Option.Initial);
 #else
             Debug.Log("[Ads] Skipping rewarded init on this platform.");
 #endif

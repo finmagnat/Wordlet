@@ -3,6 +3,7 @@ using Core.Services;
 using Cysharp.Threading.Tasks;
 using Zenject;
 using System.Collections.Generic;
+using Core.Config;
 
 namespace UI.Popups
 {
@@ -25,10 +26,19 @@ namespace UI.Popups
         
         public override void SetWindowData(MessageBoxData data) {
             base.SetWindowData(data);
+
+            string key = data.Error switch
+            {
+                GameError.NoLetterInstalled => "ERROR_MSG_NO_LETTER_INSTALLED",
+                GameError.SetLetterNoSelected => "ERROR_MSG_SET_LETTER_NO_SELECTED",
+                GameError.WordNoSelected => "ERROR_MSG_WORD_NO_SELECTED",
+                GameError.WordAlreadyBeen => "ERROR_MSG_WORD_ALREADY_BEEN",
+                _  => ""
+            };
             
             SetText(
                 _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
-                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_" + data.Error.ToString().ToUpper()));
+                _localization.Get(LocalizationConst.TableUI, key));
         }
         
         protected override void Close()

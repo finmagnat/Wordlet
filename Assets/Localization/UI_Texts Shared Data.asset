@@ -204,7 +204,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6209654886072320
-    m_Key: ERROR_MSG_NO_SETTED_LETTER
+    m_Key: ERROR_MSG_NO_LETTER_INSTALLED
     m_Metadata:
       m_Items: []
   - m_Id: 6209811929202688

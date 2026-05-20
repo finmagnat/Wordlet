@@ -215,8 +215,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6209654886072320
-    m_Localized: You need to place one letter on the field next to another letter
-      on the field.
+    m_Localized: You need to place one letter next to another letter on the field.
     m_Metadata:
       m_Items: []
   - m_Id: 6209811929202688
@@ -256,8 +255,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 13136815359148032
-    m_Localized: You need to choose a word that is not yet on the lists of both players
-      and on the field.
+    m_Localized: This word has already existed.
     m_Metadata:
       m_Items: []
   - m_Id: 13460625862049792

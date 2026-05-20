@@ -74,6 +74,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
             Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<StarterBonusService>().AsSingle();
 
             Container.Bind<INewWordsProvider>().To<PlayFabNewWordsProvider>().AsSingle();
             Container.Bind<INewWordsService>().To<NewWordsService>().AsSingle();
@@ -170,6 +171,7 @@ namespace Core.Installers
             InitializeProfileInBackgroundAsync(Container.Resolve<ProfileService>()).Forget();
             var inventorySyncInit = Container.Resolve<InventorySyncService>().InitializeAsync();
 
+            await Container.Resolve<StarterBonusService>().InitializeAsync();
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialPolicyService>().InitializeAsync();

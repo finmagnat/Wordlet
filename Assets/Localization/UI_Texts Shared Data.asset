@@ -539,6 +539,18 @@ MonoBehaviour:
     m_Key: STORE_TITLE_SWAP
     m_Metadata:
       m_Items: []
+  - m_Id: 68852296082407424
+    m_Key: STARTER_BONUS_POPUP_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68852613733826560
+    m_Key: STARTER_BONUS_POPUP_HEADER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68854472561278976
+    m_Key: STARTER_BONUS_POPUP_GET
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

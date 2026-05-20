@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e3c1ca0f68706f4ba7767655f628863
+    m_Address: StarterBonusPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0f2025cd1c2f44542a80b7f287097482
     m_Address: WinPopup
     m_ReadOnly: 0

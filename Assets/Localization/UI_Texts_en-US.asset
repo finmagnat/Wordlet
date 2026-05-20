@@ -597,6 +597,18 @@ MonoBehaviour:
     m_Localized: Swap
     m_Metadata:
       m_Items: []
+  - m_Id: 68852296082407424
+    m_Localized: Newbie's set
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68852613733826560
+    m_Localized: Starting bonus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68854472561278976
+    m_Localized: GET!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

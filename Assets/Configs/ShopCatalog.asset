@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.Config.ShopCatalog
   EnablePurchasePushToServer: 1
   Offers:
-  - Type: 0
+  - IsActive: 1
+    Type: 0
     Title: STORE_TITLE_BEST_PRICE
     SpriteHeader: {fileID: 5331672064956558429, guid: 1a17aa1a1d793b649b0a6d495cecf623, type: 3}
     Description: 
@@ -39,7 +40,8 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 1
+  - IsActive: 1
+    Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
@@ -55,7 +57,8 @@ MonoBehaviour:
     CooldownSeconds: 30
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 1
+  - IsActive: 1
+    Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
@@ -71,7 +74,8 @@ MonoBehaviour:
     CooldownSeconds: 45
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 1
+  - IsActive: 1
+    Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
@@ -87,7 +91,8 @@ MonoBehaviour:
     CooldownSeconds: 45
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 1
+  - IsActive: 1
+    Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
@@ -103,7 +108,8 @@ MonoBehaviour:
     CooldownSeconds: 45
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
+  - IsActive: 1
+    Type: 0
     Title: STORE_TITLE_LETTER
     SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
@@ -119,7 +125,8 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
+  - IsActive: 1
+    Type: 0
     Title: STORE_TITLE_SLOWDOWN
     SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
@@ -135,7 +142,8 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
+  - IsActive: 1
+    Type: 0
     Title: STORE_TITLE_ERASER
     SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
@@ -151,7 +159,8 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
+  - IsActive: 1
+    Type: 0
     Title: STORE_TITLE_SWAP
     SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
     Description: 
@@ -167,7 +176,8 @@ MonoBehaviour:
     CooldownSeconds: 0
     DisableInterstitialAds: 0
     IsNonConsumable: 0
-  - Type: 0
+  - IsActive: 0
+    Type: 0
     Title: STORE_TITLE_REMOVE_INTERSTITIAL_ADS
     SpriteHeader: {fileID: -5162948712606213977, guid: 50552a2210ea3124aaaa9864baf87315, type: 3}
     Description: 

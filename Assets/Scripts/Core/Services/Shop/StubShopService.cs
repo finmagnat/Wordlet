@@ -47,7 +47,7 @@ namespace Core.Services.Shop
 
             foreach (var o in _catalog.Offers)
             {
-                if (o.DisableInterstitialAds && _adsEntitlement.NoInterstitialAds)
+                if (!o.IsActive || (o.DisableInterstitialAds && _adsEntitlement.NoInterstitialAds))
                     continue;
 
                 list.Add(new ShopOfferDto

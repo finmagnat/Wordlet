@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Core.Services.Common;
 using UnityEngine;
 
 namespace Core.Config
@@ -26,10 +25,12 @@ namespace Core.Config
     [Serializable]
     public sealed class ShopOfferConfig
     {
-        public ShopOfferType Type;
-
         [Header("Common")]
+        public bool IsActive = true;
+        
+        public ShopOfferType Type;
         public string Title;
+        
         public Sprite SpriteHeader;
         [TextArea] public string Description;
         public List<ShopRewardConfig> Rewards = new();

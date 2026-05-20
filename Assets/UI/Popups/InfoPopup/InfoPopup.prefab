@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7052318292210196818}
   - component: {fileID: 1384470892197827524}
   m_Layer: 5
-  m_Name: Line
+  m_Name: Line1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,6 +280,102 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3266864421366569536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4080005577226891103}
+  - component: {fileID: 3795690653987747013}
+  - component: {fileID: 6111707404124957202}
+  - component: {fileID: 7317158588431058719}
+  m_Layer: 5
+  m_Name: Line2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4080005577226891103
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266864421366569536}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4687579492425599830}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3795690653987747013
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266864421366569536}
+  m_CullTransparentMesh: 1
+--- !u!114 &6111707404124957202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266864421366569536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 86da75f14a5414075951e6749159acfc, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7317158588431058719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3266864421366569536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: 400
+  m_MinHeight: 5
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &4127707189770843634
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +497,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4440299480439611626}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.33359805
+  m_Size: 0.23244639
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -907,6 +1003,8 @@ RectTransform:
   - {fileID: 6189999687187073574}
   - {fileID: 2889056416309818285}
   - {fileID: 6609168000969442565}
+  - {fileID: 4080005577226891103}
+  - {fileID: 2304222764918926379}
   m_Father: {fileID: 6471727939376170090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -1125,7 +1223,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 1800}
+  m_SizeDelta: {x: 864, y: 1800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7646159320110551060
 CanvasRenderer:
@@ -1183,6 +1281,237 @@ MonoBehaviour:
   _controlHeight: 1
   _maxHeight: 1800
   _verticalMargin: 0
+--- !u!1001 &912720991336356534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4687579492425599830}
+    m_Modifications:
+    - target: {fileID: 171911757322616017, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: localizedString.m_TableEntryReference.m_KeyId
+      value: 20937088319488
+      objectReference: {fileID: 0}
+    - target: {fileID: 171911757322616017, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: localizedString.m_TableReference.m_TableCollectionName
+      value: GUID:50d4f8a5b29ff6c4d81e6cf9c447f908
+      objectReference: {fileID: 0}
+    - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_text
+      value: "<line-height=100%>\n<b>\u041A\u0430\u043A \u0443\u0434\u0430\u043B\u0438\u0442\u044C
+        \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u0443\u044E
+        \u0431\u0443\u043A\u0432\u0443 \u0438\u043B\u0438 \u0441\u043D\u044F\u0442\u044C
+        \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u0435?</b>  \n\u2014 \u041D\u0430\u0436\u043C\u0438
+        \u043A\u043D\u043E\u043F\u043A\u0443 <b>\xAB\u041E\u0442\u043C\u0435\u043D\u0430\xBB</b>.\n\n<b>\u041A\u0430\u043A
+        \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0438\u0433\u0440\u0443
+        \u043D\u0430 \u043F\u0430\u0443\u0437\u0443?</b>  \n\u2014 \u041D\u0430\u0436\u043C\u0438
+        \u043A\u043D\u043E\u043F\u043A\u0443 <b>\xAB\u041F\u0430\u0443\u0437\u0430\xBB</b>.
+        \u0422\u0430\u0439\u043C\u0435\u0440 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F,
+        \u0430 \u0431\u0443\u043A\u0432\u044B \u043D\u0430 \u043F\u043E\u043B\u0435
+        \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E \u0441\u043A\u0440\u043E\u044E\u0442\u0441\u044F. 
+        \n\u2014 \u0427\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C
+        \u0438\u0433\u0440\u0443, \u043D\u0430\u0436\u043C\u0438 <b>\xAB\u041F\u0430\u0443\u0437\u0430\xBB</b>
+        \u0435\u0449\u0451 \u0440\u0430\u0437.\n\n<b>\u041A\u0430\u043A \u0432\u044B\u0439\u0442\u0438
+        \u0438\u0437 \u043D\u0435\u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D\u043D\u043E\u0439
+        \u0438\u0433\u0440\u044B?</b>  \n\u2014 \u041D\u0430\u0436\u043C\u0438 \u043A\u043D\u043E\u043F\u043A\u0443
+        <b>\xAB\u0414\u043E\u043C\u043E\u0439\xBB</b>.  \n\u2014 \u0412 \u0440\u0435\u0436\u0438\u043C\u0435
+        \u0438\u0433\u0440\u044B \u0441 \u0418\u0418 \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F
+        \u043E\u043A\u043D\u043E \u0441 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435\u043C
+        \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0433\u0440\u0443. 
+        \n\u2014 \u0421\u043E\u0445\u0440\u0430\u043D\u0451\u043D\u043D\u0443\u044E
+        \u0438\u0433\u0440\u0443 \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0437\u0436\u0435
+        \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C
+        \u0441 \u0442\u043E\u0433\u043E \u0436\u0435 \u043C\u0435\u0441\u0442\u0430.
+        \n\n  <size=150%><voffset=20><sprite name=\"shop\"></voffset></size><b>\u041A\u0430\u043A
+        \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0431\u0443\u0441\u0442\u0435\u0440\u044B?</b> 
+        \n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440\u044B \u043C\u043E\u0436\u043D\u043E
+        \u043A\u0443\u043F\u0438\u0442\u044C \u0432 \u0438\u0433\u0440\u043E\u0432\u043E\u043C
+        \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435 \u0437\u0430 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u0435
+        \u0434\u0435\u043D\u044C\u0433\u0438.  \n\u2014 \u0422\u0430\u043A\u0436\u0435
+        \u0438\u0445 \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C
+        \u0437\u0430 \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440 \u0440\u0435\u043A\u043B\u0430\u043C\u044B.\n\n 
+        <size=150%><voffset=20><sprite name=\"shop\"></voffset></size><b>\u041A\u0430\u043A
+        \u043E\u0442\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0440\u0435\u043A\u043B\u0430\u043C\u0443?</b>\n\u2014
+        \u0420\u0435\u043A\u043B\u0430\u043C\u0443 \u043C\u0435\u0436\u0434\u0443
+        \u044D\u043A\u0440\u0430\u043D\u0430\u043C\u0438 \u043C\u043E\u0436\u043D\u043E
+        \u043E\u0442\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0432 \u0438\u0433\u0440\u043E\u0432\u043E\u043C
+        \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435.\n\u2014 \u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440
+        \u0440\u0435\u043A\u043B\u0430\u043C\u044B \u0434\u043B\u044F \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+        \u0431\u0443\u0441\u0442\u0435\u0440\u043E\u0432 \u043F\u0440\u0438 \u044D\u0442\u043E\u043C
+        \u043E\u0441\u0442\u0430\u043D\u0435\u0442\u0441\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D.\n</line-height>"
+      objectReference: {fileID: 0}
+    - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2820480403830154398, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_MinHeight
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207113110872068539, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054000880982636127, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: localizedString.m_TableEntryReference.m_KeyId
+      value: 20447734677504
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054000880982636127, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: localizedString.m_TableReference.m_TableCollectionName
+      value: GUID:50d4f8a5b29ff6c4d81e6cf9c447f908
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544179465768563489, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_Name
+      value: InfoItem_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4544179465768563489, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854597074131353800, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8096258265023392935, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_text
+      value: " <size=150%><voffset=20><sprite name=\"question\"></voffset></size>
+        \u0412\u043E\u043F\u0440\u043E\u0441\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8096258265023392935, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+--- !u!224 &2304222764918926379 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+  m_PrefabInstance: {fileID: 912720991336356534}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5095778353582554299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1242,6 +1571,10 @@ PrefabInstance:
         \u043E\u0447\u043A\u043E\u0432  \r\n\u2022 \u041F\u0440\u0438 \u0440\u0430\u0432\u0435\u043D\u0441\u0442\u0432\u0435
         \u2014 <b>\u043D\u0438\u0447\u044C\u044F</b>\r\n</line-height>\r\n"
       objectReference: {fileID: 0}
+    - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
     - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -1414,6 +1747,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u0438\u0433\u0440\u044B"
       objectReference: {fileID: 0}
+    - target: {fileID: 8096258265023392935, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1434,7 +1771,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 171911757322616017, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: localizedString.m_TableEntryReference.m_KeyId
-      value: 20937088319488
+      value: 50729394833342464
       objectReference: {fileID: 0}
     - target: {fileID: 171911757322616017, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: localizedString.m_TableReference.m_TableCollectionName
@@ -1442,65 +1779,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_text
-      value: "<line-height=100%>\r\n\r\n<b>\u041A\u0430\u043A \u0443\u0434\u0430\u043B\u0438\u0442\u044C
-        \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u0443\u044E
-        \u0431\u0443\u043A\u0432\u0443 \u0438\u043B\u0438 \u0441\u043D\u044F\u0442\u044C
-        \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u0435?</b>  \r\n\u2014 \u041D\u0430\u0436\u043C\u0438\u0442\u0435
-        \u043A\u043D\u043E\u043F\u043A\u0443 <b>\xAB\u041E\u0442\u043C\u0435\u043D\u0430\xBB</b>.\r\n\r\n<b>\u041A\u0430\u043A
-        \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0438\u0433\u0440\u0443
-        \u043D\u0430 \u043F\u0430\u0443\u0437\u0443?</b>  \r\n\u2014 \u041D\u0430\u0436\u043C\u0438\u0442\u0435
-        \u043A\u043D\u043E\u043F\u043A\u0443 <b>\xAB\u041F\u0430\u0443\u0437\u0430\xBB</b>.
-        \u0422\u0430\u0439\u043C\u0435\u0440 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F,
-        \u0430 \u0431\u0443\u043A\u0432\u044B \u043D\u0430 \u043F\u043E\u043B\u0435
-        \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E \u0441\u043A\u0440\u043E\u044E\u0442\u0441\u044F. 
-        \r\n\u2014 \u0427\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C
-        \u0438\u0433\u0440\u0443, \u043D\u0430\u0436\u043C\u0438\u0442\u0435 <b>\xAB\u041F\u0430\u0443\u0437\u0430\xBB</b>
-        \u0435\u0449\u0451 \u0440\u0430\u0437.\r\n\r\n<b>\u041A\u0430\u043A \u0432\u044B\u0439\u0442\u0438
-        \u0438\u0437 \u043D\u0435\u0437\u0430\u0432\u0435\u0440\u0448\u0451\u043D\u043D\u043E\u0439
-        \u0438\u0433\u0440\u044B?</b>  \r\n\u2014 \u041D\u0430\u0436\u043C\u0438\u0442\u0435
-        \u043A\u043D\u043E\u043F\u043A\u0443 <b>\xAB\u0414\u043E\u043C\u043E\u0439\xBB</b>. 
-        \r\n\u2014 \u0412 \u0440\u0435\u0436\u0438\u043C\u0435 \u0438\u0433\u0440\u044B
-        \u0441 \u0418\u0418 \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F \u043E\u043A\u043D\u043E
-        \u0441 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435\u043C
-        \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0433\u0440\u0443. 
-        \r\n\u2014 \u0421\u043E\u0445\u0440\u0430\u043D\u0451\u043D\u043D\u0443\u044E
-        \u0438\u0433\u0440\u0443 \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0437\u0436\u0435
-        \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C
-        \u0441 \u0442\u043E\u0433\u043E \u0436\u0435 \u043C\u0435\u0441\u0442\u0430.\r\n\r\n 
-        <size=150%><voffset=20><sprite name=\"letter\"></voffset></size><b>\u041A\u0430\u043A
-        \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
-        \u0431\u0443\u0441\u0442\u0435\u0440 \xAB\u0411\u0443\u043A\u043E\u0432\u043A\u0430\xBB?</b>
-        \r\n\u2014 \u041D\u0430\u0436\u043C\u0438\u0442\u0435 \u043D\u0430 \u0438\u043A\u043E\u043D\u043A\u0443
-        \u0431\u0443\u0441\u0442\u0435\u0440\u0430, \u0435\u0441\u043B\u0438 \u043E\u043D
-        \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D.  \r\n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440
-        \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438
+      value: "<line-height=100%>\n  <size=150%><voffset=20><sprite name=\"letter\"></voffset></size><b>\xAB\u0411\u0443\u043A\u043E\u0432\u043A\u0430\xBB
+        \u2014 \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043D\u0430\u0439\u0442\u0438
+        \u043D\u043E\u0432\u043E\u0435 \u0441\u043B\u043E\u0432\u043E</b>\n\u2014
+        \u0411\u0443\u0441\u0442\u0435\u0440 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438
         \u043D\u0430\u0439\u0434\u0451\u0442 \u0441\u043B\u043E\u0432\u043E <i>(\u043F\u043E
         \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438 \u0441\u0430\u043C\u043E\u0435
         \u0434\u043B\u0438\u043D\u043D\u043E\u0435)</i>, \u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442
         \u0431\u0443\u043A\u0432\u0443 \u043D\u0430 \u043F\u043E\u043B\u0435 \u0438
         \u0432\u044B\u0434\u0435\u043B\u0438\u0442 \u044D\u0442\u043E \u0441\u043B\u043E\u0432\u043E. 
-        \r\n\u2014 \u0415\u0441\u043B\u0438 \u0441\u043B\u043E\u0432\u043E \u043D\u0435
+        \n\u2014 \u0415\u0441\u043B\u0438 \u0441\u043B\u043E\u0432\u043E \u043D\u0435
         \u043D\u0430\u0439\u0434\u0435\u043D\u043E, \u0431\u0443\u0441\u0442\u0435\u0440
-        \u0432\u0435\u0440\u043D\u0451\u0442\u0441\u044F \u0432 \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044C.\r\n\r\n 
-        <size=150%><voffset=20><sprite name=\"slowdown\"></voffset></size><b>\u041A\u0430\u043A
-        \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
-        \u0431\u0443\u0441\u0442\u0435\u0440 \xAB\u0417\u0430\u043C\u0435\u0434\u043B\u044F\u043B\u043A\u0430\xBB?</b> 
-        \r\n\u2014 \u041D\u0430\u0436\u043C\u0438\u0442\u0435 \u043D\u0430 \u0438\u043A\u043E\u043D\u043A\u0443
-        \u0431\u0443\u0441\u0442\u0435\u0440\u0430, \u0435\u0441\u043B\u0438 \u043E\u043D
-        \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D.  \r\n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440
+        \u0432\u0435\u0440\u043D\u0451\u0442\u0441\u044F \u0432 \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044C.\n\n 
+        <size=150%><voffset=20><sprite name=\"slowdown\"></voffset></size><b>\xAB\u0417\u0430\u043C\u0435\u0434\u043B\u044F\u043B\u043A\u0430\xBB
+        \u2014 \u0434\u0430\u0441\u0442 \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438
+        \u043F\u043E\u0434\u0443\u043C\u0430\u0442\u044C</b>  \n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440
         \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442 \u0442\u0430\u0439\u043C\u0435\u0440
         \u043D\u0430 \u043D\u0435\u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u0432\u0440\u0435\u043C\u044F
-        <i>(\u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440, \u043D\u0430 30 \u0441\u0435\u043A\u0443\u043D\u0434)</i>,
-        \u0434\u0430\u0432\u0430\u044F \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438
-        \u043D\u0430 \u0445\u043E\u0434.\r\n\r\n<b>\u041A\u0430\u043A \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C
-        \u0431\u0443\u0441\u0442\u0435\u0440\u044B?</b>  \r\n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440\u044B
-        \u043C\u043E\u0436\u043D\u043E \u043A\u0443\u043F\u0438\u0442\u044C \u0432
-        \u0438\u0433\u0440\u043E\u0432\u043E\u043C \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435
-        \u0437\u0430 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0435\u043D\u044C\u0433\u0438. 
-        \r\n\u2014 \u0422\u0430\u043A\u0436\u0435 \u0438\u0445 \u043C\u043E\u0436\u043D\u043E
-        \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0437\u0430 \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440
-        \u0440\u0435\u043A\u043B\u0430\u043C\u044B.\r\n</line-height>"
+        <i>(30 \u0441\u0435\u043A\u0443\u043D\u0434)</i>, \u0434\u0430\u0432\u0430\u044F
+        \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438
+        \u043D\u0430 \u0445\u043E\u0434.\n\n  <size=150%><voffset=20><sprite name=\"eraser\"></voffset></size><b>\xAB\u041B\u0430\u0441\u0442\u0438\u043A\xBB
+        \u2014 \u043F\u043E\u0437\u0432\u043E\u043B\u0438\u0442 \u0438\u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C
+        \u043F\u043E\u043B\u0435</b>   \n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440
+        \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442 \u0441\u0442\u0435\u0440\u0435\u0442\u044C
+        \u043D\u0430 \u043F\u043E\u043B\u0435 <i>\u043E\u0434\u043D\u0443 \u0431\u0443\u043A\u0432\u0443
+        \u0437\u0430 \u043E\u0434\u0438\u043D \u0445\u043E\u0434</i>, \u0430 \u043D\u0430
+        \u0435\u0435 \u043C\u0435\u0441\u0442\u043E \u043C\u043E\u0436\u043D\u043E
+        \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C \u0434\u0440\u0443\u0433\u0443\u044E.\n\n 
+        <size=150%><voffset=20><sprite name=\"swap\"></voffset></size><b>\xAB\u041C\u0435\u043D\u044F\u043B\u043A\u0430\xBB
+        \u2014 \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043F\u043E\u0434\u0441\u0442\u0440\u043E\u0438\u0442\u044C
+        \u043F\u043E\u043B\u0435 \u043F\u043E\u0434 \u0441\u0435\u0431\u044F</b>  
+        \n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440 \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442
+        \u043F\u043E\u043C\u0435\u043D\u044F\u0442\u044C \u043C\u0435\u0441\u0442\u0430\u043C\u0438
+        2 \u0431\u0443\u043A\u0432\u044B \u043D\u0430 \u043F\u043E\u043B\u0435.\n\n 
+        <size=150%><voffset=20><sprite name=\"mixer\"></voffset></size><b>\xAB\u041C\u0438\u043A\u0441\u0435\u0440\xBB
+        \u2014 \u0438\u0437\u043C\u0435\u043D\u0438\u0442 \u043F\u043E\u043B\u0435
+        \u0438 \u0434\u0430\u0441\u0442 \u043D\u043E\u0432\u044B\u0435 \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438</b>  
+        \n\u2014 \u0411\u0443\u0441\u0442\u0435\u0440 \u043F\u0435\u0440\u0435\u043C\u0435\u0448\u0430\u0435\u0442
+        \u0431\u0443\u043A\u0432\u044B \u0438 \u0440\u0430\u0441\u0441\u0442\u0430\u0432\u0438\u0442
+        \u0438\u0445 \u0432 \u043D\u0435\u043E\u0431\u044B\u0447\u043D\u043E\u043C
+        \u043F\u043E\u0440\u044F\u0434\u043A\u0435 \u043D\u0430 \u043F\u043E\u043B\u0435.\n</line-height>"
       objectReference: {fileID: 0}
+    - target: {fileID: 676827338453965669, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
     - target: {fileID: 1391784369600411293, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1611,7 +1934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4054000880982636127, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: localizedString.m_TableEntryReference.m_KeyId
-      value: 20447734677504
+      value: 50729208740462592
       objectReference: {fileID: 0}
     - target: {fileID: 4054000880982636127, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: localizedString.m_TableReference.m_TableCollectionName
@@ -1651,9 +1974,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8096258265023392935, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
       propertyPath: m_text
-      value: " <size=150%><voffset=20><sprite name=\"question\"></voffset></size>
-        \u0412\u043E\u043F\u0440\u043E\u0441\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B"
+      value: " <size=150%><voffset=20><sprite name=\"info\"></voffset></size> \u0411\u0443\u0441\u0442\u0435\u0440\u044B"
       objectReference: {fileID: 0}
+    - target: {fileID: 8096258265023392935, guid: 8e311f3d45f93334195937bf693855ee, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a925ae191c97624b8d60b6c338b1a49, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

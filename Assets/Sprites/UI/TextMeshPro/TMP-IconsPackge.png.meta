@@ -172,7 +172,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: magnifier
+      name: swap
       rect:
         serializedVersion: 2
         x: 0
@@ -455,11 +455,11 @@ TextureImporter:
       gear: 6829363851770069438
       info: -5295889577737113822
       letter: 7780670318648988053
-      magnifier: 8321511367998598710
       mixer: -4154185481215315128
       question: -2643001103405619058
       shop: -4559147279089710371
       slowdown: -2564297723793225483
+      swap: 8321511367998598710
       time: -8795309997420972456
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

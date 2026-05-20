@@ -786,8 +786,10 @@ namespace Game.Logic
 
             await finishPopup.WaitForResultAsync();
 
-            if (_starterBonusService.IsAvailable)
+            if (await _starterBonusService.TryGrantAsync())
             {
+                _gameScreen.BoosterPanel.Refresh();
+
                 var starterBonusPopup =
                     await _ui.ShowPopupAsync<StarterBonusPopup>(AssetKey.StarterBonusPopup);
                 await starterBonusPopup.WaitForResultAsync();

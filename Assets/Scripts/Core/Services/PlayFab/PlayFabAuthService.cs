@@ -41,10 +41,7 @@ namespace Core.Services
                 });
 
             if (NewlyCreated)
-            {
-                await GrantStarterGiftAsync();
-                Debug.Log("Starter gift granted");
-            }
+                Debug.Log("New account created. Starter bonus will be granted after the first finished round.");
         }
 
         public void SetDisplayNameLocal(string name)
@@ -81,31 +78,5 @@ namespace Core.Services
             return tcs.Task;
         }
 
-        private static UniTask GrantStarterGiftAsync()
-        {
-            var tcs = new UniTaskCompletionSource();
-
-            var request = new ExecuteCloudScriptRequest
-            {
-                FunctionName = "GrantStarterGift",
-                GeneratePlayStreamEvent = true
-            };
-
-            PlayFabClientAPI.ExecuteCloudScript(
-                request,
-                r =>
-                {
-                    if (r.Error != null)
-                    {
-                        tcs.TrySetException(new Exception($"CloudScript error: {r.Error.Message}"));
-                        return;
-                    }
-                    tcs.TrySetResult();
-                },
-                e => tcs.TrySetException(new Exception(e.GenerateErrorReport()))
-            );
-
-            return tcs.Task;
-        }
     }
 }

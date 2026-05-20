@@ -14,11 +14,12 @@ namespace Core.Services
 
     [CreateAssetMenu(menuName = "Configs/AdsConfig")]
     public sealed class AdsConfig : ScriptableObject
-    {
+    {   
         [Header("Android Rewarded Ad Units")]
         public List<RewardedAdUnitConfig> RewardedAdUnits = new();
 
         [Header("Android Interstitial Ad Units")]
+        public bool InterstitialIsActive;
         public string InterstitialAd;
 
 #if UNITY_EDITOR

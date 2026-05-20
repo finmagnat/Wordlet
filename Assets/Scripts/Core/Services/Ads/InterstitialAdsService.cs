@@ -39,7 +39,7 @@ namespace Core.Services
 
         public void EnsureLoaded(string loadReason = AnalyticsEvents.Option.Initial)
         {
-            if (_loading)
+            if (!_configs.Ads.InterstitialIsActive || _loading)
                 return;
 
             if (IsReady)
@@ -53,7 +53,7 @@ namespace Core.Services
 
         public void Show(string placement)
         {
-            if (!IsReady || _showing)
+            if (!_configs.Ads.InterstitialIsActive || !IsReady || _showing)
                 return;
 
             _currentPlacement = placement;

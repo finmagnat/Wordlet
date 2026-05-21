@@ -35,6 +35,7 @@ namespace UI.Screens
         [Inject] private ConfigService _configService;
         [Inject] private AnalyticsService _analytics;
         [Inject] private DictionaryManager _dictionaryManager;
+        [Inject] private IDailyBonusService _dailyBonusService;
 
         private bool _isProcessing;
 
@@ -42,6 +43,8 @@ namespace UI.Screens
         {
             _localization.OnLocaleChanged += OnLocaleChanged; 
             _skinsService.OnSkinChanged += OnSkinChanged; 
+            _dailyBonusService.StateChanged += OnDailyBonusStateChanged;
+            UpdateDailyBonusButton();
             
             _playAIButton.onClick.AddListener(async () =>
             {
@@ -208,6 +211,8 @@ namespace UI.Screens
         private void OnDestroy()
         {
             _localization.OnLocaleChanged -= OnLocaleChanged;
+            _skinsService.OnSkinChanged -= OnSkinChanged;
+            _dailyBonusService.StateChanged -= OnDailyBonusStateChanged;
         }
         
         private void OnLocaleChanged(Locale locale)
@@ -220,12 +225,26 @@ namespace UI.Screens
             UpdateSkin();
         }
 
+        private void OnDailyBonusStateChanged(DailyBonusState state)
+        {
+            UpdateDailyBonusButton();
+        }
+
         public override UniTask ShowAsync()
         {
             _loadAndplayAIButton.gameObject.SetActive(_saveService.HasSave());
+            UpdateDailyBonusButton();
             SendAnalyticsShown();
             return base.ShowAsync();
         } 
+
+        private void UpdateDailyBonusButton()
+        {
+            if (_dailyBonusButton == null)
+                return;
+
+            _dailyBonusButton.gameObject.SetActive(_dailyBonusService is { IsAvailable: true });
+        }
         
         protected async UniTask UpdateSkin()
         {

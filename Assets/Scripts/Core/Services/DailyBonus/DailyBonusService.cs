@@ -113,10 +113,14 @@ namespace Core.Services
                 Debug.LogError($"Daily bonus inventory sync failed: {exception}");
             }
 
+            var grantedRewards = ToRewards(response.rewards);
+            Debug.Log(
+                $"Daily bonus reward granted: day={response.day}, rewards={FormatRewards(grantedRewards)}, jackpot={response.jackpot}, multiplier={response.multiplier}, selectedBooster={response.selectedBooster}");
+
             return DailyBonusClaimResult.Granted(
                 state,
                 response.day,
-                ToRewards(response.rewards),
+                grantedRewards,
                 response.jackpot,
                 response.multiplier,
                 ParseBoosterType(response.selectedBooster));
@@ -124,7 +128,12 @@ namespace Core.Services
 
         private void SetState(DailyBonusState state)
         {
+            bool wasAvailable = IsAvailable;
             CurrentState = state ?? DailyBonusState.Unavailable;
+
+            if (IsAvailable && !wasAvailable)
+                Debug.Log($"Daily bonus reward available: day={CurrentState.DailyRewardDay}");
+
             StateChanged?.Invoke(CurrentState);
         }
 
@@ -243,6 +252,23 @@ namespace Core.Services
                 return null;
 
             return dateTime;
+        }
+
+        private static string FormatRewards(IReadOnlyList<DailyBonusRewardItem> rewards)
+        {
+            if (rewards == null || rewards.Count == 0)
+                return "none";
+
+            var parts = new List<string>(rewards.Count);
+            foreach (var reward in rewards)
+            {
+                if (reward == null)
+                    continue;
+
+                parts.Add($"{reward.BoosterType}x{reward.Amount}");
+            }
+
+            return parts.Count > 0 ? string.Join(", ", parts) : "none";
         }
 
         [Serializable]

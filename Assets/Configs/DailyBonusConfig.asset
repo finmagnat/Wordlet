@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a46e53ef0bd4448083feb71520f2bb7e, type: 3}
+  m_Name: DailyBonusConfig
+  m_EditorClassIdentifier:
+  Note: Runtime Daily Bonus balance is loaded from PlayFab Title Data key 'daily_bonus_config'.
+    Use the inspector button to copy JSON for PlayFab Primary Title Data.
+  CycleLength: 7
+  Days:
+  - Day: 1
+    RewardKind: 0
+    Rewards:
+    - ItemId: 1
+      Amount: 1
+      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+    ChestDrops: []
+  - Day: 2
+    RewardKind: 0
+    Rewards:
+    - ItemId: 2
+      Amount: 1
+      SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
+    ChestDrops: []
+  - Day: 3
+    RewardKind: 0
+    Rewards:
+    - ItemId: 3
+      Amount: 1
+      SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
+    ChestDrops: []
+  - Day: 4
+    RewardKind: 0
+    Rewards:
+    - ItemId: 5
+      Amount: 1
+      SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
+    ChestDrops: []
+  - Day: 5
+    RewardKind: 0
+    Rewards:
+    - ItemId: 1
+      Amount: 1
+      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+    ChestDrops: []
+  - Day: 6
+    RewardKind: 0
+    Rewards:
+    - ItemId: 3
+      Amount: 1
+      SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
+    ChestDrops: []
+  - Day: 7
+    RewardKind: 1
+    Rewards: []
+    ChestDrops:
+    - Weight: 80
+      Mode: 0
+      Multiplier: 1
+      Pool: 01000000030000000200000005000000
+      Rewards: []
+    - Weight: 15
+      Mode: 0
+      Multiplier: 2
+      Pool: 01000000030000000200000005000000
+      Rewards: []
+    - Weight: 4
+      Mode: 0
+      Multiplier: 3
+      Pool: 01000000030000000200000005000000
+      Rewards: []
+    - Weight: 1
+      Mode: 1
+      Multiplier: 1
+      Pool:
+      Rewards:
+      - ItemId: 1
+        Amount: 1
+        SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+      - ItemId: 3
+        Amount: 1
+        SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
+      - ItemId: 2
+        Amount: 1
+        SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
+      - ItemId: 5
+        Amount: 1
+        SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}

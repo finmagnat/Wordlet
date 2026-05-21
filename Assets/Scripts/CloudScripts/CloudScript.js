@@ -1,17 +1,97 @@
-handlers.GrantStarterGift = function (args, context) {
-    const gifts = {
+var StarterBonusStateKey = "starter_bonus_state";
+var StarterBonusStateAvailable = "available";
+var StarterBonusStateGranted = "granted";
+
+function getStarterBonusState(data) {
+    if (data && data[StarterBonusStateKey]) {
+        return data[StarterBonusStateKey].Value || "";
+    }
+
+    return "";
+}
+
+function getStarterBonusGifts() {
+    return {
         "boost_letter": 1,
         "boost_slow": 1,
         "boost_eraser": 1,
         "boost_swap": 1,
     };
+}
+
+function readBoosterTotals(data, keys) {
+    var totals = {};
+
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        totals[key] = 0;
+
+        if (data && data[key]) {
+            totals[key] = parseInt(data[key].Value) || 0;
+        }
+    }
+
+    return totals;
+}
+
+handlers.PrepareStarterBonus = function (args, context) {
+    var result = server.GetUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Keys: [StarterBonusStateKey]
+    });
+
+    var state = getStarterBonusState(result.Data);
+
+    if (!state) {
+        state = StarterBonusStateAvailable;
+        server.UpdateUserReadOnlyData({
+            PlayFabId: currentPlayerId,
+            Data: { [StarterBonusStateKey]: state }
+        });
+    }
+
+    return {
+        ok: true,
+        state: state,
+        isAvailable: state === StarterBonusStateAvailable
+    };
+};
+
+handlers.GrantStarterGift = function (args, context) {
+    const gifts = getStarterBonusGifts();
 
     const keys = Object.keys(gifts);
+    const dataKeys = keys.slice();
+    dataKeys.push(StarterBonusStateKey);
 
     const getDataResult = server.GetUserReadOnlyData({
         PlayFabId: currentPlayerId,
-        Keys: keys
+        Keys: dataKeys
     });
+
+    const state = getStarterBonusState(getDataResult.Data);
+
+    if (state === StarterBonusStateGranted) {
+        return {
+            ok: true,
+            granted: false,
+            alreadyGranted: true,
+            isAvailable: false,
+            amounts: gifts,
+            totals: readBoosterTotals(getDataResult.Data, keys)
+        };
+    }
+
+    if (state !== StarterBonusStateAvailable) {
+        return {
+            ok: true,
+            granted: false,
+            unavailable: true,
+            isAvailable: false,
+            amounts: gifts,
+            totals: readBoosterTotals(getDataResult.Data, keys)
+        };
+    }
 
     let updateData = {};
     let totals = {};
@@ -29,13 +109,18 @@ handlers.GrantStarterGift = function (args, context) {
         totals[key] = newValue;
     }
 
+    updateData[StarterBonusStateKey] = StarterBonusStateGranted;
+
     server.UpdateUserReadOnlyData({
         PlayFabId: currentPlayerId,
         Data: updateData
     });
 
     return {
+        ok: true,
         granted: true,
+        alreadyGranted: false,
+        isAvailable: false,
         amounts: gifts,
         totals: totals
     };

@@ -161,6 +161,23 @@ MonoBehaviour:
       \u043F\u043E\u0440\u044F\u0434\u043A\u0435 \u043D\u0430 \u043F\u043E\u043B\u0435.\r\n</line-height>"
     m_Metadata:
       m_Items: []
+  - m_Id: 50754050877440000
+    m_Localized: "<line-height=100%>\r\n  <size=200%><voffset=20><sprite name=\"letter\"></voffset></size><b>\xAB\u0411\u0443\u043A\u043E\u0432\u043A\u0430\xBB</b>
+      \u2014 \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043D\u0430\u0439\u0442\u0438
+      \u043D\u043E\u0432\u043E\u0435 \u0441\u043B\u043E\u0432\u043E\r\n\r\n  <size=200%><voffset=20><sprite
+      name=\"slowdown\"></voffset></size><b>\xAB\u0417\u0430\u043C\u0435\u0434\u043B\u044F\u043B\u043A\u0430\xBB</b>
+      \u2014 \u0434\u0430\u0441\u0442 \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438
+      \u043F\u043E\u0434\u0443\u043C\u0430\u0442\u044C\r\n\r\n  <size=200%><voffset=20><sprite
+      name=\"eraser\"></voffset></size><b>\xAB\u041B\u0430\u0441\u0442\u0438\u043A\xBB</b>
+      \u2014 \u043F\u043E\u0437\u0432\u043E\u043B\u0438\u0442 \u0438\u0441\u043F\u0440\u0430\u0432\u0438\u0442\u044C
+      \u043F\u043E\u043B\u0435\r\n\r\n  <size=200%><voffset=20><sprite name=\"swap\"></voffset></size><b>\xAB\u041C\u0435\u043D\u044F\u043B\u043A\u0430\xBB</b>
+      \u2014 \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043F\u043E\u0434\u0441\u0442\u0440\u043E\u0438\u0442\u044C
+      \u043F\u043E\u043B\u0435 \u043F\u043E\u0434 \u0441\u0435\u0431\u044F\r\n\r\n 
+      <size=200%><voffset=20><sprite name=\"mixer\"></voffset></size><b>\xAB\u041C\u0438\u043A\u0441\u0435\u0440\xBB</b>
+      \u2014 \u0438\u0437\u043C\u0435\u043D\u0438\u0442 \u043F\u043E\u043B\u0435
+      \u0438 \u0434\u0430\u0441\u0442 \u043D\u043E\u0432\u044B\u0435 \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u0438\r\n</line-height>"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

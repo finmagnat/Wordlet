@@ -28,6 +28,7 @@ namespace Game.Logic
         [Inject] private ConfigService _configService;
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
+        [Inject] private StarterBonusService _starterBonusService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
         [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
@@ -784,6 +785,15 @@ namespace Game.Logic
             }
 
             await finishPopup.WaitForResultAsync();
+
+            if (await _starterBonusService.TryGrantAsync())
+            {
+                _gameScreen.BoosterPanel.Refresh();
+
+                var starterBonusPopup =
+                    await _ui.ShowPopupAsync<StarterBonusPopup>(AssetKey.StarterBonusPopup);
+                await starterBonusPopup.WaitForResultAsync();
+            }
 
             _gameScreen.RepeatGame.SetActive(true);
         }

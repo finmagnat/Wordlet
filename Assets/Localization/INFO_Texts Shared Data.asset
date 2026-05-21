@@ -39,6 +39,10 @@ MonoBehaviour:
     m_Key: INFO_BOOSTERS_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 50754050877440000
+    m_Key: STARTER_BONUS_POPUP_INFO
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

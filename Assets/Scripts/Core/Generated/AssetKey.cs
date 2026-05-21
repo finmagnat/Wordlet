@@ -57,6 +57,7 @@ namespace Core.Generated
         sfx_start_new_game,
         sfx_letter_put_success,
         ConfirmPassPopup,
+        StarterBonusPopup,
         WinPopup,
         NoInternetPopup,
         AIGameExitPopup,
@@ -73,11 +74,11 @@ namespace Core.Generated
         DrawPopup,
         ShopPopup,
         AIGameSetupPopup,
+        DailyBonusPopup,
         LoadSavedGamePopup,
         InfoPopup,
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        StarterBonusPopup,
     }
 }

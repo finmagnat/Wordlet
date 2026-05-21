@@ -23,6 +23,7 @@ namespace Core.Services
             public const string SkinsMainMenuClicked = Group + "skins_main_menu_clicked";
             public const string InfoMainMenuClicked = Group + "info_main_menu_clicked";
             public const string ShopMainMenuClicked = Group + "shop_main_menu_clicked";
+            public const string DailyBonusMainMenuClicked = Group + "daily_bonus_main_menu_clicked";
             
             public const string SettingsPopupShown = Group + "settings_popup_shown";
             public const string CloseSettingsClicked = Group + "close_settings_clicked";

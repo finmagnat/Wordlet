@@ -123,6 +123,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcca9a09e40f4de418c8a5d9ad0620a1
+    m_Address: DailyBonusPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e77255d610e092949b11ae95871124f6
     m_Address: LoadSavedGamePopup
     m_ReadOnly: 0

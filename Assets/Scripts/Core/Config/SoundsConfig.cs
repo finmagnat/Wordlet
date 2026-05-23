@@ -28,7 +28,7 @@ namespace Core.Config
         public static string BoosterFoundWord => nameof(AssetKey.sfx_booster_found_word);
         public static string BoosterNotFoundWord => nameof(AssetKey.sfx_popup_question);
         public static string BoosterSlowdownLaunch => nameof(AssetKey.sfx_booster_found_word);
-        public static string ShowPurchaseConfirmationPopup => nameof(AssetKey.sfx_popup_reward);
+        public static string ShowRewardPopup => nameof(AssetKey.sfx_popup_reward);
        
         
         [TextArea]
@@ -58,7 +58,7 @@ namespace Core.Config
             new SoundData{ Key = BoosterFoundWord, Description = "Бустер 'Буковка' нашел слово" },
             new SoundData{ Key = BoosterNotFoundWord, Description = "Бустер 'Буковка' не нашел слово" },
             new SoundData{ Key = BoosterSlowdownLaunch, Description = "Запуск бустера 'Замедление'" },
-            new SoundData{ Key = ShowPurchaseConfirmationPopup, Description = "Попап с наградой'" },
+            new SoundData{ Key = ShowRewardPopup, Description = "Попап с наградой'" },
         };
 
         

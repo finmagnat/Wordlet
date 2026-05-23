@@ -180,6 +180,7 @@ namespace Core.Services
             public const string SkinRandom = "skin_random";
             public const string Sound = "sound";
             public const string Giro = "giro";
+            public const string Source = "source";
             public const string ProductId = "product_id";
             public const string Reward = "reward";
             public const string Price = "price";

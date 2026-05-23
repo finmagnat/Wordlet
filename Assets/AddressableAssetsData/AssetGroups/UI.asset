@@ -52,7 +52,7 @@ MonoBehaviour:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e8b2b77eb141ce42ac2d55dd62d5d9d
-    m_Address: PurchaseConfirmationPopup
+    m_Address: RewardPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

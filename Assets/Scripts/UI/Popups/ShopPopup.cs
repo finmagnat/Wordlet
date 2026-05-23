@@ -124,7 +124,7 @@ namespace UI.Popups
             }
             else
             {
-                await _ui.ShowPopupAsync<PurchaseConfirmationPopup, ShopOfferDto>(AssetKey.PurchaseConfirmationPopup, offer);
+                await _ui.ShowPopupAsync<RewardPopup, RewardPopupData>(AssetKey.RewardPopup, RewardPopupData.FromShopOffer(offer));
                 Debug.Log($"[ShopPopup][OnOfferClicked] PurchaseSuccessEvent, ProductId = {offer.ProductId}");
                 EventBus.Raise(new PurchaseSuccessEvent(offer));
                 

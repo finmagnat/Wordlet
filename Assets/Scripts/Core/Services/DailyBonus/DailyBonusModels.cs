@@ -64,6 +64,7 @@ namespace Core.Services
 
         public int Day { get; }
         public string RewardKind { get; }
+        public bool IsChest => RewardKind == "chest";
         public IReadOnlyList<DailyBonusRewardItem> Rewards { get; }
         public IReadOnlyList<DailyBonusChestDrop> ChestDrops { get; }
     }

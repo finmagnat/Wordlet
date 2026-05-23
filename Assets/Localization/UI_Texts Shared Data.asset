@@ -559,6 +559,18 @@ MonoBehaviour:
     m_Key: DAILY_BONUS_POPUP_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 69904543381864448
+    m_Key: BUTTON_TEXT_TAKE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69924332397543424
+    m_Key: DAILY_BONUS_ACTIVE_REWARD_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69925031483162624
+    m_Key: DAILY_BONUS_DAY_NUMBER_TITLE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

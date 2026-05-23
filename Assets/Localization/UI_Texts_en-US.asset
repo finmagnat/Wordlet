@@ -619,6 +619,18 @@ MonoBehaviour:
     m_Localized: Daily bonus
     m_Metadata:
       m_Items: []
+  - m_Id: 69904543381864448
+    m_Localized: Take
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69924332397543424
+    m_Localized: Your reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69925031483162624
+    m_Localized: '{0} day'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -80,10 +80,13 @@ namespace Core.Services
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";
             
-            
             public const string StarterBonusPopupShown = Group + "starter_bonus_popup_shown";
             public const string StarterBonusPopupClickedClose = Group + "starter_bonus_popup_clicked_exit";
             public const string StarterBonusPopupClickedGet = Group + "starter_bonus_popup_clicked_get";
+            
+            public const string DailyBonusPopupShown = Group + "daily_bonus_popup_shown";
+            public const string DailyBonusPopupClickedClose = Group + "daily_bonus_popup_clicked_exit";
+            public const string DailyBonusPopupClickedTake = Group + "daily_bonus_popup_clicked_take";
         }
 
         public static class Monetization

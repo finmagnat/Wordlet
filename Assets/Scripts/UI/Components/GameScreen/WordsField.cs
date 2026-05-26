@@ -20,7 +20,7 @@ namespace UI.Components
         [Inject] private DiContainer _container;
         
         private const int COLS = 5;
-        private const float AcceptedWordAnimationDuration = 1.2f;
+        private const float AcceptedWordAnimationDuration = 0.8f;
         private const float AcceptedWordScale = 1.12f;
         private const int AcceptedWordPulseLoops = 2;
 

@@ -23,6 +23,7 @@ namespace Core.Services
             public const string SkinsMainMenuClicked = Group + "skins_main_menu_clicked";
             public const string InfoMainMenuClicked = Group + "info_main_menu_clicked";
             public const string ShopMainMenuClicked = Group + "shop_main_menu_clicked";
+            public const string DailyBonusMainMenuClicked = Group + "daily_bonus_main_menu_clicked";
             
             public const string SettingsPopupShown = Group + "settings_popup_shown";
             public const string CloseSettingsClicked = Group + "close_settings_clicked";
@@ -79,10 +80,13 @@ namespace Core.Services
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";
             
-            
             public const string StarterBonusPopupShown = Group + "starter_bonus_popup_shown";
             public const string StarterBonusPopupClickedClose = Group + "starter_bonus_popup_clicked_exit";
             public const string StarterBonusPopupClickedGet = Group + "starter_bonus_popup_clicked_get";
+            
+            public const string DailyBonusPopupShown = Group + "daily_bonus_popup_shown";
+            public const string DailyBonusPopupClickedClose = Group + "daily_bonus_popup_clicked_exit";
+            public const string DailyBonusPopupClickedTake = Group + "daily_bonus_popup_clicked_take";
         }
 
         public static class Monetization
@@ -176,6 +180,7 @@ namespace Core.Services
             public const string SkinRandom = "skin_random";
             public const string Sound = "sound";
             public const string Giro = "giro";
+            public const string Source = "source";
             public const string ProductId = "product_id";
             public const string Reward = "reward";
             public const string Price = "price";

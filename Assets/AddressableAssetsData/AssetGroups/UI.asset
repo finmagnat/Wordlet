@@ -52,7 +52,7 @@ MonoBehaviour:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e8b2b77eb141ce42ac2d55dd62d5d9d
-    m_Address: PurchaseConfirmationPopup
+    m_Address: RewardPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -119,6 +119,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dca49907340372148b0bab10c22d25fb
     m_Address: AIGameSetupPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcca9a09e40f4de418c8a5d9ad0620a1
+    m_Address: DailyBonusPopup
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

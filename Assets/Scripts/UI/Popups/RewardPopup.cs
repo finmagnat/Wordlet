@@ -10,7 +10,7 @@ using Zenject;
 
 namespace UI.Popups
 {
-    public class PurchaseConfirmationPopup : UIPopup<ShopOfferDto>
+    public class RewardPopup : UIPopup<RewardPopupData>
     {
         [Header("UI Elements")]
         [SerializeField] private ShopItemView _itemPrefab;
@@ -22,13 +22,14 @@ namespace UI.Popups
 
         protected UniTaskCompletionSource<PopupExitData> _completionSource;
 
-        private ShopOfferDto _currentOffer;
+        private RewardPopupData _currentData;
 
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
 
-        public override UniTask PrepareAsync(ShopOfferDto offer)
+        public override UniTask PrepareAsync(RewardPopupData data)
         {
-            Bind(offer);
+            _completionSource = new UniTaskCompletionSource<PopupExitData>();
+            Bind(data);
             return UniTask.CompletedTask;
         }
 
@@ -51,12 +52,12 @@ namespace UI.Popups
             Close().Forget();
         }
 
-        private void Bind(ShopOfferDto dto)
+        private void Bind(RewardPopupData data)
         {
-            _currentOffer = dto;
+            _currentData = data ?? new RewardPopupData();
             Clear();
 
-            foreach (var item in dto.Rewards)
+            foreach (var item in _currentData.Rewards)
             {
                 var view = Instantiate(_itemPrefab, _contentRoot);
                 view.Bind(item);
@@ -80,8 +81,9 @@ namespace UI.Popups
         {
             return new Dictionary<string, object>
             {
-                [AnalyticsEvents.Parameter.ProductId] = _currentOffer?.ProductId,
-                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentOffer.Rewards),
+                [AnalyticsEvents.Parameter.Source] = _currentData?.Source,
+                [AnalyticsEvents.Parameter.ProductId] = _currentData?.ProductId,
+                [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentData?.Rewards),
                 [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
             };
         }

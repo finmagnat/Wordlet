@@ -75,6 +75,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
             Container.BindInterfacesAndSelfTo<StarterBonusService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<DailyBonusService>().AsSingle();
 
             Container.Bind<INewWordsProvider>().To<PlayFabNewWordsProvider>().AsSingle();
             Container.Bind<INewWordsService>().To<NewWordsService>().AsSingle();
@@ -172,6 +173,7 @@ namespace Core.Installers
             var inventorySyncInit = Container.Resolve<InventorySyncService>().InitializeAsync();
 
             await Container.Resolve<StarterBonusService>().InitializeAsync();
+            await Container.Resolve<DailyBonusService>().InitializeAsync();
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
@@ -184,6 +186,10 @@ namespace Core.Installers
             var go = new GameObject("SRDebugAdsBridge");
             DontDestroyOnLoad(go);
             Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
+
+            var dailyBonusGo = new GameObject("SRDebugDailyBonusBridge");
+            DontDestroyOnLoad(dailyBonusGo);
+            Container.InstantiateComponent<DebugTools.SRDebugDailyBonusBridge>(dailyBonusGo);
 
             var newWordsGo = new GameObject("SRDebugNewWordsBridge");
             DontDestroyOnLoad(newWordsGo);

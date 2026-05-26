@@ -13,6 +13,7 @@ namespace Core.Services
     {
         private const string StateKey = "starter_bonus_state";
         private const string StateAvailable = "available";
+        private const string StateGranted = "granted";
         private const string FunctionPrepareStarterBonus = "PrepareStarterBonus";
         private const string FunctionGrantStarterGift = "GrantStarterGift";
         
@@ -20,6 +21,7 @@ namespace Core.Services
         private readonly InventorySyncService _inventorySync;
 
         public bool IsAvailable { get; private set; }
+        public bool IsGranted { get; private set; }
 
         public StarterBonusService(PlayFabAuthService auth, InventorySyncService inventorySync)
         {
@@ -56,9 +58,11 @@ namespace Core.Services
 
             var result = exec.FunctionResult;
             bool granted = TryGetBool(result, "granted", out var value) && value;
+            bool alreadyGranted = TryGetBool(result, "alreadyGranted", out var alreadyGrantedValue) && alreadyGrantedValue;
             bool isAvailable = TryGetBool(result, "isAvailable", out var available) && available;
 
             IsAvailable = isAvailable;
+            IsGranted = granted || alreadyGranted || IsGranted;
 
             if (!granted)
                 return false;
@@ -94,20 +98,25 @@ namespace Core.Services
             try
             {
                 var result = await GetUserReadOnlyDataAsync(new List<string> { StateKey });
-                IsAvailable = result.Data != null &&
-                              result.Data.TryGetValue(StateKey, out var state) &&
-                              state.Value == StateAvailable;
+                string state = null;
+                if (result.Data != null && result.Data.TryGetValue(StateKey, out var record))
+                    state = record.Value;
+
+                IsAvailable = state == StateAvailable;
+                IsGranted = state == StateGranted;
             }
             catch (Exception exception)
             {
                 Debug.LogError($"Starter bonus state sync failed: {exception}");
                 IsAvailable = false;
+                IsGranted = false;
             }
         }
 
         private void ApplyAvailability(object result)
         {
             IsAvailable = TryGetBool(result, "isAvailable", out var isAvailable) && isAvailable;
+            IsGranted = TryGetString(result, "state", out var state) && state == StateGranted;
         }
 
         private static UniTask<GetUserDataResult> GetUserReadOnlyDataAsync(List<string> keys)
@@ -166,6 +175,27 @@ namespace Core.Services
                 json.TryGetValue(key, out var jsonValue))
             {
                 value = Convert.ToBoolean(jsonValue);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryGetString(object result, string key, out string value)
+        {
+            value = null;
+
+            if (result is Dictionary<string, object> dictionary &&
+                dictionary.TryGetValue(key, out var dictionaryValue))
+            {
+                value = Convert.ToString(dictionaryValue);
+                return true;
+            }
+
+            if (result is JsonObject json &&
+                json.TryGetValue(key, out var jsonValue))
+            {
+                value = Convert.ToString(jsonValue);
                 return true;
             }
 

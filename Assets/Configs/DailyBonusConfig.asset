@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a46e53ef0bd4448083feb71520f2bb7e, type: 3}
   m_Name: DailyBonusConfig
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   Note: Runtime Daily Bonus balance is loaded from PlayFab Title Data key 'daily_bonus_config'.
     Use the inspector button to copy JSON for PlayFab Primary Title Data.
   CycleLength: 7
@@ -62,25 +62,20 @@ MonoBehaviour:
     RewardKind: 1
     Rewards: []
     ChestDrops:
-    - Weight: 80
-      Mode: 0
-      Multiplier: 1
-      Pool: 01000000030000000200000005000000
-      Rewards: []
-    - Weight: 15
+    - Weight: 70
       Mode: 0
       Multiplier: 2
       Pool: 01000000030000000200000005000000
       Rewards: []
-    - Weight: 4
+    - Weight: 20
       Mode: 0
       Multiplier: 3
       Pool: 01000000030000000200000005000000
       Rewards: []
-    - Weight: 1
+    - Weight: 10
       Mode: 1
       Multiplier: 1
-      Pool:
+      Pool: 
       Rewards:
       - ItemId: 1
         Amount: 1

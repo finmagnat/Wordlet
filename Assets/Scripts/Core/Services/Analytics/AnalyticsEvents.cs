@@ -184,6 +184,8 @@ namespace Core.Services
             public const string ProductId = "product_id";
             public const string Reward = "reward";
             public const string Price = "price";
+            public const string Day = "day";
+            public const string Jackpot = "jackpot";
             public const string LimitRemain = "limit_remain";
             public const string Result = "result";
             public const string Reason = "reason";
@@ -254,6 +256,8 @@ namespace Core.Services
             public const string Win = "win";
             public const string Lose = "lose";
             public const string Draft = "draft";
+            public const string Chest = "chest";
+            public const string Booster = "booster";
         }
 
         public static class Placement

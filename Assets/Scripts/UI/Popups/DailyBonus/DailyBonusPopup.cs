@@ -133,20 +133,66 @@ namespace UI.Popups
         
         private void SendAnalytics(string eventName)
         {
-            Dictionary<string, object> parameters = null;
-            switch (eventName)
+            _analytics.TrackEvent(eventName, CreateAnalyticsParams());
+        }
+
+        private Dictionary<string, object> CreateAnalyticsParams()
+        {
+            var state = _dailyBonusService.CurrentState;
+            int day = state?.DailyRewardDay ?? 0;
+            var dayConfig = GetCycleDay(day);
+
+            return new Dictionary<string, object>
             {
-                case AnalyticsEvents.Navigation.DailyBonusPopupShown:
-                case AnalyticsEvents.Navigation.DailyBonusPopupClickedClose:
-                    parameters = new Dictionary<string, object>
-                    {
-                        //[AnalyticsEvents.Parameter.] = ,
-                        //[AnalyticsEvents.Parameter.] = ,
-                    };
-                    break;
+                [AnalyticsEvents.Parameter.Day] = day,
+                [AnalyticsEvents.Parameter.RewardType] = GetRewardType(dayConfig),
+                [AnalyticsEvents.Parameter.Reward] = GetRewardPayload(dayConfig)
+            };
+        }
+
+        private DailyBonusCycleDay GetCycleDay(int day)
+        {
+            if (day <= 0)
+                return null;
+
+            foreach (var item in _dailyBonusService.CurrentCycle.Days)
+            {
+                if (item.Day == day)
+                    return item;
             }
-            
-            _analytics.TrackEvent(eventName, parameters);
+
+            return null;
+        }
+
+        private static string GetRewardType(DailyBonusCycleDay dayConfig)
+        {
+            if (dayConfig == null)
+                return AnalyticsEvents.Option.Unknown;
+
+            return dayConfig.IsChest
+                ? AnalyticsEvents.Option.Chest
+                : AnalyticsEvents.Option.Booster;
+        }
+
+        private static string GetRewardPayload(DailyBonusCycleDay dayConfig)
+        {
+            if (dayConfig == null)
+                return AnalyticsEvents.Option.Unknown;
+
+            if (dayConfig.IsChest)
+                return AnalyticsEvents.Option.Chest;
+
+            var rewards = new List<RewardDto>();
+            foreach (var reward in dayConfig.Rewards)
+            {
+                rewards.Add(new RewardDto
+                {
+                    ItemId = reward.BoosterType,
+                    Amount = reward.Amount
+                });
+            }
+
+            return AnalyticsPayloadHelper.GetRewardsPayload(rewards);
         }
     }
 }

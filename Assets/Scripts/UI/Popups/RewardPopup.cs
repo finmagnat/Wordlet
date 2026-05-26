@@ -79,13 +79,21 @@ namespace UI.Popups
 
         private Dictionary<string, object> GetAnalyticsParams()
         {
-            return new Dictionary<string, object>
+            var parameters = new Dictionary<string, object>
             {
                 [AnalyticsEvents.Parameter.Source] = _currentData?.Source,
                 [AnalyticsEvents.Parameter.ProductId] = _currentData?.ProductId,
                 [AnalyticsEvents.Parameter.Reward] = AnalyticsPayloadHelper.GetRewardsPayload(_currentData?.Rewards),
                 [AnalyticsEvents.Parameter.Boosters] = AnalyticsPayloadHelper.GetBoostersPayload(_inventory.Boosters)
             };
+
+            if (_currentData?.Source == RewardPopupData.SourceDailyBonus)
+            {
+                parameters[AnalyticsEvents.Parameter.Day] = _currentData.DailyBonusDay;
+                parameters[AnalyticsEvents.Parameter.Jackpot] = _currentData.DailyBonusJackpot;
+            }
+
+            return parameters;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Core.Services
     {
         private const string FunctionRefreshDailyBonus = "RefreshDailyBonus";
         private const string FunctionClaimDailyBonus = "ClaimDailyBonus";
+        private const string FunctionDebugSetDailyBonusState = "DebugSetDailyBonusState";
 
         private readonly IStarterBonusService _starterBonusService;
         private readonly InventorySyncService _inventorySync;
@@ -125,6 +126,51 @@ namespace Core.Services
                 response.multiplier,
                 ParseBoosterType(response.selectedBooster));
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public async UniTask<DailyBonusDebugSetStateResult> DebugSetStateAsync(DailyBonusDebugMode mode, int day)
+        {
+            try
+            {
+                EnsureLoggedIn();
+
+                var response = await ExecuteAsync<DailyBonusDebugSetStateResponse>(
+                    FunctionDebugSetDailyBonusState,
+                    new
+                    {
+                        mode = ToDebugModeKey(mode),
+                        day
+                    });
+
+                if (response == null || !response.ok)
+                    return DailyBonusDebugSetStateResult.Failed(
+                        CurrentState,
+                        response != null ? response.error : "debug_response_missing");
+
+                _starterBonusGrantedAtLaunch = true;
+
+                if (response.state != null)
+                    SetState(ToState(response.state, true));
+
+                await RefreshAsync();
+
+                return DailyBonusDebugSetStateResult.Succeeded(
+                    CurrentState,
+                    response.mode,
+                    response.requestedDay);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Daily bonus debug set state failed: {exception}");
+                return DailyBonusDebugSetStateResult.Failed(CurrentState, exception.Message);
+            }
+        }
+#else
+        public UniTask<DailyBonusDebugSetStateResult> DebugSetStateAsync(DailyBonusDebugMode mode, int day)
+        {
+            return UniTask.FromResult(DailyBonusDebugSetStateResult.Failed(CurrentState, "debug_only"));
+        }
+#endif
 
         private void SetState(DailyBonusState state)
         {
@@ -271,6 +317,17 @@ namespace Core.Services
             return parts.Count > 0 ? string.Join(", ", parts) : "none";
         }
 
+        private static string ToDebugModeKey(DailyBonusDebugMode mode)
+        {
+            return mode switch
+            {
+                DailyBonusDebugMode.ClaimedToday => "claimed_today",
+                DailyBonusDebugMode.NextDayReady => "next_day_ready",
+                DailyBonusDebugMode.Reset => "reset",
+                _ => "active_day"
+            };
+        }
+
         [Serializable]
         private sealed class DailyBonusRefreshResponse
         {
@@ -293,6 +350,16 @@ namespace Core.Services
             public List<DailyBonusRewardDto> rewards;
             public DailyBonusStateDto state;
             public DailyBonusConfigDto config;
+        }
+
+        [Serializable]
+        private sealed class DailyBonusDebugSetStateResponse
+        {
+            public bool ok;
+            public string error;
+            public string mode;
+            public int requestedDay;
+            public DailyBonusStateDto state;
         }
 
         [Serializable]

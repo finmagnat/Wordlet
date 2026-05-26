@@ -187,6 +187,10 @@ namespace Core.Installers
             DontDestroyOnLoad(go);
             Container.InstantiateComponent<DebugTools.SRDebugAdsBridge>(go);
 
+            var dailyBonusGo = new GameObject("SRDebugDailyBonusBridge");
+            DontDestroyOnLoad(dailyBonusGo);
+            Container.InstantiateComponent<DebugTools.SRDebugDailyBonusBridge>(dailyBonusGo);
+
             var newWordsGo = new GameObject("SRDebugNewWordsBridge");
             DontDestroyOnLoad(newWordsGo);
             Container.InstantiateComponent<DebugTools.SRDebugNewWordsBridge>(newWordsGo);

@@ -4,6 +4,14 @@ using Core.Config;
 
 namespace Core.Services
 {
+    public enum DailyBonusDebugMode
+    {
+        ActiveDay,
+        ClaimedToday,
+        NextDayReady,
+        Reset
+    }
+
     public sealed class DailyBonusState
     {
         public static DailyBonusState Unavailable { get; } = new(0, null, false, false);
@@ -153,6 +161,42 @@ namespace Core.Services
                 0,
                 BoosterType.None,
                 error);
+        }
+    }
+
+    public sealed class DailyBonusDebugSetStateResult
+    {
+        private DailyBonusDebugSetStateResult(
+            bool success,
+            DailyBonusState state,
+            string mode,
+            int requestedDay,
+            string error)
+        {
+            Success = success;
+            State = state ?? DailyBonusState.Unavailable;
+            Mode = mode;
+            RequestedDay = requestedDay;
+            Error = error;
+        }
+
+        public bool Success { get; }
+        public DailyBonusState State { get; }
+        public string Mode { get; }
+        public int RequestedDay { get; }
+        public string Error { get; }
+
+        public static DailyBonusDebugSetStateResult Succeeded(
+            DailyBonusState state,
+            string mode,
+            int requestedDay)
+        {
+            return new DailyBonusDebugSetStateResult(true, state, mode, requestedDay, null);
+        }
+
+        public static DailyBonusDebugSetStateResult Failed(DailyBonusState state, string error)
+        {
+            return new DailyBonusDebugSetStateResult(false, state, null, 0, error);
         }
     }
 }

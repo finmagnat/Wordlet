@@ -296,6 +296,12 @@ function getNextDailyBonusDay(day, config) {
     return value >= cycleLength ? 1 : value + 1;
 }
 
+function getPreviousDailyBonusDay(day, config) {
+    var value = normalizeDailyBonusDay(day, config);
+    var cycleLength = config && config.cycleLength ? config.cycleLength : 7;
+    return value <= 1 ? cycleLength : value - 1;
+}
+
 function getDailyBonusDateKey(date) {
     var value = date instanceof Date ? date : new Date(date);
 
@@ -352,6 +358,17 @@ function readDailyBonusState(data, config) {
 function writeDailyBonusState(state) {
     var update = {};
     update[DailyBonusStateKey] = JSON.stringify(state);
+
+    server.UpdateUserReadOnlyData({
+        PlayFabId: currentPlayerId,
+        Data: update
+    });
+}
+
+function writeDailyBonusDebugState(state) {
+    var update = {};
+    update[DailyBonusStateKey] = JSON.stringify(state);
+    update[StarterBonusStateKey] = StarterBonusStateGranted;
 
     server.UpdateUserReadOnlyData({
         PlayFabId: currentPlayerId,
@@ -633,6 +650,59 @@ handlers.ClaimDailyBonus = function (args, context) {
         selectedBooster: roll.selectedBooster,
         state: state,
         config: config
+    });
+};
+
+handlers.DebugSetDailyBonusState = function (args, context) {
+    var configResult = getDailyBonusConfigResult();
+    var config = configResult.ok ? configResult.config : { cycleLength: 7, days: [] };
+    var mode = normalizeDailyBonusString(args && args.mode).toLowerCase();
+    var requestedDay = normalizeDailyBonusDay(args && args.day, config);
+    var now = new Date();
+    var state = null;
+
+    if (!mode)
+        mode = "active_day";
+
+    if (mode === "active_day") {
+        state = {
+            dailyRewardDay: requestedDay,
+            lastClaimUtc: now.toISOString(),
+            claimAvailable: true
+        };
+    } else if (mode === "claimed_today") {
+        state = {
+            dailyRewardDay: requestedDay,
+            lastClaimUtc: now.toISOString(),
+            claimAvailable: false
+        };
+    } else if (mode === "next_day_ready") {
+        var yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        state = {
+            dailyRewardDay: getPreviousDailyBonusDay(requestedDay, config),
+            lastClaimUtc: yesterday.toISOString(),
+            claimAvailable: false
+        };
+    } else if (mode === "reset") {
+        state = createDailyBonusInitialState();
+        requestedDay = state.dailyRewardDay;
+    } else {
+        return JSON.stringify({
+            ok: false,
+            error: "unknown_daily_bonus_debug_mode",
+            mode: mode,
+            requestedDay: requestedDay,
+            state: null
+        });
+    }
+
+    writeDailyBonusDebugState(state);
+
+    return JSON.stringify({
+        ok: true,
+        mode: mode,
+        requestedDay: requestedDay,
+        state: state
     });
 };
 

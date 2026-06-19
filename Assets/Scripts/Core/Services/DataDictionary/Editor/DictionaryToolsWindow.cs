@@ -20,6 +20,7 @@ namespace Core.DataDictionary.Editor
         private string _filePath = DefaultDictionaryPath;
         private string _sortCulture = "ru-RU";
         private string _lastDuplicatesPath;
+        private string _lastWordListPath;
         private Vector2 _scrollPosition;
 
         [MenuItem("Tools/Dictionary/Dictionary Tools")]
@@ -58,6 +59,9 @@ namespace Core.DataDictionary.Editor
 
                 if (GUILayout.Button("Sort By Word"))
                     SortByWord();
+
+                if (GUILayout.Button("Export Word List"))
+                    ExportWordList();
             }
 
             if (GUILayout.Button("Use Project Selection"))
@@ -65,6 +69,9 @@ namespace Core.DataDictionary.Editor
 
             if (!string.IsNullOrWhiteSpace(_lastDuplicatesPath))
                 EditorGUILayout.HelpBox($"Last duplicates file: {_lastDuplicatesPath}", MessageType.Info);
+
+            if (!string.IsNullOrWhiteSpace(_lastWordListPath))
+                EditorGUILayout.HelpBox($"Last word list file: {_lastWordListPath}", MessageType.Info);
 
             EditorGUILayout.Space(8);
             DrawMessages();
@@ -176,6 +183,18 @@ namespace Core.DataDictionary.Editor
             LogInfo($"Sorted entries by WORD. Count: {sortedEntries.Count}. Culture: {GetCultureLabel()}.");
         }
 
+        private void ExportWordList()
+        {
+            if (!TryParseValidCurrentFile(out var parseResult))
+                return;
+
+            _lastWordListPath = CreateWordListOutputPath(_filePath);
+            WriteLines(_lastWordListPath, DictionaryFileFormatter.FormatWords(parseResult.Entries));
+            RefreshAsset(_lastWordListPath);
+
+            LogInfo($"Exported word list: {parseResult.Entries.Count}. Saved: {_lastWordListPath}");
+        }
+
         private void TryUseSelection()
         {
             if (Selection.activeObject is TextAsset textAsset)
@@ -259,6 +278,15 @@ namespace Core.DataDictionary.Editor
             string extension = Path.GetExtension(sourcePath);
 
             return Path.Combine(directory, $"{fileName}_removed_duplicates{extension}");
+        }
+
+        private static string CreateWordListOutputPath(string sourcePath)
+        {
+            string directory = Path.GetDirectoryName(sourcePath) ?? string.Empty;
+            string fileName = Path.GetFileNameWithoutExtension(sourcePath);
+            string extension = Path.GetExtension(sourcePath);
+
+            return Path.Combine(directory, $"{fileName}_word_list{extension}");
         }
 
         private static void RefreshAsset(string path)

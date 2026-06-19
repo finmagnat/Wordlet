@@ -16,5 +16,15 @@ namespace Core.DataDictionary.Tools
 
             return lines;
         }
+
+        public static List<string> FormatWords(IReadOnlyList<DictionaryEntry> entries)
+        {
+            var lines = new List<string>(entries.Count);
+
+            foreach (var entry in entries)
+                lines.Add(entry.Word);
+
+            return lines;
+        }
     }
 }

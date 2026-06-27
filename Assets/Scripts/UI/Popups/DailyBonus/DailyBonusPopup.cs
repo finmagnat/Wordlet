@@ -25,6 +25,8 @@ namespace UI.Popups
         [Inject] private AnalyticsService _analytics;
         
         private readonly List<DailyBonusPackItemView> _dayItems = new();
+        private DailyBonusPackItemView _activeDayItem;
+        private ScrollRect _scrollRect;
         private bool _isClaiming;
 
         private void Start()
@@ -43,6 +45,15 @@ namespace UI.Popups
             SendAnalytics(AnalyticsEvents.Navigation.DailyBonusPopupShown);
             
             await base.ShowAsync();
+        }
+
+        protected override async UniTask BeforeShowAnimationAsync()
+        {
+            await base.BeforeShowAnimationAsync();
+
+            ScrollToActiveReward();
+            await UniTask.Yield(PlayerLoopTiming.Update);
+            ScrollToActiveReward();
         }
         
         private void OnTakeButtonClick()
@@ -83,9 +94,14 @@ namespace UI.Popups
             var cycle = _dailyBonusService.CurrentCycle;
 
             _dayItems.Clear();
+            _activeDayItem = null;
 
             for (int i = _scrollListContent.childCount - 1; i >= 0; i--)
-                Destroy(_scrollListContent.GetChild(i).gameObject);
+            {
+                var child = _scrollListContent.GetChild(i).gameObject;
+                child.SetActive(false);
+                Destroy(child);
+            }
 
             foreach (var dayItemData in cycle.Days)
             {
@@ -99,8 +115,61 @@ namespace UI.Popups
 
                 dayItem.Bind(dayItemData, isActiveReward, OnTakeButtonClick);
 
+                if (isActiveReward)
+                    _activeDayItem = dayItem;
+
                 _dayItems.Add(dayItem);
             }
+        }
+
+        private void ScrollToActiveReward()
+        {
+            var scrollRect = ResolveScrollRect();
+            if (scrollRect == null || _activeDayItem == null)
+                return;
+
+            var content = scrollRect.content != null
+                ? scrollRect.content
+                : _scrollListContent as RectTransform;
+            var viewport = scrollRect.viewport != null
+                ? scrollRect.viewport
+                : scrollRect.transform as RectTransform;
+            var activeItemRect = _activeDayItem.transform as RectTransform;
+
+            if (content == null || viewport == null || activeItemRect == null)
+                return;
+
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+
+            float scrollableHeight = content.rect.height - viewport.rect.height;
+            if (scrollableHeight <= 0f)
+            {
+                scrollRect.verticalNormalizedPosition = 1f;
+                return;
+            }
+
+            Vector3 itemCenterInViewport = viewport.InverseTransformPoint(
+                activeItemRect.TransformPoint(activeItemRect.rect.center));
+            float targetContentY =
+                content.anchoredPosition.y + viewport.rect.center.y - itemCenterInViewport.y;
+            float contentY = Mathf.Clamp(targetContentY, 0f, scrollableHeight);
+
+            content.anchoredPosition = new Vector2(content.anchoredPosition.x, contentY);
+            scrollRect.verticalNormalizedPosition = 1f - contentY / scrollableHeight;
+            scrollRect.velocity = Vector2.zero;
+        }
+
+        private ScrollRect ResolveScrollRect()
+        {
+            if (_scrollRect != null)
+                return _scrollRect;
+
+            if (_scrollListContent == null)
+                return null;
+
+            _scrollRect = _scrollListContent.GetComponentInParent<ScrollRect>(true);
+            return _scrollRect;
         }
 
         private RewardPopupData CreateRewardPopupData(DailyBonusClaimResult result)

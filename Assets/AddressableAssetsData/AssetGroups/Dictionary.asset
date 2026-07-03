@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Dictionary
   m_GUID: 094668a235dd03c4f9bd104c275a6762
   m_SerializeEntries:
+  - m_GUID: 63fea202bbc77f44f83822e34e225038
+    m_Address: dict_ru
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1d331b39b1ba0a42bb1c753a6b1e1d8
     m_Address: dict_uk
     m_ReadOnly: 0
@@ -22,12 +27,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e0817fcdfb714d608ee5095ad4539111
     m_Address: dict_en
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Dictionary
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ed20235b5c4662d4f8b838259b113de8
-    m_Address: dict_ru
     m_ReadOnly: 0
     m_SerializedLabels:
     - Dictionary

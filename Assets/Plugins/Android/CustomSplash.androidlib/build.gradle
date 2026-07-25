@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.finmagnat.wordlet.customsplash'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 34
+    }
+}

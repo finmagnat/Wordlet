@@ -1,11 +1,15 @@
 apply plugin: 'com.android.library'
 
+def unityCompileSdkVersion = (findProperty('unity.compileSdkVersion') ?: '36') as Integer
+def unityMinSdkVersion = (findProperty('unity.minSdkVersion') ?: '25') as Integer
+def unityTargetSdkVersion = (findProperty('unity.targetSdkVersion') ?: unityCompileSdkVersion.toString()) as Integer
+
 android {
     namespace 'com.finmagnat.wordlet.customsplash'
-    compileSdk 34
+    compileSdk unityCompileSdkVersion
 
     defaultConfig {
-        minSdk 23
-        targetSdk 34
+        minSdk unityMinSdkVersion
+        targetSdk unityTargetSdkVersion
     }
 }

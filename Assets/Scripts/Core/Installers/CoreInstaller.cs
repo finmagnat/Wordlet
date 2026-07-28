@@ -119,6 +119,8 @@ namespace Core.Installers
             analytics.TrackEvent(AnalyticsEvents.Startup.LoadingStarted, parameters);
             
             loading.SetProgress(0.0f);
+            await UniTask.NextFrame();
+            global::Core.NativeSplashScreen.Hide();
 
             await Container.Resolve<LocalizationService>().InitializeAsync();
             loading.SetProgress(0.05f);

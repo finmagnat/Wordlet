@@ -32,6 +32,12 @@ android {
     ndkPath "**NDKPATH**"
     ndkVersion "**NDKVERSION**"
 
+    sourceSets {
+        main {
+            java.srcDirs += [file("${unityProjectPath}/Assets/Plugins/Android/CustomSplash.androidlib/unity-src")]
+        }
+    }
+
     compileSdk **APIVERSION**
     buildToolsVersion = "**BUILDTOOLS**"
 

@@ -16,7 +16,7 @@ PlayerSettings:
   productName: Wordlet
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.87843144, g: 0.6431373, b: 0.8588236, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.101960786, g: 0.043137256, b: 0.18039216, a: 1}
   m_ShowUnitySplashScreen: 0
   m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 0
@@ -265,7 +265,7 @@ PlayerSettings:
   useCustomMainManifest: 1
   useCustomLauncherManifest: 1
   useCustomMainGradleTemplate: 1
-  useCustomLauncherGradleManifest: 0
+  useCustomLauncherGradleManifest: 1
   useCustomBaseGradleTemplate: 0
   useCustomGradlePropertiesTemplate: 1
   useCustomGradleSettingsTemplate: 1

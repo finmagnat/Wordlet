@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 1. Фон напрямую из ресурсов -->
     <item android:drawable="@color/splash_bg_color" />
-
-    <!-- 2. Иконка по центру -->
     <item>
         <bitmap
-                android:src="@drawable/splash_logo"
-                android:gravity="center" />
+                android:gravity="center"
+                android:src="@drawable/splash_logo" />
     </item>
 </layer-list>

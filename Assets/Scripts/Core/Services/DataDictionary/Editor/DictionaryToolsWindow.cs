@@ -19,7 +19,9 @@ namespace Core.DataDictionary.Editor
         private TextAsset _dictionaryAsset;
         private string _filePath = DefaultDictionaryPath;
         private string _sortCulture = "ru-RU";
+        private int _maxWordLength = 9;
         private string _lastDuplicatesPath;
+        private string _lastRemovedByLengthPath;
         private string _lastWordListPath;
         private Vector2 _scrollPosition;
 
@@ -42,6 +44,7 @@ namespace Core.DataDictionary.Editor
 
             DrawFileSelector();
             _sortCulture = EditorGUILayout.TextField("Sort Culture", _sortCulture);
+            _maxWordLength = Math.Max(1, EditorGUILayout.IntField("Max Word Length", _maxWordLength));
 
             EditorGUILayout.Space(8);
 
@@ -60,6 +63,9 @@ namespace Core.DataDictionary.Editor
                 if (GUILayout.Button("Remove Duplicates"))
                     RemoveDuplicates();
 
+                if (GUILayout.Button("Remove Words Longer Than Max Length"))
+                    RemoveWordsLongerThanMaxLength();
+
                 if (GUILayout.Button("Sort By Word"))
                     SortByWord();
 
@@ -72,6 +78,9 @@ namespace Core.DataDictionary.Editor
 
             if (!string.IsNullOrWhiteSpace(_lastDuplicatesPath))
                 EditorGUILayout.HelpBox($"Last duplicates file: {_lastDuplicatesPath}", MessageType.Info);
+
+            if (!string.IsNullOrWhiteSpace(_lastRemovedByLengthPath))
+                EditorGUILayout.HelpBox($"Last length filter file: {_lastRemovedByLengthPath}", MessageType.Info);
 
             if (!string.IsNullOrWhiteSpace(_lastWordListPath))
                 EditorGUILayout.HelpBox($"Last word list file: {_lastWordListPath}", MessageType.Info);
@@ -207,6 +216,39 @@ namespace Core.DataDictionary.Editor
             LogInfo($"Removed duplicates: {removedEntries.Count}. Saved: {_filePath}");
         }
 
+        private void RemoveWordsLongerThanMaxLength()
+        {
+            if (!TryParseValidCurrentFile(out var parseResult))
+                return;
+
+            var filteredEntries = DictionaryCleaner.RemoveWordsLongerThan(
+                parseResult.Entries,
+                _maxWordLength,
+                out var removedEntries);
+
+            WriteLines(_filePath, DictionaryFileFormatter.FormatEntries(filteredEntries));
+
+            if (removedEntries.Count > 0)
+            {
+                _lastRemovedByLengthPath = CreateRemovedByLengthOutputPath(_filePath, _maxWordLength);
+                WriteLines(_lastRemovedByLengthPath, DictionaryFileFormatter.FormatEntries(removedEntries));
+            }
+            else
+            {
+                _lastRemovedByLengthPath = string.Empty;
+            }
+
+            RefreshAsset(_filePath);
+            if (!string.IsNullOrWhiteSpace(_lastRemovedByLengthPath))
+                RefreshAsset(_lastRemovedByLengthPath);
+
+            string removedFileMessage = string.IsNullOrWhiteSpace(_lastRemovedByLengthPath)
+                ? "No removed file created."
+                : $"Removed file: {_lastRemovedByLengthPath}.";
+
+            LogInfo($"Removed words longer than {_maxWordLength}: {removedEntries.Count}. Saved: {_filePath}. {removedFileMessage}");
+        }
+
         private void SortByWord()
         {
             if (!TryParseValidCurrentFile(out var parseResult))
@@ -314,6 +356,15 @@ namespace Core.DataDictionary.Editor
             string extension = Path.GetExtension(sourcePath);
 
             return Path.Combine(directory, $"{fileName}_removed_duplicates{extension}");
+        }
+
+        private static string CreateRemovedByLengthOutputPath(string sourcePath, int maxLength)
+        {
+            string directory = Path.GetDirectoryName(sourcePath) ?? string.Empty;
+            string fileName = Path.GetFileNameWithoutExtension(sourcePath);
+            string extension = Path.GetExtension(sourcePath);
+
+            return Path.Combine(directory, $"{fileName}_removed_longer_than_{maxLength}{extension}");
         }
 
         private static string CreateWordListOutputPath(string sourcePath)

@@ -83,6 +83,28 @@ namespace Core.DataDictionary.Tools
             return result;
         }
 
+        public static List<DictionaryEntry> RemoveWordsLongerThan(
+            IReadOnlyList<DictionaryEntry> entries,
+            int maxLength,
+            out List<DictionaryEntry> removedEntries)
+        {
+            var result = new List<DictionaryEntry>(entries.Count);
+            removedEntries = new List<DictionaryEntry>();
+
+            foreach (var entry in entries)
+            {
+                if (entry.Word.Length > maxLength)
+                {
+                    removedEntries.Add(entry);
+                    continue;
+                }
+
+                result.Add(entry);
+            }
+
+            return result;
+        }
+
         public static List<DictionaryEntry> SortByWord(IReadOnlyList<DictionaryEntry> entries, string cultureName)
         {
             var comparer = CreateComparer(cultureName);

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
 public class CustomSplashActivity extends UnityPlayerGameActivity {
-    private static final int SPLASH_BG_COLOR = Color.rgb(26, 11, 46);
+    private static final int SPLASH_BG_COLOR = Color.rgb(55, 29, 93);
     private static final int LOGO_SIZE_DP = 288;
 
     private static WeakReference<CustomSplashActivity> currentActivity = new WeakReference<>(null);
@@ -50,7 +50,12 @@ public class CustomSplashActivity extends UnityPlayerGameActivity {
         }
 
         FrameLayout overlay = new FrameLayout(this);
-        overlay.setBackgroundColor(resolveColor("splash_bg_color", SPLASH_BG_COLOR));
+        int backgroundId = getResources().getIdentifier("splash_background", "drawable", getPackageName());
+        if (backgroundId != 0) {
+            overlay.setBackgroundResource(backgroundId);
+        } else {
+            overlay.setBackgroundColor(resolveColor("splash_bg_color", SPLASH_BG_COLOR));
+        }
         overlay.setClickable(true);
         overlay.setFocusable(true);
 

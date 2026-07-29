@@ -15,6 +15,39 @@ namespace Core.DataDictionary.Tools
                 .ToList();
         }
 
+        public static List<DictionaryEntry> CreateEntriesFromWordList(
+            IReadOnlyList<string> lines,
+            out int emptyLineCount,
+            out List<DictionaryValidationIssue> issues)
+        {
+            var entries = new List<DictionaryEntry>(lines.Count);
+            issues = new List<DictionaryValidationIssue>();
+            emptyLineCount = 0;
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string word = lines[i]?.Trim() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(word))
+                {
+                    emptyLineCount++;
+                    continue;
+                }
+
+                if (StartsWithDictionaryPrefix(word, out var prefix))
+                {
+                    issues.Add(new DictionaryValidationIssue(
+                        DictionaryValidationSeverity.Error,
+                        i + 1,
+                        $"Исходный список содержит ключ '{prefix}' на строке {i + 1}. Операция ожидает простой список слов."));
+                    continue;
+                }
+
+                entries.Add(new DictionaryEntry(word, string.Empty, i + 1, 0));
+            }
+
+            return entries;
+        }
+
         public static List<DictionaryEntry> RemoveDuplicates(
             IReadOnlyList<DictionaryEntry> entries,
             out List<DictionaryEntry> removedEntries,
@@ -61,6 +94,24 @@ namespace Core.DataDictionary.Tools
         public static string NormalizeWord(string word)
         {
             return word?.Trim().ToUpperInvariant() ?? string.Empty;
+        }
+
+        private static bool StartsWithDictionaryPrefix(string line, out string prefix)
+        {
+            if (line.StartsWith(DictionaryFileParser.WordPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                prefix = DictionaryFileParser.WordPrefix;
+                return true;
+            }
+
+            if (line.StartsWith(DictionaryFileParser.DefinitionPrefix, StringComparison.OrdinalIgnoreCase))
+            {
+                prefix = DictionaryFileParser.DefinitionPrefix;
+                return true;
+            }
+
+            prefix = string.Empty;
+            return false;
         }
 
         private static StringComparer CreateComparer(string cultureName)

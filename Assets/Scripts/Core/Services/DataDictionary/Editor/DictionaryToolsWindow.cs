@@ -48,6 +48,9 @@ namespace Core.DataDictionary.Editor
             bool hasFile = HasSelectedFile();
             using (new EditorGUI.DisabledScope(!hasFile))
             {
+                if (GUILayout.Button("Convert Word List To Dictionary"))
+                    ConvertWordListToDictionary();
+
                 if (GUILayout.Button("Remove Empty Lines"))
                     RemoveEmptyLines();
 
@@ -119,6 +122,39 @@ namespace Core.DataDictionary.Editor
             }
 
             EditorGUILayout.EndScrollView();
+        }
+
+        private void ConvertWordListToDictionary()
+        {
+            var entries = DictionaryCleaner.CreateEntriesFromWordList(
+                ReadLines(),
+                out int emptyLineCount,
+                out var issues);
+
+            bool hasErrors = false;
+            foreach (var issue in issues)
+            {
+                LogIssue(issue);
+                if (issue.Severity == DictionaryValidationSeverity.Error)
+                    hasErrors = true;
+            }
+
+            if (hasErrors)
+            {
+                LogError("Operation cancelled. Select a plain word list without dictionary keys.");
+                return;
+            }
+
+            if (entries.Count == 0)
+            {
+                LogError("Operation cancelled. Word list is empty.");
+                return;
+            }
+
+            WriteLines(_filePath, DictionaryFileFormatter.FormatEntries(entries));
+            RefreshAsset(_filePath);
+
+            LogInfo($"Converted word list to dictionary format. Entries: {entries.Count}. Empty lines skipped: {emptyLineCount}. Saved: {_filePath}");
         }
 
         private void RemoveEmptyLines()

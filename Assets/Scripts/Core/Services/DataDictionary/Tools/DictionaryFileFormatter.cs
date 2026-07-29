@@ -10,8 +10,8 @@ namespace Core.DataDictionary.Tools
 
             foreach (var entry in entries)
             {
-                lines.Add($"{DictionaryFileParser.WordPrefix} {entry.Word}");
-                lines.Add($"{DictionaryFileParser.DefinitionPrefix} {entry.Definition}");
+                lines.Add(FormatPrefixedLine(DictionaryFileParser.WordPrefix, entry.Word));
+                lines.Add(FormatPrefixedLine(DictionaryFileParser.DefinitionPrefix, entry.Definition));
             }
 
             return lines;
@@ -25,6 +25,13 @@ namespace Core.DataDictionary.Tools
                 lines.Add(entry.Word);
 
             return lines;
+        }
+
+        private static string FormatPrefixedLine(string prefix, string value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? prefix
+                : $"{prefix} {value.Trim()}";
         }
     }
 }

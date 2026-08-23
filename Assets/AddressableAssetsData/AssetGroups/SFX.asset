@@ -15,6 +15,18 @@ MonoBehaviour:
   m_GroupName: SFX
   m_GUID: 6b0c5cedab9450f4f83b9b2b4eac4793
   m_SerializeEntries:
+  - m_GUID: 0489bc1495e01e5409053822b29dd4c2
+    m_Address: sfx_letter_selected
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 178e3b7f7e43cf2488ef87c5b9e2cc22
+    m_Address: sfx_opponent_find_word_fail
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f477d87899c014489a2c9e5e588053f
     m_Address: sfx_button_click
     m_ReadOnly: 0
@@ -29,6 +41,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b1117da43711f446be1adcea99ed2f3
     m_Address: sfx_pass
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 600d9a9da8735544eaa94c396fe20cde
+    m_Address: sfx_pause
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
@@ -57,14 +75,56 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93bd243f3ad9cf84f83724effb8eaf41
+    m_Address: sfx_booster_slowdown_launch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 949551e6efe768f498b574764f323710
+    m_Address: sfx_booster_not_found_word
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa16cf7ad825d26428ad5d13576695e9
     m_Address: sfx_skin_changed
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab3d6c9225c651942b3c726060d3331b
+    m_Address: sfx_letter_blinking
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b07edfb59eefc94449cea50a336906f2
+    m_Address: sfx_popup_warning
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b61badd820bd69f449e810e2bd07bf61
+    m_Address: sfx_i_made_move
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b72e4fd600b61974faa88bfc5f27bfc0
     m_Address: sfx_booster_found_word
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be5376b467f3f0a42814c438e9bcc27e
+    m_Address: sfx_i_won
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbd586eca79080e478c8b273701f9e4a
+    m_Address: sfx_draw
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

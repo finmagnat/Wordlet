@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: AssetKeysDatabase
   m_EditorClassIdentifier: Assembly-CSharp::AssetKeysDatabase
   Entries:
+  - Id: dict_ru
+    AddressKey: dict_ru
   - Id: dict_uk
     AddressKey: dict_uk
   - Id: dict_en
     AddressKey: dict_en
-  - Id: dict_ru
-    AddressKey: dict_ru
   - Id: InfoButtonBlue
     AddressKey: InfoButtonBlue
   - Id: ButtonPause_Blue
@@ -99,6 +99,8 @@ MonoBehaviour:
     AddressKey: SkinButtonBlue
   - Id: CellSelected
     AddressKey: CellSelected
+  - Id: sfx_letter_selected
+    AddressKey: sfx_letter_selected
   - Id: sfx_button_click
     AddressKey: sfx_button_click
   - Id: sfx_opponent_made_move
@@ -115,12 +117,30 @@ MonoBehaviour:
     AddressKey: sfx_popup_reward
   - Id: sfx_skin_changed
     AddressKey: sfx_skin_changed
+  - Id: sfx_letter_blinking
+    AddressKey: sfx_letter_blinking
   - Id: sfx_booster_found_word
     AddressKey: sfx_booster_found_word
   - Id: sfx_start_new_game
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_i_made_move
+    AddressKey: sfx_i_made_move
+  - Id: sfx_pause
+    AddressKey: sfx_pause
+  - Id: sfx_draw
+    AddressKey: sfx_draw
+  - Id: sfx_i_won
+    AddressKey: sfx_i_won
+  - Id: sfx_booster_not_found_word
+    AddressKey: sfx_booster_not_found_word
+  - Id: sfx_popup_warning
+    AddressKey: sfx_popup_warning
+  - Id: sfx_opponent_find_word_fail
+    AddressKey: sfx_opponent_find_word_fail
+  - Id: sfx_booster_slowdown_launch
+    AddressKey: sfx_booster_slowdown_launch
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: StarterBonusPopup

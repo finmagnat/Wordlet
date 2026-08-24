@@ -45,16 +45,21 @@ namespace Core.Services.Inventory
         /// </summary>
         public async UniTask<bool> TryUseBoosterAsync(BoosterType type)
         {
+            string key = PlayFabInventoryKeys.ToKey(type);
+
             // Можно сделать оптимистичную локальную проверку, чтобы не дергать сервер зря:
             if (HasServerSnapshot && _inventory.GetQuantity(type) <= 0)
+            {
+                Debug.LogWarning($"ConsumeBooster denied locally: booster={type}, key={key}, local_total={_inventory.GetQuantity(type)}");
                 return false;
+            }
 
             var request = new ExecuteCloudScriptRequest
             {
                 FunctionName = "ConsumeBooster",
                 FunctionParameter = new Dictionary<string, object>
                 {
-                    { "key", PlayFabInventoryKeys.ToKey(type) },
+                    { "key", key },
                     { "amount", 1 }
                 },
                 GeneratePlayStreamEvent = true
@@ -75,12 +80,18 @@ namespace Core.Services.Inventory
             var fr = exec.FunctionResult;
             if (fr == null)
             {
+                Debug.LogWarning($"ConsumeBooster denied by server: booster={type}, key={key}, reason=empty_function_result");
                 await SyncFromServerAsync();
                 return false;
             }
 
             if (!TryGetBool(fr, "ok", out var ok) || !ok)
+            {
+                int serverTotal = TryGetInt(fr, "total", out var deniedTotal) ? deniedTotal : -1;
+                Debug.LogWarning($"ConsumeBooster denied by server: booster={type}, key={key}, server_total={serverTotal}");
+                await SyncFromServerAsync();
                 return false;
+            }
 
             int total = TryGetInt(fr, "total", out var t) ? t : -1;
 

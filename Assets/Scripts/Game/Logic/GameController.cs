@@ -39,6 +39,7 @@ namespace Game.Logic
         [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
         [Inject] private GameAnalyticsReporter _analyticsReporter;
         [Inject] private IInventoryService _inventory;
+        [Inject] private InventorySyncService _inventorySync;
 
         private readonly SemaphoreSlim _blockUiLock = new(1, 1);
 
@@ -762,7 +763,7 @@ namespace Game.Logic
                     ResultGame.OwnerLose => AnalyticsEvents.Option.Lose,
                     _ => AnalyticsEvents.Option.Draft
                 },
-                GetWinReward(resultGame)
+                await GetWinRewardAsync(resultGame)
             );
 
             FinishGamePopup finishPopup;
@@ -798,7 +799,7 @@ namespace Game.Logic
             _gameScreen.RepeatGame.SetActive(true);
         }
         
-        private FinishRewardData GetWinReward(ResultGame resultGame)
+        private async UniTask<FinishRewardData> GetWinRewardAsync(ResultGame resultGame)
         {
             List<RewardDto> reward = null;
                 
@@ -806,12 +807,32 @@ namespace Game.Logic
             {
                 if (++_winsInSeries >= _configService.Game.WinsInSeries)
                 {
-                    reward = _configService.Game.GetWinReward();
-                    foreach (var item in reward)
-                        _inventory.Add(item.ItemId, item.Amount);
+                    var configuredReward = _configService.Game.GetWinReward();
+                    var grantedReward = new List<RewardDto>();
 
-                    _gameScreen.BoosterPanel.Refresh();
-                    _winsInSeries = 0;
+                    foreach (var item in configuredReward)
+                    {
+                        bool granted = await _inventorySync.GrantBoosterAsync(item.ItemId, item.Amount);
+                        if (granted)
+                        {
+                            grantedReward.Add(item);
+                            continue;
+                        }
+
+                        Debug.LogWarning($"Failed to grant win-series reward: {item.ItemId} x{item.Amount}");
+                    }
+
+                    if (grantedReward.Count > 0)
+                    {
+                        reward = grantedReward;
+                        _gameScreen.BoosterPanel.Refresh();
+                        _winsInSeries = 0;
+                    }
+                    else
+                    {
+                        _winsInSeries = Math.Max(0, _configService.Game.WinsInSeries - 1);
+                    }
+
                 }
             }
             else

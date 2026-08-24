@@ -89,6 +89,7 @@ namespace Core.Services.Inventory
             {
                 int serverTotal = TryGetInt(fr, "total", out var deniedTotal) ? deniedTotal : -1;
                 Debug.LogWarning($"ConsumeBooster denied by server: booster={type}, key={key}, server_total={serverTotal}");
+                await SyncFromServerAsync();
                 return false;
             }
 

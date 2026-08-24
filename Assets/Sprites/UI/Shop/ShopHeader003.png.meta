@@ -142,13 +142,13 @@ TextureImporter:
       name: ShopHeader003_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 12
-        width: 767
-        height: 128
+        x: 0
+        y: 0
+        width: 1514
+        height: 269
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 380, y: 0, z: 380, w: 0}
+      border: {x: 744, y: 0, z: 744, w: 0}
       customData: 
       outline: []
       physicsShape: []

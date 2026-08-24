@@ -68,8 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 85b5f765d364b6f4c85397acc7d4b88d, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 1222b410996a41d4fac6fb59773af4c0, type: 3}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.8
 --- !u!114 &1605595533637128369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +219,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Popups.DailyBonusPackItemView
   _itemPrefab: {fileID: 8312479505240569605, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
   _contentRoot: {fileID: 7418700457807117596}
-  _header: {fileID: 6734162702858729742}
   _headerImage: {fileID: 6576034315918778629}
   _title: {fileID: 8882471195550630128}
   _takeButton: {fileID: 1605595533637128369}
@@ -297,7 +296,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!1 &6734162702858729742
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,7 +674,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38
+  m_fontSize: 40
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1

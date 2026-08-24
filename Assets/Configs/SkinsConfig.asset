@@ -35,7 +35,7 @@ MonoBehaviour:
     PassButtonAlias: ButtonPass_Blue
     RepeatGameButtonAlias: ButtonGo_Blue
     StatisticButtonAlias: ButtonStatistic_Blue
-    DefaultButtonAlias: ButtonTurquoise
+    DefaultButtonAlias: ButtonBlue
     MainScreenTheme:
       SkyColor: {r: 0.71488965, g: 0.7952953, b: 0.990566, a: 1}
       CloudsFarColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}

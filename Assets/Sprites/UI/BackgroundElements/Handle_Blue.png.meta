@@ -144,11 +144,11 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 319
-        height: 234
+        width: 574
+        height: 441
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 142, y: 112, z: 148, w: 102}
+      border: {x: 280, y: 230, z: 280, w: 200}
       customData: 
       outline: []
       physicsShape: []

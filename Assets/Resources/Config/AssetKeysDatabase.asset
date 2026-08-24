@@ -37,6 +37,8 @@ MonoBehaviour:
     AddressKey: ProgressBkg_Pink
   - Id: ButtonTurquoise
     AddressKey: ButtonTurquoise
+  - Id: MainBackgroundPink
+    AddressKey: MainBackgroundPink
   - Id: ButtonCancel_Blue
     AddressKey: ButtonCancel_Blue
   - Id: PlayerPanel_Pink
@@ -47,8 +49,6 @@ MonoBehaviour:
     AddressKey: CellBackgroundDefaultPink
   - Id: ShopButtonBlue
     AddressKey: ShopButtonBlue
-  - Id: MainBackgroundPink
-    AddressKey: MainBackgroundPink
   - Id: CellBackgroundFilledBlue
     AddressKey: CellBackgroundFilledBlue
   - Id: ShopButtonPink
@@ -77,14 +77,14 @@ MonoBehaviour:
     AddressKey: ButtonGo_Pink
   - Id: SettingsButtonPink
     AddressKey: SettingsButtonPink
-  - Id: MainBackgroundBlue
-    AddressKey: MainBackgroundBlue
   - Id: ButtonStatistic_Pink
     AddressKey: ButtonStatistic_Pink
   - Id: SettingsButtonBlue
     AddressKey: SettingsButtonBlue
   - Id: ButtonPass_Blue
     AddressKey: ButtonPass_Blue
+  - Id: MainBackgroundBlue
+    AddressKey: MainBackgroundBlue
   - Id: ButtonHome_Blue
     AddressKey: ButtonHome_Blue
   - Id: ButtonPause_Pink

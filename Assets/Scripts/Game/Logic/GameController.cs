@@ -190,12 +190,12 @@ namespace Game.Logic
 
             _bPause = false;
 
-            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_OWNER"));
+            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOwner));
 
             switch (_gameOpponent)
             {
                 case GameOpponent.AI:
-                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_AI"));
+                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerAI));
 
                     _complexityAI = _saveGameData != null ?
                         (ComplexityAI)_saveGameData.levelComplexityAI :
@@ -212,7 +212,7 @@ namespace Game.Logic
                     _bModePlayOwner = true;
                     break;
                 case GameOpponent.Friend:
-                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_OPPONENT"));
+                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOpponent));
                     _maxPasses = _configService.Game.maxPassesByDefault;
                     _bModePlayOwner = true;
                     break;

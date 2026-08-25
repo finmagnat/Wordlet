@@ -21,5 +21,15 @@ namespace Core.Services
         public const string KeyWordDefinitionPending = "WORD_DEFINITION_PENDING";
         public const string KeyPopupHintEraser = "POPUP_HINT_ERASER";
         public const string KeyPopupHintSwap = "POPUP_HINT_SWAP";
+        public const string KeyNamePlayerOwner = "NAME_PLAYER_OWNER";
+        public const string KeyNamePlayerAI = "NAME_PLAYER_AI";
+        public const string KeyNamePlayerOpponent = "NAME_PLAYER_OPPONENT";
+        public const string KeyErrorMsgTitle = "ERROR_MSG_TITLE";
+        public const string KeyLimitNewWordSentText = "LIMIT_NEW_WORD_SENT_TEXT";
+        public const string KeyLimitReportWordSentText = "LIMIT_REPORT_WORD_SENT_TEXT";
+        public const string KeyErrorMsgNoLetterInstalled = "ERROR_MSG_NO_LETTER_INSTALLED";
+        public const string KeyErrorMsgSetLetterNoSelected = "ERROR_MSG_SET_LETTER_NO_SELECTED";
+        public const string KeyErrorMsgWordNoSelected = "ERROR_MSG_WORD_NO_SELECTED";
+        public const string KeyErrorMsgWordAlreadyBeen = "ERROR_MSG_WORD_ALREADY_BEEN";
     }
 }

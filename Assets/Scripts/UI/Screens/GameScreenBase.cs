@@ -102,7 +102,7 @@ namespace UI.Screens
             _pauseButtonAnimator.SetPaused(_isPaused);
             _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
-
+        
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         public void OnPressedRepeatGame() => EventBus.Raise(new RepeatGameEvent());
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
@@ -111,7 +111,7 @@ namespace UI.Screens
             OnSkipPressed();
             EventBus.Raise(new GameSkipEvent());
         }
-
+        
         public void OnOpenStatistic()
         {
             OnStatisticOpened();
@@ -143,7 +143,7 @@ namespace UI.Screens
                 _pauseService.SetUserPause(_isPaused);
             }
         }
-
+        
         internal virtual List<SelectableLetter> InitWordsField() => _wordsField.InitField();
         internal virtual void InitAlphabetField() => _lettersField.InitField();
         internal virtual void SetTextWord(string value)
@@ -224,6 +224,16 @@ namespace UI.Screens
             _isProcessing = false;
 
             await _loadingUI.HideLoadingAsync();
+        }
+        
+        protected void SetPause(bool isPaused)
+        {
+            if (isPaused == _isPaused)
+                return;
+            
+            _isPaused = isPaused;
+            _pauseButtonAnimator.SetPaused(_isPaused);
+            _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
 
         protected virtual void OnGameEnd(GameEndEvent eventData)
@@ -311,6 +321,7 @@ namespace UI.Screens
             if (string.IsNullOrWhiteSpace(_wordInfoWord))
                 return;
 
+            SetPause(true);
             EventBus.Raise(new ShowWordInfoEvent { word = _wordInfoWord });
         }
 

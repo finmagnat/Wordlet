@@ -311,8 +311,6 @@ namespace Game.Logic
             }
 
             _wordsFieldManager.ShowLetters(!_bPause);
-
-            _audioService?.PlaySfxAsync(SoundsConfig.Pause);
         }
 
         private async UniTaskVoid PauseCooldownAsync()

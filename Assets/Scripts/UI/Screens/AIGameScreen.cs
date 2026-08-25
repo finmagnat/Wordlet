@@ -86,6 +86,7 @@ namespace UI.Screens
 
         protected override void OnStatisticOpened()
         {
+            SetPause(true);
             _analytics.TrackEvent(AnalyticsEvents.GameFlow.HistoryGameClicked);
         }
     }

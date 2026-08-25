@@ -21,16 +21,16 @@ MonoBehaviour:
     Description: 
     Rewards:
     - ItemId: 1
-      Amount: 15
+      Amount: 5
       SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
     - ItemId: 2
-      Amount: 15
+      Amount: 5
       SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
     - ItemId: 3
-      Amount: 15
+      Amount: 5
       SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
     - ItemId: 5
-      Amount: 15
+      Amount: 5
       SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
     ProductId: wordlet_pack_best
     DebugPriceText: 29.99

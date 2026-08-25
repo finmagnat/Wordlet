@@ -68,9 +68,9 @@ MonoBehaviour:
       Max: 24
   leaderboardTopN: 10
   scoreCacheSeconds: 15
-  newWordsDailyLimit: 5
+  newWordsDailyLimit: 0
   newWordsCooldownSeconds: 90
-  reportWordsDailyLimit: 5
+  reportWordsDailyLimit: 0
   reportWordsCooldownSeconds: 90
   minLoadingScreenDurationMs: 3000
   WinsInSeries: 3

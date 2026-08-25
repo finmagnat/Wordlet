@@ -43,6 +43,7 @@ namespace UI.Screens
         [SerializeField] protected KeyboardPanel _keyboardPanel;
         [SerializeField] protected FocusHoleOverlay _holeOverlay;
         [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
+        [SerializeField] protected FloatingPausePopup _pausePopup;
 
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
@@ -100,6 +101,8 @@ namespace UI.Screens
             OnPausePressed();
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
+            if (_isPaused) _pausePopup.ShowAsync().Forget(); 
+            else _pausePopup.HideAsync().Forget();
             _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
         
@@ -135,6 +138,7 @@ namespace UI.Screens
             _repeatGame.gameObject.SetActive(false);
             _holeOverlay.gameObject.SetActive(false);
             _eraseBubblePopup.HideAsync().Forget();
+            _pausePopup.HideAsync().Forget();
 
             if (_isPaused)
             {
@@ -233,6 +237,8 @@ namespace UI.Screens
             
             _isPaused = isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
+            if (_isPaused) _pausePopup.ShowAsync().Forget(); 
+            else _pausePopup.HideAsync().Forget();
             _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
 
@@ -262,6 +268,7 @@ namespace UI.Screens
             await _wordsField.UpdateSkin();
             await _statisticsPanel.UpdateSkin();
             await _keyboardPanel.UpdateSkin();
+            await _pausePopup.UpdateSkin();
         }
 
         protected virtual async UniTask PrepareCommonAsync()

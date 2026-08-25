@@ -52,6 +52,9 @@ namespace Core.Config
         [Tooltip("Время хода игрока (секунды)")]
         public int durationGameSeconds = 120;
         
+        [Tooltip("Минимальное время хода игрока (секунды)")]
+        public const int MinDurationGameSeconds = 10;
+        
         [Tooltip("Максимум пропуска ходов (в режиме игры с человеком). 0 = безлимит")]
         public uint maxPassesByDefault = 2;
         
@@ -60,6 +63,9 @@ namespace Core.Config
         
         [Tooltip("Задержка перед ходом ИИ (секунды). 0 = выкл")]
         public float delayAIPlaySeconds = 1.0f;
+        
+        [Tooltip("Задержка перед ходом ИИ после пропуска хода Игрока (секунды). 0 = выкл")]
+        public float delayAIPlayAfterPlayerPassSeconds = 2.0f;
         
         //---------------------------------
         [Header("СЛОЖНОСТЬ ИГРЫ С ИИ")]

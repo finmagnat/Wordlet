@@ -6,7 +6,7 @@ using UnityEngine;
 public partial class SROptions
 {
     [Category("Dev/Game")]
-    [DisplayName("Настройка времени хода"), NumberRange(GameDurationSettings.MinDurationGameSeconds, int.MaxValue), Increment(1), Sort(1)]
+    [DisplayName("Настройка времени хода"), NumberRange(GameConfig.MinDurationGameSeconds, int.MaxValue), Increment(1), Sort(1)]
     public int DurationGameSeconds
     {
         get

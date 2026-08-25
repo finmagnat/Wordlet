@@ -30,6 +30,7 @@ MonoBehaviour:
   maxPassesByDefault: 0
   pauseCooldownSeconds: 1
   delayAIPlaySeconds: 0.5
+  delayAIPlayAfterPlayerPassSeconds: 2
   complexityAiByDefault: 2
   "_\u0441omplexityAIList":
   - "\u0421omplexityAiLevel": 1

@@ -651,7 +651,7 @@ namespace Game.Logic
             }
         }
 
-        private void SwitchPlayer()
+        private async UniTaskVoid SwitchPlayer()
         {
             _bModePlayOwner = !_bModePlayOwner;
             _gameScreen.TimerBar.SetTargetValue(_durationGame);
@@ -665,22 +665,24 @@ namespace Game.Logic
             }
             else
             {
-                if (_timeExpiredStatus)
-                {
-                    _timeExpiredStatus = false;
-                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
-                }
-                else
-                {
-                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
-                }
-                
                 _wordsFieldManager.SetModeSelect(false);
                 _gameScreen.PauseButton.interactable = false;
                 _gameScreen.PassButton.interactable = false;
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
                 _boosterController.ResetForOpponentTurn();
+                
+                if (_timeExpiredStatus)
+                {
+                    _timeExpiredStatus = false;
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
+                    await UniTask.WaitForSeconds(_configService.Game.delayAIPlayAfterPlayerPassSeconds);
+                }
+                else
+                {
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
+                }
+                
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:

@@ -20,11 +20,13 @@ namespace UI.Popups
         [SerializeField] private GameObject _languageBar;
         [SerializeField] private TMP_Dropdown _landDropdown;
         [SerializeField] private GameObject _soundOn;
+        [SerializeField] private GameObject _vibrationOn;
         [SerializeField] private GameObject _giroParallaxOn;
         [SerializeField] private Button _closeButton;
         
         [Inject] private LocalizationService _localization;
         [Inject] private AudioService _audioService;
+        [Inject] private IVibrationService _vibrationService;
         [Inject] private PlayFabAuthService _playFabAuthService;
         [Inject] private ConfigService _configService;
         [Inject] private DiContainer _container;
@@ -101,6 +103,13 @@ namespace UI.Popups
             UpdateSoundView();
         }
         
+        public void OnVibrationOnButtonClick()
+        {
+            _vibrationService.EnableVibration(!_vibrationService.IsEnabled);
+           
+            UpdateVibrationOnView();
+        }
+        
         private void SelectLanguage(Locale locale)
         {
             _newLanguage = locale;
@@ -152,6 +161,9 @@ namespace UI.Popups
         
         private void UpdateSoundView() =>
             _soundOn.SetActive(_audioService.MasterVolume > 0.1f);
+        
+        private void UpdateVibrationOnView() =>
+            _vibrationOn.SetActive(_vibrationService.IsEnabled);
         
         private void UpdateGyroView() =>
             _giroParallaxOn.SetActive(_gyroEnabled);

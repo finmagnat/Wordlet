@@ -29,6 +29,7 @@ MonoBehaviour:
     KeyboardTileAlias: KeybourdTile
     KeyboardLetterColor: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
     HomeButtonAlias: ButtonHome_Blue
+    OptionsButtonAlias: SettingsButtonBlue
     PauseButtonAlias: ButtonPause_Blue
     CancelButtonAlias: ButtonCancel_Blue
     GoButtonAlias: ButtonGo_Blue
@@ -61,6 +62,7 @@ MonoBehaviour:
     KeyboardTileAlias: KeybourdTile
     KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
     HomeButtonAlias: ButtonHome_Pink
+    OptionsButtonAlias: SettingsButtonPink
     PauseButtonAlias: ButtonPause_Pink
     CancelButtonAlias: ButtonCancel_Pink
     GoButtonAlias: ButtonGo_Pink

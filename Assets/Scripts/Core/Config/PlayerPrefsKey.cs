@@ -11,5 +11,6 @@ namespace Core.Config
         public static string GyroKey = "settings.parallax.gyro";
         public static string ConfirmPassDontShowAgainKey = "ConfirmPassDontShowAgain";
         public static string SkinSelectRandomKey = "SkinSelectRandomKey";
+        public static string VibrationEnabled = "VibrationEnabled";
     }
 }

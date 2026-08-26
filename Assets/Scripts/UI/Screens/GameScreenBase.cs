@@ -25,6 +25,7 @@ namespace UI.Screens
         [SerializeField] protected TimerProgressBar _progressBar;
 
         [SerializeField] protected Button _homeButton;
+        [SerializeField] protected Button _optionsButton;
         [SerializeField] protected Button _pauseButton;
         [SerializeField] protected Button _cancelButton;
         [SerializeField] protected Button _goButton;
@@ -95,6 +96,7 @@ namespace UI.Screens
         }
 
         public void OnPressedHome() => EventBus.Raise(new GoToHomeEvent());
+        public void OnPressedOptions() => OnPressedOptionsAsync();
 
         public void OnPressedPause()
         {
@@ -208,6 +210,14 @@ namespace UI.Screens
             await GoToHome();
         }
 
+        protected virtual async void OnPressedOptionsAsync()
+        {
+            SetPause(true);
+            var popup = await _ui.ShowPopupAsync<OptionsPopup>(AssetKey.OptionsPopup);
+            await popup.WaitForResultAsync();
+            SetPause(false);
+        }
+        
         protected virtual void OnPausePressed() { }
         protected virtual void OnSkipPressed() { }
         protected virtual void OnStatisticOpened() { }
@@ -229,6 +239,8 @@ namespace UI.Screens
 
             await _loadingUI.HideLoadingAsync();
         }
+        
+        
         
         protected void SetPause(bool isPaused)
         {
@@ -255,6 +267,7 @@ namespace UI.Screens
 
             _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
+            _optionsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.OptionsButtonAlias);
             _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
             _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
             _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);

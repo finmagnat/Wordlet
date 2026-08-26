@@ -629,6 +629,14 @@ MonoBehaviour:
     m_Localized: '{0} day'
     m_Metadata:
       m_Items: []
+  - m_Id: 104307663507439616
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104307928851693568
+    m_Localized: Vibration
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

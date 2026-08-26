@@ -571,6 +571,14 @@ MonoBehaviour:
     m_Key: DAILY_BONUS_DAY_NUMBER_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 104307663507439616
+    m_Key: POPUP_TITLE_OPTIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104307928851693568
+    m_Key: POPUP_LABEL_VIBRATION
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

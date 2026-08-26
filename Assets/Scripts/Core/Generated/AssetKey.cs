@@ -90,5 +90,6 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
+        OptionsPopup,
     }
 }

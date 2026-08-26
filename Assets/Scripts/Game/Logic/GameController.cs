@@ -28,6 +28,7 @@ namespace Game.Logic
         [Inject] private ConfigService _configService;
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
+        [Inject] private IVibrationService _vibrationService;
         [Inject] private StarterBonusService _starterBonusService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
@@ -311,6 +312,7 @@ namespace Game.Logic
             }
 
             _wordsFieldManager.ShowLetters(!_bPause);
+            _vibrationService.Play();
         }
 
         private async UniTaskVoid PauseCooldownAsync()
@@ -428,6 +430,7 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
+            _vibrationService.Play();
         }
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
@@ -435,6 +438,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            _vibrationService.Play();
             _analyticsReporter.TrackKeyboardLetterClicked(eventData.letter);
         }
 
@@ -461,7 +465,8 @@ namespace Game.Logic
             var popup = await _ui.ShowPopupAsync<AdvicePopup, MessageBoxData>(AssetKey.AdvicePopup, messageBoxData);
 
             _audioService?.PlaySfxAsync(SoundsConfig.PopupWarning);
-
+            _vibrationService.Play();
+            
             await popup.WaitForResultAsync();
 
             switch (eventData.GameError)
@@ -616,6 +621,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
 
             _audioService?.PlaySfxAsync(SoundsConfig.Pass);
+            _vibrationService.Play();
 
             CheckFinishGame();
         }
@@ -654,6 +660,8 @@ namespace Game.Logic
             _bModePlayOwner = !_bModePlayOwner;
             _gameScreen.TimerBar.SetTargetValue(_durationGame);
             _gameScreen.TimerBar.StartTimer();
+            _vibrationService.Play();
+            
             if (_bModePlayOwner)
             {
                 BlockUIAsync(false).Forget();
@@ -785,6 +793,8 @@ namespace Game.Logic
                     break;
             }
 
+            _vibrationService.Play();
+            
             await finishPopup.WaitForResultAsync();
 
             if (await _starterBonusService.TryGrantAsync())

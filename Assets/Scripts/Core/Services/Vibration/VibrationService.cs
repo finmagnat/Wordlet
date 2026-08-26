@@ -17,12 +17,17 @@ namespace Core.Services
         {
             if (!IsEnabled)
                 return;
+
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            if (SystemInfo.supportsVibration)
+                Handheld.Vibrate();
+#endif
         }
 
         public void EnableVibration(bool value)
         {
             IsEnabled = value;
-            PlayerPrefs.SetInt(PlayerPrefsKey.MasterVolume, value ? 1 : 0);
+            PlayerPrefs.SetInt(PlayerPrefsKey.VibrationEnabled, value ? 1 : 0);
 
             Play();
         }

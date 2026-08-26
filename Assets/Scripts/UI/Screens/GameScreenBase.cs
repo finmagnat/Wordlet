@@ -120,7 +120,18 @@ namespace UI.Screens
         public void OnOpenStatistic()
         {
             OnStatisticOpened();
-            _statisticsPanel.ShowAsync().Forget();
+
+            OpenStatisticAsync();
+        }
+        
+        public async UniTask OpenStatisticAsync()
+        {
+            SetPause(true);
+            
+            _statisticsPanel.ShowAsync();
+            await _statisticsPanel.WaitForResultAsync();
+            
+            SetPause(false);
         }
 
         public override async UniTask ShowAsync()
@@ -244,7 +255,7 @@ namespace UI.Screens
         
         protected void SetPause(bool isPaused)
         {
-            if (isPaused == _isPaused)
+            if (isPaused == _isPaused || !_isProcessing)
                 return;
             
             _isPaused = isPaused;

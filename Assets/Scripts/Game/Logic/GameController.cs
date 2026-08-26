@@ -430,7 +430,7 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Heavy);
         }
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
@@ -438,7 +438,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Selection);
             _analyticsReporter.TrackKeyboardLetterClicked(eventData.letter);
         }
 
@@ -465,7 +465,7 @@ namespace Game.Logic
             var popup = await _ui.ShowPopupAsync<AdvicePopup, MessageBoxData>(AssetKey.AdvicePopup, messageBoxData);
 
             _audioService?.PlaySfxAsync(SoundsConfig.PopupWarning);
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Warning);
             
             await popup.WaitForResultAsync();
 
@@ -621,7 +621,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
 
             _audioService?.PlaySfxAsync(SoundsConfig.Pass);
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Error);
 
             CheckFinishGame();
         }
@@ -660,7 +660,7 @@ namespace Game.Logic
             _bModePlayOwner = !_bModePlayOwner;
             _gameScreen.TimerBar.SetTargetValue(_durationGame);
             _gameScreen.TimerBar.StartTimer();
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Medium);
             
             if (_bModePlayOwner)
             {
@@ -793,7 +793,7 @@ namespace Game.Logic
                     break;
             }
 
-            _vibrationService.Play();
+            _vibrationService.Play(VibrationType.Success);
             
             await finishPopup.WaitForResultAsync();
 

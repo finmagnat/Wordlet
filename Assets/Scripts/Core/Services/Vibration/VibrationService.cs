@@ -13,14 +13,15 @@ namespace Core.Services
             IsEnabled = PlayerPrefs.GetInt(PlayerPrefsKey.VibrationEnabled, 1) == 1;
         }
 
-        public void Play()
+        public void Play(VibrationType type = VibrationType.Light)
         {
             if (!IsEnabled)
                 return;
 
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            if (SystemInfo.supportsVibration)
-                Handheld.Vibrate();
+#if UNITY_ANDROID && !UNITY_EDITOR
+            AndroidVibration.Play(type);
+#elif UNITY_IOS && !UNITY_EDITOR
+            IOSVibration.Play(type);
 #endif
         }
 

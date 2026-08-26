@@ -92,10 +92,10 @@ namespace Core.Services
 
         private static long GetDuration(VibrationType type) => type switch
         {
-            VibrationType.Selection => 30,
-            VibrationType.Light => 50,
-            VibrationType.Medium => 80,
-            VibrationType.Heavy => 130,
+            VibrationType.Selection => 40,
+            VibrationType.Light => 80,
+            VibrationType.Medium => 150,
+            VibrationType.Heavy => 250,
             _ => 50
         };
 #else

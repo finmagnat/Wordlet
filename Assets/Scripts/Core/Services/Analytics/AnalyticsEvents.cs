@@ -27,6 +27,10 @@ namespace Core.Services
             
             public const string SettingsPopupShown = Group + "settings_popup_shown";
             public const string CloseSettingsClicked = Group + "close_settings_clicked";
+            
+            public const string OptionsPopupShown = Group + "options_popup_shown";
+            public const string CloseOptionsClicked = Group + "close_options_clicked";
+            
             public const string LocaleSettingsClicked = Group + "locale_settings_clicked";
             public const string PrivacyPolicySettingsClicked = Group + "privacy_policy_settings_clicked";
             public const string TermsOfServiceSettingsClicked = Group + "terms_of_service_settings_clicked";
@@ -179,6 +183,7 @@ namespace Core.Services
             public const string Skin = "skin";
             public const string SkinRandom = "skin_random";
             public const string Sound = "sound";
+            public const string Vibration = "vibration";
             public const string Giro = "giro";
             public const string Source = "source";
             public const string ProductId = "product_id";

@@ -8,7 +8,7 @@ namespace UI.Popups
     {
         [Header("References")]
         [SerializeField] private RectTransform _animatedRoot;
-        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private CanvasGroup _canvasGroupPopup;
 
         [Header("Animation")]
         [SerializeField] private float _showDuration = 1.2f;

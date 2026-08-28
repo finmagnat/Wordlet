@@ -30,6 +30,7 @@ namespace Core.Data
         
         [Header("Кнопки игрового экрана")]
         public string HomeButtonAlias; // Домой
+        public string OptionsButtonAlias; // Опции
         public string PauseButtonAlias; // Пауза 
         public string CancelButtonAlias; // Отменить
         public string GoButtonAlias; // Применить

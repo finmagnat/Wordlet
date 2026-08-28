@@ -61,13 +61,15 @@ namespace Core.Installers
             Container.Bind<DictionaryManager>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<VibrationService>().AsSingle();
+            
             Container.Bind<SkinsService>().AsSingle().NonLazy();
             Container.Bind<GameAnalyticsPayloadFactory>().AsSingle();
             Container.Bind<GameAnalyticsReporter>().AsSingle();
             Container.Bind<BoosterAnalyticsReporter>().AsSingle();
             Container.Bind<GameBoosterController>().AsSingle();
             Container.Bind<GameController>().AsSingle();
-
+            
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
 
@@ -162,6 +164,7 @@ namespace Core.Installers
             loading.SetProgress(0.35f);
 
             await Container.Resolve<AudioService>().InitializeAsync();
+            await Container.Resolve<VibrationService>().InitializeAsync();
             loading.SetProgress(0.40f);
 
             await Container.Resolve<IShopService>().InitializeAsync();

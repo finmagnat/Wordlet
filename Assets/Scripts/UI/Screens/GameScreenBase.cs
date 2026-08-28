@@ -25,6 +25,7 @@ namespace UI.Screens
         [SerializeField] protected TimerProgressBar _progressBar;
 
         [SerializeField] protected Button _homeButton;
+        [SerializeField] protected Button _optionsButton;
         [SerializeField] protected Button _pauseButton;
         [SerializeField] protected Button _cancelButton;
         [SerializeField] protected Button _goButton;
@@ -43,6 +44,7 @@ namespace UI.Screens
         [SerializeField] protected KeyboardPanel _keyboardPanel;
         [SerializeField] protected FocusHoleOverlay _holeOverlay;
         [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
+        [SerializeField] protected FloatingPausePopup _pausePopup;
 
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
@@ -94,15 +96,18 @@ namespace UI.Screens
         }
 
         public void OnPressedHome() => EventBus.Raise(new GoToHomeEvent());
+        public void OnPressedOptions() => OnPressedOptionsAsync();
 
         public void OnPressedPause()
         {
             OnPausePressed();
             _isPaused = !_isPaused;
             _pauseButtonAnimator.SetPaused(_isPaused);
+            if (_isPaused) _pausePopup.ShowAsync().Forget(); 
+            else _pausePopup.HideAsync().Forget();
             _pauseService.SetUserPause(!_pauseService.IsPaused);
         }
-
+        
         public void OnPressedGo() => EventBus.Raise(new GameGoEvent());
         public void OnPressedRepeatGame() => EventBus.Raise(new RepeatGameEvent());
         public void OnPressedCancel() => EventBus.Raise(new GameCancelEvent());
@@ -111,11 +116,22 @@ namespace UI.Screens
             OnSkipPressed();
             EventBus.Raise(new GameSkipEvent());
         }
-
+        
         public void OnOpenStatistic()
         {
             OnStatisticOpened();
-            _statisticsPanel.ShowAsync().Forget();
+
+            OpenStatisticAsync();
+        }
+        
+        public async UniTask OpenStatisticAsync()
+        {
+            SetPause(true);
+            
+            _statisticsPanel.ShowAsync();
+            await _statisticsPanel.WaitForResultAsync();
+            
+            SetPause(false);
         }
 
         public override async UniTask ShowAsync()
@@ -135,6 +151,7 @@ namespace UI.Screens
             _repeatGame.gameObject.SetActive(false);
             _holeOverlay.gameObject.SetActive(false);
             _eraseBubblePopup.HideAsync().Forget();
+            _pausePopup.HideAsync().Forget();
 
             if (_isPaused)
             {
@@ -143,7 +160,7 @@ namespace UI.Screens
                 _pauseService.SetUserPause(_isPaused);
             }
         }
-
+        
         internal virtual List<SelectableLetter> InitWordsField() => _wordsField.InitField();
         internal virtual void InitAlphabetField() => _lettersField.InitField();
         internal virtual void SetTextWord(string value)
@@ -204,6 +221,14 @@ namespace UI.Screens
             await GoToHome();
         }
 
+        protected virtual async void OnPressedOptionsAsync()
+        {
+            SetPause(true);
+            var popup = await _ui.ShowPopupAsync<OptionsPopup>(AssetKey.OptionsPopup);
+            await popup.WaitForResultAsync();
+            SetPause(false);
+        }
+        
         protected virtual void OnPausePressed() { }
         protected virtual void OnSkipPressed() { }
         protected virtual void OnStatisticOpened() { }
@@ -225,6 +250,20 @@ namespace UI.Screens
 
             await _loadingUI.HideLoadingAsync();
         }
+        
+        
+        
+        protected void SetPause(bool isPaused)
+        {
+            if (isPaused == _isPaused || !_isProcessing)
+                return;
+            
+            _isPaused = isPaused;
+            _pauseButtonAnimator.SetPaused(_isPaused);
+            if (_isPaused) _pausePopup.ShowAsync().Forget(); 
+            else _pausePopup.HideAsync().Forget();
+            _pauseService.SetUserPause(!_pauseService.IsPaused);
+        }
 
         protected virtual void OnGameEnd(GameEndEvent eventData)
         {
@@ -239,6 +278,7 @@ namespace UI.Screens
 
             _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
             _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
+            _optionsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.OptionsButtonAlias);
             _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
             _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
             _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);
@@ -252,6 +292,7 @@ namespace UI.Screens
             await _wordsField.UpdateSkin();
             await _statisticsPanel.UpdateSkin();
             await _keyboardPanel.UpdateSkin();
+            await _pausePopup.UpdateSkin();
         }
 
         protected virtual async UniTask PrepareCommonAsync()
@@ -311,6 +352,7 @@ namespace UI.Screens
             if (string.IsNullOrWhiteSpace(_wordInfoWord))
                 return;
 
+            SetPause(true);
             EventBus.Raise(new ShowWordInfoEvent { word = _wordInfoWord });
         }
 

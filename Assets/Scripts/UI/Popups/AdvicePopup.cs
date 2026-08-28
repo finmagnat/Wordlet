@@ -29,15 +29,15 @@ namespace UI.Popups
 
             string key = data.Error switch
             {
-                GameError.NoLetterInstalled => "ERROR_MSG_NO_LETTER_INSTALLED",
-                GameError.SetLetterNoSelected => "ERROR_MSG_SET_LETTER_NO_SELECTED",
-                GameError.WordNoSelected => "ERROR_MSG_WORD_NO_SELECTED",
-                GameError.WordAlreadyBeen => "ERROR_MSG_WORD_ALREADY_BEEN",
+                GameError.NoLetterInstalled => LocalizationConst.KeyErrorMsgNoLetterInstalled,
+                GameError.SetLetterNoSelected => LocalizationConst.KeyErrorMsgSetLetterNoSelected,
+                GameError.WordNoSelected => LocalizationConst.KeyErrorMsgWordNoSelected,
+                GameError.WordAlreadyBeen => LocalizationConst.KeyErrorMsgWordAlreadyBeen,
                 _  => ""
             };
             
             SetText(
-                _localization.Get(LocalizationConst.TableUI, "ERROR_MSG_TITLE"), 
+                _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyErrorMsgTitle), 
                 _localization.Get(LocalizationConst.TableUI, key));
         }
         

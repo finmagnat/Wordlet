@@ -560,10 +560,8 @@ MonoBehaviour:
   - m_Id: 59803351008034816
     m_Localized: '<line-height=100%>
 
-      <size=250%><voffset=10><sprite name="time"></voffset></size><size=130%><voffset=10><b>Your
-      turn time is up.</b></size>
-
-      The opponent moves.</voffset>
+      <size=220%><voffset=30><sprite name="time"></voffset></size><size=100%><voffset=10><b>Time''s
+      up.</b></size> The opponent moves.</voffset>
 
       </line-height>'
     m_Metadata:
@@ -629,6 +627,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 69925031483162624
     m_Localized: '{0} day'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104307663507439616
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104307928851693568
+    m_Localized: Vibration
     m_Metadata:
       m_Items: []
   references:

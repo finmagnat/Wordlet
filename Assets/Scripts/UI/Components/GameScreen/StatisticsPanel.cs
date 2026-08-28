@@ -1,3 +1,4 @@
+using Core.Data;
 using Core.Events;
 using Core.Services;
 using Cysharp.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace UI.Components
         [Inject] private LocalizationService _localization;
         [Inject] private AnalyticsService _analytics;
         
+        private UniTaskCompletionSource<PopupExitData> _completionSource;
         private string _startWord;
         
         private void Start()
@@ -33,6 +35,7 @@ namespace UI.Components
             {
                 _analytics.TrackEvent(AnalyticsEvents.GameFlow.CloseHistoryGameClicked);
                 await HideAsync();
+                _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Exit });
             });
         }
 
@@ -41,6 +44,15 @@ namespace UI.Components
             _startWord = value;
             _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
         }
+        
+        public override async UniTask ShowAsync()
+        {
+            _completionSource = new UniTaskCompletionSource<PopupExitData>();
+            
+            await base.ShowAsync();
+        }
+        
+        public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
 
         public void OnStartWordPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _startWord});
         

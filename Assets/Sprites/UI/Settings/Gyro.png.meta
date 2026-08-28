@@ -147,8 +147,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 183
-        height: 189
+        width: 460
+        height: 451
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,28 +159,6 @@ TextureImporter:
       bones: []
       spriteID: aa9c16e8b61ed0ba0800000000000000
       internalID: -6120988466460112470
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gyro_1
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 4
-        width: 142
-        height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 055dbf9b619fbb4d0800000000000000
-      internalID: -3117624441019050672
       vertices: []
       indices: 
       edges: []

@@ -28,6 +28,7 @@ namespace Game.Logic
         [Inject] private ConfigService _configService;
         [Inject] private IProfileService _profile;
         [Inject] private AudioService _audioService;
+        [Inject] private IVibrationService _vibrationService;
         [Inject] private StarterBonusService _starterBonusService;
         [Inject] private IUIManager _ui;
         [Inject] private MissingWordPopupPresenter _missingWordPopupPresenter;
@@ -190,12 +191,12 @@ namespace Game.Logic
 
             _bPause = false;
 
-            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_OWNER"));
+            _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOwner));
 
             switch (_gameOpponent)
             {
                 case GameOpponent.AI:
-                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_AI"));
+                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerAI));
 
                     _complexityAI = _saveGameData != null ?
                         (ComplexityAI)_saveGameData.levelComplexityAI :
@@ -212,7 +213,7 @@ namespace Game.Logic
                     _bModePlayOwner = true;
                     break;
                 case GameOpponent.Friend:
-                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, "NAME_PLAYER_OPPONENT"));
+                    _gameScreen.PlayerPanelOpponent.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOpponent));
                     _maxPasses = _configService.Game.maxPassesByDefault;
                     _bModePlayOwner = true;
                     break;
@@ -311,8 +312,7 @@ namespace Game.Logic
             }
 
             _wordsFieldManager.ShowLetters(!_bPause);
-
-            _audioService?.PlaySfxAsync(SoundsConfig.Pause);
+            _vibrationService.Play();
         }
 
         private async UniTaskVoid PauseCooldownAsync()
@@ -430,6 +430,7 @@ namespace Game.Logic
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
+            _vibrationService.Play(VibrationType.Heavy);
         }
 
         private void OnKeyboardLetterSelect(KeyboardLetterSelectEvent eventData)
@@ -437,6 +438,7 @@ namespace Game.Logic
             if (!_bStart || _bPause || !_bModePlayOwner)
                 return;
 
+            _vibrationService.Play(VibrationType.Selection);
             _analyticsReporter.TrackKeyboardLetterClicked(eventData.letter);
         }
 
@@ -463,7 +465,8 @@ namespace Game.Logic
             var popup = await _ui.ShowPopupAsync<AdvicePopup, MessageBoxData>(AssetKey.AdvicePopup, messageBoxData);
 
             _audioService?.PlaySfxAsync(SoundsConfig.PopupWarning);
-
+            _vibrationService.Play(VibrationType.Warning);
+            
             await popup.WaitForResultAsync();
 
             switch (eventData.GameError)
@@ -618,6 +621,7 @@ namespace Game.Logic
                 _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
 
             _audioService?.PlaySfxAsync(SoundsConfig.Pass);
+            _vibrationService.Play(VibrationType.Error);
 
             CheckFinishGame();
         }
@@ -651,11 +655,13 @@ namespace Game.Logic
             }
         }
 
-        private void SwitchPlayer()
+        private async UniTaskVoid SwitchPlayer()
         {
             _bModePlayOwner = !_bModePlayOwner;
             _gameScreen.TimerBar.SetTargetValue(_durationGame);
             _gameScreen.TimerBar.StartTimer();
+            _vibrationService.Play(VibrationType.Medium);
+            
             if (_bModePlayOwner)
             {
                 BlockUIAsync(false).Forget();
@@ -665,22 +671,24 @@ namespace Game.Logic
             }
             else
             {
-                if (_timeExpiredStatus)
-                {
-                    _timeExpiredStatus = false;
-                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
-                }
-                else
-                {
-                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
-                }
-                
                 _wordsFieldManager.SetModeSelect(false);
                 _gameScreen.PauseButton.interactable = false;
                 _gameScreen.PassButton.interactable = false;
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
                 _boosterController.ResetForOpponentTurn();
+                
+                if (_timeExpiredStatus)
+                {
+                    _timeExpiredStatus = false;
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
+                    await UniTask.WaitForSeconds(_configService.Game.delayAIPlayAfterPlayerPassSeconds);
+                }
+                else
+                {
+                    _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OPPONENT");
+                }
+                
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
@@ -785,6 +793,8 @@ namespace Game.Logic
                     break;
             }
 
+            _vibrationService.Play(VibrationType.Success);
+            
             await finishPopup.WaitForResultAsync();
 
             if (await _starterBonusService.TryGrantAsync())

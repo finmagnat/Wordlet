@@ -13,13 +13,14 @@ namespace Core.Config
         
         private readonly Dictionary<string, string> _cache = new();
 
-        public BoostersIconsConfig()
+        public string GetAlias(BoosterType type)
         {
-            foreach (BoosterIconData item in _items)
-                _cache[item.Type.ToString()] = item.IconAssetKey;
+            if(_cache.Count == 0)
+                foreach (BoosterIconData item in _items)
+                    _cache[item.Type.ToString()] = item.IconAssetKey;
+            
+            return _cache[type.ToString()];
         }
-
-        public string GetAlias(BoosterType type) => _cache[type.ToString()];
     }
     
     [Serializable]

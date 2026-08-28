@@ -36,7 +36,7 @@ namespace Core.UI.Components
             _data = _adBoosterService.GetData();
             
             _labelText.text = _localization.Get(LocalizationConst.TableAds, _data.LabelLocaleKeys[Random.Range(0, _data.LabelLocaleKeys.Length)]);
-            _countText.text = _data.Count.ToString();
+            _countText.text = $"X {_data.Count}";
             _boosterIcon.sprite = await _spritesService.GetSpriteAsync(_configService.BoostersIcons.GetAlias(_data.BoosterType));
         }
        

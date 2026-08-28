@@ -67,6 +67,7 @@ namespace Core.Config
         Letter,
         Slowdown,
         Eraser, 
+        Mixer,
         Swap, 
     }
 }

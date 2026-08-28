@@ -95,6 +95,7 @@ namespace Core.Installers
             Container.Bind<IShopService>().To<StubShopService>().AsSingle().NonLazy();
 #endif
             Container.BindInterfacesAndSelfTo<RewardedAdsService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AdvertisingBoosterService>().AsSingle();
             Container.BindInterfacesAndSelfTo<RewardedBoosterGrantService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<RewardedLimitsService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<AdsBootstrapService>().AsSingle();
@@ -180,6 +181,7 @@ namespace Core.Installers
             await Container.Resolve<StarterBonusService>().InitializeAsync();
             await Container.Resolve<DailyBonusService>().InitializeAsync();
             await Container.Resolve<RewardedAdsService>().InitializeAsync();
+            await Container.Resolve<AdvertisingBoosterService>().InitializeAsync();
             await Container.Resolve<InterstitialAdsService>().InitializeAsync();
             await Container.Resolve<InterstitialPolicyService>().InitializeAsync();
             loading.SetProgress(0.65f);

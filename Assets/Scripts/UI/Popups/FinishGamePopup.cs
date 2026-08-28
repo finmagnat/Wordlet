@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Core.Data;
 using Core.Services;
+using Core.UI.Components;
 using Cysharp.Threading.Tasks;
 using Zenject;
 
@@ -9,6 +10,7 @@ namespace UI.Popups
     public class FinishGamePopup : MessagePopup<FinishGamePopupData>
     {
         public StatsTableView statsTable;
+        public AdvertisingBooster advertisingBooster;
 
         [Inject] private AnalyticsService _analytics;
 
@@ -33,7 +35,10 @@ namespace UI.Popups
 
         public override async UniTask ShowAsync()
         {
+            await advertisingBooster.ShowAsync();
+            
             await base.ShowAsync();
+            
             _analytics.TrackEvent(AnalyticsEvents.Navigation.FinishGamePopupShown, GetAnalyticsParams());
         }
 

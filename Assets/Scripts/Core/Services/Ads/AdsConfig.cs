@@ -11,6 +11,17 @@ namespace Core.Services
         public RewardType RewardType;
         public string AdUnitId;
     }
+    
+    [Serializable]
+    public sealed class AdsRewardItem
+    {
+        public BoosterType BoosterType;
+        public RewardType RewardType;
+        public int Count;
+        [Min(0), Tooltip("More weight - more chance of showing")]
+        public int Weight;
+        public string[] LabelLocaleKeys;
+    }
 
     [CreateAssetMenu(menuName = "Configs/AdsConfig")]
     public sealed class AdsConfig : ScriptableObject
@@ -27,6 +38,9 @@ namespace Core.Services
         public bool UseTestIds;
 #endif
 
+        [Header("Rewarded Ad Units (finish popups)")]
+        public List<AdsRewardItem> AdsRewardItems = new();
+        
         public string GetRewardedId(RewardType type)
         {
             if (type == RewardType.None)

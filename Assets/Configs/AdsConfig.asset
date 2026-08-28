@@ -20,6 +20,42 @@ MonoBehaviour:
   - RewardType: 3
     AdUnitId: ca-app-pub-8216303467519012/5951671611
   - RewardType: 4
+    AdUnitId: 
+  - RewardType: 5
     AdUnitId: ca-app-pub-8216303467519012/5322356891
+  InterstitialIsActive: 0
   InterstitialAd: ca-app-pub-8216303467519012/8664733002
   UseTestIds: 0
+  AdsRewardItems:
+  - BoosterType: 1
+    RewardType: 1
+    Count: 1
+    Weight: 1
+    LabelLocaleKeys:
+    - Letter_TEXT_001
+    - Letter_TEXT_002
+  - BoosterType: 2
+    RewardType: 2
+    Count: 1
+    Weight: 2
+    LabelLocaleKeys:
+    - Slowdown_TEXT_001
+    - Slowdown_TEXT_002
+  - BoosterType: 3
+    RewardType: 3
+    Count: 1
+    Weight: 3
+    LabelLocaleKeys:
+    - Eraser_TEXT_001
+  - BoosterType: 4
+    RewardType: 4
+    Count: 1
+    Weight: 4
+    LabelLocaleKeys:
+    - Mixer_TEXT_001
+  - BoosterType: 5
+    RewardType: 5
+    Count: 1
+    Weight: 5
+    LabelLocaleKeys:
+    - Swap_TEXT_001

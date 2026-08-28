@@ -66,6 +66,11 @@ namespace Core.Generated
         sfx_draw,
         sfx_start_new_game,
         sfx_letter_put_success,
+        BoosterEraser,
+        BoosterSlowdown,
+        BoosterSwap,
+        BoosterMixer,
+        BoosterLetter,
         ConfirmPassPopup,
         StarterBonusPopup,
         WinPopup,
@@ -73,6 +78,7 @@ namespace Core.Generated
         AIGameExitPopup,
         MainMenuScreen,
         RewardPopup,
+        OptionsPopup,
         BannerLoadingScreen,
         InGameLoadingScreen,
         AdvicePopup,
@@ -90,6 +96,5 @@ namespace Core.Generated
         SettingsPopup,
         MissingWordPopup,
         LosePopup,
-        OptionsPopup,
     }
 }

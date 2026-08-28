@@ -471,6 +471,7 @@ MonoBehaviour:
   _titleText: {fileID: 8632143087728265054}
   _messageText: {fileID: 6041023900497736153}
   statsTable: {fileID: 4052929993827943455}
+  advertisingBooster: {fileID: 589175671381086675}
 --- !u!1 &6531961703379879549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,6 +1103,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
+--- !u!114 &589175671381086675 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 481288106591556817, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
+  m_PrefabInstance: {fileID: 1045060364971689218}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0455889da92344f5a72f5c13ff0f67fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.AdvertisingBooster
 --- !u!224 &8113576753123764450 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}

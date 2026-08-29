@@ -21,7 +21,7 @@ namespace Core.Services.Shop
         private readonly ShopCatalog _catalog;
         private readonly IInventoryService _inventory;
         private readonly InventorySyncService _inventorySync;
-        private readonly RewardedAdsService _ads;
+        private readonly RewardedBoosterGrantService _rewardGrant;
         private readonly LocalizationService _localization;
         private readonly AdsEntitlementService _adsEntitlement;
 
@@ -41,14 +41,14 @@ namespace Core.Services.Shop
             ShopCatalog catalog,
             IInventoryService inventory,
             InventorySyncService inventorySync,
-            RewardedAdsService ads,
+            RewardedBoosterGrantService rewardGrant,
             LocalizationService localization,
             AdsEntitlementService adsEntitlement)
         {
             _catalog = catalog;
             _inventory = inventory;
             _inventorySync = inventorySync;
-            _ads = ads;
+            _rewardGrant = rewardGrant;
             _localization = localization;
             _adsEntitlement = adsEntitlement;
         }
@@ -124,9 +124,11 @@ namespace Core.Services.Shop
                     return await PurchaseAsync(offer.ProductId);
 
                 case ShopOfferTypeDto.RewardedAd:
-                    // Показ рекламы; выдача награды делается RewardedBoosterGrantService по OnRewardEarned
                     Debug.Log($"[ShopService] Execute rewarded: rewardType={offer.RewardType}");
-                    _ads.ShowFor(offer.RewardType);
+
+                    if (!_rewardGrant.TryShowAndGrant(offer.RewardType, offer.Rewards, out string error))
+                        return PurchaseResult.Fail(error);
+
                     return PurchaseResult.Ok();
 
                 default:

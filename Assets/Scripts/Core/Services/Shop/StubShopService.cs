@@ -21,20 +21,20 @@ namespace Core.Services.Shop
         
         private readonly ShopCatalog _catalog;
         private readonly InventorySyncService _inventorySync;
-        private readonly RewardedAdsService _ads;
+        private readonly RewardedBoosterGrantService _rewardGrant;
         private readonly LocalizationService _localization;
         private readonly AdsEntitlementService _adsEntitlement;
         
         [Inject]
         public StubShopService(ConfigService configService, 
             InventorySyncService inventorySync, 
-            RewardedAdsService ads, 
+            RewardedBoosterGrantService rewardGrant,
             LocalizationService localization,
             AdsEntitlementService adsEntitlement)
         {
             _catalog = configService.Shop;
             _inventorySync = inventorySync;
-            _ads = ads;
+            _rewardGrant = rewardGrant;
             _localization = localization;
             _adsEntitlement = adsEntitlement;
         }
@@ -91,7 +91,9 @@ namespace Core.Services.Shop
                     return await PurchaseAsync(offer.ProductId);
 
                 case ShopOfferTypeDto.RewardedAd:
-                    _ads.ShowFor(offer.RewardType);
+                    if (!_rewardGrant.TryShowAndGrant(offer.RewardType, offer.Rewards, out string error))
+                        return PurchaseResult.Fail(error);
+
                     return PurchaseResult.Ok();
 
                 default:

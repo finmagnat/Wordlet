@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Config;
+using Core.Data;
 using Cysharp.Threading.Tasks;
 using Core.Services.Inventory;
 using UnityEngine;
@@ -9,9 +10,10 @@ using Zenject;
 namespace Core.Services
 {
     /// <summary>
-    /// Связка: rewarded earned -> PlayFab CloudScript AddBooster -> обновить локальный инвентарь
+    /// Связка магазинного rewarded-оффера: rewarded earned -> PlayFab CloudScript AddBooster
+    /// -> обновить локальный инвентарь
     /// + локальные лимиты/cooldown (после успешного начисления)
-    /// + событие для UI pop
+    /// + событие для обновления UI
     /// </summary>
     public sealed class RewardedBoosterGrantService : IService
     {
@@ -19,60 +21,104 @@ namespace Core.Services
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private RewardedLimitsService _limits;
         
-        public event Action<RewardType, int> OnRewardGranted; // для UI pop
+        public event Action<RewardType, int> OnRewardGranted;
 
-        private readonly Dictionary<RewardType, int> _pendingPop = new();
-        
-        public UniTask InitializeAsync()
-        {
-            _ads.OnRewardEarned += OnRewardEarned;
-            _ads.OnClosed += OnAdClosed;
-            
-            return UniTask.CompletedTask;
-        }
+        public UniTask InitializeAsync() => UniTask.CompletedTask;
 
-        private void OnRewardEarned(RewardType rewardType)
+        public bool TryShowAndGrant(
+            RewardType rewardType,
+            IReadOnlyList<RewardDto> rewards,
+            out string error)
         {
-            GrantAsync(rewardType).Forget();
-        }
-        
-        private void OnAdClosed(RewardType type)
-        {
-            if (_pendingPop.TryGetValue(type, out var amount) && amount > 0)
+            if (!TryCreateRewardSnapshot(rewards, out var rewardSnapshot, out error))
+                return false;
+
+            if (rewardType == RewardType.None)
             {
-                _pendingPop[type] = 0;
-                OnRewardGranted?.Invoke(type, amount);
+                error = "Reward type is not configured";
+                return false;
             }
+
+            _ads.ShowFor(rewardType, _ => GrantAsync(rewardType, rewardSnapshot).Forget());
+            return true;
         }
 
-        private async UniTaskVoid GrantAsync(RewardType rewardType)
+        private static bool TryCreateRewardSnapshot(
+            IReadOnlyList<RewardDto> rewards,
+            out RewardDto[] rewardSnapshot,
+            out string error)
         {
-            if (!RewardedBoosterCatalog.TryGetBoosterType(rewardType, out var booster))
+            if (rewards == null || rewards.Count == 0)
             {
-                Debug.LogWarning($"[Reward] Unknown rewardType={rewardType}");
+                rewardSnapshot = null;
+                error = "Rewarded offer has no rewards";
+                return false;
+            }
+
+            rewardSnapshot = new RewardDto[rewards.Count];
+
+            for (int i = 0; i < rewards.Count; i++)
+            {
+                RewardDto reward = rewards[i];
+                if (reward == null || reward.ItemId == BoosterType.None || reward.Amount <= 0)
+                {
+                    rewardSnapshot = null;
+                    error = $"Invalid reward at index {i}";
+                    return false;
+                }
+
+                if (!RewardedBoosterCatalog.TryGetPlayFabKey(reward.ItemId, out _))
+                {
+                    rewardSnapshot = null;
+                    error = $"No PlayFab inventory key configured for {reward.ItemId}";
+                    return false;
+                }
+
+                rewardSnapshot[i] = new RewardDto
+                {
+                    ItemId = reward.ItemId,
+                    Amount = reward.Amount
+                };
+            }
+
+            error = null;
+            return true;
+        }
+
+        private async UniTaskVoid GrantAsync(RewardType rewardType, IReadOnlyList<RewardDto> rewards)
+        {
+            int totalGranted = 0;
+
+            foreach (RewardDto reward in rewards)
+            {
+                bool granted;
+
+                try
+                {
+                    granted = await _inventorySync.GrantBoosterAsync(reward.ItemId, reward.Amount);
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogError(
+                        $"[Reward] Failed to grant +{reward.Amount} {reward.ItemId}: {exception}");
+                    continue;
+                }
+
+                if (!granted)
+                {
+                    Debug.LogWarning($"[Reward] Failed to grant +{reward.Amount} {reward.ItemId}.");
+                    continue;
+                }
+
+                totalGranted += reward.Amount;
+                Debug.Log($"[Reward] Granted +{reward.Amount} {reward.ItemId} (server).");
+            }
+
+            if (totalGranted <= 0)
                 return;
-            }
 
-            // ✅ Server-authoritative: CloudScript AddBooster
-            bool ok = await _inventorySync.GrantBoosterAsync(booster, 1);
-
-            if (!ok)
-            {
-                Debug.LogWarning($"[Reward] Failed to grant {booster}.");
-                return;
-            }
-
-            Debug.Log($"[Reward] Granted +1 {booster} (server).");
-
-            // ✅ важно: cooldown/daily лимит — только после успешного начисления
             _limits.RegisterSuccessfulClaim(rewardType);
-            
-            // ⚠️ не показываем поп "+N" сейчас, только “помечаем”
-            _pendingPop[rewardType] = _pendingPop.TryGetValue(rewardType, out var v) ? v + 1 : 1;
-
-            // ✅ UI pop +1
-            OnRewardGranted?.Invoke(rewardType, 1);
+            OnRewardGranted?.Invoke(rewardType, totalGranted);
         }
-
     }
 }

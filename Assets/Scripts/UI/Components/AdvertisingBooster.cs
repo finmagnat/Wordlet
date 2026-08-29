@@ -28,7 +28,7 @@ namespace Core.UI.Components
         
         public void OnClick()
         {
-            _adBoosterService.Exequte(_data);
+            _adBoosterService.Execute(_data);
         }
         
         private async UniTask InitialiseAsync()

@@ -536,8 +536,7 @@ namespace Game.Logic
 
                 _bLetterPut = false;
 
-                //CheckFinishGame(); // TEST
-                FinishGame(); //TEST
+                CheckFinishGame();
             }
             finally
             {

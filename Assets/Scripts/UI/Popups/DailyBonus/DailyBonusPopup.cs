@@ -187,7 +187,6 @@ namespace UI.Popups
                 {
                     ItemId = reward.BoosterType,
                     Amount = reward.Amount,
-                    SpriteIcon = visual?.iconImage
                 });
             }
 

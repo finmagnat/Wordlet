@@ -84,7 +84,6 @@ namespace Core.Services.Shop
                     {
                         ItemId = r.ItemId,
                         Amount = r.Amount,
-                        SpriteIcon = r.SpriteIcon
                     }).ToList(),
 
                     // По умолчанию

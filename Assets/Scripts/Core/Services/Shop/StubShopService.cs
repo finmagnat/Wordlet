@@ -63,7 +63,7 @@ namespace Core.Services.Shop
                         : _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyTextLook),
                     IsAvailable = o.DebugAvailable,
                     IsDisableInterstitialAds = o.DisableInterstitialAds,
-                    Rewards = o.Rewards.Select(r => new RewardDto { ItemId = r.ItemId, Amount = r.Amount, SpriteIcon = r.SpriteIcon }).ToList()
+                    Rewards = o.Rewards.Select(r => new RewardDto { ItemId = r.ItemId, Amount = r.Amount }).ToList()
                 });
             }
 

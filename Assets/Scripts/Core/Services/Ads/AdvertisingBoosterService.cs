@@ -1,7 +1,11 @@
 using System;
 using Core.Config;
+using Core.Data;
+using Core.Generated;
 using Core.Services.Inventory;
+using Core.UI;
 using Cysharp.Threading.Tasks;
+using UI.Popups;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +15,7 @@ namespace Core.Services
     {
         [Inject] private RewardedAdsService _ads;
         [Inject] private IConfigService _configs;
+        [Inject] private IUIManager _ui;
         [Inject] private InventorySyncService _inventorySync;
         
         public UniTask InitializeAsync()
@@ -69,30 +74,28 @@ namespace Core.Services
                 return;
             }
 
-            BoosterType boosterType = data.BoosterType;
-            int count = data.Count;
-
-            _ads.ShowFor(data.RewardType, _ => GrantRewardAsync(boosterType, count).Forget());
+            _ads.ShowFor(data.RewardType, _ => GrantRewardAsync(data).Forget());
         }
 
-        private async UniTaskVoid GrantRewardAsync(BoosterType boosterType, int count)
+        private async UniTaskVoid GrantRewardAsync(AdsRewardItem data)
         {
             try
             {
-                bool granted = await _inventorySync.GrantBoosterAsync(boosterType, count);
+                bool granted = await _inventorySync.GrantBoosterAsync(data.BoosterType, data.Count);
 
                 if (granted)
                 {
-                    Debug.Log($"[AdvertisingBooster] Granted +{count} {boosterType} (server).");
+                    Debug.Log($"[AdvertisingBooster] Granted +{data.Count} {data.BoosterType} (server).");
+                    await _ui.ShowPopupAsync<RewardPopup, RewardPopupData>(AssetKey.RewardPopup, RewardPopupData.FromAdsReward(data));
                     return;
                 }
 
-                Debug.LogWarning($"[AdvertisingBooster] Failed to grant +{count} {boosterType}.");
+                Debug.LogWarning($"[AdvertisingBooster] Failed to grant +{data.Count} {data.BoosterType}.");
             }
             catch (Exception exception)
             {
                 Debug.LogError(
-                    $"[AdvertisingBooster] Failed to grant +{count} {boosterType}: {exception}");
+                    $"[AdvertisingBooster] Failed to grant +{data.Count} {data.BoosterType}: {exception}");
             }
         }
     }

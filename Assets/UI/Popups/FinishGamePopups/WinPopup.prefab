@@ -3094,9 +3094,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1392025333454561838}
     m_Modifications:
+    - target: {fileID: 2363415616890304960, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3591612597409328834, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_Name
       value: AdvertisingBooster
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591612597409328834, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_Pivot.x

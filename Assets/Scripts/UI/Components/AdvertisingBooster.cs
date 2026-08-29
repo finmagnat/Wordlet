@@ -10,6 +10,7 @@ namespace Core.UI.Components
 {
     public class AdvertisingBooster : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private TextMeshProUGUI _labelText;
         [SerializeField] private TextMeshProUGUI _countText;
         [SerializeField] private Image _boosterIcon;
@@ -29,6 +30,7 @@ namespace Core.UI.Components
         public void OnClick()
         {
             _adBoosterService.Execute(_data);
+            _canvasGroup.alpha = 0;
         }
         
         private async UniTask InitialiseAsync()
@@ -36,8 +38,11 @@ namespace Core.UI.Components
             _data = _adBoosterService.GetData();
             
             _labelText.text = _localization.Get(LocalizationConst.TableAds, _data.LabelLocaleKeys[Random.Range(0, _data.LabelLocaleKeys.Length)]);
+            
             _countText.text = $"X {_data.Count}";
             _boosterIcon.sprite = await _spritesService.GetSpriteAsync(_configService.BoostersIcons.GetAlias(_data.BoosterType));
+            
+            _canvasGroup.alpha = 1;
         }
        
     }

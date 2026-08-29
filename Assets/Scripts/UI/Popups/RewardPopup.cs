@@ -16,6 +16,7 @@ namespace UI.Popups
         [SerializeField] private ShopItemView _itemPrefab;
         [SerializeField] private Transform _contentRoot;
 
+        [Inject] private DiContainer _container;
         [Inject] private AudioService _audioService;
         [Inject] private AnalyticsService _analytics;
         [Inject] private IInventoryService _inventory;
@@ -59,7 +60,7 @@ namespace UI.Popups
 
             foreach (var item in _currentData.Rewards)
             {
-                var view = Instantiate(_itemPrefab, _contentRoot);
+                var view = _container.InstantiatePrefabForComponent<ShopItemView>(_itemPrefab, _contentRoot);
                 view.Bind(item);
             }
         }

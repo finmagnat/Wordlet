@@ -678,8 +678,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 40}
+  m_SizeDelta: {x: -60, y: -80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4914144213071172927
 CanvasRenderer:
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2100423328059793978, guid: e8178d6db514ea34992ebbffb579d6ab, type: 3}
+  m_Sprite: {fileID: -605434455552103423, guid: 678c44b1ca1923e4ca723a5a6b6675c1, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.45
+  m_PixelsPerUnitMultiplier: 1.3
 --- !u!114 &6144058131347266635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1170,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7177695800592849902}
-  m_Father: {fileID: 9200043237636705657}
+  m_Father: {fileID: 6121083341923841190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2772,8 +2772,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -482, y: 3.3676}
-  m_SizeDelta: {x: 300, y: 363.555}
+  m_AnchoredPosition: {x: -529, y: 0}
+  m_SizeDelta: {x: 283, y: 426.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8429284349198792861
 CanvasRenderer:
@@ -3623,12 +3623,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9200043237636705657}
+  - {fileID: 6587262215916214397}
   m_Father: {fileID: 3303987018140227802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -554}
-  m_SizeDelta: {x: 600, y: 260}
+  m_SizeDelta: {x: 640, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1954545647499422058
 CanvasRenderer:
@@ -3742,7 +3743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.UIButtonShine
   _shine: {fileID: 168902696922830755}
-  _travelDistance: 900
+  _travelDistance: 1000
   _duration: 0.8
   _minDelay: 4
   _maxDelay: 7
@@ -3923,8 +3924,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6587262215916214397}
+  m_Children: []
   m_Father: {fileID: 6121083341923841190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

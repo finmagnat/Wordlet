@@ -28,4 +28,18 @@ public partial class SROptions
                 GameDurationSettings.SetDurationGameSeconds(value);
         }
     }
+    
+    [Category("Dev/Game")]
+    [DisplayName("Включить автоматическую победу"), Sort(2)]
+    public bool IsAutoWin
+    {
+        get
+        {
+            return GameDebug.IsAutoWin;
+        }
+        set
+        {
+            GameDebug.IsAutoWin = value;
+        }
+    }
 }

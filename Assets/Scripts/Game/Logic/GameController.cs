@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Core.Config;
 using Core.Data;
+using Core.DebugTools;
 using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
@@ -643,6 +644,12 @@ namespace Game.Logic
 
         private void CheckFinishGame()
         {
+            if (GameDebug.IsAutoWin)
+            {
+                FinishGame();
+                return;
+            }
+
             if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass) ||
                 MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass) ||
                 _wordsFieldManager.Filled())

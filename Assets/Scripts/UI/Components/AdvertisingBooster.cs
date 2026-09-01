@@ -1,3 +1,4 @@
+using System;
 using Core.Services;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -21,22 +22,26 @@ namespace Core.UI.Components
         [Inject] private ISpriteService _spritesService;
 
         private AdsRewardItem _data;
+        private Action _callbackOnClick;
         
-        public async UniTask ShowAsync()
+        public async UniTask ShowAsync(AdsRewardItem data, Action callbackOnClick)
         {
+            _data = data;
+            _callbackOnClick = callbackOnClick;
+            
             await InitialiseAsync();
         }
         
         public void OnClick()
         {
+            _callbackOnClick?.Invoke();
+            
             _adBoosterService.Execute(_data);
             _canvasGroup.alpha = 0;
         }
         
         private async UniTask InitialiseAsync()
         {
-            _data = _adBoosterService.GetData();
-            
             _labelText.text = _localization.Get(LocalizationConst.TableAds, _data.LabelLocaleKeys[Random.Range(0, _data.LabelLocaleKeys.Length)]);
             
             _countText.text = $"X {_data.Count}";

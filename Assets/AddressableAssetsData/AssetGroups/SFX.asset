@@ -135,12 +135,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fd218ff936ac8ad4196abffc64e531e3
-    m_Address: sfx_letter_put_success
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SFX
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6dce5b1d62bc7c4448f3589e4c3a789e, type: 2}
   m_SchemaSet:

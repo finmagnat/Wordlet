@@ -27,7 +27,7 @@ MonoBehaviour:
   - Key: sfx_letter_put_success
     Description: "\u0411\u0443\u043A\u0432\u0430 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"
-    Clip: {fileID: 8300000, guid: fd218ff936ac8ad4196abffc64e531e3, type: 3}
+    Clip: {fileID: 8300000, guid: 2f477d87899c014489a2c9e5e588053f, type: 3}
   - Key: sfx_letter_selected
     Description: "\u0411\u0443\u043A\u0432\u0430 \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"

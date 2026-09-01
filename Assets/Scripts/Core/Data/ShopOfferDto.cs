@@ -35,6 +35,5 @@ namespace Core.Data
     {
         public BoosterType ItemId;
         public int Amount;
-        public Sprite SpriteIcon;
     }
 }

@@ -22,6 +22,12 @@ MonoBehaviour:
     - Locale-en-US
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 432ac885eddd32f4685d980e42e2f2a6
+    m_Address: AdsReward_Texts_en-US
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en-US
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b807b542df2d07149a27cfaeced2352c
     m_Address: INFO_Texts_en-US
     m_ReadOnly: 1

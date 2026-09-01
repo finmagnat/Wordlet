@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Services;
 
 namespace Core.Data
 {
@@ -8,6 +9,7 @@ namespace Core.Data
     {
         public const string SourceShop = "shop";
         public const string SourceDailyBonus = "daily_bonus";
+        public const string SourceFinishRound = "finish_round";
 
         public string Source;
         public string ProductId;
@@ -24,6 +26,16 @@ namespace Core.Data
                 Rewards = offer?.Rewards != null
                     ? new List<RewardDto>(offer.Rewards)
                     : new List<RewardDto>()
+            };
+        }
+        
+        public static RewardPopupData FromAdsReward(AdsRewardItem data)
+        {
+            return new RewardPopupData
+            {
+                Source = SourceFinishRound,
+                Rewards = new List<RewardDto>
+                { new () {ItemId = data.BoosterType, Amount = data.Count} }
             };
         }
     }

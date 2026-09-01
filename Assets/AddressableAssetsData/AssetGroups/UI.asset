@@ -60,7 +60,8 @@ MonoBehaviour:
   - m_GUID: 4875b24f3d6be724485decd966692662
     m_Address: OptionsPopup
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52d288038257d7c4b9c2474f21c676af
     m_Address: BannerLoadingScreen

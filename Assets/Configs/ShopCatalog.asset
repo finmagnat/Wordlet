@@ -103,7 +103,7 @@ MonoBehaviour:
     ProductId: 
     DebugPriceText: 
     DebugAvailable: 1
-    RewardType: 4
+    RewardType: 5
     DailyLimit: 3
     CooldownSeconds: 45
     DisableInterstitialAds: 0

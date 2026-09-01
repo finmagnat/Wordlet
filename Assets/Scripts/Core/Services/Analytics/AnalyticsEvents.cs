@@ -80,6 +80,7 @@ namespace Core.Services
             public const string FinishGamePopupShown = Group + "finish_game_popup_shown";
             public const string CloseFinishGamePopupClicked = Group + "close_finish_game_popup_clicked";
             public const string OkFinishGamePopupClicked = Group + "ok_finish_game_popup_clicked";
+            public const string AdFinishGamePopupClicked = Group + "ad_finish_game_popup_clicked";
             
             public const string AiGameScreenShown = Group + "ai_game_screen_shown";
             public const string AiGameHomeClicked = Group + "ai_game_home_clicked";
@@ -234,6 +235,7 @@ namespace Core.Services
             public const string DontShow = "dont_show";
             public const string WinsInSeriesCount = "wins_in_series_count";
             public const string WinsInSeriesMax = "wins_in_series_max";
+            public const string FinishAdOffer = "finish_ad_offer";
         }
         
         public static class Option

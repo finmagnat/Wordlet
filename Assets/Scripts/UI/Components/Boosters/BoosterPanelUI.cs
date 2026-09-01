@@ -10,6 +10,17 @@ namespace UI.Components
         [SerializeField] protected BoosterUI[] _boosters;
         
         [Inject] protected IInventoryService _inventory;
+        [Inject] protected InventorySyncService _inventorySyncService;
+
+        private void Start()
+        {
+            _inventorySyncService.InventoryChanged += Refresh;
+        }
+        
+        private void OnDestroy()
+        {
+            _inventorySyncService.InventoryChanged -= Refresh;
+        }
 
         public virtual void Refresh()
         {

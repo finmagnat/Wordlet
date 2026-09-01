@@ -1,8 +1,10 @@
 using Core.Config;
 using Core.Data;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Core.Services.Shop
 {
@@ -12,6 +14,9 @@ namespace Core.Services.Shop
         [SerializeField] private GameObject _boosterPanel;
         [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _countText;
+        
+        [Inject] private ConfigService _configService;
+        [Inject] private ISpriteService _spritesService;
         
         public void Bind(RewardDto dtoItem)
         {
@@ -25,9 +30,13 @@ namespace Core.Services.Shop
                 _boosterPanel.SetActive(true);
                 _adsPanel.SetActive(false);
                 _countText.text = dtoItem.Amount.ToString();
+                SetBoosterIconAsync(dtoItem.ItemId);
             }
-            
-            _iconImage.sprite = dtoItem.SpriteIcon;
+        }
+
+        private async UniTask SetBoosterIconAsync(BoosterType itemId)
+        {
+            _iconImage.sprite = await _spritesService.GetSpriteAsync(_configService.BoostersIcons.GetAlias(itemId));
         }
     }
 }

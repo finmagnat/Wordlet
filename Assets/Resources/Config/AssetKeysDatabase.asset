@@ -141,6 +141,16 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: BoosterEraser
+    AddressKey: BoosterEraser
+  - Id: BoosterSlowdown
+    AddressKey: BoosterSlowdown
+  - Id: BoosterSwap
+    AddressKey: BoosterSwap
+  - Id: BoosterMixer
+    AddressKey: BoosterMixer
+  - Id: BoosterLetter
+    AddressKey: BoosterLetter
   - Id: ConfirmPassPopup
     AddressKey: ConfirmPassPopup
   - Id: StarterBonusPopup
@@ -155,6 +165,8 @@ MonoBehaviour:
     AddressKey: MainMenuScreen
   - Id: RewardPopup
     AddressKey: RewardPopup
+  - Id: OptionsPopup
+    AddressKey: OptionsPopup
   - Id: BannerLoadingScreen
     AddressKey: BannerLoadingScreen
   - Id: InGameLoadingScreen
@@ -189,5 +201,3 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
-  - Id: OptionsPopup
-    AddressKey: OptionsPopup

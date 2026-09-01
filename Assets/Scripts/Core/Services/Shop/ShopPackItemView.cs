@@ -19,6 +19,7 @@ namespace Core.Services.Shop
 
         [Inject] private LocalizationService _localization;
         [Inject] private AnalyticsService _analytics;
+        [Inject] private DiContainer _container;
         [InjectOptional] private RewardedAdsService _ads;
         [InjectOptional] private RewardedLimitsService _limits;
         [InjectOptional] private RewardedBoosterGrantService _grant;
@@ -70,7 +71,7 @@ namespace Core.Services.Shop
 
             foreach (var item in dto.Rewards)
             {
-                var view = Instantiate(_itemPrefab, _contentRoot);
+                var view = _container.InstantiatePrefabForComponent<ShopItemView>(_itemPrefab, _contentRoot);
                 view.Bind(item);
             }
 

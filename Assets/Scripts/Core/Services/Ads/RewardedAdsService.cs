@@ -64,6 +64,9 @@ namespace Core.Services
         }
 
         public void ShowFor(RewardType rewardType)
+            => ShowFor(rewardType, null);
+
+        public void ShowFor(RewardType rewardType, Action<RewardType> onRewardEarned)
         {
             if (rewardType == RewardType.None)
                 return;
@@ -116,7 +119,11 @@ namespace Core.Services
                     _analytics.TrackEvent(
                         AnalyticsEvents.Ads.RewardedEarned,
                         AdsAnalyticsHelper.RewardedTypeParams(expectedRewardType));
-                    OnRewardEarned?.Invoke(expectedRewardType);
+
+                    if (onRewardEarned != null)
+                        onRewardEarned(expectedRewardType);
+                    else
+                        OnRewardEarned?.Invoke(expectedRewardType);
                 });
             }
             catch (Exception ex)

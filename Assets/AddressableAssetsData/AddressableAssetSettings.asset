@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 80b5b8f6101246d43a77390a67b05c09
   m_currentHash:
     serializedVersion: 2
-    Hash: 30e1253206885eb4832cacd823071608
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -68,6 +68,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fec343ec3b2da6848a4a0d52f082e6ea, type: 2}
   - {fileID: 11400000, guid: 93edd088a0ef483439dfb610a756c55c, type: 2}
   - {fileID: 11400000, guid: 97d538a61103b0347a7b5281a120a208, type: 2}
+  - {fileID: 11400000, guid: cc091caa38e93cc41992cb49ede653c6, type: 2}
   - {fileID: 11400000, guid: e11356314cadc7c4ba800ea31da8ba06, type: 2}
   - {fileID: 11400000, guid: c3ad59c4f384f5c46a7065941aa94bcf, type: 2}
   - {fileID: 11400000, guid: b77a66fd7152bc142b5e53f0202c28ab, type: 2}
@@ -127,6 +128,7 @@ MonoBehaviour:
     - Dictionary
     - SFX
     - Skin
+    - Booster
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 6c90a789893270844920134460dbd0ff, type: 2}

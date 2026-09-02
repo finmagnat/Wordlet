@@ -24,5 +24,7 @@ MonoBehaviour:
     iconImage: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
   - type: 3
     iconImage: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
+  - type: 4
+    iconImage: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
   - type: 5
     iconImage: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}

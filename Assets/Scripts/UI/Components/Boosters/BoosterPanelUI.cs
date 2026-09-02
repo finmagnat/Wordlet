@@ -25,12 +25,7 @@ namespace UI.Components
         public virtual void Refresh()
         {
             foreach (var booster in _boosters)
-            {
-                if(booster.Type == BoosterType.Mixer)
-                    booster.SetBoosterData(new BoosterItem(BoosterType.Mixer, 0, isInfinite: true));
-                else
-                    booster.SetBoosterData(_inventory.GetItem(booster.Type));
-            }
+                booster.SetBoosterData(_inventory.GetItem(booster.Type));
         }
         
         public bool IsActive(BoosterType boosterType)

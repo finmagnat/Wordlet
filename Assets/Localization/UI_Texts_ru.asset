@@ -622,6 +622,10 @@ MonoBehaviour:
     m_Localized: "\u041C\u0435\u043D\u044F\u043B\u043A\u0430"
     m_Metadata:
       m_Items: []
+  - m_Id: 105000000000000000
+    m_Localized: "\u041C\u0438\u043A\u0441\u0435\u0440"
+    m_Metadata:
+      m_Items: []
   - m_Id: 68852296082407424
     m_Localized: "\u041D\u0430\u0431\u043E\u0440 \u043D\u043E\u0432\u0438\u0447\u043A\u0430"
     m_Metadata:

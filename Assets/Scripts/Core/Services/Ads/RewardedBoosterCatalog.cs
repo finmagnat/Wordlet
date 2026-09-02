@@ -26,6 +26,7 @@ namespace Core.Services
             new(RewardType.Letter, BoosterType.Letter, "boost_letter"),
             new(RewardType.Slowdown, BoosterType.Slowdown, "boost_slow"),
             new(RewardType.Eraser, BoosterType.Eraser, "boost_eraser"),
+            new(RewardType.Mixer, BoosterType.Mixer, "boost_mixer"),
             new(RewardType.Swap, BoosterType.Swap, "boost_swap"),
         };
 
@@ -78,32 +79,5 @@ namespace Core.Services
             return keys;
         }
 
-        public static void EnsureRewardedAdUnits(List<RewardedAdUnitConfig> adUnits)
-        {
-            if (adUnits == null)
-                return;
-
-            foreach (var definition in Definitions)
-            {
-                if (ContainsAdUnit(adUnits, definition.RewardType))
-                    continue;
-
-                adUnits.Add(new RewardedAdUnitConfig
-                {
-                    RewardType = definition.RewardType
-                });
-            }
-        }
-
-        private static bool ContainsAdUnit(List<RewardedAdUnitConfig> adUnits, RewardType rewardType)
-        {
-            foreach (var adUnit in adUnits)
-            {
-                if (adUnit != null && adUnit.RewardType == rewardType)
-                    return true;
-            }
-
-            return false;
-        }
     }
 }

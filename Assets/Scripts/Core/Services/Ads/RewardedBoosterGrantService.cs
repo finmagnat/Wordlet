@@ -39,8 +39,11 @@ namespace Core.Services
                 return false;
             }
 
-            _ads.ShowFor(rewardType, _ => GrantAsync(rewardType, rewardSnapshot).Forget());
-            return true;
+            if (_ads.ShowFor(rewardType, _ => GrantAsync(rewardType, rewardSnapshot).Forget()))
+                return true;
+
+            error = "Rewarded ad is not ready";
+            return false;
         }
 
         private static bool TryCreateRewardSnapshot(

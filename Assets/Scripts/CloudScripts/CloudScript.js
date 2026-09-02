@@ -8,6 +8,7 @@ var DailyBonusBoosterKeys = {
     Letter: "boost_letter",
     Slowdown: "boost_slow",
     Eraser: "boost_eraser",
+    Mixer: "boost_mixer",
     Swap: "boost_swap"
 };
 
@@ -24,6 +25,7 @@ function getStarterBonusGifts() {
         "boost_letter": 1,
         "boost_slow": 1,
         "boost_eraser": 1,
+        "boost_mixer": 1,
         "boost_swap": 1,
     };
 }
@@ -273,6 +275,9 @@ function normalizeDailyBonusBoosterType(value) {
 
     if (normalized === "eraser" || normalized === "boost_eraser" || normalized === "3")
         return "Eraser";
+
+    if (normalized === "mixer" || normalized === "boost_mixer" || normalized === "4")
+        return "Mixer";
 
     if (normalized === "swap" || normalized === "boost_swap" || normalized === "5")
         return "Swap";

@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.61960787}
@@ -1480,6 +1480,7 @@ MonoBehaviour:
   - {fileID: 4737596755765137112}
   - {fileID: 45252156743304399}
   - {fileID: 8708319383008689910}
+  - {fileID: 7225858735735744172}
 --- !u!1 &8770603736642855078
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,7 +1927,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 663d7e7945b24d7db1ce777e6465f862, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.StartPopupBoosterUI
 --- !u!224 &1698710335072436985 stripped
 RectTransform:
@@ -2197,7 +2198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2205,15 +2206,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 113.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 290
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2245,11 +2246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 551.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -145
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2273,7 +2274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4708022725743987599, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4935807098902863584, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_Sprite
@@ -2284,6 +2285,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
+--- !u!114 &7225858735735744172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3504477900878312640, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
+  m_PrefabInstance: {fileID: 6117295845778936428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 663d7e7945b24d7db1ce777e6465f862, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.StartPopupBoosterUI
 --- !u!224 &8319455453640188058 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}

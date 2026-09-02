@@ -50,12 +50,12 @@ namespace Core.Services
             throw new InvalidOperationException("Failed to select a reward.");
         }
 
-        public void Execute(AdsRewardItem data)
+        public bool Execute(AdsRewardItem data)
         {
             if (data == null)
             {
                 Debug.LogWarning("[AdvertisingBooster] Cannot show an ad for a null reward.");
-                return;
+                return false;
             }
 
             if (data.RewardType == RewardType.None || data.BoosterType == BoosterType.None || data.Count <= 0)
@@ -63,7 +63,7 @@ namespace Core.Services
                 Debug.LogWarning(
                     $"[AdvertisingBooster] Invalid reward config: rewardType={data.RewardType}, " +
                     $"boosterType={data.BoosterType}, count={data.Count}.");
-                return;
+                return false;
             }
 
             if (!RewardedBoosterCatalog.TryGetPlayFabKey(data.BoosterType, out _))
@@ -71,10 +71,10 @@ namespace Core.Services
                 Debug.LogError(
                     $"[AdvertisingBooster] No PlayFab inventory key configured for {data.BoosterType}. " +
                     "The ad will not be shown because its reward cannot be granted.");
-                return;
+                return false;
             }
 
-            _ads.ShowFor(data.RewardType, _ => GrantRewardAsync(data).Forget());
+            return _ads.ShowFor(data.RewardType, _ => GrantRewardAsync(data).Forget());
         }
 
         private async UniTaskVoid GrantRewardAsync(AdsRewardItem data)

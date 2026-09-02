@@ -141,6 +141,7 @@ namespace Core.Config
                 BoosterType.Letter,
                 BoosterType.Eraser,
                 BoosterType.Slowdown,
+                BoosterType.Mixer,
                 BoosterType.Swap
             };
         }
@@ -152,6 +153,7 @@ namespace Core.Config
                 new() { ItemId = BoosterType.Letter, Amount = amount },
                 new() { ItemId = BoosterType.Eraser, Amount = amount },
                 new() { ItemId = BoosterType.Slowdown, Amount = amount },
+                new() { ItemId = BoosterType.Mixer, Amount = amount },
                 new() { ItemId = BoosterType.Swap, Amount = amount }
             };
         }

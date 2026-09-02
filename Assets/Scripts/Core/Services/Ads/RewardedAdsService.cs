@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Core.Config;
 using Core.Events;
 using Cysharp.Threading.Tasks;
@@ -11,11 +10,12 @@ namespace Core.Services
 {
     public sealed class RewardedAdsService : IService
     {
-        private readonly Dictionary<RewardType, RewardedAd> _ads = new();
-        private readonly HashSet<RewardType> _loading = new();
-        private readonly HashSet<RewardType> _showing = new();
-        private readonly Dictionary<RewardType, float> _loadStartedAt = new();
-        private readonly HashSet<RewardType> _rewardEarnedInCurrentShow = new();
+        private RewardedAd _ad;
+        private bool _loading;
+        private bool _showing;
+        private float _loadStartedAt;
+        private RewardType _activeRewardType;
+        private bool _rewardEarnedInCurrentShow;
 
         [Inject] private IConfigService _configs;
         [Inject] private AnalyticsService _analytics;
@@ -29,8 +29,7 @@ namespace Core.Services
         public UniTask InitializeAsync()
         {
 #if UNITY_ANDROID || UNITY_IOS
-            foreach (var definition in RewardedBoosterCatalog.All)
-                EnsureLoaded(definition.RewardType, AnalyticsEvents.Option.Initial);
+            EnsureSharedLoaded(RewardType.None, AnalyticsEvents.Option.Initial);
 #else
             Debug.Log("[Ads] Skipping rewarded init on this platform.");
 #endif
@@ -38,38 +37,29 @@ namespace Core.Services
         }
 
         public bool IsLoading(RewardType type)
-            => _loading.Contains(type);
-        
+            => IsSupported(type) && _loading;
+
         public bool IsReady(RewardType type)
-            => _ads.TryGetValue(type, out var ad) && ad != null && ad.CanShowAd();
+            => IsSupported(type) && !_showing && _ad != null && _ad.CanShowAd();
 
         public bool IsShowing(RewardType type)
-            => _showing.Contains(type);
+            => IsSupported(type) && _showing;
 
         public void EnsureLoaded(RewardType type, string loadReason = AnalyticsEvents.Option.Initial)
         {
-            if (type == RewardType.None)
+            if (!IsSupported(type))
                 return;
 
-            if (_loading.Contains(type))
-                return;
-
-            if (IsReady(type))
-            {
-                OnAvailabilityChanged?.Invoke(type, true);
-                return;
-            }
-
-            LoadRewarded(type, loadReason);
+            EnsureSharedLoaded(type, loadReason);
         }
 
-        public void ShowFor(RewardType rewardType)
+        public bool ShowFor(RewardType rewardType)
             => ShowFor(rewardType, null);
 
-        public void ShowFor(RewardType rewardType, Action<RewardType> onRewardEarned)
+        public bool ShowFor(RewardType rewardType, Action<RewardType> onRewardEarned)
         {
-            if (rewardType == RewardType.None)
-                return;
+            if (!IsSupported(rewardType))
+                return false;
 
             bool isReady = IsReady(rewardType);
             _analytics.TrackEvent(
@@ -78,42 +68,40 @@ namespace Core.Services
 
             if (!isReady)
             {
-                Debug.Log($"[Ads] Rewarded not ready for {rewardType}. Triggering load.");
+                Debug.Log($"[Ads] Shared rewarded not ready for {rewardType}.");
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedShowFailed,
                     AdsAnalyticsHelper.RewardedErrorParams(rewardType, AnalyticsEvents.Option.NotReady));
-                EnsureLoaded(rewardType, AnalyticsEvents.Option.ReloadOnDemand);
-                OnAvailabilityChanged?.Invoke(rewardType, false);
-                return;
+
+                if (!_showing)
+                    EnsureSharedLoaded(rewardType, AnalyticsEvents.Option.ReloadOnDemand);
+
+                NotifyAvailabilityChanged(false);
+                return false;
             }
 
-            if (_showing.Contains(rewardType))
-                return;
-
-            if (!_ads.TryGetValue(rewardType, out var ad) || ad == null)
-                return;
-
+            var ad = _ad;
             bool rewardGranted = false;
             var expectedRewardType = rewardType;
-            _rewardEarnedInCurrentShow.Remove(rewardType);
 
-            _showing.Add(rewardType);
-            OnShowingChanged?.Invoke(rewardType, true);
-            OnAvailabilityChanged?.Invoke(rewardType, false);
+            _activeRewardType = expectedRewardType;
+            _rewardEarnedInCurrentShow = false;
+            _showing = true;
+            NotifyShowingChanged(true);
+            NotifyAvailabilityChanged(false);
 
-            Debug.Log($"[Ads] Showing rewarded for: {rewardType}");
-
+            Debug.Log($"[Ads] Showing shared rewarded for: {expectedRewardType}");
             EventBus.Raise(new AdsOverlayAcquireEvent());
 
             try
             {
                 ad.Show(reward =>
                 {
-                    if (rewardGranted)
+                    if (rewardGranted || !_showing || _activeRewardType != expectedRewardType)
                         return;
 
                     rewardGranted = true;
-                    _rewardEarnedInCurrentShow.Add(expectedRewardType);
+                    _rewardEarnedInCurrentShow = true;
 
                     Debug.Log($"[Ads] Reward earned. expected={expectedRewardType}, adRewardType={reward?.Type}, adRewardAmount={reward?.Amount}");
                     _analytics.TrackEvent(
@@ -125,122 +113,169 @@ namespace Core.Services
                     else
                         OnRewardEarned?.Invoke(expectedRewardType);
                 });
+
+                return true;
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[Ads] Failed to show rewarded for {rewardType}: {ex}");
+                Debug.LogWarning($"[Ads] Failed to show shared rewarded for {expectedRewardType}: {ex}");
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedShowFailed,
-                    AdsAnalyticsHelper.RewardedErrorParams(rewardType, AdsAnalyticsHelper.NormalizeError(ex.ToString())));
+                    AdsAnalyticsHelper.RewardedErrorParams(expectedRewardType, AdsAnalyticsHelper.NormalizeError(ex.ToString())));
 
-                EventBus.Raise(new AdsOverlayReleaseEvent());
-
-                if (_showing.Remove(rewardType))
-                    OnShowingChanged?.Invoke(rewardType, false);
-
-                _rewardEarnedInCurrentShow.Remove(rewardType);
-                EnsureLoaded(rewardType, AnalyticsEvents.Option.ReloadAfterFail);
+                FinishShow(expectedRewardType, AnalyticsEvents.Option.ReloadAfterFail);
+                return false;
             }
         }
 
-        private void LoadRewarded(RewardType type, string loadReason)
+        private void EnsureSharedLoaded(RewardType requestedType, string loadReason)
         {
-            var adUnitId = Ads.GetRewardedId(type);
-            if (string.IsNullOrEmpty(adUnitId))
+            if (_loading || _showing)
+                return;
+
+            if (_ad != null && _ad.CanShowAd())
             {
-                Debug.LogError($"[Ads] Missing ad unit id for {type} in AdsConfig.");
-                _analytics.TrackEvent(
-                    AnalyticsEvents.Ads.RewardedLoadFailed,
-                    AdsAnalyticsHelper.RewardedLoadFailedParams(type, AnalyticsEvents.Option.InvalidRequest, loadReason));
+                NotifyAvailabilityChanged(true);
                 return;
             }
 
-            _loadStartedAt[type] = Time.realtimeSinceStartup;
-            _loading.Add(type);
+            LoadRewarded(requestedType, loadReason);
+        }
+
+        private void LoadRewarded(RewardType requestedType, string loadReason)
+        {
+            var adUnitId = Ads.GetRewardedId();
+            if (string.IsNullOrWhiteSpace(adUnitId))
+            {
+                Debug.LogError("[Ads] Shared rewarded ad unit id is empty in AdsConfig.");
+                _analytics.TrackEvent(
+                    AnalyticsEvents.Ads.RewardedLoadFailed,
+                    AdsAnalyticsHelper.RewardedLoadFailedParams(requestedType, AnalyticsEvents.Option.InvalidRequest, loadReason));
+                NotifyAvailabilityChanged(false);
+                return;
+            }
+
+            _loadStartedAt = Time.realtimeSinceStartup;
+            _loading = true;
             _analytics.TrackEvent(
                 AnalyticsEvents.Ads.RewardedLoadStart,
-                AdsAnalyticsHelper.RewardedLoadParams(type, loadReason));
-            OnAvailabilityChanged?.Invoke(type, false);
+                AdsAnalyticsHelper.RewardedLoadParams(requestedType, loadReason));
+            NotifyAvailabilityChanged(false);
 
-            if (_ads.TryGetValue(type, out var oldAd) && oldAd != null)
-                oldAd.Destroy();
+            _ad?.Destroy();
+            _ad = null;
 
-            Debug.Log($"[Ads] Loading rewarded for {type}...");
+            Debug.Log("[Ads] Loading shared rewarded...");
             var request = new AdRequest();
 
             RewardedAd.Load(adUnitId, request, (ad, error) =>
             {
-                _loading.Remove(type);
+                _loading = false;
 
                 if (error != null || ad == null)
                 {
-                    Debug.LogWarning($"[Ads] Failed to load rewarded for {type}: {error}");
+                    Debug.LogWarning($"[Ads] Failed to load shared rewarded: {error}");
                     _analytics.TrackEvent(
                         AnalyticsEvents.Ads.RewardedLoadFailed,
-                        AdsAnalyticsHelper.RewardedLoadFailedParams(type, AdsAnalyticsHelper.NormalizeError(error?.ToString()), loadReason));
-                    OnAvailabilityChanged?.Invoke(type, false);
+                        AdsAnalyticsHelper.RewardedLoadFailedParams(
+                            requestedType,
+                            AdsAnalyticsHelper.NormalizeError(error?.ToString()),
+                            loadReason));
+                    NotifyAvailabilityChanged(false);
                     return;
                 }
 
-                _ads[type] = ad;
-                Debug.Log($"[Ads] Rewarded loaded for {type}");
-                int loadTimeMs = _loadStartedAt.TryGetValue(type, out var startedAt)
-                    ? AdsAnalyticsHelper.ElapsedMs(startedAt)
-                    : 0;
+                _ad = ad;
+                HookFullScreenEvents(ad);
+
+                Debug.Log("[Ads] Shared rewarded loaded.");
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedLoadSuccess,
-                    AdsAnalyticsHelper.RewardedLoadSuccessParams(type, loadTimeMs, loadReason));
+                    AdsAnalyticsHelper.RewardedLoadSuccessParams(
+                        requestedType,
+                        AdsAnalyticsHelper.ElapsedMs(_loadStartedAt),
+                        loadReason));
 
-                HookFullScreenEvents(type, ad);
-
-                if (!_showing.Contains(type))
-                    OnAvailabilityChanged?.Invoke(type, true);
+                if (!_showing)
+                    NotifyAvailabilityChanged(true);
             });
         }
 
-        private void HookFullScreenEvents(RewardType type, RewardedAd ad)
+        private void HookFullScreenEvents(RewardedAd ad)
         {
             ad.OnAdFullScreenContentOpened += () =>
             {
+                if (_activeRewardType == RewardType.None)
+                    return;
+
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedShowStart,
-                    AdsAnalyticsHelper.RewardedTypeParams(type));
+                    AdsAnalyticsHelper.RewardedTypeParams(_activeRewardType));
             };
 
             ad.OnAdFullScreenContentClosed += () =>
             {
-                Debug.Log($"[Ads] Rewarded closed for {type}. Reloading...");
-                bool wasRewarded = _rewardEarnedInCurrentShow.Contains(type);
+                if (!_showing || _activeRewardType == RewardType.None)
+                    return;
+
+                var completedRewardType = _activeRewardType;
+                Debug.Log($"[Ads] Shared rewarded closed for {completedRewardType}. Reloading...");
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedClosed,
-                    AdsAnalyticsHelper.RewardedClosedParams(wasRewarded, type));
+                    AdsAnalyticsHelper.RewardedClosedParams(_rewardEarnedInCurrentShow, completedRewardType));
 
-                EventBus.Raise(new AdsOverlayReleaseEvent());
-
-                if (_showing.Remove(type))
-                    OnShowingChanged?.Invoke(type, false);
-
-                _rewardEarnedInCurrentShow.Remove(type);
-                OnClosed?.Invoke(type);
-                EnsureLoaded(type, AnalyticsEvents.Option.ReloadAfterClose);
+                FinishShow(completedRewardType, AnalyticsEvents.Option.ReloadAfterClose);
             };
 
             ad.OnAdFullScreenContentFailed += error =>
             {
-                Debug.LogWarning($"[Ads] Rewarded fullscreen failed for {type}: {error}");
+                if (!_showing || _activeRewardType == RewardType.None)
+                    return;
+
+                var failedRewardType = _activeRewardType;
+                Debug.LogWarning($"[Ads] Shared rewarded fullscreen failed for {failedRewardType}: {error}");
                 _analytics.TrackEvent(
                     AnalyticsEvents.Ads.RewardedShowFailed,
-                    AdsAnalyticsHelper.RewardedErrorParams(type, AdsAnalyticsHelper.NormalizeError(error?.ToString())));
+                    AdsAnalyticsHelper.RewardedErrorParams(
+                        failedRewardType,
+                        AdsAnalyticsHelper.NormalizeError(error?.ToString())));
 
-                EventBus.Raise(new AdsOverlayReleaseEvent());
-
-                if (_showing.Remove(type))
-                    OnShowingChanged?.Invoke(type, false);
-
-                _rewardEarnedInCurrentShow.Remove(type);
-                OnClosed?.Invoke(type);
-                EnsureLoaded(type, AnalyticsEvents.Option.ReloadAfterFail);
+                FinishShow(failedRewardType, AnalyticsEvents.Option.ReloadAfterFail);
             };
+        }
+
+        private void FinishShow(RewardType rewardType, string reloadReason)
+        {
+            if (!_showing || _activeRewardType != rewardType)
+                return;
+
+            EventBus.Raise(new AdsOverlayReleaseEvent());
+
+            _ad?.Destroy();
+            _ad = null;
+            _showing = false;
+            _activeRewardType = RewardType.None;
+            _rewardEarnedInCurrentShow = false;
+
+            NotifyShowingChanged(false);
+            NotifyAvailabilityChanged(false);
+            OnClosed?.Invoke(rewardType);
+            EnsureSharedLoaded(rewardType, reloadReason);
+        }
+
+        private static bool IsSupported(RewardType type)
+            => RewardedBoosterCatalog.TryGetBoosterType(type, out _);
+
+        private void NotifyAvailabilityChanged(bool isReady)
+        {
+            foreach (var definition in RewardedBoosterCatalog.All)
+                OnAvailabilityChanged?.Invoke(definition.RewardType, isReady);
+        }
+
+        private void NotifyShowingChanged(bool isShowing)
+        {
+            foreach (var definition in RewardedBoosterCatalog.All)
+                OnShowingChanged?.Invoke(definition.RewardType, isShowing);
         }
     }
 }

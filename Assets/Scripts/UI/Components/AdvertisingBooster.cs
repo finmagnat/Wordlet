@@ -34,9 +34,10 @@ namespace Core.UI.Components
         
         public void OnClick()
         {
+            if (!_adBoosterService.Execute(_data))
+                return;
+
             _callbackOnClick?.Invoke();
-            
-            _adBoosterService.Execute(_data);
             _canvasGroup.alpha = 0;
         }
         

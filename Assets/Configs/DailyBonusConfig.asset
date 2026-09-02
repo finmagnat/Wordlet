@@ -21,42 +21,36 @@ MonoBehaviour:
     Rewards:
     - ItemId: 1
       Amount: 1
-      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
     ChestDrops: []
   - Day: 2
     RewardKind: 0
     Rewards:
     - ItemId: 2
       Amount: 1
-      SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
     ChestDrops: []
   - Day: 3
     RewardKind: 0
     Rewards:
     - ItemId: 3
       Amount: 1
-      SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
     ChestDrops: []
   - Day: 4
     RewardKind: 0
     Rewards:
     - ItemId: 5
       Amount: 1
-      SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
     ChestDrops: []
   - Day: 5
     RewardKind: 0
     Rewards:
-    - ItemId: 1
+    - ItemId: 4
       Amount: 1
-      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
     ChestDrops: []
   - Day: 6
     RewardKind: 0
     Rewards:
     - ItemId: 3
       Amount: 1
-      SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
     ChestDrops: []
   - Day: 7
     RewardKind: 1
@@ -65,12 +59,12 @@ MonoBehaviour:
     - Weight: 70
       Mode: 0
       Multiplier: 2
-      Pool: 01000000030000000200000005000000
+      Pool: 0100000003000000020000000400000005000000
       Rewards: []
     - Weight: 20
       Mode: 0
       Multiplier: 3
-      Pool: 01000000030000000200000005000000
+      Pool: 0100000003000000020000000400000005000000
       Rewards: []
     - Weight: 10
       Mode: 1
@@ -79,13 +73,11 @@ MonoBehaviour:
       Rewards:
       - ItemId: 1
         Amount: 1
-        SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
       - ItemId: 3
         Amount: 1
-        SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
       - ItemId: 2
         Amount: 1
-        SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
+      - ItemId: 4
+        Amount: 1
       - ItemId: 5
         Amount: 1
-        SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}

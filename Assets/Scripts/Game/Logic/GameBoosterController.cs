@@ -35,7 +35,6 @@ namespace Game.Logic
     public sealed class GameBoosterController
     {
         private const string MixerFailNoValidPattern = "no_valid_pattern";
-        private const bool MixerFreeExperimentEnabled = true;
 
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
@@ -152,9 +151,7 @@ namespace Game.Logic
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
         {
-            bool isFreeBooster = IsFreeExperimentBooster(eventData.boosterType);
-
-            if (eventData.isEmpty && !isFreeBooster)
+            if (eventData.isEmpty)
             {
                 _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup).Forget();
                 return;
@@ -180,12 +177,8 @@ namespace Game.Logic
             _boosterProcessing = true;
             await host.BlockUIAsync(true);
 
-            bool ok = true;
-            if (!isFreeBooster)
-            {
-                ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
-                _gameScreen.BoosterPanel.Refresh();
-            }
+            bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+            _gameScreen.BoosterPanel.Refresh();
 
             if (!ok)
             {
@@ -221,10 +214,10 @@ namespace Game.Logic
             _boosterProcessing = false;
         }
 
-        private UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)
+        private async UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)
         {
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
-                return UniTask.CompletedTask;
+                return;
 
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
 
@@ -235,11 +228,12 @@ namespace Game.Logic
             if (result == null)
             {
                 TrackMixerBoosterFail(host, boardBefore, MixerFailNoValidPattern);
-                return UniTask.CompletedTask;
+                await _inventorySync.GrantBoosterAsync(BoosterType.Mixer, 1);
+                _gameScreen.BoosterPanel.Refresh();
+                return;
             }
 
             TrackMixerBoosterSuccess(host, boardBefore, result);
-            return UniTask.CompletedTask;
         }
         
         private async UniTask ActivateBoosterEraserAsync(IGameBoosterHost host)
@@ -474,11 +468,6 @@ namespace Game.Logic
                 boardData,
                 reason,
                 _gameScreen.TimerBar.GetCurrentValue());
-        }
-
-        private static bool IsFreeExperimentBooster(BoosterType boosterType)
-        {
-            return MixerFreeExperimentEnabled && boosterType == BoosterType.Mixer;
         }
 
         private void EndSlowdown(bool restartTimer)

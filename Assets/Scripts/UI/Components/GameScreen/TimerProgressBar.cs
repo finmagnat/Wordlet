@@ -21,6 +21,7 @@ namespace UI.Components
 
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
+        [Inject] private IVibrationService _vibrationService;
         
         private float _dtTimer = 0.0f; // Инкрементный счетчик времени (дельтатайм) (при достижении DtDelay увеличивается _secondsCounter)
         private bool _bRun = false; // Старт/Пауза таймера
@@ -99,7 +100,10 @@ namespace UI.Components
             int s = seconds % 60;
             _progressText.text = $"{m:00}:{s:00}";
             if (seconds <= _timeExpire)
+            {
                 _progressText.color = _timeColorExpire;
+                _vibrationService.Play(VibrationType.Warning);
+            }
         }
     }
 }

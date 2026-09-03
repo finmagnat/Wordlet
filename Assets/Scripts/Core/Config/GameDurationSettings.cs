@@ -4,24 +4,27 @@ namespace Core.Config
 {
     public static class GameDurationSettings
     {
-        public static int MinDurationGameSeconds;
+        public const int MinDurationGameSeconds = GameConfig.MinDurationGameSeconds;
 
         public static int GetDurationGameSeconds(GameConfig gameConfig)
         {
-            int duration = GetDefaultDurationGameSeconds(gameConfig);
+            int defaultDuration = GetDefaultDurationGameSeconds(gameConfig);
+            int duration = PlayerPrefs.GetInt(PlayerPrefsKey.DurationGame, defaultDuration);
+
             return ClampDurationGameSeconds(duration);
         }
 
         public static int SetDurationGameSeconds(int duration)
         {
             int clampedDuration = ClampDurationGameSeconds(duration);
+            PlayerPrefs.SetInt(PlayerPrefsKey.DurationGame, clampedDuration);
+            PlayerPrefs.Save();
+
             return clampedDuration;
         }
 
         public static int GetDefaultDurationGameSeconds(GameConfig gameConfig)
         {
-            MinDurationGameSeconds = GameConfig.MinDurationGameSeconds;
-            
             int defaultDuration = gameConfig != null
                 ? gameConfig.durationGameSeconds
                 : MinDurationGameSeconds;

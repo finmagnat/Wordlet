@@ -40,11 +40,12 @@ namespace UI.Popups
 
             _startButton.onClick.AddListener(async () =>
             {
+                _durationGame = GameDurationSettings.GetDurationGameSeconds(_gameConfig);
+
                 _analytics.TrackEvent(
                     AnalyticsEvents.Navigation.PlayGameSetupClicked,
                     GetGameSetupAnalyticsParams());
 
-                _durationGame = GameDurationSettings.SetDurationGameSeconds(_durationGame);
                 PlayerPrefs.SetInt(PlayerPrefsKey.ComplexityAI, (int)_complexityAI);
 
                 await HideAsync();

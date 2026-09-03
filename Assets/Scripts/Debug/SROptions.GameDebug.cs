@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using Core.Config;
 using Core.DebugTools;
-using UnityEngine;
 
 public partial class SROptions
 {
@@ -14,11 +13,7 @@ public partial class SROptions
             if (SRDebugGameSettingsBridge.Instance != null)
                 return SRDebugGameSettingsBridge.Instance.DurationGameSeconds;
 
-            int duration = PlayerPrefs.GetInt(
-                PlayerPrefsKey.DurationGame,
-                GameDurationSettings.MinDurationGameSeconds);
-
-            return GameDurationSettings.ClampDurationGameSeconds(duration);
+            return GameDurationSettings.GetDurationGameSeconds(null);
         }
         set
         {

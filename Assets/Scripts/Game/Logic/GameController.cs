@@ -292,7 +292,7 @@ namespace Game.Logic
 
         private void OnGamePause(GamePauseChangedEvent eventData)
         {
-            if (!_bStart || !_bModePlayOwner || _boosterController.IsSlowdownActive)
+            if (!_bStart || !_bModePlayOwner)
                 return;
 
             PauseCooldownAsync().Forget();
@@ -308,7 +308,8 @@ namespace Game.Logic
             }
             else
             {
-                _gameScreen.TimerBar.StartTimer();
+                if (!_boosterController.IsSlowdownActive)
+                    _gameScreen.TimerBar.StartTimer();
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
                 if (_wordsFieldManager.WordsFieldData.SelectedItem != null)
                     _gameScreen.KeyboardPanel.ShowAsync().Forget();

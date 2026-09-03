@@ -38,7 +38,6 @@ namespace UI.Popups
             {         
                 _analytics.TrackEvent(AnalyticsEvents.Navigation.CloseShopClicked);
                 await HideAsync();
-                _completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Exit });
             });
         }
         
@@ -75,6 +74,13 @@ namespace UI.Popups
             await base.ShowAsync();
         }
         
+        public override async UniTask HideAsync()
+        {
+            var completionSource = _completionSource;
+            await base.HideAsync();
+            completionSource?.TrySetResult(new PopupExitData { Result = PopupResult.Exit });
+        }
+
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
         
         public virtual void SetWindowData(MessageBoxData data) { }

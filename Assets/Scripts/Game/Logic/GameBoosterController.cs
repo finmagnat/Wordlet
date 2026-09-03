@@ -41,6 +41,7 @@ namespace Game.Logic
         [Inject] private DictionaryService _dictionaryService;
         [Inject] private AudioService _audioService;
         [Inject] private IUIManager _ui;
+        [Inject] private IGamePauseService _pauseService;
         [Inject] private BoosterAnalyticsReporter _analyticsReporter;
         [Inject] private LocalizationService _localization;
 
@@ -56,6 +57,7 @@ namespace Game.Logic
         private bool _bModeSwap;
         private bool _bLetterRemoved;
         private bool _boosterProcessing;
+        private bool _shopOpen;
 
         public bool IsSlowdownActive => _gameScreen != null && _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown);
 
@@ -153,7 +155,7 @@ namespace Game.Logic
         {
             if (eventData.isEmpty)
             {
-                _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup).Forget();
+                await ShowShopAsync(host);
                 return;
             }
 
@@ -212,6 +214,33 @@ namespace Game.Logic
 
             await host.BlockUIAsync(false);
             _boosterProcessing = false;
+        }
+
+        private async UniTask ShowShopAsync(IGameBoosterHost host)
+        {
+            if (_shopOpen)
+                return;
+
+            _shopOpen = true;
+            var pauseToken = host.IsGameStarted ? new object() : null;
+
+            try
+            {
+                if (pauseToken != null)
+                    _pauseService.PushPause(pauseToken);
+
+                var popup = await _ui.ShowPopupAsync<ShopPopup>(AssetKey.ShopPopup);
+                if (popup != null)
+                    await popup.WaitForResultAsync()
+                        .AttachExternalCancellation(popup.GetCancellationTokenOnDestroy());
+            }
+            finally
+            {
+                if (pauseToken != null)
+                    _pauseService.PopPause(pauseToken);
+
+                _shopOpen = false;
+            }
         }
 
         private async UniTask ActivateBoosterMixerAsync(IGameBoosterHost host)

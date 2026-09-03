@@ -57,7 +57,7 @@ namespace Core.UI
             _canvasGroup.blocksRaycasts = true;
 
             var tween = _canvasGroup.DOFade(1f, _fadeDuration);
-            await UniTask.WaitUntil(() => !tween.IsPlaying());
+            await UniTask.WaitUntil(() => !tween.IsActive() || !tween.IsPlaying());
 
             // TEST-Simulate
             //await UniTask.WaitForSeconds(3.0f);
@@ -73,7 +73,7 @@ namespace Core.UI
             Debug.Log("[BannerLoadingScreen] HideAsync");
 
             var tween = _canvasGroup.DOFade(0f, _fadeDuration);
-            await UniTask.WaitUntil(() => !tween.IsPlaying());
+            await UniTask.WaitUntil(() => !tween.IsActive() || !tween.IsPlaying());
         }
 
         protected void UpdateBanners()

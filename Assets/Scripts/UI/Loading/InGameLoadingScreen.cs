@@ -49,7 +49,7 @@ namespace Core.UI
             _loadingText.text = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLabelLoading);
             
             var tween = _canvasGroup.DOFade(1f, _fadeDuration);
-            await UniTask.WaitUntil(() => !tween.IsPlaying());
+            await UniTask.WaitUntil(() => !tween.IsActive() || !tween.IsPlaying());
             
             Debug.Log($"[InGameLoadingScreen] ShowAsync");
             // TEST-Simulate
@@ -68,7 +68,7 @@ namespace Core.UI
             Debug.Log($"[InGameLoadingScreen] HideAsync");
             
             var tween = _canvasGroup.DOFade(0f, _fadeDuration);
-            await UniTask.WaitUntil(() => !tween.IsPlaying());
+            await UniTask.WaitUntil(() => !tween.IsActive() || !tween.IsPlaying());
         }
     }
 }

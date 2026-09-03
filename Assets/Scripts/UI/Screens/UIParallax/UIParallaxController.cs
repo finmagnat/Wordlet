@@ -1,6 +1,9 @@
 using Core.Config;
 using Core.Events;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 namespace UI.Parallax
 {
@@ -143,7 +146,7 @@ namespace UI.Parallax
             set => _invertY = value;
         }
 
-        public Vector2 DebugRawAcceleration => Input.acceleration;
+        public Vector2 DebugRawAcceleration => ReadAcceleration();
         public Vector2 DebugGyroSmoothed => _gyroSmoothed;
         public Vector2 DebugFinalOffset { get; private set; }
 
@@ -215,7 +218,15 @@ namespace UI.Parallax
             if (screenCenter.x <= 0f || screenCenter.y <= 0f)
                 return Vector2.zero;
 
-            Vector2 delta = (Vector2)Input.mousePosition - screenCenter;
+#if ENABLE_INPUT_SYSTEM
+            if (Mouse.current == null)
+                return Vector2.zero;
+
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+#else
+            Vector2 mousePosition = Input.mousePosition;
+#endif
+            Vector2 delta = mousePosition - screenCenter;
 
             return new Vector2(
                 (delta.x / screenCenter.x) * strengthX,
@@ -224,17 +235,15 @@ namespace UI.Parallax
 
         private Vector2 GetTouchOffsetOrZero()
         {
-            if (Input.touchCount <= 0)
+            if (!TryGetTouchPosition(out Vector2 touchPosition))
                 return Vector2.zero;
-
-            Touch touch = Input.GetTouch(0);
 
             Vector2 screenCenter = new(Screen.width * 0.5f, Screen.height * 0.5f);
 
             if (screenCenter.x <= 0f || screenCenter.y <= 0f)
                 return Vector2.zero;
 
-            Vector2 delta = touch.position - screenCenter;
+            Vector2 delta = touchPosition - screenCenter;
 
             return new Vector2(
                 (delta.x / screenCenter.x) * _touchStrengthX,
@@ -243,7 +252,7 @@ namespace UI.Parallax
 
         private Vector2 GetGyroOffset()
         {
-            Vector3 acc = Input.acceleration;
+            Vector3 acc = ReadAcceleration();
 
             Vector2 raw = new(
                 acc.x * _gyroStrengthX,
@@ -255,6 +264,50 @@ namespace UI.Parallax
                 Time.unscaledDeltaTime * _gyroSmoothing);
 
             return _gyroSmoothed * _gyroMultiplier;
+        }
+
+        private static bool TryGetTouchPosition(out Vector2 position)
+        {
+#if ENABLE_INPUT_SYSTEM
+            var touchscreen = Touchscreen.current;
+            if (touchscreen != null)
+            {
+                foreach (var touch in touchscreen.touches)
+                {
+                    if (!touch.press.isPressed)
+                        continue;
+
+                    position = touch.position.ReadValue();
+                    return true;
+                }
+            }
+#else
+            if (Input.touchCount > 0)
+            {
+                position = Input.GetTouch(0).position;
+                return true;
+            }
+#endif
+            position = Vector2.zero;
+            return false;
+        }
+
+        private static Vector3 ReadAcceleration()
+        {
+#if ENABLE_INPUT_SYSTEM
+            var accelerometer = Accelerometer.current;
+            if (accelerometer == null)
+                return Vector3.zero;
+
+            // Sensors start disabled. Check on read to also handle device reconnection.
+            // Do not disable this shared device when a parallax screen closes.
+            if (!accelerometer.enabled)
+                InputSystem.EnableDevice(accelerometer);
+
+            return accelerometer.acceleration.ReadValue();
+#else
+            return Input.acceleration;
+#endif
         }
 
         private Vector2 GetAutoMotionOffset()

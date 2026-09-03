@@ -33,8 +33,10 @@ namespace Core.Config
        
         
         [TextArea]
-        public string _ = "Перетащить аудиоклип в поле Clip. Запустить плеймод и проверить звук в игре. После завершения подбора звуков перенести аудио клипы в Addressables.SFX и отключить AudioService._isDebugPlayNoAsync";
+        public string _ = "Перетащить аудиоклип в поле Clip. Запустить плеймод и проверить звук в игре. После завершения подбора звуков перенести аудио клипы в Addressables.SFX и отключить IsUseSoundsConfig";
         
+        [Tooltip("Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)")]
+        public bool IsUseSoundsConfig = false;
         public List<SoundData> Sounds => _sounds;
         
         [SerializeField] private List<SoundData> _sounds = new ()

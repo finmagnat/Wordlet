@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _sfxKey: sfx_pause
 --- !u!114 &5289673975630271292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2231,7 +2231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _sfxKey: sfx_pause
 --- !u!1 &3529645168333415769
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: b411ebd522895cc4196d3a19e31bfa50
+guid: 0d5f25f165f8c1348975a27196e8feb5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3570328973926732294
-    second: Banner_Swap_0
-  - first:
-      213: -1398057158658023976
-    second: Banner_Swap_1
+      213: -5595665539637898755
+    second: Banner07_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -142,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Banner_Swap_0
+      name: Banner07_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 983
+        x: 1
+        y: 3
+        width: 1023
+        height: 979
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: afdefc1f6b4a37ec0800000000000000
-      internalID: -3570328973926732294
+      spriteID: df11dfbb6d33852b0800000000000000
+      internalID: -5595665539637898755
       vertices: []
       indices: 
       edges: []
@@ -167,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: db284c4253114294ea7b269bda9a5604
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -177,8 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Banner_Swap_0: -3570328973926732294
-      Banner_Swap_1: -1398057158658023976
+      Banner07_0: -5595665539637898755
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

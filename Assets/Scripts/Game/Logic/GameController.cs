@@ -55,6 +55,7 @@ namespace Game.Logic
         private bool _bLetterPut; // The local player has placed a letter.
         private bool _bModePlayOwner = true; // It is the local player's turn.
         private bool _isSavingWord;
+        private bool _ownerPassedLastTurn;
 
         private uint _maxPasses;
         private ComplexityAI _complexityAI;
@@ -191,6 +192,7 @@ namespace Game.Logic
             _gameScreen.PassButton.interactable = true;
 
             _bPause = false;
+            _ownerPassedLastTurn = false;
 
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOwner));
 
@@ -624,7 +626,7 @@ namespace Game.Logic
             _audioService?.PlaySfxAsync(SoundsConfig.Pass);
             _vibrationService.Play(VibrationType.Error);
 
-            CheckFinishGame();
+            CheckFinishGame(wasPass: true);
         }
 
         private void OnOpponentFindWordSuccess(OpponentFindWordEvent eventData)
@@ -639,11 +641,14 @@ namespace Game.Logic
         {
             _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
             _audioService?.PlaySfxAsync(SoundsConfig.OpponentFindWordFail);
-            CheckFinishGame();
+            CheckFinishGame(wasPass: true);
         }
 
-        private void CheckFinishGame()
+        private void CheckFinishGame(bool wasPass = false)
         {
+            bool shouldAutoMix = !_bModePlayOwner && wasPass && _ownerPassedLastTurn;
+            _ownerPassedLastTurn = _bModePlayOwner && wasPass;
+
             if (GameDebug.IsAutoWin)
             {
                 FinishGame();
@@ -658,6 +663,14 @@ namespace Game.Logic
             }
             else
             {
+                if (shouldAutoMix)
+                {
+                    Cancel();
+                    // Reuse the mixer algorithm without spending or refunding a booster.
+                    if (_wordsFieldManager.MixLetters(_dictionaryService.DictionaryConfig) != null)
+                        _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+                }
+
                 SwitchPlayer();
             }
         }

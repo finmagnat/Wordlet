@@ -45,6 +45,8 @@ namespace Core.Generated
         ButtonPass_Pink,
         SkinButtonBlue,
         CellSelected,
+        ButtonTools_Pink,
+        ButtonTools_Blue,
         sfx_letter_selected,
         sfx_opponent_find_word_fail,
         sfx_button_click,

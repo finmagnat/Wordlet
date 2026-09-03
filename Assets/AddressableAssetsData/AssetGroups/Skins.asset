@@ -159,6 +159,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7346deba0a58b0b43a7b1d197bf397fc
+    m_Address: ButtonTools_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78ae07fb8f9480b4f89ad9ce1910393e
     m_Address: CellBackgroundDefaultBlue
     m_ReadOnly: 0
@@ -179,6 +185,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a659a50b40ada824e9795e31f87b628f
     m_Address: ButtonGo_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab63a7c19d19cfb438291cb2619459fc
+    m_Address: ButtonTools_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
